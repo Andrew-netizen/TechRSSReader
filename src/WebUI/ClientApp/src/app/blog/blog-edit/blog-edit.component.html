@@ -1,0 +1,161 @@
+<div class="card" *ngIf="blog">
+  <div class="card-header">
+    {{ pageTitle }}
+  </div>
+  <div class="card-body">
+    <form novalidate (ngSubmit)="saveBlog(blog)" [formGroup]="blogForm">
+      <fieldset>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="titleId">Title</label>
+          <div class="col-md-9">
+            <input
+              [ngClass]="{ 'is-invalid': displayMessage.title }"
+              class="form-control"
+              id="titleId"
+              type="text"
+              placeholder="Title (required)"
+              formControlName="title"
+              (blur)="blur()"
+            />
+            <span class="invalid-feedback" *ngIf="displayMessage.title">
+              {{ displayMessage.title }}
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="xmlAddressId"
+            >Xml Address</label
+          >
+
+          <div class="col-md-9">
+            <input
+              [ngClass]="{ 'is-invalid': displayMessage.xmlAddress }"
+              class="form-control"
+              id="xmlAddressId"
+              type="text"
+              placeholder="Xml Address (required)"
+              formControlName="xmlAddress"
+              (blur)="blur()"
+            />
+            <span class="invalid-feedback" *ngIf="displayMessage.xmlAddress">
+              {{ displayMessage.xmlAddress }}
+            </span>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label">Keywords to Include</label>
+          <div class="col-md-9" formArrayName="keywordsToInclude">
+            <div
+              class="form-row my-2"
+              *ngFor="
+                let keywordToInclude of keywordsToInclude.controls;
+                index as i
+              "
+            >
+              <div class="col-md-9">
+                <input
+                  class="form-control"
+                  [formControl]="keywordsToInclude.controls[i]"
+                />
+              </div>
+              <div class="col-md-3">
+                <button
+                  class="btn btn-light"
+                  type="button"
+                  style="width: 100px"
+                  (click)="removeKeywordToInclude(i)"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+            <button
+              class="btn btn-primary"
+              type="button"
+              style="width: 200px; margin-right: 10px"
+              (click)="addKeywordToInclude()"
+            >
+              Add Keyword
+            </button>
+            <br />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label">Keywords to Exclude</label>
+          <div class="col-md-9" formArrayName="keywordsToExclude">
+            <div
+              class="form-row my-2"
+              *ngFor="
+                let keywordToExclude of keywordsToExclude.controls;
+                index as i
+              "
+            >
+              <div class="col-md-9">
+                <input
+                  class="form-control"
+                  [formControl]="keywordsToExclude.controls[i]"
+                />
+              </div>
+              <div class="col-md-3">
+                <button
+                  class="btn btn-light"
+                  type="button"
+                  style="width: 100px"
+                  (click)="removeKeywordToExclude(i)"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+            <button
+              class="btn btn-primary"
+              type="button"
+              style="width: 200px; margin-right: 10px"
+              (click)="addKeywordToExclude()"
+            >
+              Add Keyword
+            </button>
+            <br />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-10 col-md-offset-2">
+            <span>
+              <button
+                class="btn btn-primary"
+                type="submit"
+                style="width: 80px; margin-right: 10px"
+                [disabled]="!blogForm.valid || !blogForm.dirty"
+              >
+                Save
+              </button>
+            </span>
+            <span>
+              <button
+                class="btn btn-light"
+                type="button"
+                style="width: 80px; margin-right: 10px"
+                (click)="cancelEdit()"
+              >
+                Cancel
+              </button>
+            </span>
+            <span>
+              <button
+                class="btn btn-light"
+                type="button"
+                style="width: 80px"
+                (click)="deleteBlog()"
+              >
+                Delete
+              </button>
+            </span>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>

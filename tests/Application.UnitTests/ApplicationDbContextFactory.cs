@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
 using System;
+using System.Collections.Generic;
+using TechRSSReader.Domain.ValueObjects;
 
 namespace TechRSSReader.Application.UnitTests.Common
 {
@@ -56,6 +58,15 @@ namespace TechRSSReader.Application.UnitTests.Common
                 new TodoItem { Id = 4, ListId = 1, Title = "Sugar" },
                 new TodoItem { Id = 5, ListId = 1, Title = "Coffee" }
             );
+
+            context.Blogs.Add(new Blog
+            {
+                Id = 1,
+                Title = "Einstein Blog",
+                XmlAddress = "http://einstein.com",
+                KeywordsToInclude = new List<KeywordToInclude> { new KeywordToInclude { Keyword = "Physics" } },
+                KeywordsToExclude = new List<KeywordToExclude> { new KeywordToExclude { Keyword = "Fashion" } }
+            });
 
             context.SaveChanges();
         }

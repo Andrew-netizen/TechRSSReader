@@ -14,6 +14,72 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
+export interface IBlogsClient {
+    get(): Observable<BlogsViewModel>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class BlogsClient implements IBlogsClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    get(): Observable<BlogsViewModel> {
+        let url_ = this.baseUrl + "/api/Blogs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<BlogsViewModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BlogsViewModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<BlogsViewModel> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BlogsViewModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BlogsViewModel>(<any>null);
+    }
+}
+
 export interface ITodoItemsClient {
     create(command: CreateTodoItemCommand): Observable<number>;
     update(id: number, command: UpdateTodoItemCommand): Observable<FileResponse>;
@@ -584,6 +650,198 @@ export class WeatherForecastClient implements IWeatherForecastClient {
         }
         return _observableOf<WeatherForecast[]>(<any>null);
     }
+}
+
+export class BlogsViewModel implements IBlogsViewModel {
+    blogs?: BlogDto[] | undefined;
+
+    constructor(data?: IBlogsViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["blogs"])) {
+                this.blogs = [] as any;
+                for (let item of data["blogs"])
+                    this.blogs!.push(BlogDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BlogsViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new BlogsViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.blogs)) {
+            data["blogs"] = [];
+            for (let item of this.blogs)
+                data["blogs"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IBlogsViewModel {
+    blogs?: BlogDto[] | undefined;
+}
+
+export class BlogDto implements IBlogDto {
+    id?: number;
+    title?: string | undefined;
+    xmlAddress?: string | undefined;
+    keywordsToInclude?: KeywordToIncludeDto[] | undefined;
+    keywordsToExclude?: KeywordToExcludeDto[] | undefined;
+
+    constructor(data?: IBlogDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.title = data["title"];
+            this.xmlAddress = data["xmlAddress"];
+            if (Array.isArray(data["keywordsToInclude"])) {
+                this.keywordsToInclude = [] as any;
+                for (let item of data["keywordsToInclude"])
+                    this.keywordsToInclude!.push(KeywordToIncludeDto.fromJS(item));
+            }
+            if (Array.isArray(data["keywordsToExclude"])) {
+                this.keywordsToExclude = [] as any;
+                for (let item of data["keywordsToExclude"])
+                    this.keywordsToExclude!.push(KeywordToExcludeDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BlogDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BlogDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["xmlAddress"] = this.xmlAddress;
+        if (Array.isArray(this.keywordsToInclude)) {
+            data["keywordsToInclude"] = [];
+            for (let item of this.keywordsToInclude)
+                data["keywordsToInclude"].push(item.toJSON());
+        }
+        if (Array.isArray(this.keywordsToExclude)) {
+            data["keywordsToExclude"] = [];
+            for (let item of this.keywordsToExclude)
+                data["keywordsToExclude"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IBlogDto {
+    id?: number;
+    title?: string | undefined;
+    xmlAddress?: string | undefined;
+    keywordsToInclude?: KeywordToIncludeDto[] | undefined;
+    keywordsToExclude?: KeywordToExcludeDto[] | undefined;
+}
+
+export class KeywordToIncludeDto implements IKeywordToIncludeDto {
+    blogId?: number;
+    keyword?: string | undefined;
+
+    constructor(data?: IKeywordToIncludeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.blogId = data["blogId"];
+            this.keyword = data["keyword"];
+        }
+    }
+
+    static fromJS(data: any): KeywordToIncludeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new KeywordToIncludeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["blogId"] = this.blogId;
+        data["keyword"] = this.keyword;
+        return data; 
+    }
+}
+
+export interface IKeywordToIncludeDto {
+    blogId?: number;
+    keyword?: string | undefined;
+}
+
+export class KeywordToExcludeDto implements IKeywordToExcludeDto {
+    blogId?: number;
+    keyword?: string | undefined;
+
+    constructor(data?: IKeywordToExcludeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.blogId = data["blogId"];
+            this.keyword = data["keyword"];
+        }
+    }
+
+    static fromJS(data: any): KeywordToExcludeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new KeywordToExcludeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["blogId"] = this.blogId;
+        data["keyword"] = this.keyword;
+        return data; 
+    }
+}
+
+export interface IKeywordToExcludeDto {
+    blogId?: number;
+    keyword?: string | undefined;
 }
 
 export class CreateTodoItemCommand implements ICreateTodoItemCommand {

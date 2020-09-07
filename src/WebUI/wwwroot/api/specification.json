@@ -6,6 +6,31 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/Blogs": {
+      "get": {
+        "tags": [
+          "Blogs"
+        ],
+        "operationId": "Blogs_Get",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlogsViewModel"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/TodoItems": {
       "post": {
         "tags": [
@@ -393,6 +418,79 @@
   },
   "components": {
     "schemas": {
+      "BlogsViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "blogs": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/BlogDto"
+            }
+          }
+        }
+      },
+      "BlogDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "xmlAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "keywordsToInclude": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/KeywordToIncludeDto"
+            }
+          },
+          "keywordsToExclude": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/KeywordToExcludeDto"
+            }
+          }
+        }
+      },
+      "KeywordToIncludeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "blogId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "keyword": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "KeywordToExcludeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "blogId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "keyword": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "CreateTodoItemCommand": {
         "type": "object",
         "additionalProperties": false,

@@ -11,6 +11,8 @@ namespace TechRSSReader.Application.Common.Interfaces
 
         DbSet<TodoItem> TodoItems { get; set; }
 
+        DbSet<Blog> Blogs { get; set; }
+                
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
