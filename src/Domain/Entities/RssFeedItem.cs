@@ -12,6 +12,8 @@ namespace TechRSSReader.Domain.Entities
 
         public int BlogId { get; set; }
 
+        public Blog Blog { get; set;  }
+
         public string Categories { get; set; }
 
         public string Content { get; set; }
@@ -20,9 +22,9 @@ namespace TechRSSReader.Domain.Entities
 
         public string Link { get; set; }
 
-        public DateTime?  PublishedDateTime { get; set; }
+        public DateTime?  PublishingDate { get; set; }
 
-        public string PublishedDateTimeString { get; set; }
+        public string PublishingDateString { get; set; }
 
         public DateTime RetrievedDateTime { get; set; }
 

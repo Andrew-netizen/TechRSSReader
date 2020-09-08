@@ -6,7 +6,7 @@ import {
   FormArray,
   FormControl,
 } from "@angular/forms";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { GenericValidator } from "../../shared/generic-validator";
 
 /* NgRx */
@@ -27,7 +27,7 @@ import { takeWhile } from "rxjs/operators";
   styleUrls: ["./blog-edit.component.scss"],
 })
 export class BlogEditComponent implements OnInit, OnDestroy {
-  pageTitle = "Blog Edit";
+  pageTitle = "Edit Feed";
   errorMessage$: Observable<string>;
   componentActive: boolean = true;
   blogForm: FormGroup;
@@ -38,7 +38,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
 
-  get keywordsToExclude(): FormArray{
+  get keywordsToExclude(): FormArray {
     return this.blogForm.get("keywordsToExclude") as FormArray;
   }
 
@@ -122,8 +122,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   ): FormArray {
     const result = new FormArray([]);
 
-    if (keywordsToInclude)
-    {
+    if (keywordsToInclude) {
       for (const keywordToInclude of keywordsToInclude) {
         result.push(this.buildKeywordFormControl(keywordToInclude.keyword));
       }
@@ -132,13 +131,33 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     return result;
   }
 
+  convertFormArrayToKeywordsToIncludeDtos(
+    input: FormArray): KeywordToIncludeDto[] {
+      const result: KeywordToIncludeDto[] = [];
+      for (let inclusion of input.controls)
+      {
+        result.push(KeywordToExcludeDto.fromJS({blogId: this.blog.id, keyword: inclusion.value}));
+      }
+      return result;
+    }
+
+    convertFormArrayToKeywordsToExcludeDtos(
+      input: FormArray): KeywordToExcludeDto[] {
+        const result: KeywordToExcludeDto[] = [];
+        for(let exclusion of input.controls)
+        {
+          result.push(KeywordToIncludeDto.fromJS({blogId: this.blog.id, keyword: exclusion.value}));
+        }
+        return result;
+      }
+
+
   convertKeywordsToExcludeToFormArray(
     keywordsToExclude: KeywordToExcludeDto[]
   ): FormArray {
     const result = new FormArray([]);
 
-    if (keywordsToExclude)
-    {
+    if (keywordsToExclude) {
       for (const keywordToExclude of keywordsToExclude) {
         result.push(this.buildKeywordFormControl(keywordToExclude.keyword));
       }
@@ -167,28 +186,25 @@ export class BlogEditComponent implements OnInit, OnDestroy {
 
       // Display the appropriate page title
       if (this.blog.id === 0) {
-        this.pageTitle = "Add Blog";
+        this.pageTitle = "Add Feed";
       } else {
-        this.pageTitle = `Edit Blog: ${this.blog.title}`;
+        this.pageTitle = `Edit Feed: ${this.blog.title}`;
       }
 
-      //console.log(this.convertKeywordsToExcludeToFormArray(blog.keywordsToExclude));
-      //console.log(this.convertKeywordsToIncludeToFormArray(blog.keywordsToInclude));
       // Update the data on the form
       this.blogForm.patchValue({
         title: this.blog.title,
         xmlAddress: this.blog.xmlAddress,
-        // keywordsToInclude: this.convertKeywordsToIncludeToFormArray(
-        //   blog.keywordsToInclude
-        // ),
-        // keywordsToExclude: this.convertKeywordsToExcludeToFormArray(
-        //   blog.keywordsToExclude
-        // ),
       });
 
-      this.blogForm.setControl("keywordsToInclude", this.convertKeywordsToIncludeToFormArray(blog.keywordsToInclude));
-      this.blogForm.setControl("keywordsToExclude", this.convertKeywordsToExcludeToFormArray(blog.keywordsToExclude));
-
+      this.blogForm.setControl(
+        "keywordsToInclude",
+        this.convertKeywordsToIncludeToFormArray(blog.keywordsToInclude)
+      );
+      this.blogForm.setControl(
+        "keywordsToExclude",
+        this.convertKeywordsToExcludeToFormArray(blog.keywordsToExclude)
+      );
     }
   }
 
@@ -209,25 +225,53 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveBlog(blog: BlogDto): void {}
+  saveBlog(blog: BlogDto): void {
+    if (this.blogForm.valid) {
+      if (this.blogForm.dirty) {
+        // Copy over all of the original product properties
+        // Then copy over the values from the form
+        // This ensures values not on the form, such as the Id, are retained
+        const b = { ...this.blog, ...this.blogForm.value };
+        b.keywordsToExclude = this.convertFormArrayToKeywordsToExcludeDtos(this.blogForm.get('keywordsToExclude') as FormArray);
+        b.keywordsToInclude = this.convertFormArrayToKeywordsToIncludeDtos(this.blogForm.get('keywordsToInclude') as FormArray);
+        if (b.id === 0) {
+          //this.store.dispatch(new blogActions.CreateProduct(p));
+        } else {
+          this.store.dispatch(new blogActions.UpdateBlog(b));
+        }
+      }
+    } else {
+      this.errorMessage$ = of("Please correct the validation errors.");
+    }
+  }
 
   addKeywordToInclude(): void {
     const includesFormArray = this.keywordsToInclude as FormArray;
-    includesFormArray.push(this.buildKeywordFormControl(''));
+    includesFormArray.push(this.buildKeywordFormControl(""));
   }
 
   removeKeywordToInclude(index: number): void {
     const includesFormArray = this.keywordsToInclude as FormArray;
+    this.blogForm.markAsDirty();
     includesFormArray.removeAt(index);
   }
 
   addKeywordToExclude(): void {
     const excludesFormArray = this.keywordsToExclude as FormArray;
-    excludesFormArray.push(this.buildKeywordFormControl(''));
+    excludesFormArray.push(this.buildKeywordFormControl(""));
   }
 
   removeKeywordToExclude(index: number): void {
     const excludesFormArray = this.keywordsToExclude as FormArray;
+    this.blogForm.markAsDirty();
     excludesFormArray.removeAt(index);
+  }
+
+  retrieveFeedItems(): void {
+    if (this.blog && this.blog.id) {
+      this.store.dispatch(
+        new blogActions.RetrieveFeedItemsFromSource(this.blog.id)
+      );
+    }
   }
 }

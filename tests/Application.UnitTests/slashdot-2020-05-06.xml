@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:admin="http://webns.net/mvcb/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/" xmlns:syn="http://purl.org/rss/1.0/modules/syndication/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0">
+
+<channel rdf:about="https://slashdot.org/">
+<title>Slashdot</title>
+<link>https://slashdot.org/</link>
+<description>News for nerds, stuff that matters</description>
+<dc:language>en-us</dc:language>
+<dc:rights>Copyright 1997-2016, SlashdotMedia. All Rights Reserved.</dc:rights>
+<dc:date>2020-05-06T01:14:13+00:00</dc:date>
+<dc:publisher>Dice</dc:publisher>
+<dc:creator>help@slashdot.org</dc:creator>
+<dc:subject>Technology</dc:subject>
+<syn:updateBase>1970-01-01T00:00+00:00</syn:updateBase>
+<syn:updateFrequency>1</syn:updateFrequency>
+<syn:updatePeriod>hourly</syn:updatePeriod>
+<items>
+ <rdf:Seq>
+  <rdf:li rdf:resource="https://hardware.slashdot.org/story/20/05/05/2020227/artificial-leaf-concept-inspires-research-into-solar-powered-fuel-production?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://yro.slashdot.org/story/20/05/05/2013244/xiaomi-releases-browser-update-amid-accusations-it-collects-private-browsing-data?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://mobile.slashdot.org/story/20/05/05/207215/the-average-household-will-surpass-isps-1tb-data-caps-within-3-years-study-finds?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://apple.slashdot.org/story/20/05/05/205258/apples-copyright-lawsuit-has-created-a-chilling-effect-on-security-research?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://tech.slashdot.org/story/20/05/05/1957223/facebooks-oculus-is-developing-a-new-quest-vr-headset?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://news.slashdot.org/story/20/05/05/1953232/airbnb-is-laying-off-a-quarter-of-its-workforce?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://news.slashdot.org/story/20/05/05/1935230/uk-reports-highest-coronavirus-death-toll-in-europe?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://tech.slashdot.org/story/20/05/05/1931241/frontier-will-charge-up-to-89-for-social-distancing-on-flights?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://science.slashdot.org/story/20/05/05/1820235/scientists-say-a-now-dominant-strain-of-the-coronavirus-appears-to-be-more-contagious-than-original?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://yro.slashdot.org/story/20/05/05/189214/uber-and-lyft-face-worker-misclassification-lawsuit-from-ca-attorney-general-and-city-attorneys?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://games.slashdot.org/story/20/05/05/1734236/microsoft-to-pitch-new-xbox-game-console-with-monthly-showcases?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://apple.slashdot.org/story/20/05/05/1630212/apples-virtual-wwdc-event-to-kick-off-on-june-22?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://news.slashdot.org/story/20/05/05/160252/firefox-76-arrives-with-password-management-and-zoom-improvements?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://it.slashdot.org/story/20/05/05/1528218/how-microsoft-fought-the-iloveyou-virus-20-years-ago?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+  <rdf:li rdf:resource="https://yro.slashdot.org/story/20/05/05/1449225/adam-neumann-weworks-former-chief-sues-softbank?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+ </rdf:Seq>
+</items>
+<image rdf:resource="https://a.fsdn.com/sd/topics/topicslashdot.gif" />
+<textinput rdf:resource="https://slashdot.org/search.pl" />
+<atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rdf+xml" href="http://rss.slashdot.org/Slashdot/slashdot" /><feedburner:info uri="slashdot/slashdot" /><atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="hub" href="http://pubsubhubbub.appspot.com/" /></channel>
+<image rdf:about="https://a.fsdn.com/sd/topics/topicslashdot.gif">
+<title>Slashdot</title>
+<url>https://a.fsdn.com/sd/topics/topicslashdot.gif</url>
+<link>https://slashdot.org/</link>
+</image>
+<item rdf:about="https://hardware.slashdot.org/story/20/05/05/2020227/artificial-leaf-concept-inspires-research-into-solar-powered-fuel-production?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>'Artificial Leaf' Concept Inspires Research Into Solar-Powered Fuel Production</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/lEiChHQA5a4/artificial-leaf-concept-inspires-research-into-solar-powered-fuel-production</link>
+<description>Researchers from Rice University have created an efficient, low-cost device that splits water to produce hydrogen fuel. "The platform developed by the Brown School of Engineering lab of Rice materials scientist Jun Lou integrates catalytic electrodes and perovskite solar cells that, when triggered by sunlight, produce electricity," reports Phys.Org. "The current flows to the catalysts that turn water into hydrogen and oxygen, with a sunlight-to-hydrogen efficiency as high as 6.7%." From the report: This sort of catalysis isn't new, but the lab packaged a perovskite layer and the electrodes into a single module that, when dropped into water and placed in sunlight, produces hydrogen with no further input. The platform introduced by Lou, lead author and Rice postdoctoral fellow Jia Liang and their colleagues in the American Chemical Society journal ACS Nano is a self-sustaining producer of fuel that, they say, should be simple to produce in bulk.
+ 
+"The concept is broadly similar to an artificial leaf," Lou said. "What we have is an integrated module that turns sunlight into electricity that drives an electrochemical reaction. It utilizes water and sunlight to get chemical fuels." Perovskites are crystals with cubelike lattices that are known to harvest light. The most efficient perovskite solar cells produced so far achieve an efficiency above 25%, but the materials are expensive and tend to be stressed by light, humidity and heat. "Jia has replaced the more expensive components, like platinum, in perovskite solar cells with alternatives like carbon," Lou said. "That lowers the entry barrier for commercial adoption. Integrated devices like this are promising because they create a system that is sustainable. This does not require any external power to keep the module running." The research has been published in the journal ACS Nano.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status='Artificial+Leaf'+Concept+Inspires+Research+Into+Solar-Powered+Fuel+Production%3A+https%3A%2F%2Fbit.ly%2F3fpkBty"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fhardware.slashdot.org%2Fstory%2F20%2F05%2F05%2F2020227%2Fartificial-leaf-concept-inspires-research-into-solar-powered-fuel-production%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://hardware.slashdot.org/story/20/05/05/2020227/artificial-leaf-concept-inspires-research-into-solar-powered-fuel-production?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16314750&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/lEiChHQA5a4" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>BeauHD</dc:creator>
+<dc:date>2020-05-06T00:10:00+00:00</dc:date>
+<dc:subject>power</dc:subject>
+<slash:department>perpetual-energy</slash:department>
+<slash:section>hardware</slash:section>
+<slash:hit_parade>0,0,0,0,0,0,0</slash:hit_parade>
+<feedburner:origLink>https://hardware.slashdot.org/story/20/05/05/2020227/artificial-leaf-concept-inspires-research-into-solar-powered-fuel-production?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://yro.slashdot.org/story/20/05/05/2013244/xiaomi-releases-browser-update-amid-accusations-it-collects-private-browsing-data?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>Xiaomi Releases Browser Update Amid Accusations It Collects Private Browsing Data</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/rtFLlFGqRCo/xiaomi-releases-browser-update-amid-accusations-it-collects-private-browsing-data</link>
+<description>Xiaomi released software updates for its browser apps on Monday amid fresh accusations it's been collecting private data from people who use its phones and browser apps. CNET reports: In a blog post, Xiaomi said the update will allow you to switch off aggregated data collection while on incognito mode in its three browser apps: Mi Browser, Mi Browser Pro, and Mint Browser. The software update was rolled out on Google Play. "We believe this functionality, in combination with our approach of maintaining aggregated data in non-identifiable form, goes beyond any legal requirements and demonstrates our company's commitment to user privacy," the company said in its post.
+ 
+The release of the software update comes after a Forbes report published last Thursday raised concerns about the Chinese phone-maker's use of private data. It suggested Xiaomi may be collecting data on the websites users visit as well as granular information about apps used and files opened on devices. In response to the report, Xiaomi defended its practices last week saying it's "fully compliant with user privacy protection laws and regulations in the countries and regions we operate in."&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Xiaomi+Releases+Browser+Update+Amid+Accusations+It+Collects+Private+Browsing+Data%3A+https%3A%2F%2Fbit.ly%2F2YzhNnL"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fyro.slashdot.org%2Fstory%2F20%2F05%2F05%2F2013244%2Fxiaomi-releases-browser-update-amid-accusations-it-collects-private-browsing-data%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://yro.slashdot.org/story/20/05/05/2013244/xiaomi-releases-browser-update-amid-accusations-it-collects-private-browsing-data?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16314734&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/rtFLlFGqRCo" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>BeauHD</dc:creator>
+<dc:date>2020-05-05T23:30:00+00:00</dc:date>
+<dc:subject>privacy</dc:subject>
+<slash:department>data-collection</slash:department>
+<slash:section>yro</slash:section>
+<slash:comments>6</slash:comments>
+<slash:hit_parade>6,5,4,4,0,0,0</slash:hit_parade>
+<feedburner:origLink>https://yro.slashdot.org/story/20/05/05/2013244/xiaomi-releases-browser-update-amid-accusations-it-collects-private-browsing-data?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://mobile.slashdot.org/story/20/05/05/207215/the-average-household-will-surpass-isps-1tb-data-caps-within-3-years-study-finds?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>The Average Household Will Surpass ISP's 1TB Data Caps Within 3 Years, Study Finds</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/er9zUqpbhLY/the-average-household-will-surpass-isps-1tb-data-caps-within-3-years-study-finds</link>
+<description>According to an analysis from Decision Data, the average broadband-connected U.S. household will surpass current 1TB ISP data caps before 2024. What this could translate to is more overage fees for customers, unless ISPs like Comcast and CenturyLink abandon data caps or continue to waive fees, like some are doing due to the pandemic. From the report: As we reported this month, the average home internet customer is now using close to 400GB of data a month, a number that would have surpassed the original ISP data caps from 2016 by over 50-100GB. At current fee structures for overages (which vary by provider), this would add between $200-$250 a year to the average household cable bill. Our newest analysis of historical FCC data and trending usage data predicts that within the next three years, or before the year 2024, the average household will use over 1TB of broadband data a month, putting them above the current caps. The mean will likely remain below current cap numbers, but as more households turn into power users, the average will continue to spike.
+ 
+Interestingly, we started conducting research on this trend prior to the COVID-19 pandemic. Toward the end of our research and as self-isolation policy started peaking, we are now seeing the largest spikes in home internet usage in history, far beyond what we could have previously predicted or analyzed. ISPs have properly responded by placing temporary holds on their overage fees for breaching data caps, which reflect that many more consumers have reached or exceeded the 1TB monthly data cap during the pandemic. While we believe this spike will mellow as people return to a more normal life in the next 12 months, it will still settle considerably above pre-outbreak levels. As policy gravitates toward more generalized self-isolation and work-from-home, we expect a substantial overall increase of demand on home internet to remain.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=The+Average+Household+Will+Surpass+ISP's+1TB+Data+Caps+Within+3+Years%2C+Study+Finds%3A+https%3A%2F%2Fbit.ly%2F3b8bmdU"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fmobile.slashdot.org%2Fstory%2F20%2F05%2F05%2F207215%2Fthe-average-household-will-surpass-isps-1tb-data-caps-within-3-years-study-finds%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://mobile.slashdot.org/story/20/05/05/207215/the-average-household-will-surpass-isps-1tb-data-caps-within-3-years-study-finds?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16314704&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/er9zUqpbhLY" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>BeauHD</dc:creator>
+<dc:date>2020-05-05T22:50:00+00:00</dc:date>
+<dc:subject>internet</dc:subject>
+<slash:department>following-the-trend</slash:department>
+<slash:section>mobile</slash:section>
+<slash:comments>44</slash:comments>
+<slash:hit_parade>44,43,38,34,1,0,0</slash:hit_parade>
+<feedburner:origLink>https://mobile.slashdot.org/story/20/05/05/207215/the-average-household-will-surpass-isps-1tb-data-caps-within-3-years-study-finds?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://apple.slashdot.org/story/20/05/05/205258/apples-copyright-lawsuit-has-created-a-chilling-effect-on-security-research?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>Apple's Copyright Lawsuit Has Created a 'Chilling Effect' on Security Research</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/bk-06x8p7zI/apples-copyright-lawsuit-has-created-a-chilling-effect-on-security-research</link>
+<description>Last year, Apple accused a cybersecurity startup based in Florida of infringing its copyright by developing and selling software that allows customers to create virtual iPhone replicas. Critics have called the Apple's lawsuit against the company, called Corellium, "dangerous" as it may shape how security researchers and software makers can tinker with Apple's products and code. From a report: The lawsuit, however, has already produced a tangible outcome: very few people, especially current and former customers and users, want to talk about Corellium, which sells the eponymous software that virtualizes iPhones and Android devices. During the lawsuit's proceedings, Apple has sought information from companies that have used the tool, which emulates iOS on a computer, allowing researchers to probe potential iPhone vulnerabilities in a forgiving and easy-to-use environment. 
+
+"Apple has created a chilling effect," a security researcher familiar with Corellium's product, who asked to remain anonymous because he wasn't allowed to talk to the press, told Motherboard. "I don't know if they intended it but when they name individuals at companies that have spoken in favor [of Corellium], I definitely believe retribution is possible," the researcher added, referring to Apple's subpoena to the spanish finance giant Santander Bank, which named an employee who had Tweeted about Corellium. Several other cybersecurity researchers expressed fear of retribution from Apple for using Corellium.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Apple's+Copyright+Lawsuit+Has+Created+a+'Chilling+Effect'+on+Security+Research%3A+https%3A%2F%2Fbit.ly%2F2W523qI"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fapple.slashdot.org%2Fstory%2F20%2F05%2F05%2F205258%2Fapples-copyright-lawsuit-has-created-a-chilling-effect-on-security-research%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://apple.slashdot.org/story/20/05/05/205258/apples-copyright-lawsuit-has-created-a-chilling-effect-on-security-research?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16314702&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/bk-06x8p7zI" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>msmash</dc:creator>
+<dc:date>2020-05-05T22:11:00+00:00</dc:date>
+<dc:subject>security</dc:subject>
+<slash:department>closer-look</slash:department>
+<slash:section>apple</slash:section>
+<slash:comments>23</slash:comments>
+<slash:hit_parade>23,23,19,15,4,0,0</slash:hit_parade>
+<feedburner:origLink>https://apple.slashdot.org/story/20/05/05/205258/apples-copyright-lawsuit-has-created-a-chilling-effect-on-security-research?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://tech.slashdot.org/story/20/05/05/1957223/facebooks-oculus-is-developing-a-new-quest-vr-headset?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>Facebook's Oculus Is Developing a New Quest VR Headset</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/sJLEw0oVV20/facebooks-oculus-is-developing-a-new-quest-vr-headset</link>
+<description>An anonymous reader quotes a report from Bloomberg: Facebook's Oculus division is building a new version of its Quest standalone virtual reality headset, but the device is facing potential delays due to the impact of Covid-19 on product development and the global supply chain. The social-networking giant is working on multiple potential successors to the Quest. Some models in advanced testing are smaller, lighter, and have a faster image refresh rate for more realistic content, according to people familiar with the matter. These headsets also have redesigned controllers, said the people, who asked not to be identified discussing unannounced products.
+ 
+The company hasn't finalized which new version of the Quest it will release, and the final product may have different features. Facebook originally planned to launch the new model at the end of 2020, around its annual Oculus Connect conference, but the coronavirus pandemic could delay the headset from shipping until 2021, the people said. Some versions in testing are 10% to 15% smaller than the current Quest. That, in addition to being lighter, makes them more comfortable to wear, one of the people said. The existing model weighs about 1.25 pounds, which is too heavy for some users wearing the device for extended periods. The models in testing are closer to a pound, the person said. The company could sell the new model alongside the current Quest, or choose to fully replace it.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Facebook's+Oculus+Is+Developing+a+New+Quest+VR+Headset%3A+https%3A%2F%2Fbit.ly%2F2L52xXK"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Ftech.slashdot.org%2Fstory%2F20%2F05%2F05%2F1957223%2Ffacebooks-oculus-is-developing-a-new-quest-vr-headset%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://tech.slashdot.org/story/20/05/05/1957223/facebooks-oculus-is-developing-a-new-quest-vr-headset?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16314684&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/sJLEw0oVV20" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>BeauHD</dc:creator>
+<dc:date>2020-05-05T21:30:00+00:00</dc:date>
+<dc:subject>facebook</dc:subject>
+<slash:department>what-to-expect</slash:department>
+<slash:section>technology</slash:section>
+<slash:comments>8</slash:comments>
+<slash:hit_parade>8,8,8,5,1,0,0</slash:hit_parade>
+<feedburner:origLink>https://tech.slashdot.org/story/20/05/05/1957223/facebooks-oculus-is-developing-a-new-quest-vr-headset?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://news.slashdot.org/story/20/05/05/1953232/airbnb-is-laying-off-a-quarter-of-its-workforce?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>Airbnb Is Laying Off a Quarter of Its Workforce</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/nj0Gn3r-8lM/airbnb-is-laying-off-a-quarter-of-its-workforce</link>
+<description>Airbnb announced that it is laying off around a quarter of its workforce, citing revenue declines and a need to curtail costs. TechCrunch reports: In the note, written by Airbnb CEO and co-founder Brian Chesky, the company said that 1,900 employees will be laid off, or 25.3% of its 7,500 workers. The layoffs will impact a number of internal product groups, including Transportation and Airbnb Studios, efforts that will be placed on hold, and its Hotels and Lux work, which will be "scale[d] back." The company declined to break down per-country totals for the layoffs in a phone call with TechCrunch, but its memo did note that its staffing cuts are "mapped to a more focused business." The former startup appears to be narrowing its efforts, targeting core operations and shedding more experimental and costly endeavours. According to Chesky's missive, Airbnb anticipates its 2020 revenue coming in under 50% of 2019's total; Airbnb saw around $4.8 billion in revenue last year, according to reports. The report adds: "Separated employees will receive 14 weeks of pay, and one more week for each year served at the company (rounding partial years up). The firm is also dropping its one-year equity cliff so that employees who are laid off with under 12 months of tenure can buy their vested options; Airbnb will also provide 12 months of health insurance through COBRA in the United States, and health care coverage through 2020 in the rest of the world."&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Airbnb+Is+Laying+Off+a+Quarter+of+Its+Workforce%3A+https%3A%2F%2Fbit.ly%2F3fnbk53"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fnews.slashdot.org%2Fstory%2F20%2F05%2F05%2F1953232%2Fairbnb-is-laying-off-a-quarter-of-its-workforce%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://news.slashdot.org/story/20/05/05/1953232/airbnb-is-laying-off-a-quarter-of-its-workforce?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16314668&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/nj0Gn3r-8lM" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>BeauHD</dc:creator>
+<dc:date>2020-05-05T20:50:00+00:00</dc:date>
+<dc:subject>business</dc:subject>
+<slash:department>cost-cutting-measures</slash:department>
+<slash:section>news</slash:section>
+<slash:comments>47</slash:comments>
+<slash:hit_parade>47,46,44,35,6,2,1</slash:hit_parade>
+<feedburner:origLink>https://news.slashdot.org/story/20/05/05/1953232/airbnb-is-laying-off-a-quarter-of-its-workforce?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://news.slashdot.org/story/20/05/05/1935230/uk-reports-highest-coronavirus-death-toll-in-europe?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>UK Reports Highest Coronavirus Death Toll In Europe</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/MtB1hYcg0IM/uk-reports-highest-coronavirus-death-toll-in-europe</link>
+<description>The U.K. surpassed Italy on Tuesday to report the most coronavirus deaths in Europe, according to Johns Hopkins data and its own tracker. Axios reports: The country, which prolonged its lockdown last month until at least the second week of May, has reported more than 196,000 cases compared to Italy's roughly 213,000. Imperial College London is undertaking the randomized testing of 100,000 people in England this week to gain data on when the lockdown might be able to lift, per The Guardian. "Foreign Secretary Dominic Raab said Tuesday that 29,427 people have died with Covid-19 since the outbreak began, more than in Italy and lower only than the United States," adds CNN. "The official figure includes 693 new deaths in the most recent 24-hour period, up to 5 p.m. (12 p.m. ET) Monday."&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=UK+Reports+Highest+Coronavirus+Death+Toll+In+Europe%3A+https%3A%2F%2Fbit.ly%2F2zfgYFO"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fnews.slashdot.org%2Fstory%2F20%2F05%2F05%2F1935230%2Fuk-reports-highest-coronavirus-death-toll-in-europe%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://news.slashdot.org/story/20/05/05/1935230/uk-reports-highest-coronavirus-death-toll-in-europe?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16314588&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/MtB1hYcg0IM" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>BeauHD</dc:creator>
+<dc:date>2020-05-05T20:10:00+00:00</dc:date>
+<dc:subject>uk</dc:subject>
+<slash:department>latest-developments</slash:department>
+<slash:section>news</slash:section>
+<slash:comments>103</slash:comments>
+<slash:hit_parade>103,101,93,76,20,8,3</slash:hit_parade>
+<feedburner:origLink>https://news.slashdot.org/story/20/05/05/1935230/uk-reports-highest-coronavirus-death-toll-in-europe?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://tech.slashdot.org/story/20/05/05/1931241/frontier-will-charge-up-to-89-for-social-distancing-on-flights?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>Frontier Will Charge Up To $89 For Social Distancing On Flights</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/YSuev_2eVoA/frontier-will-charge-up-to-89-for-social-distancing-on-flights</link>
+<description>An anonymous reader quotes a report from Ars Technica: No two airlines are handling the uncertain future in quite the same way. Frontier Airlines, though, is going all in on the industry's worst nickel-and-diming impulses and is happy to let you gain a few precious inches of space from your neighbor and their bodily fluids -- for an additional fee. Frontier touts the new charge as the "more room" pledge. "While we believe the best measure to keep everyone healthy is to require face coverings, for those who want an empty seat next to them for extra peace of mind or simply additional comfort, we are now offering 'More Room,'" Frontier CEO Barry Biffle said in a written statement.
+ 
+The extra fee for a guaranteed empty middle seat will be between $39 and $89, depending on the route. It will be in effect starting this Friday and run at least through the end of August, if not later. Frontier is also requiring face coverings for all passengers in the gate area as well as aboard aircraft, and it will be implementing mandatory hand-washing and health screenings before boarding. Every other major U.S. airline is also mandating face coverings for passengers, but none of them is as yet charging passengers for trying to avoid being breathed on.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Frontier+Will+Charge+Up+To+%2489+For+Social+Distancing+On+Flights%3A+https%3A%2F%2Fbit.ly%2F3div1cp"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Ftech.slashdot.org%2Fstory%2F20%2F05%2F05%2F1931241%2Ffrontier-will-charge-up-to-89-for-social-distancing-on-flights%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://tech.slashdot.org/story/20/05/05/1931241/frontier-will-charge-up-to-89-for-social-distancing-on-flights?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16314562&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/YSuev_2eVoA" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>BeauHD</dc:creator>
+<dc:date>2020-05-05T19:32:00+00:00</dc:date>
+<dc:subject>transportation</dc:subject>
+<slash:department>because-they-can</slash:department>
+<slash:section>technology</slash:section>
+<slash:comments>88</slash:comments>
+<slash:hit_parade>88,87,78,61,9,5,3</slash:hit_parade>
+<feedburner:origLink>https://tech.slashdot.org/story/20/05/05/1931241/frontier-will-charge-up-to-89-for-social-distancing-on-flights?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://science.slashdot.org/story/20/05/05/1820235/scientists-say-a-now-dominant-strain-of-the-coronavirus-appears-to-be-more-contagious-than-original?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>Scientists Say a Now-Dominant Strain of the Coronavirus Appears To Be More Contagious Than Original</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/Ug4EwS412S0/scientists-say-a-now-dominant-strain-of-the-coronavirus-appears-to-be-more-contagious-than-original</link>
+<description>Scientists have identified a new strain of the coronavirus that has become dominant worldwide and appears to be more contagious than the versions that spread in the early days of the COVID-19 pandemic, according to a new study led by scientists at Los Alamos National Laboratory. From a report: The new strain appeared in February in Europe, migrated quickly to the East Coast of the United States and has been the dominant strain across the world since mid-March, the scientists wrote. In addition to spreading faster, it may make people vulnerable to a second infection after a first bout with the disease, the report warned. The 33-page report was posted Thursday on BioRxiv, a website that researchers use to share their work before it is peer reviewed, an effort to speed up collaborations with scientists working on COVID-19 vaccines or treatments. That research has been largely based on the genetic sequence of earlier strains and might not be effective against the new one. 
+
+The mutation identified in the new report affects the now infamous spikes on the exterior of the coronavirus, which allow it to enter human respiratory cells. The report's authors said they felt an "urgent need for an early warning" so that vaccines and drugs under development around the world will be effective against the mutated strain. Wherever the new strain appeared, it quickly infected far more people than the earlier strains that came out of Wuhan, China, and within weeks it was the only strain that was prevalent in some nations, according to the report. The new strain's dominance over its predecessors demonstrates that it is more infectious, according to the report, though exactly why is not yet known.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Scientists+Say+a+Now-Dominant+Strain+of+the+Coronavirus+Appears+To+Be+More+Contagious+Than+Original%3A+https%3A%2F%2Fbit.ly%2F3c9o8tN"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fscience.slashdot.org%2Fstory%2F20%2F05%2F05%2F1820235%2Fscientists-say-a-now-dominant-strain-of-the-coronavirus-appears-to-be-more-contagious-than-original%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://science.slashdot.org/story/20/05/05/1820235/scientists-say-a-now-dominant-strain-of-the-coronavirus-appears-to-be-more-contagious-than-original?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16314314&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/Ug4EwS412S0" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>msmash</dc:creator>
+<dc:date>2020-05-05T18:45:00+00:00</dc:date>
+<dc:subject>medicine</dc:subject>
+<slash:department>no-solace</slash:department>
+<slash:section>science</slash:section>
+<slash:comments>135</slash:comments>
+<slash:hit_parade>135,128,104,79,14,10,6</slash:hit_parade>
+<feedburner:origLink>https://science.slashdot.org/story/20/05/05/1820235/scientists-say-a-now-dominant-strain-of-the-coronavirus-appears-to-be-more-contagious-than-original?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://yro.slashdot.org/story/20/05/05/189214/uber-and-lyft-face-worker-misclassification-lawsuit-from-ca-attorney-general-and-city-attorneys?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>Uber and Lyft Face Worker Misclassification Lawsuit From CA Attorney General and City Attorneys</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/g5zIxAfJFrA/uber-and-lyft-face-worker-misclassification-lawsuit-from-ca-attorney-general-and-city-attorneys</link>
+<description>California Attorney General Xavier Becerra along with city attorneys from Los Angeles, San Diego and San Francisco filed a lawsuit asserting Uber and Lyft gain an unfair and unlawful competitive advantage by misclassifying workers as independent contractors. From a report: The suit argues Uber and Lyft are depriving workers of the right to minimum wage, overtime, access to paid sick leave, disability insurance and unemployment insurance. The lawsuit, filed in the Superior Court of San Francisco, seeks $2,500 in penalties for each violation under the California Unfair Competition Law, and another $2,500 for violations against senior citizens or people with disabilities. "The companies, we believe and argue are shirking their obligation to their workforce," Becerra said in a call today. By shirking those obligations, Becerra said, Uber and Lyft are shifting those costs to California taxpayers. "American taxpayers end up having to help carry the load that Uber and Lyft don't want to accept," Becerra said. "These companies will take the workers' labor, but they won't accept the worker protections." This lawsuit comes after Uber and Lyft have spent millions of dollars to try to combat California law AB 5, which makes it harder for tech companies to classify workers as independent contractors.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Uber+and+Lyft+Face+Worker+Misclassification+Lawsuit+From+CA+Attorney+General+and+City+Attorneys%3A+https%3A%2F%2Fbit.ly%2F2zcT91s"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fyro.slashdot.org%2Fstory%2F20%2F05%2F05%2F189214%2Fuber-and-lyft-face-worker-misclassification-lawsuit-from-ca-attorney-general-and-city-attorneys%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://yro.slashdot.org/story/20/05/05/189214/uber-and-lyft-face-worker-misclassification-lawsuit-from-ca-attorney-general-and-city-attorneys?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16314254&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/g5zIxAfJFrA" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>msmash</dc:creator>
+<dc:date>2020-05-05T18:09:00+00:00</dc:date>
+<dc:subject>court</dc:subject>
+<slash:department>see-you-in-court</slash:department>
+<slash:section>yro</slash:section>
+<slash:comments>55</slash:comments>
+<slash:hit_parade>55,54,51,42,9,3,2</slash:hit_parade>
+<feedburner:origLink>https://yro.slashdot.org/story/20/05/05/189214/uber-and-lyft-face-worker-misclassification-lawsuit-from-ca-attorney-general-and-city-attorneys?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://games.slashdot.org/story/20/05/05/1734236/microsoft-to-pitch-new-xbox-game-console-with-monthly-showcases?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>Microsoft to Pitch New Xbox Game Console With Monthly Showcases</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/QCcwHRobDEk/microsoft-to-pitch-new-xbox-game-console-with-monthly-showcases</link>
+<description>Microsoft, gearing up for its biggest-ever year of launches for Xbox products and services in the middle of a global pandemic and economic recession, will replace its plan for a splashy public game-conference event with a monthly series of online showcases. From a report: The virtual events start on May 7, with a look at third-party games planned for its new console, called Xbox Series X. In June, the company will highlight the Xbox platform and services, and July's session is intended to cover games produced by Microsoft's own 15 game studios, including the next iteration of its biggest franchise, "Halo." The Redmond, Washington-based company had originally planned to unveil many of the details about the new products next month at the E3 conference, which has been canceled. Gaming audiences "love the authenticity of us showing up in our sweatpants here in our home office and talking about what we are doing," Xbox chief Phil Spencer said in an interview. This also seemed like a good time to eschew the typically flashy, celebrity-studded events the video-game industry is known for, he said. "We can all look at the unemployment numbers right now. We can also understand we're in video games, while we have front-line medical workers out there that are keeping people alive."&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Microsoft+to+Pitch+New+Xbox+Game+Console+With+Monthly+Showcases%3A+https%3A%2F%2Fbit.ly%2F3c6SgpX"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fgames.slashdot.org%2Fstory%2F20%2F05%2F05%2F1734236%2Fmicrosoft-to-pitch-new-xbox-game-console-with-monthly-showcases%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://games.slashdot.org/story/20/05/05/1734236/microsoft-to-pitch-new-xbox-game-console-with-monthly-showcases?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16314122&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/QCcwHRobDEk" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>msmash</dc:creator>
+<dc:date>2020-05-05T17:33:00+00:00</dc:date>
+<dc:subject>xbox</dc:subject>
+<slash:department>let-the-game-begin</slash:department>
+<slash:section>games</slash:section>
+<slash:comments>4</slash:comments>
+<slash:hit_parade>4,4,4,3,0,0,0</slash:hit_parade>
+<feedburner:origLink>https://games.slashdot.org/story/20/05/05/1734236/microsoft-to-pitch-new-xbox-game-console-with-monthly-showcases?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://apple.slashdot.org/story/20/05/05/1630212/apples-virtual-wwdc-event-to-kick-off-on-june-22?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>Apple's Virtual WWDC Event To Kick Off on June 22</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/BInKxTP8Tu8/apples-virtual-wwdc-event-to-kick-off-on-june-22</link>
+<description>Apple's virtual WWDC event will start on June 22, Apple said today. It will be hosted in the Apple Developer app and the Apple Developer website and it will be free for all developers. Apple does plan to hold a keynote event, presumably on June 22 when WWDC begins.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Apple's+Virtual+WWDC+Event+To+Kick+Off+on+June+22%3A+https%3A%2F%2Fbit.ly%2F2SGJszn"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fapple.slashdot.org%2Fstory%2F20%2F05%2F05%2F1630212%2Fapples-virtual-wwdc-event-to-kick-off-on-june-22%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://apple.slashdot.org/story/20/05/05/1630212/apples-virtual-wwdc-event-to-kick-off-on-june-22?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16313870&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/BInKxTP8Tu8" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>msmash</dc:creator>
+<dc:date>2020-05-05T16:45:00+00:00</dc:date>
+<dc:subject>programming</dc:subject>
+<slash:department>up-next</slash:department>
+<slash:section>apple</slash:section>
+<slash:comments>24</slash:comments>
+<slash:hit_parade>24,24,21,17,2,1,0</slash:hit_parade>
+<feedburner:origLink>https://apple.slashdot.org/story/20/05/05/1630212/apples-virtual-wwdc-event-to-kick-off-on-june-22?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://news.slashdot.org/story/20/05/05/160252/firefox-76-arrives-with-password-management-and-zoom-improvements?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>Firefox 76 Arrives With Password Management and Zoom Improvements</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/lJPKfT-QBog/firefox-76-arrives-with-password-management-and-zoom-improvements</link>
+<description>Mozilla today launched Firefox 76 for Windows, Mac, and Linux. Firefox 76 includes new Firefox Lockwise password functionality, Zoom improvements, and a handful of developer features. From a report: Lockwise, the password management service formerly known as Firefox Lockbox, is getting smarter. The Firefox feature already lets you generate, manage, and protect all those passwords for streaming services, grocery deliveries, and anything else that helps during the pandemic. If you share your device with family or roommates, Lockwise in Firefox 76 can now protect your saved passwords. When you try to view or copy a password from your "Logins and Passwords" page, you will be prompted for your device's account password. 
+
+[...] Firefox 76 adds support for Audio Worklets, which run custom JavaScript audio processing code for applications like VR and gaming on the web. Unlike their predecessor, ScriptProcessorNode, worklets run off the main thread in a similar way to web workers. Mozilla also notes Audio Worklets are "being adopted by some of your favorite software programs." The company specifically called out Zoom, which has become a phenomenon of its own during the pandemic. In short, you now join Zoom calls in Firefox without having to download or install the Zoom client.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Firefox+76+Arrives+With+Password+Management+and+Zoom+Improvements%3A+https%3A%2F%2Fbit.ly%2F2z9eatY"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fnews.slashdot.org%2Fstory%2F20%2F05%2F05%2F160252%2Ffirefox-76-arrives-with-password-management-and-zoom-improvements%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://news.slashdot.org/story/20/05/05/160252/firefox-76-arrives-with-password-management-and-zoom-improvements?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16313760&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/lJPKfT-QBog" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>msmash</dc:creator>
+<dc:date>2020-05-05T16:05:00+00:00</dc:date>
+<dc:subject>firefox</dc:subject>
+<slash:department>moving-forward</slash:department>
+<slash:section>news</slash:section>
+<slash:comments>58</slash:comments>
+<slash:hit_parade>58,57,53,46,10,7,5</slash:hit_parade>
+<feedburner:origLink>https://news.slashdot.org/story/20/05/05/160252/firefox-76-arrives-with-password-management-and-zoom-improvements?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://it.slashdot.org/story/20/05/05/1528218/how-microsoft-fought-the-iloveyou-virus-20-years-ago?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>How Microsoft Fought the 'ILOVEYOU' Virus 20 Years Ago</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/atzc2uTlWCM/how-microsoft-fought-the-iloveyou-virus-20-years-ago</link>
+<description>The inside story of 'ILOVEYOU' and two other viruses from two decades ago. Steven Sinofsky, who worked at Microsoft from 1989-2012 and oversaw the Office (1998-2006) and Windows (2006-2012) teams, writes (shared by reader harrymcc): One morning during the first week of May of the new millennium, I received a call at my apartment while I was getting ready for work. I heard a female reporter tell me her name, and then basically listened to her hyperventilating and proclaiming her love for me repeatedly: "I love you. I love you." That's what I heard, anyway. The call. A reporter. Early morning. It was all weird. In reality, LOVE broke out all over the internet. Over the span of a weekend, inboxes around the world of Outlook and Exchange email users were inundated with dozens of copies of email messages with the subject line, "ILOVEYOU." 
+
+I learned from the reporter that the LOVE email incident was deemed so serious that the PR lead gave her my home number and simultaneously sent me a briefing via email. In the era of dial-up, I could not read the email and talk on the phone because I only had one analog phone line at home. I had no idea what was going on, so I agreed to return the call after I dialed up and downloaded my email. That's when I realized the magnitude of the issue.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=How+Microsoft+Fought+the+'ILOVEYOU'+Virus+20+Years+Ago%3A+https%3A%2F%2Fbit.ly%2F2SF7YAS"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fit.slashdot.org%2Fstory%2F20%2F05%2F05%2F1528218%2Fhow-microsoft-fought-the-iloveyou-virus-20-years-ago%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://it.slashdot.org/story/20/05/05/1528218/how-microsoft-fought-the-iloveyou-virus-20-years-ago?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16313618&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/atzc2uTlWCM" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>msmash</dc:creator>
+<dc:date>2020-05-05T15:28:00+00:00</dc:date>
+<dc:subject>microsoft</dc:subject>
+<slash:department>closer-look</slash:department>
+<slash:section>it</slash:section>
+<slash:comments>51</slash:comments>
+<slash:hit_parade>51,49,47,42,7,5,2</slash:hit_parade>
+<feedburner:origLink>https://it.slashdot.org/story/20/05/05/1528218/how-microsoft-fought-the-iloveyou-virus-20-years-ago?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<item rdf:about="https://yro.slashdot.org/story/20/05/05/1449225/adam-neumann-weworks-former-chief-sues-softbank?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+<title>Adam Neumann, WeWork's Former Chief, Sues SoftBank</title>
+<link>http://rss.slashdot.org/~r/Slashdot/slashdot/~3/5inOIv2KDeg/adam-neumann-weworks-former-chief-sues-softbank</link>
+<description>Adam Neumann, a co-founder of WeWork, sued SoftBank on Monday, accusing it of breaching a contract by withdrawing an offer to buy up to $3 billion in WeWork stock from Mr. Neumann and other shareholders. From a report: SoftBank, a Japanese conglomerate that has invested in many fast-growing but unprofitable start-ups, included the stock offer in a bailout that saved WeWork from financial collapse last year. Mr. Neumann's lawsuit, filed in the Delaware Court of Chancery, contends that SoftBank and one of its investment funds "reneged on their promise to pay for the benefits they had already received" when they withdrew the offer last month. SoftBank, which gained effective control of WeWork in the rescue, previously said it walked away from the stock-purchase offer because certain provisions of the deal had not been met. But Mr. Neumann's lawsuit asserts that SoftBank "was secretly taking actions to undermine" the deal. Robert Townsend, SoftBank's chief legal officer, said in a statement that the company "will vigorously defend itself against these meritless claims." 
+
+SoftBank invested billions of dollars in WeWork when Mr. Neumann, a charismatic entrepreneur who won the backing of prominent investors and banks, was its chief executive. Mr. Neumann, facing criticism of his leadership, stepped down as chief executive last year as WeWork unsuccessfully tried to sell stock in an initial public offering. Under the takeover agreement, Mr. Neumann stood to receive cash payments totaling $185 million and would have sold nearly $1 billion of his WeWork shares to SoftBank. SoftBank also gave him a $425 million loan to repay credit lines with banks that had been secured by WeWork stock.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Adam+Neumann%2C+WeWork's+Former+Chief%2C+Sues+SoftBank%3A+https%3A%2F%2Fbit.ly%2F2SDlGE6"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fyro.slashdot.org%2Fstory%2F20%2F05%2F05%2F1449225%2Fadam-neumann-weworks-former-chief-sues-softbank%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://yro.slashdot.org/story/20/05/05/1449225/adam-neumann-weworks-former-chief-sues-softbank?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=16313440&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;&lt;img src="http://feeds.feedburner.com/~r/Slashdot/slashdot/~4/5inOIv2KDeg" height="1" width="1" alt=""/&gt;</description>
+<dc:creator>msmash</dc:creator>
+<dc:date>2020-05-05T14:50:00+00:00</dc:date>
+<dc:subject>court</dc:subject>
+<slash:department>stranger-things</slash:department>
+<slash:section>yro</slash:section>
+<slash:comments>35</slash:comments>
+<slash:hit_parade>35,35,33,32,9,4,2</slash:hit_parade>
+<feedburner:origLink>https://yro.slashdot.org/story/20/05/05/1449225/adam-neumann-weworks-former-chief-sues-softbank?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</feedburner:origLink></item>
+<textinput rdf:about="https://slashdot.org/search.pl">
+<title>Search Slashdot</title>
+<description>Search Slashdot stories</description>
+<name>query</name>
+<link>https://slashdot.org/search.pl</link>
+</textinput>
+</rdf:RDF>

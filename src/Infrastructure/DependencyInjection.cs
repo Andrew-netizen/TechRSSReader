@@ -1,9 +1,4 @@
-﻿using TechRSSReader.Application.Common.Interfaces;
-using TechRSSReader.Infrastructure.Files;
-using TechRSSReader.Infrastructure.Identity;
-using TechRSSReader.Infrastructure.Persistence;
-using TechRSSReader.Infrastructure.Services;
-using IdentityModel;
+﻿using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication;
@@ -14,6 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.Security.Claims;
+using TechRSSReader.Application.Common.Interfaces;
+using TechRSSReader.Infrastructure.FeedReader;
+using TechRSSReader.Infrastructure.Files;
+using TechRSSReader.Infrastructure.Identity;
+using TechRSSReader.Infrastructure.Persistence;
+using TechRSSReader.Infrastructure.Services;
 
 namespace TechRSSReader.Application
 {
@@ -27,7 +28,7 @@ namespace TechRSSReader.Application
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
-
+                        
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -66,6 +67,8 @@ namespace TechRSSReader.Application
                 services.AddTransient<IIdentityService, IdentityService>();
                 services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
             }
+
+            services.AddTransient<IFeedReader, RssFeedReader>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();

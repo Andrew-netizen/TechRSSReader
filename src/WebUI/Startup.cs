@@ -14,6 +14,9 @@ using Microsoft.Extensions.Hosting;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using System.Linq;
+using AutoMapper;
+using TechRSSReader.Application.Common.Mappings;
+using TechRSSReader.Infrastructure.FeedReader.Maps;
 
 namespace TechRSSReader.WebUI
 {
@@ -34,6 +37,8 @@ namespace TechRSSReader.WebUI
         {
             services.AddApplication();
             services.AddInfrastructure(Configuration, Environment);
+
+            services.AddAutoMapper(typeof(MappingProfile).Assembly, typeof(RssFeedItemMap).Assembly);
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
 

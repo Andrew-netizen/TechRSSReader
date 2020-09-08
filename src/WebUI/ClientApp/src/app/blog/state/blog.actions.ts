@@ -8,7 +8,13 @@ export enum BlogActionTypes {
   LoadBlogs = '[Blog GUI] Load Blogs',
   LoadBlogsSuccess = '[Blog API] Load Blogs Success',
   LoadBlogsFail = '[Blog API] Load Blogs Fail',
-  SetCurrentBlog = '[Blog GUI] Set Current Blog'
+  SetCurrentBlog = '[Blog GUI] Set Current Blog',
+  RetrieveFeedItemsFromSource = '[Blog GUI] Retrieve Feed Items',
+  RetrieveFeedItemsFromSourceSuccess = '[Blog API] Retrieve Feed Items Success',
+  RetrieveFeedItemsFromSourceFail = '[Blog GUI] Retrieve Feed Items Fail',
+  UpdateBlog = '[Blog GUI] Update Blog',
+  UpdateBlogSuccess = '[Blog API] Update Blog Success',
+  UpdateBlogFail = '[Blog API] Update Blog Fail'
 }
 
 export class ClearCurrentBlog implements Action {
@@ -35,8 +41,45 @@ export class SetCurrentBlog implements Action {
   constructor(public payload: BlogDto) { }
 }
 
+export class RetrieveFeedItemsFromSource implements Action {
+  readonly type = BlogActionTypes.RetrieveFeedItemsFromSource;
+  constructor(public payload: number) {}
+}
+
+export class RetrieveFeedItemsFromSourceSuccess implements Action {
+  readonly type = BlogActionTypes.RetrieveFeedItemsFromSourceSuccess;
+  constructor(public payload: number) {}
+}
+
+export class RetrieveFeedItemsFromSourceFail implements Action {
+  readonly type = BlogActionTypes.RetrieveFeedItemsFromSourceFail;
+  constructor (public payload: string) {}
+}
+
+export class UpdateBlog implements Action {
+  readonly type = BlogActionTypes.UpdateBlog;
+  constructor (public payload: BlogDto) {}
+}
+
+export class UpdateBlogSuccess implements Action {
+  readonly type = BlogActionTypes.UpdateBlogSuccess;
+  constructor(public payload: BlogDto) {}
+}
+
+export class UpdateBlogFail implements Action {
+  readonly type = BlogActionTypes.UpdateBlogFail;
+  constructor(public payload: string) {}
+}
+
 export type BlogActions = ClearCurrentBlog
 | LoadBlogs
 | LoadBlogsSuccess
 | LoadBlogsFail
-| SetCurrentBlog;
+| RetrieveFeedItemsFromSource
+| RetrieveFeedItemsFromSourceFail
+| RetrieveFeedItemsFromSourceSuccess
+| SetCurrentBlog
+| UpdateBlog
+| UpdateBlogFail
+| UpdateBlogSuccess;
+
