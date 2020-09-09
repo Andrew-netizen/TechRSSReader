@@ -14,8 +14,8 @@ namespace TechRSSReader.Domain.Entities
 
         public string XmlAddress { get; set; }
 
-        public ICollection<KeywordToInclude> KeywordsToInclude { get; set; }
+        public ICollection<KeywordToInclude> KeywordsToInclude { get; set; } = new List<KeywordToInclude>();
 
-        public ICollection<KeywordToExclude> KeywordsToExclude { get; set; }
+        public ICollection<KeywordToExclude> KeywordsToExclude { get; set; } = new List<KeywordToExclude>();
     }
 }

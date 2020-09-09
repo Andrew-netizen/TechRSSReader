@@ -8,7 +8,6 @@ import { Actions, Effect, ofType } from "@ngrx/effects";
 import * as blogActions from "./blog.actions";
 import { Observable, of } from "rxjs";
 import { mergeMap, map, catchError, concatMap } from "rxjs/operators";
-import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from "@angular/platform-browser-dynamic";
 import { BlogDto } from "src/app/techrssreader-api";
 
 @Injectable()
@@ -35,6 +34,30 @@ export class BlogEffects {
         map((retrievedItemsCount) => new blogActions.RetrieveFeedItemsFromSourceSuccess(retrievedItemsCount)),
         catchError((error) => of(new blogActions.RetrieveFeedItemsFromSourceFail(error)))
       )
+    )
+  );
+
+  @Effect()
+  createBlog$: Observable<Action> = this.actions$.pipe(
+    ofType(blogActions.BlogActionTypes.CreateBlog),
+    map((action: blogActions.CreateBlog) => action.payload),
+    mergeMap((blog: BlogDto) =>
+      this.blogService.createBlog(blog).pipe(
+        map (newBlog => (new blogActions.CreateBlogSuccess(newBlog))),
+        catchError(error => of(new blogActions.CreateBlogFail(error)))
+      )
+    )
+  );
+
+  @Effect()
+  deleteBlog$: Observable<Action> = this.actions$.pipe(
+    ofType(blogActions.BlogActionTypes.DeleteBlog),
+    map((action: blogActions.DeleteBlog) => action.payload),
+    mergeMap((blogId: number) =>
+        this.blogService.deleteBlog(blogId).pipe(
+          map(() => (new blogActions.DeleteBlogSuccess(blogId))),
+          catchError(error => of(new blogActions.DeleteBlogFail(error)))
+        )
     )
   );
 

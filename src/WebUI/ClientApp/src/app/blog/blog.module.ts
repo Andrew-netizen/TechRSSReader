@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BlogListComponent } from "./blog-list/blog-list.component";
 import { BlogShellComponent } from "./blog-shell/blog-shell.component";
@@ -27,6 +28,7 @@ const blogRoutes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(blogRoutes),

@@ -8,6 +8,8 @@ import {
 } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { GenericValidator } from "../../shared/generic-validator";
+import { takeWhile } from "rxjs/operators";
+import { ToastrService } from "ngx-toastr";
 
 /* NgRx */
 import { Store, select } from "@ngrx/store";
@@ -19,7 +21,6 @@ import {
   KeywordToExcludeDto,
   KeywordToIncludeDto,
 } from "src/app/techrssreader-api";
-import { takeWhile } from "rxjs/operators";
 
 @Component({
   selector: "blog-edit",
@@ -46,7 +47,11 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     return this.blogForm.get("keywordsToInclude") as FormArray;
   }
 
-  constructor(private store: Store<fromRoot.State>, private fb: FormBuilder) {
+  constructor(
+    private store: Store<fromRoot.State>,
+    private fb: FormBuilder,
+    private toastr: ToastrService
+  ) {
     // Defines all of the validation messages for the form.
     // These could instead be retrieved from a file or database.
     this.validationMessages = {
@@ -111,6 +116,17 @@ export class BlogEditComponent implements OnInit, OnDestroy {
           this.blogForm
         ))
     );
+
+    // Watch for changes in the number of retrieved feed items.
+    // Show a toast to the user when this value changes.
+    this.store
+      .pipe(
+        select(fromBlog.getRetrievedFeedItemCount),
+        takeWhile(() => this.componentActive)
+      )
+      .subscribe((countRetrieved) =>
+        this.showSuccessRetrieveFeedItems(countRetrieved)
+      );
   }
 
   ngOnDestroy(): void {
@@ -132,25 +148,34 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   }
 
   convertFormArrayToKeywordsToIncludeDtos(
-    input: FormArray): KeywordToIncludeDto[] {
-      const result: KeywordToIncludeDto[] = [];
-      for (let inclusion of input.controls)
-      {
-        result.push(KeywordToExcludeDto.fromJS({blogId: this.blog.id, keyword: inclusion.value}));
-      }
-      return result;
+    input: FormArray
+  ): KeywordToIncludeDto[] {
+    const result: KeywordToIncludeDto[] = [];
+    for (let inclusion of input.controls) {
+      result.push(
+        KeywordToExcludeDto.fromJS({
+          blogId: this.blog.id,
+          keyword: inclusion.value,
+        })
+      );
     }
+    return result;
+  }
 
-    convertFormArrayToKeywordsToExcludeDtos(
-      input: FormArray): KeywordToExcludeDto[] {
-        const result: KeywordToExcludeDto[] = [];
-        for(let exclusion of input.controls)
-        {
-          result.push(KeywordToIncludeDto.fromJS({blogId: this.blog.id, keyword: exclusion.value}));
-        }
-        return result;
-      }
-
+  convertFormArrayToKeywordsToExcludeDtos(
+    input: FormArray
+  ): KeywordToExcludeDto[] {
+    const result: KeywordToExcludeDto[] = [];
+    for (let exclusion of input.controls) {
+      result.push(
+        KeywordToIncludeDto.fromJS({
+          blogId: this.blog.id,
+          keyword: exclusion.value,
+        })
+      );
+    }
+    return result;
+  }
 
   convertKeywordsToExcludeToFormArray(
     keywordsToExclude: KeywordToExcludeDto[]
@@ -217,7 +242,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   deleteBlog(): void {
     if (this.blog && this.blog.id) {
       if (confirm(`Really delete the blog: ${this.blog.title}?`)) {
-        // this.store.dispatch(new blogActions.DeleteBlog(this.blog.id));
+        this.store.dispatch(new blogActions.DeleteBlog(this.blog.id));
       }
     } else {
       // No need to delete, it was never saved
@@ -232,10 +257,14 @@ export class BlogEditComponent implements OnInit, OnDestroy {
         // Then copy over the values from the form
         // This ensures values not on the form, such as the Id, are retained
         const b = { ...this.blog, ...this.blogForm.value };
-        b.keywordsToExclude = this.convertFormArrayToKeywordsToExcludeDtos(this.blogForm.get('keywordsToExclude') as FormArray);
-        b.keywordsToInclude = this.convertFormArrayToKeywordsToIncludeDtos(this.blogForm.get('keywordsToInclude') as FormArray);
+        b.keywordsToExclude = this.convertFormArrayToKeywordsToExcludeDtos(
+          this.blogForm.get("keywordsToExclude") as FormArray
+        );
+        b.keywordsToInclude = this.convertFormArrayToKeywordsToIncludeDtos(
+          this.blogForm.get("keywordsToInclude") as FormArray
+        );
         if (b.id === 0) {
-          //this.store.dispatch(new blogActions.CreateProduct(p));
+          this.store.dispatch(new blogActions.CreateBlog(b));
         } else {
           this.store.dispatch(new blogActions.UpdateBlog(b));
         }
@@ -272,6 +301,15 @@ export class BlogEditComponent implements OnInit, OnDestroy {
       this.store.dispatch(
         new blogActions.RetrieveFeedItemsFromSource(this.blog.id)
       );
+    }
+  }
+
+
+  showSuccessRetrieveFeedItems(count: number): void {
+    if (count != null)
+    {
+      const message = count + " feed articles retrieved";
+      this.toastr.success(message, "Success!");
     }
   }
 }

@@ -17,6 +17,7 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {BlogModule} from './blog/blog.module';
+import {ToastrModule} from 'ngx-toastr';
 
 /* NgRx */
 import { StoreModule } from '@ngrx/store';
@@ -47,6 +48,7 @@ import { EffectsModule } from '@ngrx/effects';
       { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
     ]),
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     ModalModule.forRoot(),
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({

@@ -5,6 +5,13 @@ import { Action } from '@ngrx/store';
 
 export enum BlogActionTypes {
   ClearCurrentBlog = '[Blog GUI] Clear Current Blog',
+  CreateBlog = '[Blog GUI] Create Blog',
+  CreateBlogFail = '[Blog API] Create Blog Fail',
+  CreateBlogSuccess = '[Blog API] Create Blog Success',
+  DeleteBlog = '[Blog GUI] Delete Blog',
+  DeleteBlogFail = '[Blog API] Delete Blog Fail',
+  DeleteBlogSuccess = '[Blog API] Delete Blog Success',
+  InitializeCurrentBlog = '[Blog GUI] Initialize Current Blog',
   LoadBlogs = '[Blog GUI] Load Blogs',
   LoadBlogsSuccess = '[Blog API] Load Blogs Success',
   LoadBlogsFail = '[Blog API] Load Blogs Fail',
@@ -19,6 +26,40 @@ export enum BlogActionTypes {
 
 export class ClearCurrentBlog implements Action {
   readonly type = BlogActionTypes.ClearCurrentBlog;
+}
+
+export class CreateBlog implements Action {
+  readonly type = BlogActionTypes.CreateBlog;
+  constructor(public payload: BlogDto) {}
+}
+
+export class CreateBlogFail implements Action {
+  readonly type = BlogActionTypes.CreateBlogFail;
+  constructor(public payload: string) {}
+}
+
+export class CreateBlogSuccess implements Action {
+  readonly type = BlogActionTypes.CreateBlogSuccess;
+  constructor(public payload: BlogDto) {}
+}
+
+export class DeleteBlog implements Action {
+  readonly type = BlogActionTypes.DeleteBlog;
+  constructor (public payload: number) {}
+}
+
+export class DeleteBlogFail implements Action {
+  readonly type = BlogActionTypes.DeleteBlogFail;
+  constructor(public payload: string) {}
+}
+
+export class DeleteBlogSuccess implements Action {
+  readonly type = BlogActionTypes.DeleteBlogSuccess;
+  constructor (public payload: number) {}
+}
+
+export class InitializeCurrentBlog implements Action {
+  readonly type = BlogActionTypes.InitializeCurrentBlog;
 }
 
 export class LoadBlogs implements Action {
@@ -72,6 +113,13 @@ export class UpdateBlogFail implements Action {
 }
 
 export type BlogActions = ClearCurrentBlog
+| CreateBlog
+| CreateBlogFail
+| CreateBlogSuccess
+| DeleteBlog
+| DeleteBlogFail
+| DeleteBlogSuccess
+| InitializeCurrentBlog
 | LoadBlogs
 | LoadBlogsSuccess
 | LoadBlogsFail

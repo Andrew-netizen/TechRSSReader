@@ -46,4 +46,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new blogActions.SetCurrentBlog(blog));
   }
 
+  newBlog(): void {
+    this.store.dispatch(new blogActions.InitializeCurrentBlog());
+  }
 }

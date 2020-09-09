@@ -16,8 +16,10 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IBlogsClient {
     get(): Observable<BlogsViewModel>;
-    retrieveFeedItemsFromSource(id: number | undefined): Observable<number>;
+    create(command: CreateBlogCommand): Observable<BlogDto>;
+    delete(id: number): Observable<number>;
     update(id: number, command: UpdateBlogCommand): Observable<BlogDto>;
+    retrieveFeedItemsFromSource(id: number | undefined): Observable<number>;
 }
 
 @Injectable({
@@ -81,12 +83,63 @@ export class BlogsClient implements IBlogsClient {
         return _observableOf<BlogsViewModel>(<any>null);
     }
 
-    retrieveFeedItemsFromSource(id: number | undefined): Observable<number> {
-        let url_ = this.baseUrl + "/api/Blogs/RetrieveFeedItemsFromSource?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+    create(command: CreateBlogCommand): Observable<BlogDto> {
+        let url_ = this.baseUrl + "/api/Blogs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<BlogDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BlogDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<BlogDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BlogDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BlogDto>(<any>null);
+    }
+
+    delete(id: number): Observable<number> {
+        let url_ = this.baseUrl + "/api/Blogs/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -97,12 +150,12 @@ export class BlogsClient implements IBlogsClient {
             })
         };
 
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processRetrieveFeedItemsFromSource(response_);
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processRetrieveFeedItemsFromSource(<any>response_);
+                    return this.processDelete(<any>response_);
                 } catch (e) {
                     return <Observable<number>><any>_observableThrow(e);
                 }
@@ -111,7 +164,7 @@ export class BlogsClient implements IBlogsClient {
         }));
     }
 
-    protected processRetrieveFeedItemsFromSource(response: HttpResponseBase): Observable<number> {
+    protected processDelete(response: HttpResponseBase): Observable<number> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -186,6 +239,58 @@ export class BlogsClient implements IBlogsClient {
             }));
         }
         return _observableOf<BlogDto>(<any>null);
+    }
+
+    retrieveFeedItemsFromSource(id: number | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/Blogs/RetrieveFeedItemsFromSource?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRetrieveFeedItemsFromSource(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRetrieveFeedItemsFromSource(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRetrieveFeedItemsFromSource(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
     }
 }
 
@@ -951,6 +1056,74 @@ export class KeywordToExcludeDto implements IKeywordToExcludeDto {
 export interface IKeywordToExcludeDto {
     blogId?: number;
     keyword?: string | undefined;
+}
+
+export class CreateBlogCommand implements ICreateBlogCommand {
+    id?: number;
+    title?: string | undefined;
+    xmlAddress?: string | undefined;
+    keywordsToExclude?: KeywordToExcludeDto[] | undefined;
+    keywordsToInclude?: KeywordToIncludeDto[] | undefined;
+
+    constructor(data?: ICreateBlogCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.title = data["title"];
+            this.xmlAddress = data["xmlAddress"];
+            if (Array.isArray(data["keywordsToExclude"])) {
+                this.keywordsToExclude = [] as any;
+                for (let item of data["keywordsToExclude"])
+                    this.keywordsToExclude!.push(KeywordToExcludeDto.fromJS(item));
+            }
+            if (Array.isArray(data["keywordsToInclude"])) {
+                this.keywordsToInclude = [] as any;
+                for (let item of data["keywordsToInclude"])
+                    this.keywordsToInclude!.push(KeywordToIncludeDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): CreateBlogCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateBlogCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["xmlAddress"] = this.xmlAddress;
+        if (Array.isArray(this.keywordsToExclude)) {
+            data["keywordsToExclude"] = [];
+            for (let item of this.keywordsToExclude)
+                data["keywordsToExclude"].push(item.toJSON());
+        }
+        if (Array.isArray(this.keywordsToInclude)) {
+            data["keywordsToInclude"] = [];
+            for (let item of this.keywordsToInclude)
+                data["keywordsToInclude"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface ICreateBlogCommand {
+    id?: number;
+    title?: string | undefined;
+    xmlAddress?: string | undefined;
+    keywordsToExclude?: KeywordToExcludeDto[] | undefined;
+    keywordsToInclude?: KeywordToIncludeDto[] | undefined;
 }
 
 export class UpdateBlogCommand implements IUpdateBlogCommand {

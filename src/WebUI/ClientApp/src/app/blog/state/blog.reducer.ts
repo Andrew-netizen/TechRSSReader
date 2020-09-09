@@ -3,6 +3,7 @@ import { BlogDto } from "../../TechRSSReader-api";
 /* NgRx */
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { BlogActions, BlogActionTypes } from "./blog.actions";
+import { Statement } from "@angular/compiler";
 
 export interface BlogState {
   blogs: BlogDto[];
@@ -68,6 +69,40 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         currentBlogId: null,
+      };
+
+    case BlogActionTypes.CreateBlogFail:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case BlogActionTypes.CreateBlogSuccess:
+      return {
+        ...state,
+        blogs: [...state.blogs, action.payload],
+        currentBlogId: action.payload.id,
+        error: "",
+      };
+
+    case BlogActionTypes.DeleteBlogFail:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case BlogActionTypes.DeleteBlogSuccess:
+      return {
+        ...state,
+        blogs: state.blogs.filter((blog) => blog.id !== action.payload),
+        currentBlogId: null,
+        error: "",
+      };
+
+    case BlogActionTypes.InitializeCurrentBlog:
+      return {
+        ...state,
+        currentBlogId: 0,
       };
 
     case BlogActionTypes.LoadBlogsSuccess:

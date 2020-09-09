@@ -29,18 +29,54 @@
             "JWT": []
           }
         ]
-      }
-    },
-    "/api/Blogs/RetrieveFeedItemsFromSource": {
-      "put": {
+      },
+      "post": {
         "tags": [
           "Blogs"
         ],
-        "operationId": "Blogs_RetrieveFeedItemsFromSource",
+        "operationId": "Blogs_Create",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBlogCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlogDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Blogs/{id}": {
+      "delete": {
+        "tags": [
+          "Blogs"
+        ],
+        "operationId": "Blogs_Delete",
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -66,9 +102,7 @@
             "JWT": []
           }
         ]
-      }
-    },
-    "/api/Blogs/{id}": {
+      },
       "put": {
         "tags": [
           "Blogs"
@@ -105,6 +139,43 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BlogDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Blogs/RetrieveFeedItemsFromSource": {
+      "put": {
+        "tags": [
+          "Blogs"
+        ],
+        "operationId": "Blogs_RetrieveFeedItemsFromSource",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
                 }
               }
             }
@@ -574,6 +645,38 @@
           "keyword": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "CreateBlogCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "xmlAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "keywordsToExclude": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/KeywordToExcludeDto"
+            }
+          },
+          "keywordsToInclude": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/KeywordToIncludeDto"
+            }
           }
         }
       },
