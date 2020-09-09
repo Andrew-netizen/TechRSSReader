@@ -7,15 +7,15 @@ import {
   FormControl,
 } from "@angular/forms";
 import { Observable, of } from "rxjs";
-import { GenericValidator } from "../../shared/generic-validator";
+import { GenericValidator } from "../../../shared/generic-validator";
 import { takeWhile } from "rxjs/operators";
 import { ToastrService } from "ngx-toastr";
 
 /* NgRx */
 import { Store, select } from "@ngrx/store";
-import * as fromBlog from "../state/blog.reducer";
-import * as fromRoot from "../../state/app.state";
-import * as blogActions from "../state/blog.actions";
+import * as fromBlog from "../../state/blog.reducer";
+import * as fromRoot from "../../../state/app.state";
+import * as blogActions from "../../state/blog.actions";
 import {
   BlogDto,
   KeywordToExcludeDto,
