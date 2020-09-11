@@ -6,7 +6,7 @@ import {
   FormArray,
   FormControl,
 } from "@angular/forms";
-import { Observable, of } from "rxjs";
+import { Observable, of, Subscription } from "rxjs";
 import { GenericValidator } from "../../../shared/generic-validator";
 import { takeWhile } from "rxjs/operators";
 import { ToastrService } from "ngx-toastr";
@@ -33,6 +33,8 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   componentActive: boolean = true;
   blogForm: FormGroup;
   blog: BlogDto | null;
+
+  private currentBlogSubscription: Subscription;
 
   // Use with the generic validation message class
   displayMessage: { [key: string]: string } = {};
@@ -99,7 +101,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     });
 
     // Watch for changes to the currently selected product
-    this.store
+    this.currentBlogSubscription = this.store
       .pipe(
         select(fromBlog.getCurrentBlog),
         takeWhile(() => this.componentActive)
@@ -131,6 +133,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.componentActive = false;
+    this.currentBlogSubscription.unsubscribe();
   }
 
   convertKeywordsToIncludeToFormArray(

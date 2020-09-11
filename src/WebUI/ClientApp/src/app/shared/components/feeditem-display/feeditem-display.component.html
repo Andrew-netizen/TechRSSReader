@@ -1,1 +1,18 @@
-<p>feeditem-display works!</p>
+<div class="card" *ngIf="feedItem">
+  <div class="card-header">
+  <b [innerHTML]="feedItem.title"></b>
+  </div>
+  <div class="card-body">
+    <div class="row">Categories: <span [innerHTML]="feedItem.categories"></span></div>
+    <hr/>
+    <div class="row" *ngIf="feedItem.description">
+      Description: <span [innerHTML]="feedItem.description"></span>
+    </div>
+    <div class="row" *ngIf="feedItem.content">
+      Content: <span [innerHTML]="feedItem.content"></span>
+    </div>
+    <div class="row">Publishing Date: {{ feedItem.publishingDateString }}</div>
+    <hr/>
+    <div class="row"><a [href]="feedItem.link" >Read More ...</a></div>
+  </div>
+</div>

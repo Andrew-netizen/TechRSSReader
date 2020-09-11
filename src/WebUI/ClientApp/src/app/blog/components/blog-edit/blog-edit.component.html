@@ -1,6 +1,6 @@
 <div class="card" *ngIf="blog">
   <div class="card-header">
-    {{ pageTitle }}
+    <h5>{{ pageTitle }} </h5>
   </div>
   <div class="card-body">
     <form novalidate (ngSubmit)="saveBlog(blog)" [formGroup]="blogForm">

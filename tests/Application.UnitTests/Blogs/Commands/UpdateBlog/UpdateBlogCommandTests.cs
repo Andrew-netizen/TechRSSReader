@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Shouldly;
+﻿using Shouldly;
 using System.Threading;
 using System.Threading.Tasks;
 using TechRSSReader.Application.Blogs.Commands.UpdateBlog;
-using TechRSSReader.Application.Blogs.Queries.GetBlogs;
 using TechRSSReader.Application.UnitTests.Common;
 using Xunit;
 

@@ -68,6 +68,13 @@ namespace TechRSSReader.Application.UnitTests.Common
                 KeywordsToExclude = new List<KeywordToExclude> { new KeywordToExclude { Keyword = "Fashion" } }
             });
 
+            context.RssFeedItems.Add(new RssFeedItem
+            {
+                Id = 1, 
+                Title = "A General Theory of Relativity",
+                BlogId = 1, 
+            });
+
             context.SaveChanges();
         }
 

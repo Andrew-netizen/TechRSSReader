@@ -3,7 +3,6 @@ import { BlogDto } from "../../TechRSSReader-api";
 /* NgRx */
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { BlogActions, BlogActionTypes } from "./blog.actions";
-import { Statement } from "@angular/compiler";
 
 export interface BlogState {
   blogs: BlogDto[];
@@ -69,6 +68,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         currentBlogId: null,
+        retrievedFeedItemCount: null,
       };
 
     case BlogActionTypes.CreateBlogFail:
@@ -82,6 +82,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         blogs: [...state.blogs, action.payload],
         currentBlogId: action.payload.id,
+        retrievedFeedItemCount: null,
         error: "",
       };
 
@@ -96,6 +97,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         blogs: state.blogs.filter((blog) => blog.id !== action.payload),
         currentBlogId: null,
+        retrievedFeedItemCount: null,
         error: "",
       };
 
@@ -103,9 +105,16 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         currentBlogId: 0,
+        retrievedFeedItemCount: null
       };
 
-    case BlogActionTypes.LoadBlogsSuccess:
+      case BlogActionTypes.LoadBlogs:
+      return {
+        ...state,
+        retrievedFeedItemCount: null
+      };
+
+      case BlogActionTypes.LoadBlogsSuccess:
       return {
         ...state,
         blogs: action.payload,
@@ -117,6 +126,12 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         blogs: [],
         error: action.payload,
+      };
+
+    case BlogActionTypes.RetrieveFeedItemsFromSource:
+      return {
+        ...state,
+        retrievedFeedItemCount: null,
       };
 
     case BlogActionTypes.RetrieveFeedItemsFromSourceSuccess:
@@ -137,6 +152,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         currentBlogId: action.payload.id,
+        retrievedFeedItemCount: null
       };
 
     case BlogActionTypes.UpdateBlogSuccess:

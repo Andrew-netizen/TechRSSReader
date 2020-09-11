@@ -36,5 +36,7 @@ namespace TechRSSReader.Domain.Entities
 
         public bool? UserInterestPrediction { get; set; }
 
+        public bool ReadAlready { get; set; }
+
     }
 }

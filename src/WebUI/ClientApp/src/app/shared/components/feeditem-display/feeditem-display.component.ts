@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { RssFeedItemDto } from 'src/app/techrssreader-api';
+
 
 @Component({
-  selector: 'app-feeditem-display',
+  selector: 'feeditem-display',
   templateUrl: './feeditem-display.component.html',
   styleUrls: ['./feeditem-display.component.scss']
 })
-export class FeeditemDisplayComponent implements OnInit {
+export class FeeditemDisplayComponent {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  @Input() feedItem: RssFeedItemDto;
 
 }

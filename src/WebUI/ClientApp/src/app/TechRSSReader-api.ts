@@ -294,6 +294,132 @@ export class BlogsClient implements IBlogsClient {
     }
 }
 
+export interface IRssFeedItemsClient {
+    getNoUserPreference(blogId: number | undefined): Observable<RssFeedItemDto>;
+    updateUserInterested(id: number, command: UpdateUserInterestedCommand): Observable<RssFeedItemDto>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class RssFeedItemsClient implements IRssFeedItemsClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    getNoUserPreference(blogId: number | undefined): Observable<RssFeedItemDto> {
+        let url_ = this.baseUrl + "/api/RssFeedItems/GetNoUserPreference?";
+        if (blogId === null)
+            throw new Error("The parameter 'blogId' cannot be null.");
+        else if (blogId !== undefined)
+            url_ += "blogId=" + encodeURIComponent("" + blogId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetNoUserPreference(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetNoUserPreference(<any>response_);
+                } catch (e) {
+                    return <Observable<RssFeedItemDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RssFeedItemDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetNoUserPreference(response: HttpResponseBase): Observable<RssFeedItemDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = RssFeedItemDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RssFeedItemDto>(<any>null);
+    }
+
+    updateUserInterested(id: number, command: UpdateUserInterestedCommand): Observable<RssFeedItemDto> {
+        let url_ = this.baseUrl + "/api/RssFeedItems/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateUserInterested(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateUserInterested(<any>response_);
+                } catch (e) {
+                    return <Observable<RssFeedItemDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RssFeedItemDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateUserInterested(response: HttpResponseBase): Observable<RssFeedItemDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = RssFeedItemDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RssFeedItemDto>(<any>null);
+    }
+}
+
 export interface ITodoItemsClient {
     create(command: CreateTodoItemCommand): Observable<number>;
     update(id: number, command: UpdateTodoItemCommand): Observable<FileResponse>;
@@ -1192,6 +1318,138 @@ export interface IUpdateBlogCommand {
     xmlAddress?: string | undefined;
     keywordsToExclude?: KeywordToExcludeDto[] | undefined;
     keywordsToInclude?: KeywordToIncludeDto[] | undefined;
+}
+
+export class RssFeedItemDto implements IRssFeedItemDto {
+    id?: number;
+    author?: string | undefined;
+    blogId?: number;
+    blog?: BlogDto | undefined;
+    categories?: string | undefined;
+    content?: string | undefined;
+    description?: string | undefined;
+    link?: string | undefined;
+    publishingDate?: Date | undefined;
+    publishingDateString?: string | undefined;
+    retrievedDateTime?: Date;
+    rssId?: string | undefined;
+    title?: string | undefined;
+    userInterested?: boolean | undefined;
+    userInterestPrediction?: boolean | undefined;
+
+    constructor(data?: IRssFeedItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.author = data["author"];
+            this.blogId = data["blogId"];
+            this.blog = data["blog"] ? BlogDto.fromJS(data["blog"]) : <any>undefined;
+            this.categories = data["categories"];
+            this.content = data["content"];
+            this.description = data["description"];
+            this.link = data["link"];
+            this.publishingDate = data["publishingDate"] ? new Date(data["publishingDate"].toString()) : <any>undefined;
+            this.publishingDateString = data["publishingDateString"];
+            this.retrievedDateTime = data["retrievedDateTime"] ? new Date(data["retrievedDateTime"].toString()) : <any>undefined;
+            this.rssId = data["rssId"];
+            this.title = data["title"];
+            this.userInterested = data["userInterested"];
+            this.userInterestPrediction = data["userInterestPrediction"];
+        }
+    }
+
+    static fromJS(data: any): RssFeedItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RssFeedItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["author"] = this.author;
+        data["blogId"] = this.blogId;
+        data["blog"] = this.blog ? this.blog.toJSON() : <any>undefined;
+        data["categories"] = this.categories;
+        data["content"] = this.content;
+        data["description"] = this.description;
+        data["link"] = this.link;
+        data["publishingDate"] = this.publishingDate ? this.publishingDate.toISOString() : <any>undefined;
+        data["publishingDateString"] = this.publishingDateString;
+        data["retrievedDateTime"] = this.retrievedDateTime ? this.retrievedDateTime.toISOString() : <any>undefined;
+        data["rssId"] = this.rssId;
+        data["title"] = this.title;
+        data["userInterested"] = this.userInterested;
+        data["userInterestPrediction"] = this.userInterestPrediction;
+        return data; 
+    }
+}
+
+export interface IRssFeedItemDto {
+    id?: number;
+    author?: string | undefined;
+    blogId?: number;
+    blog?: BlogDto | undefined;
+    categories?: string | undefined;
+    content?: string | undefined;
+    description?: string | undefined;
+    link?: string | undefined;
+    publishingDate?: Date | undefined;
+    publishingDateString?: string | undefined;
+    retrievedDateTime?: Date;
+    rssId?: string | undefined;
+    title?: string | undefined;
+    userInterested?: boolean | undefined;
+    userInterestPrediction?: boolean | undefined;
+}
+
+export class UpdateUserInterestedCommand implements IUpdateUserInterestedCommand {
+    id?: number;
+    userInterested?: boolean;
+
+    constructor(data?: IUpdateUserInterestedCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.userInterested = data["userInterested"];
+        }
+    }
+
+    static fromJS(data: any): UpdateUserInterestedCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateUserInterestedCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["userInterested"] = this.userInterested;
+        return data; 
+    }
+}
+
+export interface IUpdateUserInterestedCommand {
+    id?: number;
+    userInterested?: boolean;
 }
 
 export class CreateTodoItemCommand implements ICreateTodoItemCommand {

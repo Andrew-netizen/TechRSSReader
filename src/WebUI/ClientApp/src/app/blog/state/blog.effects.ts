@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { BlogService } from "../blog.service";
+import { BlogService } from "../../shared/blog.service";
 
 /* NgRx */
 import { Action } from "@ngrx/store";

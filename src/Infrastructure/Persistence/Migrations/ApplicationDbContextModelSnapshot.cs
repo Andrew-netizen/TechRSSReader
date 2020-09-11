@@ -324,6 +324,9 @@ namespace TechRSSReader.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
+                    b.Property<bool>("ReadAlready")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("RetrievedDateTime")
                         .HasColumnType("datetime2");
 

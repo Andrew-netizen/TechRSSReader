@@ -1,10 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 
 $theme-colors: (
-    "primary": #3500D3,
-    "secondary": #190061,
-    "success": #33CC33,
-    "info": #240090 );
+  "primary": #3500d3,
+  "secondary": #190061,
+  "success": #33cc33,
+  "info": #240090,
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 2000px,
+);
 
 /* Provide sufficient contrast against white background */
 a {
@@ -22,4 +30,4 @@ code {
 }
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
-@import '~ngx-toastr/toastr-bs4-alert';
+@import "~ngx-toastr/toastr-bs4-alert";
