@@ -1,5 +1,5 @@
 <div class="card" *ngIf="feedItem">
-  <div class="card-header">
+  <div class="card-header text-white bg-primary">
   <b [innerHTML]="feedItem.title"></b>
   </div>
   <div class="card-body">
@@ -8,7 +8,7 @@
     <div class="row" *ngIf="feedItem.description">
       Description: <span [innerHTML]="feedItem.description"></span>
     </div>
-    <div class="row" *ngIf="feedItem.content">
+    <div class="row" *ngIf="!feedItem.description && feedItem.content">
       Content: <span [innerHTML]="feedItem.content"></span>
     </div>
     <div class="row">Publishing Date: {{ feedItem.publishingDateString }}</div>

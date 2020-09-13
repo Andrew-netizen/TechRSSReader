@@ -17,5 +17,7 @@ namespace TechRSSReader.Domain.Entities
         public ICollection<KeywordToInclude> KeywordsToInclude { get; set; } = new List<KeywordToInclude>();
 
         public ICollection<KeywordToExclude> KeywordsToExclude { get; set; } = new List<KeywordToExclude>();
+
+        public ICollection<RssFeedItem> RssFeedItems { get; set; } 
     }
 }

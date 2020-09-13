@@ -1,4 +1,4 @@
-import { BlogDto } from '../../TechRSSReader-api';
+import { BlogDto, RssFeedItemDto } from '../../TechRSSReader-api';
 
 /* NgRx */
 import { Action } from '@ngrx/store';
@@ -15,7 +15,11 @@ export enum BlogActionTypes {
   LoadBlogs = '[Blog GUI] Load Blogs',
   LoadBlogsSuccess = '[Blog API] Load Blogs Success',
   LoadBlogsFail = '[Blog API] Load Blogs Fail',
+  LoadBlogWithItems = '[Article GUI] Load Blog with Feed Items',
+  LoadBlogWithItemsFail = '[Blog API] Load Blog with Feed Items Fail',
+  LoadBlogWithItemsSuccess = '[Blog API] Load Blog with Feed Items Success',
   SetCurrentBlog = '[Blog GUI] Set Current Blog',
+  SetCurrentFeedItem = '[Article GUI] Set Current Feed Item',
   RetrieveFeedItemsFromSource = '[Blog GUI] Retrieve Feed Items',
   RetrieveFeedItemsFromSourceSuccess = '[Blog API] Retrieve Feed Items Success',
   RetrieveFeedItemsFromSourceFail = '[Blog GUI] Retrieve Feed Items Fail',
@@ -76,10 +80,30 @@ export class LoadBlogsFail implements Action {
   constructor(public payload: string) { }
 }
 
+export class LoadBlogWithItems implements Action {
+  readonly type = BlogActionTypes.LoadBlogWithItems;
+  constructor(public payload: number) {}
+}
+
+export class LoadBlogWithItemsFail implements Action {
+  readonly type = BlogActionTypes.LoadBlogWithItemsFail;
+  constructor(public payload: string) {}
+}
+
+export class LoadBlogWithItemsSuccess implements Action {
+  readonly type = BlogActionTypes.LoadBlogWithItemsSuccess;
+  constructor(public payload: BlogDto) {}
+}
+
 export class SetCurrentBlog implements Action {
   readonly type = BlogActionTypes.SetCurrentBlog;
 
   constructor(public payload: BlogDto) { }
+}
+
+export class SetCurrentFeedItem implements Action {
+  readonly type = BlogActionTypes.SetCurrentFeedItem;
+  constructor(public payload: RssFeedItemDto) {}
 }
 
 export class RetrieveFeedItemsFromSource implements Action {
@@ -121,12 +145,16 @@ export type BlogActions = ClearCurrentBlog
 | DeleteBlogSuccess
 | InitializeCurrentBlog
 | LoadBlogs
-| LoadBlogsSuccess
 | LoadBlogsFail
+| LoadBlogsSuccess
+| LoadBlogWithItems
+| LoadBlogWithItemsFail
+| LoadBlogWithItemsSuccess
 | RetrieveFeedItemsFromSource
 | RetrieveFeedItemsFromSourceFail
 | RetrieveFeedItemsFromSourceSuccess
 | SetCurrentBlog
+| SetCurrentFeedItem
 | UpdateBlog
 | UpdateBlogFail
 | UpdateBlogSuccess;

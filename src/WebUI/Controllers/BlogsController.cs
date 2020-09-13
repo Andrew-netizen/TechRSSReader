@@ -7,6 +7,7 @@ using TechRSSReader.Application.Blogs.Commands.DeleteBlog;
 using TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems;
 using TechRSSReader.Application.Blogs.Commands.UpdateBlog;
 using TechRSSReader.Application.Blogs.Queries.GetBlogs;
+using TechRSSReader.Application.Blogs.Queries.GetBlogWithItems;
 
 namespace TechRSSReader.WebUI.Controllers
 {
@@ -23,6 +24,18 @@ namespace TechRSSReader.WebUI.Controllers
         public async Task<ActionResult<BlogsViewModel>> Get()
         {
             return await Mediator.Send(new GetBlogsQuery());
+        }
+
+        /// GET: api/Blogs/5
+        /// <summary>
+        /// Get a blog with its associated articles.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<BlogDto> Get(int id)
+        {
+            return await Mediator.Send(new GetBlogWithItemsQuery { Id = id });
         }
 
         /// POST: api/Blogs

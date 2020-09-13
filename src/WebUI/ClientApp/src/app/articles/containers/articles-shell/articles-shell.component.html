@@ -8,6 +8,10 @@
     </blog-list>
   </div>
   <div class="col-xl-10 col-md-8">
-    <articles-list></articles-list>
+    <articles-list
+    [feedItems]="feedItems$ | async"
+    [selectedFeedItem]="selectedFeedItem$ | async"
+    (selected)="feedItemSelected($event)"
+    ></articles-list>
   </div>
   </div>

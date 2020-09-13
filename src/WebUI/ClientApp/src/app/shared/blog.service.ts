@@ -14,6 +14,10 @@ export class BlogService {
     return this.blogsClient.get().pipe(map((data) => data.blogs));
   }
 
+  getBlogWithFeedItems(id: number): Observable<BlogDto> {
+    return this.blogsClient.get2(id);
+  }
+
   retrieveFeedItems(id: number): Observable<number> {
     return this.blogsClient.retrieveFeedItemsFromSource(id);
   }

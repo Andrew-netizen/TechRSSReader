@@ -1,1 +1,19 @@
-<p>articles-list works!</p>
+<div class="card">
+  <div class="card-header"><h4>Articles</h4></div>
+  <div class="card-body" *ngIf="feedItems">
+    <div class="list-group"   *ngFor="let feedItem of feedItems" >
+      <button
+        class="list-group-item list-group-item-action rounded-0"
+
+        *ngIf="feedItem?.id !== selectedFeedItem?.id"
+        (click)="feedItemSelected(feedItem)"
+      >
+        <b [innerHTML]="feedItem.title"></b>
+      </button>
+      <feeditem-display
+      *ngIf="feedItem?.id === selectedFeedItem?.id"
+      [feedItem]="selectedFeedItem"
+      ></feeditem-display>
+    </div>
+  </div>
+ </div>

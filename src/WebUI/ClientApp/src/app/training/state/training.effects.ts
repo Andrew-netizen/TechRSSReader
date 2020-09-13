@@ -46,17 +46,6 @@ export class TrainingEffects {
     {dispatch: false}
   );
 
-  // @Effect()
-  // updateUserInterest$: Observable<Action> = this.actions$.pipe(
-  //   ofType(trainingActions.TrainingActionTypes.UpdateUserInterest),
-  //   map((action:trainingActions.UpdateUserInterest) => action.payload),
-  //     mergeMap((command: UpdateUserInterestedCommand) =>
-  //     this.trainingService.updateUserInterest(command).pipe(
-  //       map((nextRssFeedItem) => new trainingActions.UpdateUserInterestSuccess(nextRssFeedItem)),
-  //       catchError((error) => of(new trainingActions.UpdateUserInterestFail(error)))
-  //     )
-  //   )
-  // );
 
   updateUserInterest$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(

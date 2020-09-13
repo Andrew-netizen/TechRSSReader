@@ -1,14 +1,17 @@
-import { BlogDto } from "../../TechRSSReader-api";
+import { BlogDto, RssFeedItemDto } from "../../TechRSSReader-api";
 
 /* NgRx */
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { BlogActions, BlogActionTypes } from "./blog.actions";
+import { act } from "@ngrx/effects";
 
 export interface BlogState {
   blogs: BlogDto[];
   currentBlogId: number | null;
   error: string;
   retrievedFeedItemCount: number | null;
+  feedItems: RssFeedItemDto[];
+  currentFeedItemId: number | null;
 }
 
 const initialState: BlogState = {
@@ -16,6 +19,8 @@ const initialState: BlogState = {
   currentBlogId: null,
   error: "",
   retrievedFeedItemCount: null,
+  feedItems: [],
+  currentFeedItemId: null,
 };
 
 // Selector functions
@@ -52,6 +57,11 @@ export const getCurrentBlog = createSelector(
   }
 );
 
+export const getCurrentBlogFeedItems = createSelector(
+  getBlogFeatureState,
+  (state) => state.feedItems
+);
+
 export const getError = createSelector(
   getBlogFeatureState,
   (state) => state.error
@@ -62,13 +72,30 @@ export const getRetrievedFeedItemCount = createSelector(
   (state) => state.retrievedFeedItemCount
 );
 
+export const getCurrentFeedItemId = createSelector(
+  getBlogFeatureState,
+  (state) => state.currentFeedItemId
+);
+
+export const getCurrentFeedItem = createSelector(
+  getBlogFeatureState,
+  getCurrentFeedItemId,
+  (state, currentFeedItemId) => {
+    return currentFeedItemId
+      ? state.feedItems.find((p) => p.id === currentFeedItemId)
+      : null;
+  }
+);
+
 export function reducer(state = initialState, action: BlogActions): BlogState {
   switch (action.type) {
     case BlogActionTypes.ClearCurrentBlog:
       return {
         ...state,
         currentBlogId: null,
+        currentFeedItemId: null,
         retrievedFeedItemCount: null,
+        feedItems: [],
       };
 
     case BlogActionTypes.CreateBlogFail:
@@ -83,6 +110,8 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         blogs: [...state.blogs, action.payload],
         currentBlogId: action.payload.id,
         retrievedFeedItemCount: null,
+        feedItems: [],
+        currentFeedItemId: null,
         error: "",
       };
 
@@ -98,6 +127,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         blogs: state.blogs.filter((blog) => blog.id !== action.payload),
         currentBlogId: null,
         retrievedFeedItemCount: null,
+        feedItems: [],
         error: "",
       };
 
@@ -105,16 +135,19 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         currentBlogId: 0,
-        retrievedFeedItemCount: null
+        feedItems: [],
+        retrievedFeedItemCount: null,
       };
 
-      case BlogActionTypes.LoadBlogs:
+    case BlogActionTypes.LoadBlogs:
       return {
         ...state,
-        retrievedFeedItemCount: null
+        feedItems: [],
+        currentFeedItemId: null,
+        retrievedFeedItemCount: null,
       };
 
-      case BlogActionTypes.LoadBlogsSuccess:
+    case BlogActionTypes.LoadBlogsSuccess:
       return {
         ...state,
         blogs: action.payload,
@@ -126,6 +159,30 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         blogs: [],
         error: action.payload,
+      };
+
+    case BlogActionTypes.LoadBlogWithItems:
+      return {
+        ...state,
+        feedItems: [],
+        currentBlogId: action.payload,
+        retrievedFeedItemCount: null,
+      };
+
+    case BlogActionTypes.LoadBlogWithItemsFail:
+      return {
+        ...state,
+        feedItems: [],
+        currentFeedItemId: null,
+        error: action.payload,
+      };
+
+    case BlogActionTypes.LoadBlogWithItemsSuccess:
+      return {
+        ...state,
+        feedItems: action.payload.rssFeedItems,
+        currentFeedItemId: null,
+        error: "",
       };
 
     case BlogActionTypes.RetrieveFeedItemsFromSource:
@@ -152,7 +209,15 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         currentBlogId: action.payload.id,
-        retrievedFeedItemCount: null
+        feedItems: [],
+        currentFeedItemId: null,
+        retrievedFeedItemCount: null,
+      };
+
+      case BlogActionTypes.SetCurrentFeedItem:
+      return {
+        ...state,
+        currentFeedItemId: action.payload.id
       };
 
     case BlogActionTypes.UpdateBlogSuccess:

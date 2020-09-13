@@ -17,6 +17,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 export interface IBlogsClient {
     get(): Observable<BlogsViewModel>;
     create(command: CreateBlogCommand): Observable<BlogDto>;
+    get2(id: number): Observable<BlogDto>;
     delete(id: number): Observable<number>;
     update(id: number, command: UpdateBlogCommand): Observable<BlogDto>;
     retrieveFeedItemsFromSource(id: number | undefined): Observable<number>;
@@ -114,6 +115,57 @@ export class BlogsClient implements IBlogsClient {
     }
 
     protected processCreate(response: HttpResponseBase): Observable<BlogDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BlogDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BlogDto>(<any>null);
+    }
+
+    get2(id: number): Observable<BlogDto> {
+        let url_ = this.baseUrl + "/api/Blogs/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet2(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet2(<any>response_);
+                } catch (e) {
+                    return <Observable<BlogDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BlogDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet2(response: HttpResponseBase): Observable<BlogDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1042,6 +1094,7 @@ export class BlogDto implements IBlogDto {
     xmlAddress?: string | undefined;
     keywordsToInclude?: KeywordToIncludeDto[] | undefined;
     keywordsToExclude?: KeywordToExcludeDto[] | undefined;
+    rssFeedItems?: RssFeedItemDto[] | undefined;
 
     constructor(data?: IBlogDto) {
         if (data) {
@@ -1066,6 +1119,11 @@ export class BlogDto implements IBlogDto {
                 this.keywordsToExclude = [] as any;
                 for (let item of data["keywordsToExclude"])
                     this.keywordsToExclude!.push(KeywordToExcludeDto.fromJS(item));
+            }
+            if (Array.isArray(data["rssFeedItems"])) {
+                this.rssFeedItems = [] as any;
+                for (let item of data["rssFeedItems"])
+                    this.rssFeedItems!.push(RssFeedItemDto.fromJS(item));
             }
         }
     }
@@ -1092,6 +1150,11 @@ export class BlogDto implements IBlogDto {
             for (let item of this.keywordsToExclude)
                 data["keywordsToExclude"].push(item.toJSON());
         }
+        if (Array.isArray(this.rssFeedItems)) {
+            data["rssFeedItems"] = [];
+            for (let item of this.rssFeedItems)
+                data["rssFeedItems"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -1102,6 +1165,7 @@ export interface IBlogDto {
     xmlAddress?: string | undefined;
     keywordsToInclude?: KeywordToIncludeDto[] | undefined;
     keywordsToExclude?: KeywordToExcludeDto[] | undefined;
+    rssFeedItems?: RssFeedItemDto[] | undefined;
 }
 
 export class KeywordToIncludeDto implements IKeywordToIncludeDto {
@@ -1182,6 +1246,94 @@ export class KeywordToExcludeDto implements IKeywordToExcludeDto {
 export interface IKeywordToExcludeDto {
     blogId?: number;
     keyword?: string | undefined;
+}
+
+export class RssFeedItemDto implements IRssFeedItemDto {
+    id?: number;
+    author?: string | undefined;
+    blogId?: number;
+    categories?: string | undefined;
+    content?: string | undefined;
+    description?: string | undefined;
+    link?: string | undefined;
+    publishingDate?: Date | undefined;
+    publishingDateString?: string | undefined;
+    retrievedDateTime?: Date;
+    rssId?: string | undefined;
+    title?: string | undefined;
+    userInterested?: boolean | undefined;
+    userInterestPrediction?: boolean | undefined;
+
+    constructor(data?: IRssFeedItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.author = data["author"];
+            this.blogId = data["blogId"];
+            this.categories = data["categories"];
+            this.content = data["content"];
+            this.description = data["description"];
+            this.link = data["link"];
+            this.publishingDate = data["publishingDate"] ? new Date(data["publishingDate"].toString()) : <any>undefined;
+            this.publishingDateString = data["publishingDateString"];
+            this.retrievedDateTime = data["retrievedDateTime"] ? new Date(data["retrievedDateTime"].toString()) : <any>undefined;
+            this.rssId = data["rssId"];
+            this.title = data["title"];
+            this.userInterested = data["userInterested"];
+            this.userInterestPrediction = data["userInterestPrediction"];
+        }
+    }
+
+    static fromJS(data: any): RssFeedItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RssFeedItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["author"] = this.author;
+        data["blogId"] = this.blogId;
+        data["categories"] = this.categories;
+        data["content"] = this.content;
+        data["description"] = this.description;
+        data["link"] = this.link;
+        data["publishingDate"] = this.publishingDate ? this.publishingDate.toISOString() : <any>undefined;
+        data["publishingDateString"] = this.publishingDateString;
+        data["retrievedDateTime"] = this.retrievedDateTime ? this.retrievedDateTime.toISOString() : <any>undefined;
+        data["rssId"] = this.rssId;
+        data["title"] = this.title;
+        data["userInterested"] = this.userInterested;
+        data["userInterestPrediction"] = this.userInterestPrediction;
+        return data; 
+    }
+}
+
+export interface IRssFeedItemDto {
+    id?: number;
+    author?: string | undefined;
+    blogId?: number;
+    categories?: string | undefined;
+    content?: string | undefined;
+    description?: string | undefined;
+    link?: string | undefined;
+    publishingDate?: Date | undefined;
+    publishingDateString?: string | undefined;
+    retrievedDateTime?: Date;
+    rssId?: string | undefined;
+    title?: string | undefined;
+    userInterested?: boolean | undefined;
+    userInterestPrediction?: boolean | undefined;
 }
 
 export class CreateBlogCommand implements ICreateBlogCommand {
@@ -1318,98 +1470,6 @@ export interface IUpdateBlogCommand {
     xmlAddress?: string | undefined;
     keywordsToExclude?: KeywordToExcludeDto[] | undefined;
     keywordsToInclude?: KeywordToIncludeDto[] | undefined;
-}
-
-export class RssFeedItemDto implements IRssFeedItemDto {
-    id?: number;
-    author?: string | undefined;
-    blogId?: number;
-    blog?: BlogDto | undefined;
-    categories?: string | undefined;
-    content?: string | undefined;
-    description?: string | undefined;
-    link?: string | undefined;
-    publishingDate?: Date | undefined;
-    publishingDateString?: string | undefined;
-    retrievedDateTime?: Date;
-    rssId?: string | undefined;
-    title?: string | undefined;
-    userInterested?: boolean | undefined;
-    userInterestPrediction?: boolean | undefined;
-
-    constructor(data?: IRssFeedItemDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.author = data["author"];
-            this.blogId = data["blogId"];
-            this.blog = data["blog"] ? BlogDto.fromJS(data["blog"]) : <any>undefined;
-            this.categories = data["categories"];
-            this.content = data["content"];
-            this.description = data["description"];
-            this.link = data["link"];
-            this.publishingDate = data["publishingDate"] ? new Date(data["publishingDate"].toString()) : <any>undefined;
-            this.publishingDateString = data["publishingDateString"];
-            this.retrievedDateTime = data["retrievedDateTime"] ? new Date(data["retrievedDateTime"].toString()) : <any>undefined;
-            this.rssId = data["rssId"];
-            this.title = data["title"];
-            this.userInterested = data["userInterested"];
-            this.userInterestPrediction = data["userInterestPrediction"];
-        }
-    }
-
-    static fromJS(data: any): RssFeedItemDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new RssFeedItemDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["author"] = this.author;
-        data["blogId"] = this.blogId;
-        data["blog"] = this.blog ? this.blog.toJSON() : <any>undefined;
-        data["categories"] = this.categories;
-        data["content"] = this.content;
-        data["description"] = this.description;
-        data["link"] = this.link;
-        data["publishingDate"] = this.publishingDate ? this.publishingDate.toISOString() : <any>undefined;
-        data["publishingDateString"] = this.publishingDateString;
-        data["retrievedDateTime"] = this.retrievedDateTime ? this.retrievedDateTime.toISOString() : <any>undefined;
-        data["rssId"] = this.rssId;
-        data["title"] = this.title;
-        data["userInterested"] = this.userInterested;
-        data["userInterestPrediction"] = this.userInterestPrediction;
-        return data; 
-    }
-}
-
-export interface IRssFeedItemDto {
-    id?: number;
-    author?: string | undefined;
-    blogId?: number;
-    blog?: BlogDto | undefined;
-    categories?: string | undefined;
-    content?: string | undefined;
-    description?: string | undefined;
-    link?: string | undefined;
-    publishingDate?: Date | undefined;
-    publishingDateString?: string | undefined;
-    retrievedDateTime?: Date;
-    rssId?: string | undefined;
-    title?: string | undefined;
-    userInterested?: boolean | undefined;
-    userInterestPrediction?: boolean | undefined;
 }
 
 export class UpdateUserInterestedCommand implements IUpdateUserInterestedCommand {

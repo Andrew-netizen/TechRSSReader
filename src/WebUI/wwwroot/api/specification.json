@@ -67,6 +67,41 @@
       }
     },
     "/api/Blogs/{id}": {
+      "get": {
+        "tags": [
+          "Blogs"
+        ],
+        "operationId": "Blogs_Get2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlogDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
       "delete": {
         "tags": [
           "Blogs"
@@ -702,6 +737,13 @@
             "items": {
               "$ref": "#/components/schemas/KeywordToExcludeDto"
             }
+          },
+          "rssFeedItems": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/RssFeedItemDto"
+            }
           }
         }
       },
@@ -729,6 +771,69 @@
           },
           "keyword": {
             "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RssFeedItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "author": {
+            "type": "string",
+            "nullable": true
+          },
+          "blogId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "categories": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "link": {
+            "type": "string",
+            "nullable": true
+          },
+          "publishingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "publishingDateString": {
+            "type": "string",
+            "nullable": true
+          },
+          "retrievedDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "rssId": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "userInterested": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "userInterestPrediction": {
+            "type": "boolean",
             "nullable": true
           }
         }
@@ -794,77 +899,6 @@
             "items": {
               "$ref": "#/components/schemas/KeywordToIncludeDto"
             }
-          }
-        }
-      },
-      "RssFeedItemDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "author": {
-            "type": "string",
-            "nullable": true
-          },
-          "blogId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "blog": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/BlogDto"
-              }
-            ]
-          },
-          "categories": {
-            "type": "string",
-            "nullable": true
-          },
-          "content": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "link": {
-            "type": "string",
-            "nullable": true
-          },
-          "publishingDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "publishingDateString": {
-            "type": "string",
-            "nullable": true
-          },
-          "retrievedDateTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "rssId": {
-            "type": "string",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "userInterested": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "userInterestPrediction": {
-            "type": "boolean",
-            "nullable": true
           }
         }
       },
