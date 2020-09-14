@@ -264,7 +264,7 @@
         "tags": [
           "RssFeedItems"
         ],
-        "operationId": "RssFeedItems_UpdateUserInterested",
+        "operationId": "RssFeedItems_Update",
         "parameters": [
           {
             "name": "id",
@@ -282,7 +282,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserInterestedCommand"
+                "$ref": "#/components/schemas/UpdateFeedItemCommand"
               }
             }
           },
@@ -816,6 +816,9 @@
             "type": "string",
             "nullable": true
           },
+          "readAlready": {
+            "type": "boolean"
+          },
           "retrievedDateTime": {
             "type": "string",
             "format": "date-time"
@@ -902,7 +905,7 @@
           }
         }
       },
-      "UpdateUserInterestedCommand": {
+      "UpdateFeedItemCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -911,6 +914,9 @@
             "format": "int32"
           },
           "userInterested": {
+            "type": "boolean"
+          },
+          "readAlready": {
             "type": "boolean"
           }
         }

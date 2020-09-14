@@ -5,27 +5,28 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using TechRSSReader.Application.RssFeedItems.Commands.UpdateUserInterested;
+using TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem;
 using TechRSSReader.Application.UnitTests.Common;
 using Xunit;
 
 namespace TechRSSReader.Application.UnitTests.RssFeedItems.Commands
 {
-    public class UpdateUserInterestedCommandTests : CommandTestBase
+    public class UpdateFeedItemCommandTests : CommandTestBase
     {
 
         [Fact]
         public async Task Handle_Valid()
         {
 
-            var command = new UpdateUserInterestedCommand
+            var command = new UpdateFeedItemCommand
             {
 
                 Id = 1,
-                UserInterested = true 
+                UserInterested = true, 
+                ReadAlready = false
             };
 
-            var handler = new UpdateUserInterestedCommand.UpdateUserInterestedCommandHandler(Context);
+            var handler = new UpdateFeedItemCommand.UpdateFeedItemCommandHandler(Context, Mapper);
 
 
             await handler.Handle(command, CancellationToken.None);
@@ -34,7 +35,7 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Commands
 
             rssFeedItem.Id.ShouldBe(command.Id);
             rssFeedItem.UserInterested.ShouldBe(command.UserInterested);
-            rssFeedItem.ReadAlready.ShouldBeTrue();
+            rssFeedItem.ReadAlready.ShouldBe(command.ReadAlready);
 
         }
     }

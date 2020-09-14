@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TechRSSReader.Application.Common.Exceptions;
-using TechRSSReader.Application.RssFeedItems.Commands.UpdateUserInterested;
+using TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem;
 using TechRSSReader.Application.RssFeedItems.Queries;
 
 namespace TechRSSReader.WebUI.Controllers
@@ -26,30 +26,9 @@ namespace TechRSSReader.WebUI.Controllers
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<RssFeedItemDto> UpdateUserInterested(int id, UpdateUserInterestedCommand command)
+        public async Task<RssFeedItemDto> Update(int id, UpdateFeedItemCommand command)
         {
-            RssFeedItemDto response = null;
-
-            if (id != command.Id)
-            {
-                throw new NotFoundException(typeof(RssFeedItemDto).ToString(), id);
-            }
-
-            bool success = await Mediator.Send(command);
-
-            if (success)
-            {
-                GetRssFeedItemQuery query = new GetRssFeedItemQuery { Id = command.Id };
-                RssFeedItemDto updatedItem = await Mediator.Send(query);
-                if (updatedItem != null)
-                {
-                    response =
-                        await Mediator.Send(new GetNoUserPreferenceQuery { BlogId = updatedItem.BlogId });
-                }
-
-            }
-
-            return response; 
+            return await Mediator.Send(command);
         }
     }
 }

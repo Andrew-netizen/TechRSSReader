@@ -25,6 +25,8 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
 
         public string PublishingDateString { get; set; }
 
+        public bool ReadAlready { get; set; }
+
         public DateTime RetrievedDateTime { get; set; }
 
         public string RssId { get; set; }

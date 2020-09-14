@@ -24,6 +24,8 @@ namespace TechRSSReader.Domain.Entities
 
         public string PublishingDateString { get; set; }
 
+        public bool ReadAlready { get; set; }
+
         public DateTime RetrievedDateTime { get; set; }
 
         public string RssId { get; set; }
@@ -34,7 +36,7 @@ namespace TechRSSReader.Domain.Entities
 
         public bool? UserInterestPrediction { get; set; }
 
-        public bool ReadAlready { get; set; }
+        
 
     }
 }

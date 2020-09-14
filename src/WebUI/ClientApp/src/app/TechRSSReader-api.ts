@@ -348,7 +348,7 @@ export class BlogsClient implements IBlogsClient {
 
 export interface IRssFeedItemsClient {
     getNoUserPreference(blogId: number | undefined): Observable<RssFeedItemDto>;
-    updateUserInterested(id: number, command: UpdateUserInterestedCommand): Observable<RssFeedItemDto>;
+    update(id: number, command: UpdateFeedItemCommand): Observable<RssFeedItemDto>;
 }
 
 @Injectable({
@@ -416,7 +416,7 @@ export class RssFeedItemsClient implements IRssFeedItemsClient {
         return _observableOf<RssFeedItemDto>(<any>null);
     }
 
-    updateUserInterested(id: number, command: UpdateUserInterestedCommand): Observable<RssFeedItemDto> {
+    update(id: number, command: UpdateFeedItemCommand): Observable<RssFeedItemDto> {
         let url_ = this.baseUrl + "/api/RssFeedItems/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -436,11 +436,11 @@ export class RssFeedItemsClient implements IRssFeedItemsClient {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateUserInterested(response_);
+            return this.processUpdate(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateUserInterested(<any>response_);
+                    return this.processUpdate(<any>response_);
                 } catch (e) {
                     return <Observable<RssFeedItemDto>><any>_observableThrow(e);
                 }
@@ -449,7 +449,7 @@ export class RssFeedItemsClient implements IRssFeedItemsClient {
         }));
     }
 
-    protected processUpdateUserInterested(response: HttpResponseBase): Observable<RssFeedItemDto> {
+    protected processUpdate(response: HttpResponseBase): Observable<RssFeedItemDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1258,6 +1258,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
     link?: string | undefined;
     publishingDate?: Date | undefined;
     publishingDateString?: string | undefined;
+    readAlready?: boolean;
     retrievedDateTime?: Date;
     rssId?: string | undefined;
     title?: string | undefined;
@@ -1284,6 +1285,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
             this.link = data["link"];
             this.publishingDate = data["publishingDate"] ? new Date(data["publishingDate"].toString()) : <any>undefined;
             this.publishingDateString = data["publishingDateString"];
+            this.readAlready = data["readAlready"];
             this.retrievedDateTime = data["retrievedDateTime"] ? new Date(data["retrievedDateTime"].toString()) : <any>undefined;
             this.rssId = data["rssId"];
             this.title = data["title"];
@@ -1310,6 +1312,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
         data["link"] = this.link;
         data["publishingDate"] = this.publishingDate ? this.publishingDate.toISOString() : <any>undefined;
         data["publishingDateString"] = this.publishingDateString;
+        data["readAlready"] = this.readAlready;
         data["retrievedDateTime"] = this.retrievedDateTime ? this.retrievedDateTime.toISOString() : <any>undefined;
         data["rssId"] = this.rssId;
         data["title"] = this.title;
@@ -1329,6 +1332,7 @@ export interface IRssFeedItemDto {
     link?: string | undefined;
     publishingDate?: Date | undefined;
     publishingDateString?: string | undefined;
+    readAlready?: boolean;
     retrievedDateTime?: Date;
     rssId?: string | undefined;
     title?: string | undefined;
@@ -1472,11 +1476,12 @@ export interface IUpdateBlogCommand {
     keywordsToInclude?: KeywordToIncludeDto[] | undefined;
 }
 
-export class UpdateUserInterestedCommand implements IUpdateUserInterestedCommand {
+export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {
     id?: number;
     userInterested?: boolean;
+    readAlready?: boolean;
 
-    constructor(data?: IUpdateUserInterestedCommand) {
+    constructor(data?: IUpdateFeedItemCommand) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1489,12 +1494,13 @@ export class UpdateUserInterestedCommand implements IUpdateUserInterestedCommand
         if (data) {
             this.id = data["id"];
             this.userInterested = data["userInterested"];
+            this.readAlready = data["readAlready"];
         }
     }
 
-    static fromJS(data: any): UpdateUserInterestedCommand {
+    static fromJS(data: any): UpdateFeedItemCommand {
         data = typeof data === 'object' ? data : {};
-        let result = new UpdateUserInterestedCommand();
+        let result = new UpdateFeedItemCommand();
         result.init(data);
         return result;
     }
@@ -1503,13 +1509,15 @@ export class UpdateUserInterestedCommand implements IUpdateUserInterestedCommand
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["userInterested"] = this.userInterested;
+        data["readAlready"] = this.readAlready;
         return data; 
     }
 }
 
-export interface IUpdateUserInterestedCommand {
+export interface IUpdateFeedItemCommand {
     id?: number;
     userInterested?: boolean;
+    readAlready?: boolean;
 }
 
 export class CreateTodoItemCommand implements ICreateTodoItemCommand {

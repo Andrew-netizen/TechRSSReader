@@ -1,7 +1,7 @@
 import {
   RssFeedItemsClient,
   RssFeedItemDto,
-  UpdateUserInterestedCommand
+  UpdateFeedItemCommand
 } from "../techrssreader-api";
 import { Observable } from "rxjs";
 
@@ -13,7 +13,8 @@ export class TrainingService {
     return this.rssFeedItemsClient.getNoUserPreference(blogId);
   }
 
-  updateUserInterest(command: UpdateUserInterestedCommand): Observable<RssFeedItemDto> {
-    return this.rssFeedItemsClient.updateUserInterested(command.id,command);
+  updateUserInterest(command: UpdateFeedItemCommand): Observable<RssFeedItemDto> {
+    return this.rssFeedItemsClient.update(command.id,command);
+
   }
 }

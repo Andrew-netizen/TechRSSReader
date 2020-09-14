@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { RssFeedItemDto, UpdateUserInterestedCommand } from "src/app/techrssreader-api";
+import { RssFeedItemDto, UpdateFeedItemCommand } from "src/app/techrssreader-api";
 
 export enum TrainingActionTypes {
   GetTrainingItem = "[Training GUI] Get Training Item",
@@ -27,7 +27,7 @@ export class GetTrainingItemSuccess implements Action {
 
 export class UpdateUserInterest implements Action {
   readonly type = TrainingActionTypes.UpdateUserInterest;
-  constructor(public payload: UpdateUserInterestedCommand) {}
+  constructor(public payload: UpdateFeedItemCommand) {}
 }
 
 export class UpdateUserInterestFail implements Action {

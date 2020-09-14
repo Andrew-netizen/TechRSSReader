@@ -9,7 +9,7 @@ import { Observable, of } from "rxjs";
 import { map, mergeMap, catchError, tap, concatMap } from "rxjs/operators";
 import {
   RssFeedItemDto,
-  UpdateUserInterestedCommand,
+  UpdateFeedItemCommand,
 } from "src/app/techrssreader-api";
 
 @Injectable()
@@ -38,24 +38,28 @@ export class TrainingEffects {
     )
   );
 
-  getTrainingItemSuccess$ = createEffect( () => this.actions$.pipe(
-    ofType(trainingActions.TrainingActionTypes.GetTrainingItemSuccess),
-    tap((action: trainingActions.GetTrainingItemSuccess) =>
-      {if (action.payload == null){alert("There are no articles to learn from in this feed")}})
-    ),
-    {dispatch: false}
+  getTrainingItemSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(trainingActions.TrainingActionTypes.GetTrainingItemSuccess),
+        tap((action: trainingActions.GetTrainingItemSuccess) => {
+          if (action.payload == null) {
+            alert("There are no articles to learn from in this feed");
+          }
+        })
+      ),
+    { dispatch: false }
   );
-
 
   updateUserInterest$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
       ofType(trainingActions.TrainingActionTypes.UpdateUserInterest),
       map((action: trainingActions.UpdateUserInterest) => action.payload),
-      mergeMap((command: UpdateUserInterestedCommand) =>
+      mergeMap((command: UpdateFeedItemCommand) =>
         this.trainingService.updateUserInterest(command).pipe(
           map(
-            (nextRssFeedItem) =>
-              new trainingActions.UpdateUserInterestSuccess(nextRssFeedItem)
+            (rssFeedItem) =>
+              new trainingActions.UpdateUserInterestSuccess(rssFeedItem)
           ),
           catchError((error) =>
             of(new trainingActions.UpdateUserInterestFail(error))
@@ -65,13 +69,22 @@ export class TrainingEffects {
     )
   );
 
-
-  updateUserInterestSuccess$ = createEffect( () => this.actions$.pipe(
+  // Updating a feed Item and indicating whether the user is interested or not
+  // leads to getting a new item to train.
+  @Effect()
+  updateUserInterestSuccess$: Observable<Action> = this.actions$.pipe(
     ofType(trainingActions.TrainingActionTypes.UpdateUserInterestSuccess),
-    tap((action: trainingActions.UpdateUserInterestSuccess) =>
-      {if (action.payload == null){alert("There are no more articles to learn from in this feed")}})
-    ),
-    {dispatch: false}
+    map((action: trainingActions.UpdateUserInterestSuccess) => action.payload),
+    mergeMap((previousfeedItem: RssFeedItemDto) =>
+      this.trainingService.getTrainingFeedItem(previousfeedItem.blogId).pipe(
+        map(
+          (rssFeedItem) =>
+            new trainingActions.GetTrainingItemSuccess(rssFeedItem)
+        ),
+        catchError((error) =>
+          of(new trainingActions.GetTrainingItemFail(error))
+        )
+      )
+    )
   );
-
 }

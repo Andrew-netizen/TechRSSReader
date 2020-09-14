@@ -29,6 +29,7 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Queries
         public async Task Handle_ReturnsCorrect()
         {
             var query = new GetBlogWithItemsQuery();
+            query.Id = 1; 
 
             var handler = new GetBlogWithItemsQuery.GetBlogWithItemsQueryHandler(_context, _mapper);
 

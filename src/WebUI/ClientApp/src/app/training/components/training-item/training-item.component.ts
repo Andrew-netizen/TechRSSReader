@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder } from "@angular/forms";
 import {
   RssFeedItemDto,
   BlogDto,
-  UpdateUserInterestedCommand,
+  UpdateFeedItemCommand,
 } from "src/app/techrssreader-api";
 
 @Component({
@@ -17,7 +17,7 @@ export class TrainingItemComponent {
   @Input() selectedBlog: BlogDto;
   @Output() loadItemRequest = new EventEmitter<BlogDto>();
   @Output() userRegisteredInterest = new EventEmitter<
-    UpdateUserInterestedCommand
+    UpdateFeedItemCommand
   >();
 
   trainingForm: FormGroup;
@@ -27,6 +27,7 @@ export class TrainingItemComponent {
   ngOnInit() {
     this.trainingForm = this.formBuilder.group({
       userInterested: false,
+      readAlready: false
     });
   }
 
@@ -37,10 +38,11 @@ export class TrainingItemComponent {
   saveUserInterest(): void {
     const userInterested: boolean = this.trainingForm.get("userInterested")
       .value;
-    const command: UpdateUserInterestedCommand = UpdateUserInterestedCommand.fromJS(
+    const command: UpdateFeedItemCommand = UpdateFeedItemCommand.fromJS(
       {
         id: this.currentFeedItem.id,
         userInterested: userInterested,
+        readAlready: this.currentFeedItem.readAlready
       }
     );
 

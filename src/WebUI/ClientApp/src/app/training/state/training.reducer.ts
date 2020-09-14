@@ -44,7 +44,7 @@ export function reducer(state = initialState, action: TrainingActions): Training
     case TrainingActionTypes.UpdateUserInterestSuccess:
     return {
       ...state,
-      currentFeedItem: action.payload
+      currentFeedItem: null
     };
     default:
       return state;
