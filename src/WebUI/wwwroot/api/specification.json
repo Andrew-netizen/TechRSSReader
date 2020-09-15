@@ -914,7 +914,8 @@
             "format": "int32"
           },
           "userInterested": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "readAlready": {
             "type": "boolean"

@@ -56,7 +56,7 @@ export class TrainingEffects {
       ofType(trainingActions.TrainingActionTypes.UpdateUserInterest),
       map((action: trainingActions.UpdateUserInterest) => action.payload),
       mergeMap((command: UpdateFeedItemCommand) =>
-        this.trainingService.updateUserInterest(command).pipe(
+        this.trainingService.updateFeedItem(command).pipe(
           map(
             (rssFeedItem) =>
               new trainingActions.UpdateUserInterestSuccess(rssFeedItem)

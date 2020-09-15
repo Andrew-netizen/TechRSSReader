@@ -14,7 +14,7 @@ namespace TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem
     {
         public int Id { get; set; }
 
-        public bool UserInterested { get; set; }
+        public bool? UserInterested { get; set; }
 
         public bool ReadAlready { get; set; }
 

@@ -1478,7 +1478,7 @@ export interface IUpdateBlogCommand {
 
 export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {
     id?: number;
-    userInterested?: boolean;
+    userInterested?: boolean | undefined;
     readAlready?: boolean;
 
     constructor(data?: IUpdateFeedItemCommand) {
@@ -1516,7 +1516,7 @@ export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {
 
 export interface IUpdateFeedItemCommand {
     id?: number;
-    userInterested?: boolean;
+    userInterested?: boolean | undefined;
     readAlready?: boolean;
 }
 

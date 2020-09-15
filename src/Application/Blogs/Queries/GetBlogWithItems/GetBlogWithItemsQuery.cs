@@ -34,6 +34,8 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
                     .Where(blog => blog.Id == request.Id)
                     .FirstOrDefaultAsync(cancellationToken);
 
+                blog.RssFeedItems = blog.RssFeedItems.OrderByDescending(feedItem => feedItem.PublishingDate).ToList();
+
                 return _mapper.Map<BlogDto>(blog);
             }
         }

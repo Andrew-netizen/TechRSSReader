@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BlogDto, RssFeedItemDto, UpdateUserInterestedCommand } from 'src/app/techrssreader-api';
+import { BlogDto, RssFeedItemDto, UpdateFeedItemCommand } from 'src/app/techrssreader-api';
 import * as fromRoot from '../../../state/app.state';
 import * as fromBlog from '../../../blog/state/blog.reducer';
 import * as fromTraining from '../../state/training.reducer';
 import * as blogActions from '../../../blog/state/blog.actions';
 import * as trainingActions from '../../state/training.actions';
 import { Store, select } from '@ngrx/store';
-import { map, take, subscribeOn } from 'rxjs/operators';
-
 
 @Component({
   selector: 'training-shell',
@@ -33,7 +31,7 @@ export class TrainingShellComponent implements OnInit {
     this.store.dispatch(new blogActions.SetCurrentBlog(blog));
   }
 
-  updateUserInterest(command: UpdateUserInterestedCommand): void {
+  updateUserInterest(command: UpdateFeedItemCommand): void {
     this.store.dispatch(new trainingActions.UpdateUserInterest(command));
   }
 

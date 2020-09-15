@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 
 import { BlogService } from "../../shared/blog.service";
+import { TrainingService } from "../../training/training.service";
 
 /* NgRx */
 import { Action } from "@ngrx/store";
@@ -8,11 +9,19 @@ import { Actions, createEffect, Effect, ofType } from "@ngrx/effects";
 import * as blogActions from "./blog.actions";
 import { Observable, of } from "rxjs";
 import { mergeMap, map, catchError, concatMap } from "rxjs/operators";
-import { BlogDto } from "src/app/techrssreader-api";
+import {
+  BlogDto,
+  RssFeedItemDto,
+  UpdateFeedItemCommand,
+} from "src/app/techrssreader-api";
 
 @Injectable()
 export class BlogEffects {
-  constructor(private blogService: BlogService, private actions$: Actions) {}
+  constructor(
+    private blogService: BlogService,
+    private trainingService: TrainingService,
+    private actions$: Actions
+  ) {}
 
   @Effect()
   loadBlogs$: Observable<Action> = this.actions$.pipe(
@@ -34,6 +43,21 @@ export class BlogEffects {
           map((blog) => new blogActions.LoadBlogWithItemsSuccess(blog)),
           catchError((error) =>
             of(new blogActions.LoadBlogWithItemsFail(error))
+          )
+        )
+      )
+    )
+  );
+
+  markItemAsRead$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.MarkItemAsRead),
+      map((action: blogActions.MarkItemAsRead) => action.payload),
+      mergeMap((command: UpdateFeedItemCommand) =>
+        this.trainingService.updateFeedItem(command).pipe(
+          map(
+            (feedItem) => new blogActions.MarkItemAsReadSuccess(feedItem),
+            catchError((error) => of(new blogActions.MarkItemAsReadFail(error)))
           )
         )
       )

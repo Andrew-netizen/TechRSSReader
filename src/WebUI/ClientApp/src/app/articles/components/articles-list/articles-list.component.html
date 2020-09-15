@@ -1,19 +1,60 @@
 <div class="card">
-  <div class="card-header"><h4>Articles</h4></div>
+  <div class="card-header row">
+    <div class="col-md-4">
+      <h4>Articles</h4>
+    </div>
+    <div class="col-md-8 form-check text-right">
+      <label>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="keywordExclusionChanged($event.target.checked)"
+          [checked]="keywordExclusion"
+        />
+        Keyword Exclusion
+      </label>
+      &nbsp; &nbsp; &nbsp;
+      <label>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="excludeAlreadyReadChanged($event.target.checked)"
+          [checked]="excludeAlreadyRead"
+        />
+        Exclude if Already Read
+      </label>
+    </div>
+  </div>
   <div class="card-body" *ngIf="feedItems">
-    <div class="list-group"   *ngFor="let feedItem of feedItems" >
+    <div class="list-group" *ngFor="let feedItem of feedItems">
       <button
         class="list-group-item list-group-item-action rounded-0"
-
         *ngIf="feedItem?.id !== selectedFeedItem?.id"
         (click)="feedItemSelected(feedItem)"
       >
-        <b [innerHTML]="feedItem.title"></b>
+        <span
+          [innerHTML]="feedItem.title"
+          [ngClass]="{ 'font-weight-bold text-primary': !feedItem.readAlready }"
+          [ngClass]="{
+            'font-weight-light text-secondary': feedItem.readAlready
+          }"
+        ></span>
+        <div class="float-right">
+          <small *ngIf="feedItem.categories" class="rounded px-2 py-1 border border-warn">
+            Categories: &nbsp;{{ feedItem.categories }}
+          </small>
+          &nbsp;
+          <small class="rounded px-2 py-1 border border-warn" *ngIf="feedItem.publishingDate">
+            {{ feedItem.publishingDate | publishingDatePipe }}
+          </small>
+        </div>
       </button>
       <feeditem-display
-      *ngIf="feedItem?.id === selectedFeedItem?.id"
-      [feedItem]="selectedFeedItem"
+        *ngIf="feedItem?.id === selectedFeedItem?.id"
+        [feedItem]="selectedFeedItem"
+        (articleMarkedAsRead)="markedAsReadHandler(feedItem)"
+        (titleClicked)="onTitleClicked()"
       ></feeditem-display>
     </div>
   </div>
- </div>
+</div>

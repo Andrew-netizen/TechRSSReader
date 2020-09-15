@@ -8,6 +8,10 @@ import { SharedModule } from "../shared/shared.module";
 import { ArticlesShellComponent } from './containers/articles-shell/articles-shell.component';
 import { ArticlesListComponent } from './components/articles-list/articles-list.component';
 
+/* NgRx */
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './state/articles.reducer';
+
 
 const articlesRoutes: Routes = [
   {
@@ -22,8 +26,9 @@ const articlesRoutes: Routes = [
   declarations: [ArticlesShellComponent, ArticlesListComponent],
   imports: [
     CommonModule,
-    SharedModule, 
+    SharedModule,
     RouterModule.forChild(articlesRoutes),
+    StoreModule.forFeature('articles', reducer),
   ]
 })
 export class ArticlesModule { }

@@ -23,7 +23,19 @@ namespace TechRSSReader.Application.UnitTests
         public async Task<FeedReadResult> ReadAsync(string uri, CancellationToken cancellationToken)
         {
             FeedReadResult result = new FeedReadResult();
-            string rssContentFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\slashdot-2020-05-06.xml";
+
+            string rssContentFile = string.Empty; 
+
+            if (uri.Contains("aws", StringComparison.OrdinalIgnoreCase))
+            {
+                rssContentFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\aws-2020-09-14.xml";
+                
+            }
+            else
+            {
+                rssContentFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\slashdot-2020-05-06.xml";
+            }
+            
 
             Feed feed = await FeedReader.ReadFromFileAsync(rssContentFile, cancellationToken);
             DateTime dateRetrieved = DateTime.Now;

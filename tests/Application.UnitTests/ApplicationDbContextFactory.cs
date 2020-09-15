@@ -75,6 +75,19 @@ namespace TechRSSReader.Application.UnitTests.Common
                 BlogId = 1, 
             });
 
+            context.Blogs.Add(new Blog
+            {
+                Id = 2,
+                Title = "Slashdot",
+                XmlAddress = "http://rss.slashdot.org/Slashdot/slashdotMain"
+            });
+
+            context.Blogs.Add(new Blog
+            {
+                Id = 3,
+                Title = "AWS News",
+                XmlAddress = "http://aws.amazon.com/rss/whats-new.rss"
+            });
             context.SaveChanges();
         }
 

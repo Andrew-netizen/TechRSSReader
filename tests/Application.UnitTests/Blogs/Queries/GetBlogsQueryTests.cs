@@ -32,9 +32,9 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Queries
             var result = await handler.Handle(query, CancellationToken.None);
 
             result.ShouldBeOfType<BlogsViewModel>();
-            result.Blogs.Count.ShouldBe(1);
+            result.Blogs.Count.ShouldBe(3);
 
-            var blog = result.Blogs.First();
+            var blog = result.Blogs.Where(blog => blog.Title == "Einstein Blog").First();
 
             blog.KeywordsToExclude.Count.ShouldBe(1);
             blog.KeywordsToInclude.Count.ShouldBe(1);

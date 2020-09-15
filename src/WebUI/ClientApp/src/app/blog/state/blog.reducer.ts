@@ -98,6 +98,12 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
       };
 
+      case BlogActionTypes.ClearCurrentFeedItem:
+      return {
+        ...state,
+        currentFeedItemId: null
+      };
+
     case BlogActionTypes.CreateBlogFail:
       return {
         ...state,
@@ -185,6 +191,23 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         error: "",
       };
 
+    case BlogActionTypes.MarkItemAsReadFail:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case BlogActionTypes.MarkItemAsReadSuccess:
+      const updatedFeedItems = state.feedItems.map((item) =>
+        action.payload.id === item.id ? action.payload : item
+      );
+      return {
+        ...state,
+        feedItems: updatedFeedItems,
+        currentFeedItemId: action.payload.id,
+        error: "",
+      };
+
     case BlogActionTypes.RetrieveFeedItemsFromSource:
       return {
         ...state,
@@ -214,10 +237,10 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         retrievedFeedItemCount: null,
       };
 
-      case BlogActionTypes.SetCurrentFeedItem:
+    case BlogActionTypes.SetCurrentFeedItem:
       return {
         ...state,
-        currentFeedItemId: action.payload.id
+        currentFeedItemId: action.payload.id,
       };
 
     case BlogActionTypes.UpdateBlogSuccess:

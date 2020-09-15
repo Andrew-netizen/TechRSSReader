@@ -8,10 +8,16 @@
     </blog-list>
   </div>
   <div class="col-xl-10 col-md-8">
-    <articles-list
+    <articles-list *ngIf="selectedBlog$ | async"
+    [excludeAlreadyRead]="excludeAlreadyRead$ | async"
+    [keywordExclusion]="keywordExclusion$ | async"
     [feedItems]="feedItems$ | async"
     [selectedFeedItem]="selectedFeedItem$ | async"
+    (articleMarkedAsReadEvent)="markItemAsAlreadyRead($event)"
+    (excludeAlreadyReadUpdated)="excludeAlreadyReadChanged($event)"
+    (keywordExclusionUpdated)="keywordExclusionChanged($event)"
     (selected)="feedItemSelected($event)"
+    (titleClickedEvent)="clearCurrentFeedItem()"
     ></articles-list>
   </div>
   </div>

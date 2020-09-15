@@ -13,8 +13,7 @@ export class TrainingService {
     return this.rssFeedItemsClient.getNoUserPreference(blogId);
   }
 
-  updateUserInterest(command: UpdateFeedItemCommand): Observable<RssFeedItemDto> {
-    return this.rssFeedItemsClient.update(command.id,command);
-
-  }
+  updateFeedItem(command: UpdateFeedItemCommand): Observable<RssFeedItemDto> {
+    return this.rssFeedItemsClient.update(command.id, command);
+ }
 }

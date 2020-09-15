@@ -1,6 +1,18 @@
 <div class="card" *ngIf="feedItem">
   <div class="card-header text-white bg-primary">
-  <b [innerHTML]="feedItem.title"></b>
+  <span [ngClass]="{'font-weight-bold': !feedItem.readAlready}"
+  (click)="TitleClickedHandler(feedItem)"
+  [innerHTML]="feedItem.title"></span>
+  <div class="float-right">
+    <button class="btn btn-light btn-sm"
+    *ngIf="!feedItem.readAlready"
+    (click)="markAsReadClicked(feedItem)">
+      Mark as Read
+    </button>
+    <span *ngIf="feedItem.publishingDate" class="mx-3">
+      {{feedItem.publishingDate | publishingDatePipe}}
+    </span>
+  </div>
   </div>
   <div class="card-body">
     <div class="row">Categories: <span [innerHTML]="feedItem.categories"></span></div>

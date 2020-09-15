@@ -1,10 +1,11 @@
-import { BlogDto, RssFeedItemDto } from '../../TechRSSReader-api';
+import { BlogDto, RssFeedItemDto, UpdateFeedItemCommand } from '../../TechRSSReader-api';
 
 /* NgRx */
 import { Action } from '@ngrx/store';
 
 export enum BlogActionTypes {
   ClearCurrentBlog = '[Blog GUI] Clear Current Blog',
+  ClearCurrentFeedItem = '[Shared GUI] Clear Current Feed Item',
   CreateBlog = '[Blog GUI] Create Blog',
   CreateBlogFail = '[Blog API] Create Blog Fail',
   CreateBlogSuccess = '[Blog API] Create Blog Success',
@@ -15,9 +16,12 @@ export enum BlogActionTypes {
   LoadBlogs = '[Blog GUI] Load Blogs',
   LoadBlogsSuccess = '[Blog API] Load Blogs Success',
   LoadBlogsFail = '[Blog API] Load Blogs Fail',
-  LoadBlogWithItems = '[Article GUI] Load Blog with Feed Items',
+  LoadBlogWithItems = '[Articles GUI] Load Blog with Feed Items',
   LoadBlogWithItemsFail = '[Blog API] Load Blog with Feed Items Fail',
   LoadBlogWithItemsSuccess = '[Blog API] Load Blog with Feed Items Success',
+  MarkItemAsRead = '[Articles GUI] Mark Item As Read',
+  MarkItemAsReadFail = '[Blog API] Mark Item As Read Fail',
+  MarkItemAsReadSuccess = '[Blog API] Mark Item As Read Success',
   SetCurrentBlog = '[Blog GUI] Set Current Blog',
   SetCurrentFeedItem = '[Article GUI] Set Current Feed Item',
   RetrieveFeedItemsFromSource = '[Blog GUI] Retrieve Feed Items',
@@ -30,6 +34,10 @@ export enum BlogActionTypes {
 
 export class ClearCurrentBlog implements Action {
   readonly type = BlogActionTypes.ClearCurrentBlog;
+}
+
+export class ClearCurrentFeedItem implements Action {
+  readonly type = BlogActionTypes.ClearCurrentFeedItem;
 }
 
 export class CreateBlog implements Action {
@@ -95,6 +103,21 @@ export class LoadBlogWithItemsSuccess implements Action {
   constructor(public payload: BlogDto) {}
 }
 
+export class MarkItemAsRead implements Action {
+  readonly type = BlogActionTypes.MarkItemAsRead;
+  constructor(public payload: UpdateFeedItemCommand) {}
+}
+
+export class MarkItemAsReadFail implements Action {
+  readonly type = BlogActionTypes.MarkItemAsReadFail;
+  constructor (public payload: string) {}
+}
+
+export class MarkItemAsReadSuccess implements Action {
+  readonly type = BlogActionTypes.MarkItemAsReadSuccess;
+  constructor(public payload: RssFeedItemDto) {}
+}
+
 export class SetCurrentBlog implements Action {
   readonly type = BlogActionTypes.SetCurrentBlog;
 
@@ -137,6 +160,7 @@ export class UpdateBlogFail implements Action {
 }
 
 export type BlogActions = ClearCurrentBlog
+| ClearCurrentFeedItem
 | CreateBlog
 | CreateBlogFail
 | CreateBlogSuccess
@@ -150,6 +174,9 @@ export type BlogActions = ClearCurrentBlog
 | LoadBlogWithItems
 | LoadBlogWithItemsFail
 | LoadBlogWithItemsSuccess
+| MarkItemAsRead
+| MarkItemAsReadFail
+| MarkItemAsReadSuccess
 | RetrieveFeedItemsFromSource
 | RetrieveFeedItemsFromSourceFail
 | RetrieveFeedItemsFromSourceSuccess

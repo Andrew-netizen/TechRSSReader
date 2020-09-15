@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation.Results;
 using MediatR;
 using System;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
 
             public async Task<int> Handle(RetrieveFeedItemsCommand request, CancellationToken cancellationToken)
             {
+                int result = 0;
                 Blog rssFeed = _context.Blogs.Find(request.BlogId);
                 
                 if (rssFeed == null)
@@ -35,9 +37,20 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
                 }
 
                 FeedReadResult feedResponse = await _feedReader.ReadAsync(rssFeed.XmlAddress, cancellationToken);
+                RssFeedItemValidator validator = new RssFeedItemValidator();
 
                 foreach (RssFeedItem item in feedResponse.RssFeedItems)
                 {
+                    ValidationResult validationResult = validator.Validate(item);
+                    if (!validationResult.IsValid)
+                    {
+                        foreach (var failure in validationResult.Errors)
+                        {
+                            string errorMessage = failure.ErrorMessage;
+                        }
+                        continue;
+                    }
+
                     var existingItem = _context.RssFeedItems
                                             .Where(rssItem => rssItem.Link == item.Link)
                                             .FirstOrDefault();
@@ -47,8 +60,17 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
                         _context.RssFeedItems.Add(item);
                     }
                 }
-                return await _context.SaveChangesAsync(cancellationToken);
-                
+                try
+                {
+                    result = await _context.SaveChangesAsync(cancellationToken);
+                }
+                catch(Exception ex)
+                {
+                    string exceptionMessage = ex.Message;
+                    throw; 
+                }
+
+                return result; 
             }
         }
     }
