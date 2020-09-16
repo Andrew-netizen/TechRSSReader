@@ -3,7 +3,12 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
+
+// Fontawesome imports
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 import { AppComponent } from "./app.component";
 import { NavMenuComponent } from "./nav-menu/nav-menu.component";
@@ -20,7 +25,7 @@ import { BlogModule } from "./blog/blog.module";
 import { SharedModule } from "./shared/shared.module";
 import { ToastrModule } from "ngx-toastr";
 import { TrainingModule } from "./training/training.module";
-import {ArticlesModule} from "./articles/articles.module";
+import { ArticlesModule } from "./articles/articles.module";
 
 /* NgRx */
 import { StoreModule, MetaReducer, ActionReducerMap } from "@ngrx/store";
@@ -28,15 +33,15 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "../environments/environment";
 import { EffectsModule } from "@ngrx/effects";
 import { storeFreeze } from "ngrx-store-freeze";
-import {State } from './state/app.state';
-import * as blogReducer from './blog/state/blog.reducer';
-import * as trainingReducer from './training/state/training.reducer';
+import { State } from "./state/app.state";
+import * as blogReducer from "./blog/state/blog.reducer";
+import * as trainingReducer from "./training/state/training.reducer";
 
 export const reducers: ActionReducerMap<State> = {
   // reducers
   blogs: blogReducer.reducer,
-  training: trainingReducer.reducer
-}
+  training: trainingReducer.reducer,
+};
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
   ? [storeFreeze]
@@ -74,7 +79,7 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     ModalModule.forRoot(),
-    StoreModule.forRoot(reducers, {metaReducers}),
+    StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({
       name: "Tech RSS Reader DevTools",
       maxAge: 25,
@@ -87,4 +92,8 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(library: FaIconLibrary) {
+    library.addIcons(faStar as IconDefinition);
+  }
+}

@@ -11,17 +11,17 @@ namespace TechRSSReaderML.Model
 {
     public class ConsumeModel
     {
-        private static Lazy<PredictionEngine<ModelInput, ModelOutput>> PredictionEngine = new Lazy<PredictionEngine<ModelInput, ModelOutput>>(CreatePredictionEngine);
+        private static Lazy<PredictionEngine<UserInterestInput, UserInterestOutput>> PredictionEngine = new Lazy<PredictionEngine<UserInterestInput, UserInterestOutput>>(CreatePredictionEngine);
 
         // For more info on consuming ML.NET models, visit https://aka.ms/mlnet-consume
         // Method for consuming model in your app
-        public static ModelOutput Predict(ModelInput input)
+        public static UserInterestOutput Predict(UserInterestInput input)
         {
-            ModelOutput result = PredictionEngine.Value.Predict(input);
+            UserInterestOutput result = PredictionEngine.Value.Predict(input);
             return result;
         }
 
-        public static PredictionEngine<ModelInput, ModelOutput> CreatePredictionEngine()
+        public static PredictionEngine<UserInterestInput, UserInterestOutput> CreatePredictionEngine()
         {
             // Create new MLContext
             MLContext mlContext = new MLContext();
@@ -29,9 +29,9 @@ namespace TechRSSReaderML.Model
             // Load model & create prediction engine
             string modelPath = @"C:\Users\awoodyatt\AppData\Local\Temp\MLVSTools\TechRSSReaderML\TechRSSReaderML.Model\MLModel.zip";
             ITransformer mlModel = mlContext.Model.Load(modelPath, out var modelInputSchema);
-            var predEngine = mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
+            var predEngine = mlContext.Model.CreatePredictionEngine<UserInterestInput, UserInterestOutput>(mlModel);
 
             return predEngine;
         }
     }
-}
+}   

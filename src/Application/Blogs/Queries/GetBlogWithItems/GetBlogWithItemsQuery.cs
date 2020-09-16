@@ -20,11 +20,13 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
 
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
+            private readonly IUserInterestPredictor _userInterestPredictor;
 
-            public GetBlogWithItemsQueryHandler(IApplicationDbContext context, IMapper mapper)
+            public GetBlogWithItemsQueryHandler(IApplicationDbContext context, IMapper mapper, IUserInterestPredictor userInterestPredictor)
             {
                 _context = context;
-                _mapper = mapper; 
+                _mapper = mapper;
+                _userInterestPredictor = userInterestPredictor;
             }
 
             public async Task<BlogDto> Handle(GetBlogWithItemsQuery request, CancellationToken cancellationToken)
@@ -35,6 +37,11 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
                     .FirstOrDefaultAsync(cancellationToken);
 
                 blog.RssFeedItems = blog.RssFeedItems.OrderByDescending(feedItem => feedItem.PublishingDate).ToList();
+
+                foreach (RssFeedItem feedItem in blog.RssFeedItems)
+                {
+                    feedItem.UserInterestPrediction = _userInterestPredictor.PredictUserInterest(feedItem);
+                }
 
                 return _mapper.Map<BlogDto>(blog);
             }

@@ -7,14 +7,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.ML;
 using System.Collections.Generic;
 using System.Security.Claims;
 using TechRSSReader.Application.Common.Interfaces;
 using TechRSSReader.Infrastructure.FeedReader;
 using TechRSSReader.Infrastructure.Files;
 using TechRSSReader.Infrastructure.Identity;
+using TechRSSReader.Infrastructure.InterestPredictor;
 using TechRSSReader.Infrastructure.Persistence;
 using TechRSSReader.Infrastructure.Services;
+using TechRSSReaderML.Model;
 
 namespace TechRSSReader.Application
 {
@@ -69,6 +72,10 @@ namespace TechRSSReader.Application
             }
 
             services.AddTransient<IFeedReader, RssFeedReader>();
+            services.AddTransient<IUserInterestPredictor, UserInterestPredictor>();
+            services.AddPredictionEnginePool<UserInterestInput, UserInterestOutput>()
+                .FromFile(modelName: "UserInterestAnalysisModel", filePath: "MLModels/MLModel.zip", watchForChanges: true);
+
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();

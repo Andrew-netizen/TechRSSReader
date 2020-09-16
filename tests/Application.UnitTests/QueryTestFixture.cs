@@ -1,5 +1,6 @@
 using System;
 using AutoMapper;
+using TechRSSReader.Application.Common.Interfaces;
 using TechRSSReader.Application.Common.Mappings;
 using TechRSSReader.Infrastructure.Persistence;
 using Xunit;
@@ -18,10 +19,13 @@ namespace TechRSSReader.Application.UnitTests.Common
             });
 
             Mapper = configurationProvider.CreateMapper();
+            UserInterestPredictor = new StubUserInterestPredictor();
         }
         public ApplicationDbContext Context { get; }
 
         public IMapper Mapper { get; }
+
+        public IUserInterestPredictor UserInterestPredictor { get; }
 
         public void Dispose()
         {
