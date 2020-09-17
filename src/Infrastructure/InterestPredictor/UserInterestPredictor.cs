@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ML;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,14 @@ namespace TechRSSReader.Infrastructure.InterestPredictor
     {
         private readonly IMapper _mapper;
         private readonly PredictionEnginePool<UserInterestInput, UserInterestOutput> _predictionEnginePool;
+        private readonly ILogger<UserInterestPredictor> _logger; 
 
-        public UserInterestPredictor(IMapper mapper, PredictionEnginePool<UserInterestInput, UserInterestOutput> predictionEnginePool)
+        public UserInterestPredictor(IMapper mapper, PredictionEnginePool<UserInterestInput, UserInterestOutput> predictionEnginePool, 
+                ILogger<UserInterestPredictor> logger)
         {
             _mapper = mapper;
-            _predictionEnginePool = predictionEnginePool; 
+            _predictionEnginePool = predictionEnginePool;
+            _logger = logger; 
         }
 
         public bool PredictUserInterest(RssFeedItem feedItem)
@@ -33,7 +37,7 @@ namespace TechRSSReader.Infrastructure.InterestPredictor
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _logger.LogError(ex.Message);
             }
 
             return result;

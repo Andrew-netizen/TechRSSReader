@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading;
@@ -18,12 +19,15 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
         public class RetrieveFeedItemsCommandHandler : IRequestHandler<RetrieveFeedItemsCommand, int>
         {
             private readonly IApplicationDbContext _context;
-            private readonly IFeedReader _feedReader; 
+            private readonly IFeedReader _feedReader;
+            private readonly ILogger<RetrieveFeedItemsCommandHandler> _logger; 
 
-            public RetrieveFeedItemsCommandHandler(IApplicationDbContext context, IFeedReader feedReader)
+            public RetrieveFeedItemsCommandHandler(IApplicationDbContext context, IFeedReader feedReader, 
+                ILogger<RetrieveFeedItemsCommandHandler> logger)
             {
                 _context = context;
-                _feedReader = feedReader; 
+                _feedReader = feedReader;
+                _logger = logger; 
             }
 
             public async Task<int> Handle(RetrieveFeedItemsCommand request, CancellationToken cancellationToken)
@@ -36,37 +40,39 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
                     return 0;
                 }
 
-                FeedReadResult feedResponse = await _feedReader.ReadAsync(rssFeed.XmlAddress, cancellationToken);
-                RssFeedItemValidator validator = new RssFeedItemValidator();
-
-                foreach (RssFeedItem item in feedResponse.RssFeedItems)
-                {
-                    ValidationResult validationResult = validator.Validate(item);
-                    if (!validationResult.IsValid)
-                    {
-                        foreach (var failure in validationResult.Errors)
-                        {
-                            string errorMessage = failure.ErrorMessage;
-                        }
-                        continue;
-                    }
-
-                    var existingItem = _context.RssFeedItems
-                                            .Where(rssItem => rssItem.Link == item.Link)
-                                            .FirstOrDefault();
-                    if (existingItem == null)
-                    {
-                        item.BlogId = request.BlogId;
-                        _context.RssFeedItems.Add(item);
-                    }
-                }
                 try
                 {
+
+                    FeedReadResult feedResponse = await _feedReader.ReadAsync(rssFeed.XmlAddress, cancellationToken);
+                    RssFeedItemValidator validator = new RssFeedItemValidator();
+
+                    foreach (RssFeedItem item in feedResponse.RssFeedItems)
+                    {
+                        ValidationResult validationResult = validator.Validate(item);
+                        if (!validationResult.IsValid)
+                        {
+                            foreach (var failure in validationResult.Errors)
+                            {
+                                _logger.LogWarning(failure.ErrorMessage);
+                            }
+                            continue;
+                        }
+
+                        var existingItem = _context.RssFeedItems
+                                                .Where(rssItem => rssItem.Link == item.Link)
+                                                .FirstOrDefault();
+                        if (existingItem == null)
+                        {
+                            item.BlogId = request.BlogId;
+                            _context.RssFeedItems.Add(item);
+                        }
+                    }
+
                     result = await _context.SaveChangesAsync(cancellationToken);
                 }
                 catch(Exception ex)
                 {
-                    string exceptionMessage = ex.Message;
+                    _logger.LogError(ex, "Failed to retrieve RSS Feed items");
                     throw; 
                 }
 

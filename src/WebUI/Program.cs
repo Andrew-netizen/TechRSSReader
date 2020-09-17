@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using Serilog;
+using Serilog.Events;
 
 namespace TechRSSReader.WebUI
 {
@@ -15,34 +17,54 @@ namespace TechRSSReader.WebUI
     {
         public async static Task Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Warning()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .WriteTo.Debug()
+                .CreateLogger();
 
-            using (var scope = host.Services.CreateScope())
+            try
             {
-                var services = scope.ServiceProvider;
+                var host = CreateWebHostBuilder(args).Build();
 
-                try
+                using (var scope = host.Services.CreateScope())
                 {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
-                    context.Database.Migrate();
+                    var services = scope.ServiceProvider;
 
-                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    try
+                    {
+                        var context = services.GetRequiredService<ApplicationDbContext>();
+                        context.Database.Migrate();
 
-                    await ApplicationDbContextSeed.SeedAsync(userManager);
+                        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+                        await ApplicationDbContextSeed.SeedAsync(userManager);
+                    }
+                    catch (Exception ex)
+                    {
+                        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+                        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+                    }
                 }
-                catch (Exception ex)
-                {
-                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-                    logger.LogError(ex, "An error occurred while migrating or seeding the database.");
-                }
+                host.Run();
             }
-
-            host.Run();
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+            
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .UseStartup<Startup>();
     }
 }
