@@ -26,7 +26,7 @@ export class TrainingItemComponent {
 
   ngOnInit() {
     this.trainingForm = this.formBuilder.group({
-      userInterested: false,
+      userRating: 0,
       readAlready: false
     });
   }
@@ -35,14 +35,19 @@ export class TrainingItemComponent {
     this.loadItemRequest.emit(this.selectedBlog);
   }
 
+  handleRatingClicked(rating: number)
+  {
+    this.trainingForm.controls["userRating"].setValue(rating);
+    this.trainingForm.markAsDirty();
+  }
+
   saveUserInterest(): void {
-    const userInterested: boolean = this.trainingForm.get("userInterested")
-      .value;
+      const userRating: number = this.trainingForm.get("userRating").value;
     const command: UpdateFeedItemCommand = UpdateFeedItemCommand.fromJS(
       {
         id: this.currentFeedItem.id,
-        userInterested: userInterested,
-        readAlready: this.currentFeedItem.readAlready
+        readAlready: this.currentFeedItem.readAlready,
+        userRating: userRating
       }
     );
 

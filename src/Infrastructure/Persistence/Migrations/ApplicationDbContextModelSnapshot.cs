@@ -288,8 +288,8 @@ namespace TechRSSReader.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Categories")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -339,11 +339,11 @@ namespace TechRSSReader.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
-                    b.Property<bool?>("UserInterestPrediction")
-                        .HasColumnType("bit");
+                    b.Property<int?>("UserRating")
+                        .HasColumnType("int");
 
-                    b.Property<bool?>("UserInterested")
-                        .HasColumnType("bit");
+                    b.Property<float?>("UserRatingPrediction")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -585,8 +585,8 @@ namespace TechRSSReader.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("TechRSSReader.Domain.Entities.RssFeedItem", b =>
                 {
-                    b.HasOne("TechRSSReader.Domain.Entities.Blog", "Blog")
-                        .WithMany()
+                    b.HasOne("TechRSSReader.Domain.Entities.Blog", null)
+                        .WithMany("RssFeedItems")
                         .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

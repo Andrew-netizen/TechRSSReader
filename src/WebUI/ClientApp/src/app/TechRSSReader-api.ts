@@ -1262,8 +1262,8 @@ export class RssFeedItemDto implements IRssFeedItemDto {
     retrievedDateTime?: Date;
     rssId?: string | undefined;
     title?: string | undefined;
-    userInterested?: boolean | undefined;
-    userInterestPrediction?: boolean | undefined;
+    userRating?: number | undefined;
+    userRatingPrediction?: number | undefined;
 
     constructor(data?: IRssFeedItemDto) {
         if (data) {
@@ -1289,8 +1289,8 @@ export class RssFeedItemDto implements IRssFeedItemDto {
             this.retrievedDateTime = data["retrievedDateTime"] ? new Date(data["retrievedDateTime"].toString()) : <any>undefined;
             this.rssId = data["rssId"];
             this.title = data["title"];
-            this.userInterested = data["userInterested"];
-            this.userInterestPrediction = data["userInterestPrediction"];
+            this.userRating = data["userRating"];
+            this.userRatingPrediction = data["userRatingPrediction"];
         }
     }
 
@@ -1316,8 +1316,8 @@ export class RssFeedItemDto implements IRssFeedItemDto {
         data["retrievedDateTime"] = this.retrievedDateTime ? this.retrievedDateTime.toISOString() : <any>undefined;
         data["rssId"] = this.rssId;
         data["title"] = this.title;
-        data["userInterested"] = this.userInterested;
-        data["userInterestPrediction"] = this.userInterestPrediction;
+        data["userRating"] = this.userRating;
+        data["userRatingPrediction"] = this.userRatingPrediction;
         return data; 
     }
 }
@@ -1336,8 +1336,8 @@ export interface IRssFeedItemDto {
     retrievedDateTime?: Date;
     rssId?: string | undefined;
     title?: string | undefined;
-    userInterested?: boolean | undefined;
-    userInterestPrediction?: boolean | undefined;
+    userRating?: number | undefined;
+    userRatingPrediction?: number | undefined;
 }
 
 export class CreateBlogCommand implements ICreateBlogCommand {
@@ -1478,8 +1478,8 @@ export interface IUpdateBlogCommand {
 
 export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {
     id?: number;
-    userInterested?: boolean | undefined;
     readAlready?: boolean;
+    userRating?: number | undefined;
 
     constructor(data?: IUpdateFeedItemCommand) {
         if (data) {
@@ -1493,8 +1493,8 @@ export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.userInterested = data["userInterested"];
             this.readAlready = data["readAlready"];
+            this.userRating = data["userRating"];
         }
     }
 
@@ -1508,16 +1508,16 @@ export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["userInterested"] = this.userInterested;
         data["readAlready"] = this.readAlready;
+        data["userRating"] = this.userRating;
         return data; 
     }
 }
 
 export interface IUpdateFeedItemCommand {
     id?: number;
-    userInterested?: boolean | undefined;
     readAlready?: boolean;
+    userRating?: number | undefined;
 }
 
 export class CreateTodoItemCommand implements ICreateTodoItemCommand {

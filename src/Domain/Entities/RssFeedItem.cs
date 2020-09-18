@@ -31,12 +31,11 @@ namespace TechRSSReader.Domain.Entities
         public string RssId { get; set; }
 
         public string Title { get; set; }
+                
+        public int? UserRating { get; set; }
 
-        public bool? UserInterested { get; set; }
+        public Single? UserRatingPrediction { get; set; }
 
-        public bool? UserInterestPrediction { get; set; }
-
-        
 
     }
 }

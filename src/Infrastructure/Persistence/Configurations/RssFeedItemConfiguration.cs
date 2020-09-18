@@ -12,7 +12,7 @@ namespace TechRSSReader.Infrastructure.Persistence.Configurations
                 .HasMaxLength(200);
 
             builder.Property(item => item.Categories)
-                .HasMaxLength(200);
+                .HasMaxLength(500);
 
             // Nothing to add here now; this field is too long.
             builder.Property(item => item.Content);

@@ -50,7 +50,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MLModels\" />
+    <None Update="MLModels\MLModel.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Target Name="NSwag" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">

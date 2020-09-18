@@ -22,8 +22,8 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Commands
             {
 
                 Id = 1,
-                UserInterested = true, 
-                ReadAlready = false
+                ReadAlready = false,
+                UserRating = 3 
             };
 
             var handler = new UpdateFeedItemCommand.UpdateFeedItemCommandHandler(Context, Mapper);
@@ -34,8 +34,8 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Commands
             var rssFeedItem = Context.RssFeedItems.Find(command.Id);
 
             rssFeedItem.Id.ShouldBe(command.Id);
-            rssFeedItem.UserInterested.ShouldBe(command.UserInterested);
             rssFeedItem.ReadAlready.ShouldBe(command.ReadAlready);
+            rssFeedItem.UserRating.ShouldBe(command.UserRating);
 
         }
     }

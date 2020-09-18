@@ -39,7 +39,8 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
 
                 foreach (RssFeedItem feedItem in blog.RssFeedItems)
                 {
-                    feedItem.UserInterestPrediction = _userInterestPredictor.PredictUserInterest(feedItem);
+                    float predictedStarRating = _userInterestPredictor.PredictStarRating(feedItem);
+                    feedItem.UserRatingPrediction = predictedStarRating;
                 }
 
                 return _mapper.Map<BlogDto>(blog);

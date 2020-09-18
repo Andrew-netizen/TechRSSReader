@@ -1,4 +1,5 @@
-﻿using Shouldly;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -29,8 +30,8 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
                 BlogId = slashdot.Id
             };
 
-
-            var handler = new RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler(Context, FeedReader);
+            var logger = NullLogger<RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler>.Instance;
+            var handler = new RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler(Context, FeedReader, logger);
 
             var result = await handler.Handle(command, CancellationToken.None);
 
@@ -76,8 +77,8 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
                 BlogId = awsNews.Id
             };
 
-
-            var handler = new RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler(Context, FeedReader);
+            var logger = NullLogger<RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler>.Instance; 
+            var handler = new RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler(Context, FeedReader, logger);
 
             var result = await handler.Handle(command, CancellationToken.None);
 

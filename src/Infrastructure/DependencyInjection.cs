@@ -72,10 +72,10 @@ namespace TechRSSReader.Application
             }
 
             services.AddTransient<IFeedReader, RssFeedReader>();
+            
+            services.AddPredictionEnginePool<StarRatingInput, StarRatingOutput>()
+                .FromFile(modelName: "StarRatingAnalysisModel", filePath: "MLModels/MLModel.zip", watchForChanges: true);
             services.AddTransient<IUserInterestPredictor, UserInterestPredictor>();
-            services.AddPredictionEnginePool<UserInterestInput, UserInterestOutput>()
-                .FromFile(modelName: "UserInterestAnalysisModel", filePath: "MLModels/MLModel.zip", watchForChanges: true);
-
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();

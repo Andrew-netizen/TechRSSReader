@@ -13,10 +13,10 @@ namespace TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem
     public class UpdateFeedItemCommand: IRequest<RssFeedItemDto>
     {
         public int Id { get; set; }
-
-        public bool? UserInterested { get; set; }
-
+        
         public bool ReadAlready { get; set; }
+
+        public int? UserRating { get; set; }
 
         public class UpdateFeedItemCommandHandler : IRequestHandler<UpdateFeedItemCommand, RssFeedItemDto>
         {
@@ -36,8 +36,8 @@ namespace TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem
                 if (rssFeedItem == null)
                     throw new NotFoundException(nameof(RssFeedItem), request.Id);
 
-                rssFeedItem.UserInterested = request.UserInterested;
                 rssFeedItem.ReadAlready = request.ReadAlready;
+                rssFeedItem.UserRating = request.UserRating; 
 
                 _context.RssFeedItems.Update(rssFeedItem);
 

@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 using TechRSSReader.Application.Blogs.Commands.CreateBlog;
 using TechRSSReader.Application.Blogs.Commands.DeleteBlog;
@@ -15,6 +17,12 @@ namespace TechRSSReader.WebUI.Controllers
     [Authorize]
     public class BlogsController: ApiController
     {
+
+        private readonly ILogger<BlogsController> _logger; 
+        public BlogsController(ILogger<BlogsController> logger)
+        {
+            _logger = logger; 
+        }
 
         /// <summary>
         /// Get the list of Blogs that the user has created
@@ -35,7 +43,19 @@ namespace TechRSSReader.WebUI.Controllers
         [HttpGet("{id}")]
         public async Task<BlogDto> Get(int id)
         {
-            return await Mediator.Send(new GetBlogWithItemsQuery { Id = id });
+            BlogDto blogDto = null; 
+
+            try
+            {
+                blogDto = await Mediator.Send(new GetBlogWithItemsQuery { Id = id });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to Get Blog with Items");
+                throw; 
+            }
+
+            return blogDto; 
         }
 
         /// POST: api/Blogs

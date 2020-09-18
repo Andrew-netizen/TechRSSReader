@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Persistence\Migrations\20200917003651_AddUserRating.cs" />
+    <Compile Remove="Persistence\Migrations\20200917003651_AddUserRating.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="CodeHollow.FeedReader" Version="1.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="3.0.0" />
@@ -18,9 +23,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
     <PackageReference Include="CsvHelper" Version="12.1.2" />
-    <PackageReference Include="Microsoft.Extensions.ML" Version="1.5.0-preview2" />
-    <PackageReference Include="Microsoft.ML" Version="1.5.0-preview2" />
-    <PackageReference Include="Microsoft.ML.LightGbm" Version="1.5.0-preview2" />
+    <PackageReference Include="Microsoft.Extensions.ML" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup>

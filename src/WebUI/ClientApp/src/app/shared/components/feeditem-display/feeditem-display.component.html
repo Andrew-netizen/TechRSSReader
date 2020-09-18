@@ -15,13 +15,13 @@
   </div>
   </div>
   <div class="card-body">
-    <div class="row">Categories: <span [innerHTML]="feedItem.categories"></span></div>
-    <hr/>
+    <div *ngIf="feedItem.categories" class="row">Categories: <span [innerHTML]="feedItem.categories"></span></div>
+    <hr *ngIf="feedItem.categories" />
     <div class="row" *ngIf="feedItem.description">
-      Description: <span [innerHTML]="feedItem.description"></span>
+      <span [innerHTML]="feedItem.description"></span>
     </div>
     <div class="row" *ngIf="!feedItem.description && feedItem.content">
-      Content: <span [innerHTML]="feedItem.content"></span>
+      <span [innerHTML]="feedItem.content"></span>
     </div>
     <div class="row">Publishing Date: {{ feedItem.publishingDateString }}</div>
     <hr/>

@@ -831,12 +831,14 @@
             "type": "string",
             "nullable": true
           },
-          "userInterested": {
-            "type": "boolean",
+          "userRating": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
-          "userInterestPrediction": {
-            "type": "boolean",
+          "userRatingPrediction": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           }
         }
@@ -913,12 +915,13 @@
             "type": "integer",
             "format": "int32"
           },
-          "userInterested": {
-            "type": "boolean",
-            "nullable": true
-          },
           "readAlready": {
             "type": "boolean"
+          },
+          "userRating": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         }
       },

@@ -8,9 +8,10 @@ namespace TechRSSReader.Application.UnitTests
 {
     class StubUserInterestPredictor : IUserInterestPredictor
     {
-        public bool PredictUserInterest(RssFeedItem feedItem)
+        public float PredictStarRating(RssFeedItem feedItem)
         {
-            return false; 
+            return 1; 
         }
+             
     }
 }

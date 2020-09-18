@@ -33,8 +33,8 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
 
         public string Title { get; set; }
 
-        public bool? UserInterested { get; set; }
+        public int? UserRating { get; set; }
 
-        public bool? UserInterestPrediction { get; set; }
+        public Single? UserRatingPrediction { get; set; }
     }
 }

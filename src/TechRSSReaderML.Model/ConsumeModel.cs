@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Microsoft.ML;
 using TechRSSReaderML.Model;
 
@@ -11,27 +12,28 @@ namespace TechRSSReaderML.Model
 {
     public class ConsumeModel
     {
-        private static Lazy<PredictionEngine<UserInterestInput, UserInterestOutput>> PredictionEngine = new Lazy<PredictionEngine<UserInterestInput, UserInterestOutput>>(CreatePredictionEngine);
+        private static Lazy<PredictionEngine<StarRatingInput, StarRatingOutput>> PredictionEngine = new Lazy<PredictionEngine<StarRatingInput, StarRatingOutput>>(CreatePredictionEngine);
+
+        public static string MLNetModelPath = Path.GetFullPath("MLModel.zip");
 
         // For more info on consuming ML.NET models, visit https://aka.ms/mlnet-consume
         // Method for consuming model in your app
-        public static UserInterestOutput Predict(UserInterestInput input)
+        public static StarRatingOutput Predict(StarRatingInput input)
         {
-            UserInterestOutput result = PredictionEngine.Value.Predict(input);
+            StarRatingOutput result = PredictionEngine.Value.Predict(input);
             return result;
         }
 
-        public static PredictionEngine<UserInterestInput, UserInterestOutput> CreatePredictionEngine()
+        public static PredictionEngine<StarRatingInput, StarRatingOutput> CreatePredictionEngine()
         {
             // Create new MLContext
             MLContext mlContext = new MLContext();
 
             // Load model & create prediction engine
-            string modelPath = @"C:\Users\awoodyatt\AppData\Local\Temp\MLVSTools\TechRSSReaderML\TechRSSReaderML.Model\MLModel.zip";
-            ITransformer mlModel = mlContext.Model.Load(modelPath, out var modelInputSchema);
-            var predEngine = mlContext.Model.CreatePredictionEngine<UserInterestInput, UserInterestOutput>(mlModel);
+            ITransformer mlModel = mlContext.Model.Load(MLNetModelPath, out var modelInputSchema);
+            var predEngine = mlContext.Model.CreatePredictionEngine<StarRatingInput, StarRatingOutput>(mlModel);
 
             return predEngine;
         }
     }
-}   
+}

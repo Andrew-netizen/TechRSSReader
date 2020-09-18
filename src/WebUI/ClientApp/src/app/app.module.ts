@@ -9,6 +9,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { faStar as falStar} from '@fortawesome/pro-light-svg-icons';
 
 import { AppComponent } from "./app.component";
 import { NavMenuComponent } from "./nav-menu/nav-menu.component";
@@ -95,5 +96,6 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
 export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(faStar as IconDefinition);
+    library.addIcons(falStar as IconDefinition);
   }
 }

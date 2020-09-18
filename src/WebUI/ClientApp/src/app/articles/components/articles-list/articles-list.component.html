@@ -40,7 +40,11 @@
           }"
         ></span>
         <div class="float-right">
-          <fa-icon *ngIf="feedItem.userInterestPrediction" class="mx-1" [icon]="['fas','star']"></fa-icon>
+          <fa-icon *ngIf="feedItem.userRatingPrediction" class="mx-1" [icon]="feedItem.userRatingPrediction > 0 ? ['fas', 'star'] : ['fal', 'star']"></fa-icon>
+          <fa-icon *ngIf="feedItem.userRatingPrediction" class="mx-1" [icon]="feedItem.userRatingPrediction > 1 ? ['fas', 'star'] : ['fal', 'star']"></fa-icon>
+          <fa-icon *ngIf="feedItem.userRatingPrediction" class="mx-1" [icon]="feedItem.userRatingPrediction > 2 ? ['fas', 'star'] : ['fal', 'star']"></fa-icon>
+          <fa-icon *ngIf="feedItem.userRatingPrediction" class="mx-1" [icon]="feedItem.userRatingPrediction > 3 ? ['fas', 'star'] : ['fal', 'star']"></fa-icon>
+          <fa-icon *ngIf="feedItem.userRatingPrediction" class="mx-1" [icon]="feedItem.userRatingPrediction > 4 ? ['fas', 'star'] : ['fal', 'star']"></fa-icon>
           <small *ngIf="feedItem.categories" class="rounded px-2 py-1 border border-warn">
             Categories: &nbsp;{{ feedItem.categories }}
           </small>

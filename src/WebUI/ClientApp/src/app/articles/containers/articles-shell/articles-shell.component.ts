@@ -59,7 +59,7 @@ export class ArticlesShellComponent implements OnInit {
     const command: UpdateFeedItemCommand = UpdateFeedItemCommand.fromJS(
       {
         id: value.id,
-        userInterested: value.userInterested,
+        userRating: value.userRating,
         readAlready: true
       }
     );

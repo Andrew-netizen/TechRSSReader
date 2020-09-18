@@ -7,6 +7,6 @@ namespace TechRSSReader.Application.Common.Interfaces
 {
     public interface IUserInterestPredictor
     {
-        public bool PredictUserInterest(RssFeedItem feedItem);
+        public float PredictStarRating(RssFeedItem feedItem);
     }
 }
