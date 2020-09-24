@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using TechRSSReader.Application.Common.Interfaces;
 using TechRSSReader.Infrastructure.FeedReader.Maps;
-using TechRSSReader.Infrastructure.Services;
 
 namespace TechRSSReader.Infrastructure.IntegrationTests
 {

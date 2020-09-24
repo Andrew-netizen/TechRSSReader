@@ -72,7 +72,15 @@ namespace TechRSSReader.Application.UnitTests.Common
             {
                 Id = 1, 
                 Title = "A General Theory of Relativity",
-                BlogId = 1, 
+                BlogId = 1
+            });
+
+            context.RssFeedItems.Add(new RssFeedItem
+            {
+                Id = 2,
+                Title = "What I'm having for dinner",
+                BlogId = 1,
+                UserRating = 1
             });
 
             context.Blogs.Add(new Blog

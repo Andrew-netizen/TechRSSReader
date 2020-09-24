@@ -1,23 +1,21 @@
-﻿using Shouldly;
+﻿using CodeHollow.FeedReader;
+using Shouldly;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TechRSSReader.Application.Common.Models;
 using TechRSSReader.Domain.Entities;
 using TechRSSReader.Infrastructure.FeedReader;
 using Xunit;
-using CodeHollow.FeedReader.Feeds;
-using CodeHollow.FeedReader;
-using System.Linq;
-using System.Collections.Generic;
-using System;
-using TechRSSReader.Application.Common.Interfaces;
 
 namespace TechRSSReader.Infrastructure.IntegrationTests.FeedReader
 {
 
     public class RssFeedReaderTests: IClassFixture<FeedReaderTestFixture>
     {
-        FeedReaderTestFixture _fixture;
+        private readonly FeedReaderTestFixture _fixture;
 
         public RssFeedReaderTests(FeedReaderTestFixture fixture)
         {

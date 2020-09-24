@@ -19,8 +19,14 @@ namespace TechRSSReaderML.ConsoleApp
         // Set a random seed for repeatable/deterministic results across multiple trainings.
         private static MLContext mlContext = new MLContext(seed: 1);
 
-        public static void CreateModel()
+        public static void CreateModel(string filePath)
         {
+
+            if (filePath != null)
+            {
+                TRAIN_DATA_FILEPATH = filePath; 
+            }
+
             // Load Data
             IDataView trainingDataView = mlContext.Data.LoadFromTextFile<StarRatingInput>(
                                             path: TRAIN_DATA_FILEPATH,
@@ -90,6 +96,11 @@ namespace TechRSSReaderML.ConsoleApp
             Console.WriteLine($"=============== Saving the model  ===============");
             mlContext.Model.Save(mlModel, modelInputSchema, GetAbsolutePath(modelRelativePath));
             Console.WriteLine("The model is saved to {0}", GetAbsolutePath(modelRelativePath));
+        }
+
+        public static string GetSavedModelPath()
+        {
+            return GetAbsolutePath(MODEL_FILE);
         }
 
         public static string GetAbsolutePath(string relativePath)

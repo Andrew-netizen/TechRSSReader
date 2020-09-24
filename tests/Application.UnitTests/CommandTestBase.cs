@@ -21,11 +21,13 @@ namespace TechRSSReader.Application.UnitTests.Common
 
             Mapper = configurationProvider.CreateMapper();
             FeedReader = new StubFeedReader(Mapper);
+            UserInterestPredictor = new StubUserInterestPredictor();
         }
 
         public ApplicationDbContext Context { get; }
         public IFeedReader FeedReader { get;  }
         public IMapper Mapper { get;  }
+        public IUserInterestPredictor UserInterestPredictor { get; }
 
         public void Dispose()
         {

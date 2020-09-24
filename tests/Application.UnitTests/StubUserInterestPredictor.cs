@@ -10,7 +10,7 @@ namespace TechRSSReader.Application.UnitTests
     {
         public float PredictStarRating(RssFeedItem feedItem)
         {
-            return 1; 
+            return 1.5F; 
         }
              
     }

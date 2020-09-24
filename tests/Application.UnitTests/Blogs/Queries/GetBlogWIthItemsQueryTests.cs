@@ -39,8 +39,9 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Queries
             var result = await handler.Handle(query, CancellationToken.None);
 
             result.ShouldBeOfType(typeof(BlogDto));
-            result.RssFeedItems.Count.ShouldBe(1);
-
+            result.RssFeedItems.Count.ShouldBe(2);
+            result.RssFeedItems[0].UserRatingPrediction.HasValue.ShouldBeTrue();
+            result.RssFeedItems[0].UserRatingPrediction.Value.ShouldBe(1.5F);
             
             result.KeywordsToExclude.Count.ShouldBe(1);
             result.KeywordsToInclude.Count.ShouldBe(1);

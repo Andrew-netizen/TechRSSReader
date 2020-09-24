@@ -35,7 +35,7 @@ namespace TechRSSReader.Application
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            if (environment.IsEnvironment("Test"))
+            if ((environment != null) && environment.IsEnvironment("Test"))
             {
                 services.AddIdentityServer()
                     .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>

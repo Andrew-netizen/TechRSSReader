@@ -3,6 +3,7 @@ import * as fromRoot from '../../state/app.state';
 import * as fromArticles from './articles.reducer';
 import * as fromBlog from '../../blog/state/blog.reducer';
 import { BlogDto, RssFeedItemDto } from 'src/app/techrssreader-api';
+import {orderBy } from 'lodash';
 
 export interface State extends fromRoot.State {
   articles: fromArticles.ArticlesState;
@@ -40,7 +41,8 @@ export const getFilteredArticles = createSelector(
       result = result.filter(feedItem => !ContainsExcludedKeywords(blog, feedItem));
     }
 
-    return result;
+    console.log("returning filtered articles");
+    return orderBy(result, ['userRatingPrediction'], ['desc']);
   }
 );
 
