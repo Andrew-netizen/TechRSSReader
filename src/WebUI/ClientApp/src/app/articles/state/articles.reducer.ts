@@ -1,20 +1,33 @@
 import {ArticlesActionTypes, ArticlesActions} from './articles.actions';
 
+export enum DisplaySortOrder {
+  PublishDateDesc,
+  PredictedRating
+}
+
 // State for this feature (Articles)
 export interface ArticlesState {
   excludeAlreadyRead: boolean;
   keywordExclusion: boolean,
   error: string;
+  displaySortOrder: DisplaySortOrder
 }
+
 
 const initialState: ArticlesState = {
   excludeAlreadyRead: true,
   keywordExclusion: true,
-  error:  ""
+  error:  "",
+  displaySortOrder: DisplaySortOrder.PredictedRating
 }
 
 export function reducer(state = initialState, action:ArticlesActions): ArticlesState {
   switch (action.type) {
+    case ArticlesActionTypes.SetDisplaySortOrder:
+    return {
+      ...state,
+      displaySortOrder: action.payload
+    };
     case ArticlesActionTypes.ToggleAlreadyRead:
     return {
       ...state,
@@ -28,6 +41,5 @@ export function reducer(state = initialState, action:ArticlesActions): ArticlesS
     default:
       return state;
   }
-
 
 }

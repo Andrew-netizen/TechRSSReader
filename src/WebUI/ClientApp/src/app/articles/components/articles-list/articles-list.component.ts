@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { RssFeedItemDto } from 'src/app/techrssreader-api';
+import { DisplaySortOrder } from '../../state/articles.reducer';
 
 @Component({
   selector: 'articles-list',
@@ -7,15 +8,19 @@ import { RssFeedItemDto } from 'src/app/techrssreader-api';
   styleUrls: ['./articles-list.component.scss']
 })
 export class ArticlesListComponent {
+  public DisplaySortOrderEnum = DisplaySortOrder;
+
   @Input() excludeAlreadyRead: boolean;
   @Input() keywordExclusion: boolean;
   @Input() feedItems: RssFeedItemDto[];
   @Input() selectedFeedItem: RssFeedItemDto;
+  @Input() displaySortOrder: DisplaySortOrder;
   @Output() excludeAlreadyReadUpdated = new EventEmitter<boolean>();
   @Output() keywordExclusionUpdated = new EventEmitter<boolean>();
   @Output() selected = new EventEmitter<RssFeedItemDto>();
   @Output() articleMarkedAsReadEvent = new EventEmitter<RssFeedItemDto>();
   @Output() titleClickedEvent = new EventEmitter();
+  @Output() sortOrderUpdated = new EventEmitter<DisplaySortOrder>();
 
   feedItemSelected(feedItem: RssFeedItemDto): void {
     this.selected.emit(feedItem);
@@ -37,4 +42,7 @@ export class ArticlesListComponent {
     this.titleClickedEvent.emit();
   }
 
+  sortOrderChanged(value: DisplaySortOrder): void {
+    this.sortOrderUpdated.emit(value);
+  }
 }

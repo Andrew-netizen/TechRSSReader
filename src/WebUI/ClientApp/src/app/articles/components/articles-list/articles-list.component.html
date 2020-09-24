@@ -4,6 +4,30 @@
       <h4>Articles</h4>
     </div>
     <div class="col-md-8 form-check text-right">
+      <label><b>Sort by:</b></label>
+      &nbsp; &nbsp; &nbsp;
+      <label>
+        <input
+          class="form-check-input"
+          type="radio"
+          (change)="sortOrderChanged(DisplaySortOrderEnum.PredictedRating)"
+          [checked]="displaySortOrder === DisplaySortOrderEnum.PredictedRating"
+        />
+        Predicted Rating
+      </label>
+      &nbsp; &nbsp; &nbsp;
+      <label>
+        <input
+          class="form-check-input"
+          type="radio"
+          (change)="sortOrderChanged(DisplaySortOrderEnum.PublishDateDesc)"
+          [checked]="displaySortOrder === DisplaySortOrderEnum.PublishDateDesc"
+        />
+        Publication Date
+      </label>
+      &nbsp; &nbsp; &nbsp;
+      <label><b>Exclusions:</b></label>
+      &nbsp; &nbsp; &nbsp;
       <label>
         <input
           class="form-check-input"
@@ -11,7 +35,7 @@
           (change)="keywordExclusionChanged($event.target.checked)"
           [checked]="keywordExclusion"
         />
-        Keyword Exclusion
+        By Keyword
       </label>
       &nbsp; &nbsp; &nbsp;
       <label>
@@ -21,7 +45,7 @@
           (change)="excludeAlreadyReadChanged($event.target.checked)"
           [checked]="excludeAlreadyRead"
         />
-        Exclude if Already Read
+        Already Read
       </label>
     </div>
   </div>

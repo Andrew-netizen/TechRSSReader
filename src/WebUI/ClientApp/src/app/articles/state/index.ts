@@ -23,12 +23,18 @@ export const getKeywordExclusion = createSelector(
   state => state.keywordExclusion
 );
 
+export const getDisplaySortOrder = createSelector(
+  getArticlesFeatureState,
+  state => state.displaySortOrder
+);
+
 export const getFilteredArticles = createSelector(
   getExcludeAlreadyRead,
   getKeywordExclusion,
+  getDisplaySortOrder,
   fromBlog.getCurrentBlog,
   fromBlog.getCurrentBlogFeedItems,
-  (excludeAlreadyRead, keywordExclusion, blog, feedItems) =>
+  (excludeAlreadyRead, keywordExclusion, displaySortOrder, blog, feedItems) =>
   {
 
     var result = feedItems;
@@ -41,8 +47,11 @@ export const getFilteredArticles = createSelector(
       result = result.filter(feedItem => !ContainsExcludedKeywords(blog, feedItem));
     }
 
-    console.log("returning filtered articles");
-    return orderBy(result, ['userRatingPrediction'], ['desc']);
+    if (displaySortOrder === fromArticles.DisplaySortOrder.PredictedRating)
+      result = orderBy(result, ['userRatingPrediction'], ['desc']);
+    if (displaySortOrder === fromArticles.DisplaySortOrder.PublishDateDesc)
+      result = orderBy(result, ['publishingDate'], ['desc']);
+    return result;
   }
 );
 

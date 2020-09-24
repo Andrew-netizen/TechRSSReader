@@ -9,14 +9,16 @@
   </div>
   <div class="col-xl-10 col-md-8">
     <articles-list *ngIf="selectedBlog$ | async"
+    [displaySortOrder]="displaySortOrder$ | async"
     [excludeAlreadyRead]="excludeAlreadyRead$ | async"
-    [keywordExclusion]="keywordExclusion$ | async"
     [feedItems]="feedItems$ | async"
+    [keywordExclusion]="keywordExclusion$ | async"
     [selectedFeedItem]="selectedFeedItem$ | async"
     (articleMarkedAsReadEvent)="markItemAsAlreadyRead($event)"
     (excludeAlreadyReadUpdated)="excludeAlreadyReadChanged($event)"
     (keywordExclusionUpdated)="keywordExclusionChanged($event)"
     (selected)="feedItemSelected($event)"
+    (sortOrderUpdated)="setDisplaySortOrder($event)"
     (titleClickedEvent)="clearCurrentFeedItem()"
     ></articles-list>
   </div>
