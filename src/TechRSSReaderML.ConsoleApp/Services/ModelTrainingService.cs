@@ -20,7 +20,7 @@ namespace TechRSSReaderML.ConsoleApp.Services
             Mediator = mediator;
             CsvFileBuilder = csvFileBuilder; 
         }
-        public async Task<string> CreateStarRatingTsvAsync()
+        public async Task<string> CreateModelDataFileAsync()
         {
             List<RssFeedItem> feedItems = await Mediator.Send(new GetRatedFeedItemsQuery()) as List<RssFeedItem>;
             string dataFileName = Path.GetTempPath() + Guid.NewGuid().ToString() + ".tsv";

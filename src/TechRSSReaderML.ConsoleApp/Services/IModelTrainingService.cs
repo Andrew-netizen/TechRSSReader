@@ -4,7 +4,7 @@ namespace TechRSSReaderML.ConsoleApp.Services
 {
     interface IModelTrainingService
     {
-        public Task<string> CreateStarRatingTsvAsync();
+        public Task<string> CreateModelDataFileAsync();
 
         public Task UpdateFeedItemPredictions();
 

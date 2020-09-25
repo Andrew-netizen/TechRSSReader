@@ -24,15 +24,15 @@ namespace TechRSSReaderML.ConsoleApp
             IConfiguration configuration = GetConfiguration(args);
             ServiceProvider serviceProvider = ConfigureServices(configuration);
             ConfigurationBinder.Bind(configuration.GetSection("AppSettings"), appSettings);
-            string tsvFileName = null;
+            string modelDataFileName = null;
             try
             {
                 Console.WriteLine($"=============== Loading the Data ===============");
 
                 IModelTrainingService modelTrainingService = serviceProvider.GetService<IModelTrainingService>();
-                tsvFileName = await modelTrainingService.CreateStarRatingTsvAsync();
+                modelDataFileName = await modelTrainingService.CreateModelDataFileAsync();
 
-                ModelBuilder.CreateModel(tsvFileName);
+                ModelBuilder.CreateModel(modelDataFileName);
 
                 Console.WriteLine($"=============== Copying Model to the Website ===============");
 
@@ -61,8 +61,8 @@ namespace TechRSSReaderML.ConsoleApp
             }
             finally
             {
-                if (File.Exists(tsvFileName))
-                    File.Delete(tsvFileName);
+                if (File.Exists(modelDataFileName))
+                    File.Delete(modelDataFileName);
             }
            
 
