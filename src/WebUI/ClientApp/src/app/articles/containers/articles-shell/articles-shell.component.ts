@@ -20,13 +20,16 @@ import { DisplaySortOrder } from "../../state/articles.reducer";
   styleUrls: ["./articles-shell.component.scss"],
 })
 export class ArticlesShellComponent implements OnInit {
-  selectedBlog$: Observable<BlogDto>;
   blogs$: Observable<BlogDto[]>;
+  currentPage$: Observable<number>;
   displaySortOrder$: Observable<DisplaySortOrder>;
-  feedItems$: Observable<RssFeedItemDto[]>;
-  selectedFeedItem$: Observable<RssFeedItemDto>;
   excludeAlreadyRead$: Observable<boolean>;
+  feedItems$: Observable<RssFeedItemDto[]>;
   keywordExclusion$: Observable<boolean>;
+  pagesCount$: Observable<number>;
+  selectedBlog$: Observable<BlogDto>;
+  selectedFeedItem$: Observable<RssFeedItemDto>;
+  totalArticleCount$: Observable<number>;
 
   constructor(private store: Store<fromRoot.State>) {}
 
@@ -36,10 +39,14 @@ export class ArticlesShellComponent implements OnInit {
     >;
     this.store.dispatch(new blogActions.LoadBlogs());
     this.store.dispatch(new blogActions.ClearCurrentBlog());
+    this.currentPage$ = this.store.pipe(
+      select(fromBlog.getCurrentFeedItemPage)
+    );
+
     this.displaySortOrder$ = this.store.pipe(
       select(fromArticles.getDisplaySortOrder)
     );
-    this.feedItems$ = this.store.pipe(select(fromArticles.getFilteredArticles));
+    this.feedItems$ = this.store.pipe(select(fromArticles.getPaginatedArticles));
     this.selectedBlog$ = this.store.pipe(select(fromBlog.getCurrentBlog));
     this.selectedFeedItem$ = this.store.pipe(
       select(fromBlog.getCurrentFeedItem)
@@ -50,11 +57,20 @@ export class ArticlesShellComponent implements OnInit {
     this.keywordExclusion$ = this.store.pipe(
       select(fromArticles.getKeywordExclusion)
     );
+    this.pagesCount$ = this.store.pipe(
+      select(fromArticles.getPagesCount)
+    );
+    this.totalArticleCount$ = this.store.pipe(
+      select(fromArticles.getFilteredArticleCount)
+    );
   }
 
   blogSelected(blog: BlogDto): void {
-    console.log("Blog Id is", blog.id);
     this.store.dispatch(new blogActions.LoadBlogWithItems(blog.id));
+  }
+
+  currentPageChanged(value: number): void {
+    this.store.dispatch(new blogActions.SetCurrentFeedItemPage(value));
   }
 
   clearCurrentFeedItem(): void {
@@ -76,8 +92,9 @@ export class ArticlesShellComponent implements OnInit {
   markItemAsAlreadyRead(value: RssFeedItemDto): void {
     const command: UpdateFeedItemCommand = UpdateFeedItemCommand.fromJS({
       id: value.id,
-      userRating: value.userRating,
+      bookmarked: value.bookmarked,
       readAlready: true,
+      userRating: value.userRating,
     });
     this.store.dispatch(new blogActions.MarkItemAsRead(command));
   }

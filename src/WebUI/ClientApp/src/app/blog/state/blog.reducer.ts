@@ -3,11 +3,11 @@ import { BlogDto, RssFeedItemDto } from "../../TechRSSReader-api";
 /* NgRx */
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { BlogActions, BlogActionTypes } from "./blog.actions";
-import { act } from "@ngrx/effects";
 
 export interface BlogState {
   blogs: BlogDto[];
   currentBlogId: number | null;
+  currentFeedItemPage: number;
   error: string;
   retrievedFeedItemCount: number | null;
   feedItems: RssFeedItemDto[];
@@ -17,6 +17,7 @@ export interface BlogState {
 const initialState: BlogState = {
   blogs: [],
   currentBlogId: null,
+  currentFeedItemPage: 1,
   error: "",
   retrievedFeedItemCount: null,
   feedItems: [],
@@ -62,6 +63,11 @@ export const getCurrentBlogFeedItems = createSelector(
   (state) => state.feedItems
 );
 
+export const getCurrentFeedItemPage = createSelector(
+  getBlogFeatureState,
+  (state) => state.currentFeedItemPage
+);
+
 export const getError = createSelector(
   getBlogFeatureState,
   (state) => state.error
@@ -98,10 +104,10 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
       };
 
-      case BlogActionTypes.ClearCurrentFeedItem:
+    case BlogActionTypes.ClearCurrentFeedItem:
       return {
         ...state,
-        currentFeedItemId: null
+        currentFeedItemId: null,
       };
 
     case BlogActionTypes.CreateBlogFail:
@@ -188,6 +194,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         feedItems: action.payload.rssFeedItems,
         currentFeedItemId: null,
+        currentFeedItemPage: 1,
         error: "",
       };
 
@@ -243,6 +250,11 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         currentFeedItemId: action.payload.id,
       };
 
+    case BlogActionTypes.SetCurrentFeedItemPage:
+      return {
+        ...state,
+        currentFeedItemPage: action.payload,
+      };
     case BlogActionTypes.UpdateBlogSuccess:
       const updatedBlogs = state.blogs.map((item) =>
         action.payload.id === item.id ? action.payload : item

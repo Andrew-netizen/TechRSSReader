@@ -10,17 +10,25 @@ import { DisplaySortOrder } from '../../state/articles.reducer';
 export class ArticlesListComponent {
   public DisplaySortOrderEnum = DisplaySortOrder;
 
-  @Input() excludeAlreadyRead: boolean;
-  @Input() keywordExclusion: boolean;
-  @Input() feedItems: RssFeedItemDto[];
-  @Input() selectedFeedItem: RssFeedItemDto;
+  @Input() currentPage: number;
   @Input() displaySortOrder: DisplaySortOrder;
+  @Input() excludeAlreadyRead: boolean;
+  @Input() feedItems: RssFeedItemDto[];
+  @Input() keywordExclusion: boolean;
+  @Input() pageCount: number;
+  @Input() selectedFeedItem: RssFeedItemDto;
+  @Input() totalArticlesCount: number;
+  @Output() currentPageUpdated = new EventEmitter<number>();
   @Output() excludeAlreadyReadUpdated = new EventEmitter<boolean>();
   @Output() keywordExclusionUpdated = new EventEmitter<boolean>();
   @Output() selected = new EventEmitter<RssFeedItemDto>();
   @Output() articleMarkedAsReadEvent = new EventEmitter<RssFeedItemDto>();
   @Output() titleClickedEvent = new EventEmitter();
   @Output() sortOrderUpdated = new EventEmitter<DisplaySortOrder>();
+
+  currentPageUpdatedHandler(value: number): void {
+    this.currentPageUpdated.emit(value);
+  }
 
   feedItemSelected(feedItem: RssFeedItemDto): void {
     this.selected.emit(feedItem);

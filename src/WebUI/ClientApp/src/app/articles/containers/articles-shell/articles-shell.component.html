@@ -9,12 +9,16 @@
   </div>
   <div class="col-xl-10 col-md-8">
     <articles-list *ngIf="selectedBlog$ | async"
+    [currentPage]="currentPage$ | async"
     [displaySortOrder]="displaySortOrder$ | async"
     [excludeAlreadyRead]="excludeAlreadyRead$ | async"
     [feedItems]="feedItems$ | async"
     [keywordExclusion]="keywordExclusion$ | async"
+    [pageCount]="pagesCount$ | async"
     [selectedFeedItem]="selectedFeedItem$ | async"
+    [totalArticlesCount]="totalArticleCount$ | async"
     (articleMarkedAsReadEvent)="markItemAsAlreadyRead($event)"
+    (currentPageUpdated)="currentPageChanged($event)"
     (excludeAlreadyReadUpdated)="excludeAlreadyReadChanged($event)"
     (keywordExclusionUpdated)="keywordExclusionChanged($event)"
     (selected)="feedItemSelected($event)"

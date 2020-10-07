@@ -791,6 +791,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "bookmarked": {
+            "type": "boolean"
+          },
           "categories": {
             "type": "string",
             "nullable": true
@@ -914,6 +917,9 @@
           "id": {
             "type": "integer",
             "format": "int32"
+          },
+          "bookmarked": {
+            "type": "boolean"
           },
           "readAlready": {
             "type": "boolean"

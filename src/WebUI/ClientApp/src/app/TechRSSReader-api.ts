@@ -1252,6 +1252,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
     id?: number;
     author?: string | undefined;
     blogId?: number;
+    bookmarked?: boolean;
     categories?: string | undefined;
     content?: string | undefined;
     description?: string | undefined;
@@ -1279,6 +1280,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
             this.id = data["id"];
             this.author = data["author"];
             this.blogId = data["blogId"];
+            this.bookmarked = data["bookmarked"];
             this.categories = data["categories"];
             this.content = data["content"];
             this.description = data["description"];
@@ -1306,6 +1308,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
         data["id"] = this.id;
         data["author"] = this.author;
         data["blogId"] = this.blogId;
+        data["bookmarked"] = this.bookmarked;
         data["categories"] = this.categories;
         data["content"] = this.content;
         data["description"] = this.description;
@@ -1326,6 +1329,7 @@ export interface IRssFeedItemDto {
     id?: number;
     author?: string | undefined;
     blogId?: number;
+    bookmarked?: boolean;
     categories?: string | undefined;
     content?: string | undefined;
     description?: string | undefined;
@@ -1478,6 +1482,7 @@ export interface IUpdateBlogCommand {
 
 export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {
     id?: number;
+    bookmarked?: boolean;
     readAlready?: boolean;
     userRating?: number | undefined;
 
@@ -1493,6 +1498,7 @@ export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
+            this.bookmarked = data["bookmarked"];
             this.readAlready = data["readAlready"];
             this.userRating = data["userRating"];
         }
@@ -1508,6 +1514,7 @@ export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["bookmarked"] = this.bookmarked;
         data["readAlready"] = this.readAlready;
         data["userRating"] = this.userRating;
         return data; 
@@ -1516,6 +1523,7 @@ export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {
 
 export interface IUpdateFeedItemCommand {
     id?: number;
+    bookmarked?: boolean;
     readAlready?: boolean;
     userRating?: number | undefined;
 }

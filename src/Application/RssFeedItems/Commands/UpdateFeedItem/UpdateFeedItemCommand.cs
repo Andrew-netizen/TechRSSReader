@@ -13,7 +13,9 @@ namespace TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem
     public class UpdateFeedItemCommand: IRequest<RssFeedItemDto>
     {
         public int Id { get; set; }
-        
+
+        public bool Bookmarked { get; set; }
+
         public bool ReadAlready { get; set; }
 
         public int? UserRating { get; set; }
@@ -37,7 +39,8 @@ namespace TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem
                     throw new NotFoundException(nameof(RssFeedItem), request.Id);
 
                 rssFeedItem.ReadAlready = request.ReadAlready;
-                rssFeedItem.UserRating = request.UserRating; 
+                rssFeedItem.UserRating = request.UserRating;
+                rssFeedItem.Bookmarked = request.Bookmarked; 
 
                 _context.RssFeedItems.Update(rssFeedItem);
 

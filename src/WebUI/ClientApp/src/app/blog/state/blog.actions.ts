@@ -24,6 +24,7 @@ export enum BlogActionTypes {
   MarkItemAsReadSuccess = '[Blog API] Mark Item As Read Success',
   SetCurrentBlog = '[Blog GUI] Set Current Blog',
   SetCurrentFeedItem = '[Article GUI] Set Current Feed Item',
+  SetCurrentFeedItemPage = "[Articles GUI] Set Current Feed Item Page",
   RetrieveFeedItemsFromSource = '[Blog GUI] Retrieve Feed Items',
   RetrieveFeedItemsFromSourceSuccess = '[Blog API] Retrieve Feed Items Success',
   RetrieveFeedItemsFromSourceFail = '[Blog GUI] Retrieve Feed Items Fail',
@@ -118,16 +119,6 @@ export class MarkItemAsReadSuccess implements Action {
   constructor(public payload: RssFeedItemDto) {}
 }
 
-export class SetCurrentBlog implements Action {
-  readonly type = BlogActionTypes.SetCurrentBlog;
-
-  constructor(public payload: BlogDto) { }
-}
-
-export class SetCurrentFeedItem implements Action {
-  readonly type = BlogActionTypes.SetCurrentFeedItem;
-  constructor(public payload: RssFeedItemDto) {}
-}
 
 export class RetrieveFeedItemsFromSource implements Action {
   readonly type = BlogActionTypes.RetrieveFeedItemsFromSource;
@@ -142,6 +133,22 @@ export class RetrieveFeedItemsFromSourceSuccess implements Action {
 export class RetrieveFeedItemsFromSourceFail implements Action {
   readonly type = BlogActionTypes.RetrieveFeedItemsFromSourceFail;
   constructor (public payload: string) {}
+}
+
+export class SetCurrentBlog implements Action {
+  readonly type = BlogActionTypes.SetCurrentBlog;
+
+  constructor(public payload: BlogDto) { }
+}
+
+export class SetCurrentFeedItem implements Action {
+  readonly type = BlogActionTypes.SetCurrentFeedItem;
+  constructor(public payload: RssFeedItemDto) {}
+}
+
+export class SetCurrentFeedItemPage implements Action {
+  readonly type = BlogActionTypes.SetCurrentFeedItemPage;
+  constructor(public payload: number) {}
 }
 
 export class UpdateBlog implements Action {
@@ -182,6 +189,7 @@ export type BlogActions = ClearCurrentBlog
 | RetrieveFeedItemsFromSourceSuccess
 | SetCurrentBlog
 | SetCurrentFeedItem
+| SetCurrentFeedItemPage
 | UpdateBlog
 | UpdateBlogFail
 | UpdateBlogSuccess;

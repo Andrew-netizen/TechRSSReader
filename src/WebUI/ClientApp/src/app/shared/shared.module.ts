@@ -5,6 +5,7 @@ import { BlogListComponent } from "./components/blog-list/blog-list.component";
 import { PublishingDatePipe } from "./publishingdate.pipe";
 import { StarComponent } from "./components/star/star.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -12,11 +13,13 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     BlogListComponent,
     PublishingDatePipe,
     StarComponent,
+    PaginatorComponent,
   ],
   imports: [CommonModule, FontAwesomeModule],
   exports: [
     BlogListComponent,
     FeeditemDisplayComponent,
+    PaginatorComponent,
     PublishingDatePipe,
     StarComponent,
   ],

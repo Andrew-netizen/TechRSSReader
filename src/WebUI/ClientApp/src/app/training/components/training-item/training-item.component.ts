@@ -46,6 +46,7 @@ export class TrainingItemComponent {
     const command: UpdateFeedItemCommand = UpdateFeedItemCommand.fromJS(
       {
         id: this.currentFeedItem.id,
+        bookmarked: this.currentFeedItem.bookmarked,
         readAlready: this.currentFeedItem.readAlready,
         userRating: userRating
       }

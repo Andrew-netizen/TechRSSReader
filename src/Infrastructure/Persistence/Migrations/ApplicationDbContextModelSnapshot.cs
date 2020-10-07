@@ -287,6 +287,9 @@ namespace TechRSSReader.Infrastructure.Persistence.Migrations
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Bookmarked")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Categories")
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);

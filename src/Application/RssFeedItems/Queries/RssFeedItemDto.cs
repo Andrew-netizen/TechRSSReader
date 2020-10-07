@@ -13,6 +13,8 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
 
         public int BlogId { get; set; }
 
+        public bool Bookmarked { get; set; }
+
         public string Categories { get; set; }
 
         public string Content { get; set; }

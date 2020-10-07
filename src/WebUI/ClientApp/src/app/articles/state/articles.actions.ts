@@ -20,6 +20,8 @@ export class ToggleKeywordExclusion implements Action {
   constructor(public payload: boolean) {}
 }
 
+
+
 export class SetDisplaySortOrder implements Action {
   readonly type = ArticlesActionTypes.SetDisplaySortOrder;
   constructor(public payload: DisplaySortOrder) {}

@@ -1,55 +1,61 @@
 <div class="card">
-  <div class="card-header row">
-    <div class="col-md-4">
-      <h4>Articles</h4>
-    </div>
-    <div class="col-md-8 form-check text-right">
-      <label><b>Sort by:</b></label>
-      &nbsp; &nbsp; &nbsp;
-      <label>
-        <input
-          class="form-check-input"
-          type="radio"
-          (change)="sortOrderChanged(DisplaySortOrderEnum.PredictedRating)"
-          [checked]="displaySortOrder === DisplaySortOrderEnum.PredictedRating"
-        />
-        Predicted Rating
-      </label>
-      &nbsp; &nbsp; &nbsp;
-      <label>
-        <input
-          class="form-check-input"
-          type="radio"
-          (change)="sortOrderChanged(DisplaySortOrderEnum.PublishDateDesc)"
-          [checked]="displaySortOrder === DisplaySortOrderEnum.PublishDateDesc"
-        />
-        Publication Date
-      </label>
-      &nbsp; &nbsp; &nbsp;
-      <label><b>Exclusions:</b></label>
-      &nbsp; &nbsp; &nbsp;
-      <label>
-        <input
-          class="form-check-input"
-          type="checkbox"
-          (change)="keywordExclusionChanged($event.target.checked)"
-          [checked]="keywordExclusion"
-        />
-        By Keyword
-      </label>
-      &nbsp; &nbsp; &nbsp;
-      <label>
-        <input
-          class="form-check-input"
-          type="checkbox"
-          (change)="excludeAlreadyReadChanged($event.target.checked)"
-          [checked]="excludeAlreadyRead"
-        />
-        Already Read
-      </label>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-4">
+        <h4>Articles</h4>
+      </div>
+      <div class="col-md-8 form-check text-right">
+        <label><b>Sort by:</b></label>
+        &nbsp; &nbsp; &nbsp;
+        <label>
+          <input
+            class="form-check-input"
+            type="radio"
+            (change)="sortOrderChanged(DisplaySortOrderEnum.PredictedRating)"
+            [checked]="
+              displaySortOrder === DisplaySortOrderEnum.PredictedRating
+            "
+          />
+          Predicted Rating
+        </label>
+        &nbsp; &nbsp; &nbsp;
+        <label>
+          <input
+            class="form-check-input"
+            type="radio"
+            (change)="sortOrderChanged(DisplaySortOrderEnum.PublishDateDesc)"
+            [checked]="
+              displaySortOrder === DisplaySortOrderEnum.PublishDateDesc
+            "
+          />
+          Publication Date
+        </label>
+        &nbsp; &nbsp; &nbsp;
+        <label><b>Exclusions:</b></label>
+        &nbsp; &nbsp; &nbsp;
+        <label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            (change)="keywordExclusionChanged($event.target.checked)"
+            [checked]="keywordExclusion"
+          />
+          By Keyword
+        </label>
+        &nbsp; &nbsp; &nbsp;
+        <label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            (change)="excludeAlreadyReadChanged($event.target.checked)"
+            [checked]="excludeAlreadyRead"
+          />
+          Already Read
+        </label>
+      </div>
     </div>
   </div>
-  <div class="card-body" *ngIf="feedItems">
+  <div class="card-body" *ngIf="totalArticlesCount > 0">
     <div class="list-group" *ngFor="let feedItem of feedItems">
       <button
         class="list-group-item list-group-item-action rounded-0"
@@ -64,16 +70,62 @@
           }"
         ></span>
         <div class="float-right">
-          <fa-icon *ngIf="feedItem.userRatingPrediction" class="mx-1" [icon]="feedItem.userRatingPrediction > 0 ? ['fas', 'star'] : ['fal', 'star']"></fa-icon>
-          <fa-icon *ngIf="feedItem.userRatingPrediction" class="mx-1" [icon]="feedItem.userRatingPrediction > 1 ? ['fas', 'star'] : ['fal', 'star']"></fa-icon>
-          <fa-icon *ngIf="feedItem.userRatingPrediction" class="mx-1" [icon]="feedItem.userRatingPrediction > 2 ? ['fas', 'star'] : ['fal', 'star']"></fa-icon>
-          <fa-icon *ngIf="feedItem.userRatingPrediction" class="mx-1" [icon]="feedItem.userRatingPrediction > 3 ? ['fas', 'star'] : ['fal', 'star']"></fa-icon>
-          <fa-icon *ngIf="feedItem.userRatingPrediction" class="mx-1" [icon]="feedItem.userRatingPrediction > 4 ? ['fas', 'star'] : ['fal', 'star']"></fa-icon>
-          <small *ngIf="feedItem.categories" class="rounded px-2 py-1 border border-warn">
+          <fa-icon
+            *ngIf="feedItem.userRatingPrediction"
+            class="mx-1"
+            [icon]="
+              feedItem.userRatingPrediction > 0
+                ? ['fas', 'star']
+                : ['fal', 'star']
+            "
+          ></fa-icon>
+          <fa-icon
+            *ngIf="feedItem.userRatingPrediction"
+            class="mx-1"
+            [icon]="
+              feedItem.userRatingPrediction > 1
+                ? ['fas', 'star']
+                : ['fal', 'star']
+            "
+          ></fa-icon>
+          <fa-icon
+            *ngIf="feedItem.userRatingPrediction"
+            class="mx-1"
+            [icon]="
+              feedItem.userRatingPrediction > 2
+                ? ['fas', 'star']
+                : ['fal', 'star']
+            "
+          ></fa-icon>
+          <fa-icon
+            *ngIf="feedItem.userRatingPrediction"
+            class="mx-1"
+            [icon]="
+              feedItem.userRatingPrediction > 3
+                ? ['fas', 'star']
+                : ['fal', 'star']
+            "
+          ></fa-icon>
+          <fa-icon
+            *ngIf="feedItem.userRatingPrediction"
+            class="mx-1"
+            [icon]="
+              feedItem.userRatingPrediction > 4
+                ? ['fas', 'star']
+                : ['fal', 'star']
+            "
+          ></fa-icon>
+          <small
+            *ngIf="feedItem.categories"
+            class="rounded px-2 py-1 border border-warn"
+          >
             Categories: &nbsp;{{ feedItem.categories }}
           </small>
           &nbsp;
-          <small class="rounded px-2 py-1 border border-warn" *ngIf="feedItem.publishingDate">
+          <small
+            class="rounded px-2 py-1 border border-warn"
+            *ngIf="feedItem.publishingDate"
+          >
             {{ feedItem.publishingDate | publishingDatePipe }}
           </small>
         </div>
@@ -84,6 +136,19 @@
         (articleMarkedAsRead)="markedAsReadHandler(feedItem)"
         (titleClicked)="onTitleClicked()"
       ></feeditem-display>
+    </div>
+  </div>
+  <div class="card-footer" *ngIf="pageCount > 1">
+    <div class="row">
+      <div class="col-md-12 text-right">
+        <paginator
+          *ngIf="pageCount > 1"
+          [currentPage]="currentPage"
+          [pageCount]="pageCount"
+          (currentPageUpdated)="currentPageUpdatedHandler($event)"
+        >
+        </paginator>
+      </div>
     </div>
   </div>
 </div>

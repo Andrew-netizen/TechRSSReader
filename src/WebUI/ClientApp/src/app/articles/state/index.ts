@@ -28,6 +28,12 @@ export const getDisplaySortOrder = createSelector(
   state => state.displaySortOrder
 );
 
+
+export const getPageSize = createSelector(
+  getArticlesFeatureState,
+  state => state.pageSize
+);
+
 export const getFilteredArticles = createSelector(
   getExcludeAlreadyRead,
   getKeywordExclusion,
@@ -54,6 +60,26 @@ export const getFilteredArticles = createSelector(
     return result;
   }
 );
+
+export const getFilteredArticleCount = createSelector(
+  getFilteredArticles,
+  articles => articles.length
+);
+
+export const getPagesCount = createSelector(
+  getFilteredArticleCount,
+  getPageSize,
+  (articleCount, pageSize) => Math.ceil(articleCount / pageSize)
+);
+
+export const getPaginatedArticles = createSelector(
+    getFilteredArticles,
+    fromBlog.getCurrentFeedItemPage,
+    getPageSize,
+    (articles, currentPage, pageSize) =>
+      articles.slice((currentPage-1)*pageSize,currentPage*pageSize)
+  );
+
 
 function ContainsExcludedKeywords(blog: BlogDto, feedItem: RssFeedItemDto): boolean {
   var hasExcludedKeyword: boolean;
