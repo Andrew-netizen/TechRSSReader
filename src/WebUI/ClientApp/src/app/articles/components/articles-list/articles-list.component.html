@@ -56,87 +56,99 @@
     </div>
   </div>
   <div class="card-body" *ngIf="totalArticlesCount > 0">
-    <div class="list-group" *ngFor="let feedItem of feedItems">
-      <button
+    <ul class="list-group">
+      <li
+        *ngFor="let feedItem of feedItems"
         class="list-group-item list-group-item-action rounded-0"
-        *ngIf="feedItem?.id !== selectedFeedItem?.id"
-        (click)="feedItemSelected(feedItem)"
       >
-        <span
-          [innerHTML]="feedItem.title"
-          [ngClass]="{ 'font-weight-bold text-primary': !feedItem.readAlready }"
-          [ngClass]="{
-            'font-weight-light text-secondary': feedItem.readAlready
-          }"
-        ></span>
-        <div class="float-right">
-          <fa-icon
-            *ngIf="feedItem.userRatingPrediction"
-            class="mx-1"
-            [icon]="
-              feedItem.userRatingPrediction > 0
-                ? ['fas', 'star']
-                : ['fal', 'star']
-            "
-          ></fa-icon>
-          <fa-icon
-            *ngIf="feedItem.userRatingPrediction"
-            class="mx-1"
-            [icon]="
-              feedItem.userRatingPrediction > 1
-                ? ['fas', 'star']
-                : ['fal', 'star']
-            "
-          ></fa-icon>
-          <fa-icon
-            *ngIf="feedItem.userRatingPrediction"
-            class="mx-1"
-            [icon]="
-              feedItem.userRatingPrediction > 2
-                ? ['fas', 'star']
-                : ['fal', 'star']
-            "
-          ></fa-icon>
-          <fa-icon
-            *ngIf="feedItem.userRatingPrediction"
-            class="mx-1"
-            [icon]="
-              feedItem.userRatingPrediction > 3
-                ? ['fas', 'star']
-                : ['fal', 'star']
-            "
-          ></fa-icon>
-          <fa-icon
-            *ngIf="feedItem.userRatingPrediction"
-            class="mx-1"
-            [icon]="
-              feedItem.userRatingPrediction > 4
-                ? ['fas', 'star']
-                : ['fal', 'star']
-            "
-          ></fa-icon>
-          <small
-            *ngIf="feedItem.categories"
-            class="rounded px-2 py-1 border border-warn"
-          >
-            Categories: &nbsp;{{ feedItem.categories }}
-          </small>
-          &nbsp;
-          <small
-            class="rounded px-2 py-1 border border-warn"
-            *ngIf="feedItem.publishingDate"
-          >
-            {{ feedItem.publishingDate | publishingDatePipe }}
-          </small>
+        <div *ngIf="feedItem?.id !== selectedFeedItem?.id">
+          <button (click)="bookmarkToggledHandler(feedItem)" >
+            <fa-icon
+              [icon]="
+                feedItem.bookmarked ? ['fas', 'bookmark'] : ['far', 'bookmark']
+              "
+            ></fa-icon>
+          </button>
+          <button
+            (click)="feedItemSelected(feedItem)"
+            [innerHTML]="feedItem.title"
+            [ngClass]="{
+              'font-weight-bold text-primary': !feedItem.readAlready
+            }"
+            [ngClass]="{
+              'font-weight-light text-secondary': feedItem.readAlready
+            }"
+          ></button>
+          <div class="float-right">
+            <fa-icon
+              *ngIf="feedItem.userRatingPrediction"
+              class="mx-1"
+              [icon]="
+                feedItem.userRatingPrediction > 0
+                  ? ['fas', 'star']
+                  : ['fal', 'star']
+              "
+            ></fa-icon>
+            <fa-icon
+              *ngIf="feedItem.userRatingPrediction"
+              class="mx-1"
+              [icon]="
+                feedItem.userRatingPrediction > 1
+                  ? ['fas', 'star']
+                  : ['fal', 'star']
+              "
+            ></fa-icon>
+            <fa-icon
+              *ngIf="feedItem.userRatingPrediction"
+              class="mx-1"
+              [icon]="
+                feedItem.userRatingPrediction > 2
+                  ? ['fas', 'star']
+                  : ['fal', 'star']
+              "
+            ></fa-icon>
+            <fa-icon
+              *ngIf="feedItem.userRatingPrediction"
+              class="mx-1"
+              [icon]="
+                feedItem.userRatingPrediction > 3
+                  ? ['fas', 'star']
+                  : ['fal', 'star']
+              "
+            ></fa-icon>
+            <fa-icon
+              *ngIf="feedItem.userRatingPrediction"
+              class="mx-1"
+              [icon]="
+                feedItem.userRatingPrediction > 4
+                  ? ['fas', 'star']
+                  : ['fal', 'star']
+              "
+            ></fa-icon>
+            <small
+              *ngIf="feedItem.categories"
+              class="rounded px-2 py-1 border border-warn"
+            >
+              Categories: &nbsp;{{ feedItem.categories }}
+            </small>
+            &nbsp;
+            <small
+              class="rounded px-2 py-1 border border-warn"
+              *ngIf="feedItem.publishingDate"
+            >
+              {{ feedItem.publishingDate | publishingDatePipe }}
+            </small>
+          </div>
         </div>
-      </button>
-      <feeditem-display
-        *ngIf="feedItem?.id === selectedFeedItem?.id"
-        [feedItem]="selectedFeedItem"
-        (articleMarkedAsRead)="markedAsReadHandler(feedItem)"
-        (titleClicked)="onTitleClicked()"
-      ></feeditem-display>
-    </div>
+        <feeditem-display
+          *ngIf="feedItem?.id === selectedFeedItem?.id"
+          [feedItem]="selectedFeedItem"
+          (articleMarkedAsRead)="markedAsReadHandler(feedItem)"
+          (bookmarkToggled)="bookmarkToggledHandler(feedItem)"
+          (titleClicked)="onTitleClicked()"
+        ></feeditem-display>
+      </li>
+    </ul>
   </div>
   <div class="card-footer" *ngIf="pageCount > 1">
     <div class="row">

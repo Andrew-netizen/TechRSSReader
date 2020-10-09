@@ -5,7 +5,7 @@ import {
   BlogDto,
   RssFeedItemDto,
   UpdateFeedItemCommand,
-} from "src/app/techrssreader-api";
+} from "src/app/TechRSSReader-api";
 
 import * as fromRoot from "../../../state/app.state";
 import * as fromBlog from "../../../blog/state/blog.reducer";
@@ -25,6 +25,7 @@ export class ArticlesShellComponent implements OnInit {
   displaySortOrder$: Observable<DisplaySortOrder>;
   excludeAlreadyRead$: Observable<boolean>;
   feedItems$: Observable<RssFeedItemDto[]>;
+  feedItemSource$: Observable<fromBlog.FeedItemSource>;
   keywordExclusion$: Observable<boolean>;
   pagesCount$: Observable<number>;
   selectedBlog$: Observable<BlogDto>;
@@ -40,26 +41,31 @@ export class ArticlesShellComponent implements OnInit {
     this.store.dispatch(new blogActions.LoadBlogs());
     this.store.dispatch(new blogActions.ClearCurrentBlog());
     this.currentPage$ = this.store.pipe(
-      select(fromBlog.getCurrentFeedItemPage)
+      select(fromArticles.getCurrentFeedItemPage)
     );
 
     this.displaySortOrder$ = this.store.pipe(
       select(fromArticles.getDisplaySortOrder)
     );
-    this.feedItems$ = this.store.pipe(select(fromArticles.getPaginatedArticles));
-    this.selectedBlog$ = this.store.pipe(select(fromBlog.getCurrentBlog));
-    this.selectedFeedItem$ = this.store.pipe(
-      select(fromBlog.getCurrentFeedItem)
+    this.feedItems$ = this.store.pipe(
+      select(fromArticles.getPaginatedArticles)
     );
+
+    this.feedItemSource$ = this.store.pipe(select(fromBlog.getFeedItemSource));
+
     this.excludeAlreadyRead$ = this.store.pipe(
       select(fromArticles.getExcludeAlreadyRead)
     );
     this.keywordExclusion$ = this.store.pipe(
       select(fromArticles.getKeywordExclusion)
     );
-    this.pagesCount$ = this.store.pipe(
-      select(fromArticles.getPagesCount)
+    this.pagesCount$ = this.store.pipe(select(fromArticles.getPagesCount));
+
+    this.selectedBlog$ = this.store.pipe(select(fromBlog.getCurrentBlog));
+    this.selectedFeedItem$ = this.store.pipe(
+      select(fromBlog.getCurrentFeedItem)
     );
+
     this.totalArticleCount$ = this.store.pipe(
       select(fromArticles.getFilteredArticleCount)
     );
@@ -67,6 +73,11 @@ export class ArticlesShellComponent implements OnInit {
 
   blogSelected(blog: BlogDto): void {
     this.store.dispatch(new blogActions.LoadBlogWithItems(blog.id));
+  }
+
+  bookmarksMenuSelected(): void {
+    this.store.dispatch(new blogActions.LoadBookmarkedFeedItems());
+    //this.store.dispatch(new articlesActions.ToggleAlreadyRead(false));
   }
 
   currentPageChanged(value: number): void {
@@ -97,6 +108,16 @@ export class ArticlesShellComponent implements OnInit {
       userRating: value.userRating,
     });
     this.store.dispatch(new blogActions.MarkItemAsRead(command));
+  }
+
+  toggleItemBookmark(value: RssFeedItemDto): void {
+    const command: UpdateFeedItemCommand = UpdateFeedItemCommand.fromJS({
+      id: value.id,
+      bookmarked: !value.bookmarked,
+      readAlready: value.readAlready,
+      userRating: value.userRating,
+    });
+    this.store.dispatch(new blogActions.ToggleFeedItemBookmark(command));
   }
 
   setDisplaySortOrder(value: DisplaySortOrder): void {

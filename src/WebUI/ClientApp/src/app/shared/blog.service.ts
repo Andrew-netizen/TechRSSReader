@@ -3,12 +3,13 @@ import {
   BlogsClient,
   BlogDto,
   UpdateBlogCommand,
-  CreateBlogCommand,
-} from "../techrssreader-api";
+  CreateBlogCommand, RssFeedItemDto, RssFeedItemsClient, FeedItemsViewModel
+} from "../TechRSSReader-api";
 import { map } from "rxjs/operators";
 
 export class BlogService {
-  constructor(private blogsClient: BlogsClient) {}
+  constructor(private blogsClient: BlogsClient,
+            private feedItemsClient: RssFeedItemsClient) {}
 
   getBlogs(): Observable<BlogDto[]> {
     return this.blogsClient.get().pipe(map((data) => data.blogs));
@@ -20,6 +21,10 @@ export class BlogService {
 
   retrieveFeedItems(id: number): Observable<number> {
     return this.blogsClient.retrieveFeedItemsFromSource(id);
+  }
+
+  getBookmarkedFeedItems(): Observable<FeedItemsViewModel> {
+    return this.feedItemsClient.getBookmarked();
   }
 
   createBlog(blog:BlogDto): Observable<BlogDto> {

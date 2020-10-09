@@ -20,7 +20,7 @@ import {
   BlogDto,
   KeywordToExcludeDto,
   KeywordToIncludeDto,
-} from "src/app/techrssreader-api";
+} from "src/app/TechRSSReader-api";
 
 @Component({
   selector: "blog-edit",

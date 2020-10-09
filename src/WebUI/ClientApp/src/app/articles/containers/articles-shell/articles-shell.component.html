@@ -1,5 +1,9 @@
 <div class="row">
   <div class="col-xl-2 col-md-4">
+    <articles-menu
+    [feedItemSource]="feedItemSource$ | async"
+    (bookmarksSelected)="bookmarksMenuSelected()"
+    ></articles-menu>
     <blog-list
       [blogs]="blogs$ | async"
       [selectedBlog]="selectedBlog$ | async"
@@ -8,7 +12,7 @@
     </blog-list>
   </div>
   <div class="col-xl-10 col-md-8">
-    <articles-list *ngIf="selectedBlog$ | async"
+    <articles-list
     [currentPage]="currentPage$ | async"
     [displaySortOrder]="displaySortOrder$ | async"
     [excludeAlreadyRead]="excludeAlreadyRead$ | async"
@@ -18,6 +22,7 @@
     [selectedFeedItem]="selectedFeedItem$ | async"
     [totalArticlesCount]="totalArticleCount$ | async"
     (articleMarkedAsReadEvent)="markItemAsAlreadyRead($event)"
+    (articleBookmarkToggledEvent)="toggleItemBookmark($event)"
     (currentPageUpdated)="currentPageChanged($event)"
     (excludeAlreadyReadUpdated)="excludeAlreadyReadChanged($event)"
     (keywordExclusionUpdated)="keywordExclusionChanged($event)"

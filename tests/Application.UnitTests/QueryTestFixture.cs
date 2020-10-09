@@ -1,5 +1,6 @@
 using System;
 using AutoMapper;
+using Moq;
 using TechRSSReader.Application.Common.Interfaces;
 using TechRSSReader.Application.Common.Mappings;
 using TechRSSReader.Infrastructure.Persistence;
@@ -20,12 +21,21 @@ namespace TechRSSReader.Application.UnitTests.Common
 
             Mapper = configurationProvider.CreateMapper();
             UserInterestPredictor = new StubUserInterestPredictor();
+
+            var currentUserServiceMock = new Mock<ICurrentUserService>();
+            currentUserServiceMock.Setup(m => m.UserId)
+                .Returns("00000000-0000-0000-0000-000000000000");
+
+            CurrentUserService = currentUserServiceMock.Object; 
+
         }
         public ApplicationDbContext Context { get; }
 
         public IMapper Mapper { get; }
 
         public IUserInterestPredictor UserInterestPredictor { get; }
+                
+        public ICurrentUserService CurrentUserService { get; }
 
         public void Dispose()
         {

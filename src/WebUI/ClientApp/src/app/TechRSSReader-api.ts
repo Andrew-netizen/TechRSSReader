@@ -347,6 +347,7 @@ export class BlogsClient implements IBlogsClient {
 }
 
 export interface IRssFeedItemsClient {
+    getBookmarked(): Observable<FeedItemsViewModel>;
     getNoUserPreference(blogId: number | undefined): Observable<RssFeedItemDto>;
     update(id: number, command: UpdateFeedItemCommand): Observable<RssFeedItemDto>;
 }
@@ -362,6 +363,54 @@ export class RssFeedItemsClient implements IRssFeedItemsClient {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    getBookmarked(): Observable<FeedItemsViewModel> {
+        let url_ = this.baseUrl + "/api/RssFeedItems";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBookmarked(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBookmarked(<any>response_);
+                } catch (e) {
+                    return <Observable<FeedItemsViewModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FeedItemsViewModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBookmarked(response: HttpResponseBase): Observable<FeedItemsViewModel> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FeedItemsViewModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FeedItemsViewModel>(<any>null);
     }
 
     getNoUserPreference(blogId: number | undefined): Observable<RssFeedItemDto> {
@@ -1478,6 +1527,50 @@ export interface IUpdateBlogCommand {
     xmlAddress?: string | undefined;
     keywordsToExclude?: KeywordToExcludeDto[] | undefined;
     keywordsToInclude?: KeywordToIncludeDto[] | undefined;
+}
+
+export class FeedItemsViewModel implements IFeedItemsViewModel {
+    rssFeedItems?: RssFeedItemDto[] | undefined;
+
+    constructor(data?: IFeedItemsViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["rssFeedItems"])) {
+                this.rssFeedItems = [] as any;
+                for (let item of data["rssFeedItems"])
+                    this.rssFeedItems!.push(RssFeedItemDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): FeedItemsViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new FeedItemsViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.rssFeedItems)) {
+            data["rssFeedItems"] = [];
+            for (let item of this.rssFeedItems)
+                data["rssFeedItems"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IFeedItemsViewModel {
+    rssFeedItems?: RssFeedItemDto[] | undefined;
 }
 
 export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {

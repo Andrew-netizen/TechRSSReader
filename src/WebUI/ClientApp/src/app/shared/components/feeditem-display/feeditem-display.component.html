@@ -1,5 +1,15 @@
 <div class="card" *ngIf="feedItem">
   <div class="card-header text-white bg-primary">
+    <button
+    class="bg-primary text-white"
+    (click)="onBookmarkToggled(feedItem)" >
+      <fa-icon
+
+        [icon]="
+          feedItem.bookmarked ? ['fas', 'bookmark'] : ['far', 'bookmark']
+        "
+      ></fa-icon>
+    </button>
   <span [ngClass]="{'font-weight-bold': !feedItem.readAlready}"
   (click)="TitleClickedHandler(feedItem)"
   [innerHTML]="feedItem.title"></span>

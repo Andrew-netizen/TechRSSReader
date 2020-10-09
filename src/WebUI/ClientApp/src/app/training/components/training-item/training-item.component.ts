@@ -5,7 +5,7 @@ import {
   RssFeedItemDto,
   BlogDto,
   UpdateFeedItemCommand,
-} from "src/app/techrssreader-api";
+} from "src/app/TechRSSReader-api";
 
 @Component({
   selector: "training-item",

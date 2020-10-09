@@ -1,6 +1,5 @@
 import { EventEmitter } from '@angular/core';
 import { Component, Input, Output} from '@angular/core';
-import { Console } from 'console';
 
 @Component({
   selector: 'paginator',

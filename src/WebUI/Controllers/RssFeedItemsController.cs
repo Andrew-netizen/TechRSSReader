@@ -11,6 +11,13 @@ namespace TechRSSReader.WebUI.Controllers
     [Authorize]
     public class RssFeedItemsController: ApiController
     {
+        [HttpGet]
+        public async Task<FeedItemsViewModel> GetBookmarked()
+        {
+            return await Mediator.Send(new GetBookmarkedItemsQuery());
+
+        }
+
         [HttpGet("[action]")]
         public async Task<RssFeedItemDto> GetNoUserPreference(int blogId)
         {

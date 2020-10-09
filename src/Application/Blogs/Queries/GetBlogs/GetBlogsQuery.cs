@@ -15,11 +15,14 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogs
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
+            private readonly ICurrentUserService _currentUserService;
 
-            public GetBlogsQueryHandler(IApplicationDbContext context, IMapper mapper)
+            public GetBlogsQueryHandler(IApplicationDbContext context, IMapper mapper,
+                ICurrentUserService currentUserService)
             {
                 _context = context;
                 _mapper = mapper;
+                _currentUserService = currentUserService;
             }
 
             public async Task<BlogsViewModel> Handle(GetBlogsQuery request, CancellationToken cancellationToken)
@@ -27,6 +30,7 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogs
                 var viewModel = new BlogsViewModel();
 
                 viewModel.Blogs = await _context.Blogs
+                    .Where(blog => blog.CreatedBy == _currentUserService.UserId)
                     .ProjectTo<BlogDto>(_mapper.ConfigurationProvider)
                     .OrderBy(t => t.Title)
                     .ToListAsync(cancellationToken);

@@ -2,7 +2,7 @@ import {
   RssFeedItemsClient,
   RssFeedItemDto,
   UpdateFeedItemCommand
-} from "../techrssreader-api";
+} from "../TechRSSReader-api";
 import { Observable } from "rxjs";
 
 export class TrainingService {

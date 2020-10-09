@@ -4,11 +4,19 @@ import { BlogDto, RssFeedItemDto } from "../../TechRSSReader-api";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { BlogActions, BlogActionTypes } from "./blog.actions";
 
+export enum FeedItemSource {
+  Blog,
+  Bookmarked,
+  Null,
+  Recommended,
+}
+
 export interface BlogState {
   blogs: BlogDto[];
   currentBlogId: number | null;
   currentFeedItemPage: number;
   error: string;
+  feedItemSource: FeedItemSource;
   retrievedFeedItemCount: number | null;
   feedItems: RssFeedItemDto[];
   currentFeedItemId: number | null;
@@ -19,6 +27,7 @@ const initialState: BlogState = {
   currentBlogId: null,
   currentFeedItemPage: 1,
   error: "",
+  feedItemSource: FeedItemSource.Null,
   retrievedFeedItemCount: null,
   feedItems: [],
   currentFeedItemId: null,
@@ -58,9 +67,11 @@ export const getCurrentBlog = createSelector(
   }
 );
 
-export const getCurrentBlogFeedItems = createSelector(
+export const getFeedItems = createSelector(
   getBlogFeatureState,
-  (state) => state.feedItems
+  (state) => {
+    return state.feedItems
+  }
 );
 
 export const getCurrentFeedItemPage = createSelector(
@@ -73,10 +84,16 @@ export const getError = createSelector(
   (state) => state.error
 );
 
+export const getFeedItemSource = createSelector(
+  getBlogFeatureState,
+  (state) => state.feedItemSource
+);
+
 export const getRetrievedFeedItemCount = createSelector(
   getBlogFeatureState,
   (state) => state.retrievedFeedItemCount
 );
+
 
 export const getCurrentFeedItemId = createSelector(
   getBlogFeatureState,
@@ -193,6 +210,33 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         feedItems: action.payload.rssFeedItems,
+        feedItemSource: FeedItemSource.Blog,
+        currentFeedItemId: null,
+        currentFeedItemPage: 1,
+        error: "",
+      };
+
+    case BlogActionTypes.LoadBookmarkedFeedItems:
+      return {
+        ...state,
+        feedItems: [],
+        currentBlogId: null,
+        retrievedFeedItemCount: null,
+      };
+
+    case BlogActionTypes.LoadBookmarkedFeedItemsFail:
+      return {
+        ...state,
+        feedItems: [],
+        currentFeedItemId: null,
+        error: action.payload,
+      };
+
+    case BlogActionTypes.LoadBookmarkedFeedItemsSuccess:
+      return {
+        ...state,
+        feedItems: action.payload.rssFeedItems,
+        feedItemSource: FeedItemSource.Bookmarked,
         currentFeedItemId: null,
         currentFeedItemPage: 1,
         error: "",
@@ -255,6 +299,23 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         currentFeedItemPage: action.payload,
       };
+
+    case BlogActionTypes.ToggleFeedItemBookmarkFail:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case BlogActionTypes.ToggleFeedItemBookmarkSuccess:
+      const bookmarkUpdatedFeedItems = state.feedItems.map((item) =>
+        action.payload.id === item.id ? action.payload : item
+      );
+      return {
+        ...state,
+        feedItems: bookmarkUpdatedFeedItems,
+        error: "",
+      };
+
     case BlogActionTypes.UpdateBlogSuccess:
       const updatedBlogs = state.blogs.map((item) =>
         action.payload.id === item.id ? action.payload : item

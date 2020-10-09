@@ -65,14 +65,17 @@ namespace TechRSSReader.Application.UnitTests.Common
                 Title = "Einstein Blog",
                 XmlAddress = "http://einstein.com",
                 KeywordsToInclude = new List<KeywordToInclude> { new KeywordToInclude { Keyword = "Physics" } },
-                KeywordsToExclude = new List<KeywordToExclude> { new KeywordToExclude { Keyword = "Fashion" } }
+                KeywordsToExclude = new List<KeywordToExclude> { new KeywordToExclude { Keyword = "Fashion" } },
+                CreatedBy = "00000000-0000-0000-0000-000000000000"
             });
 
             context.RssFeedItems.Add(new RssFeedItem
             {
-                Id = 1, 
+                Id = 1,
                 Title = "A General Theory of Relativity",
-                BlogId = 1
+                BlogId = 1,
+                Bookmarked = true,
+                CreatedBy = "00000000-0000-0000-0000-000000000000"
             });
 
             context.RssFeedItems.Add(new RssFeedItem
@@ -80,21 +83,24 @@ namespace TechRSSReader.Application.UnitTests.Common
                 Id = 2,
                 Title = "What I'm having for dinner",
                 BlogId = 1,
-                UserRating = 1
+                UserRating = 1,
+                CreatedBy = "00000000-0000-0000-0000-000000000000"
             });
 
             context.Blogs.Add(new Blog
             {
                 Id = 2,
-                Title = "Slashdot",
-                XmlAddress = "http://rss.slashdot.org/Slashdot/slashdotMain"
+                Title = "Slashdot", 
+                XmlAddress = "http://rss.slashdot.org/Slashdot/slashdotMain",
+                CreatedBy = "00000000-0000-0000-0000-000000000000"
             });
 
             context.Blogs.Add(new Blog
             {
                 Id = 3,
                 Title = "AWS News",
-                XmlAddress = "http://aws.amazon.com/rss/whats-new.rss"
+                XmlAddress = "http://aws.amazon.com/rss/whats-new.rss",
+                CreatedBy = "00000000-0000-0000-0000-000000000000"
             });
             context.SaveChanges();
         }

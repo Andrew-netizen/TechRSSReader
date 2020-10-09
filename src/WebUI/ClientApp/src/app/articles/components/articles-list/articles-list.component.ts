@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { RssFeedItemDto } from 'src/app/techrssreader-api';
+import { RssFeedItemDto } from 'src/app/TechRSSReader-api';
 import { DisplaySortOrder } from '../../state/articles.reducer';
 
 @Component({
@@ -22,6 +22,7 @@ export class ArticlesListComponent {
   @Output() excludeAlreadyReadUpdated = new EventEmitter<boolean>();
   @Output() keywordExclusionUpdated = new EventEmitter<boolean>();
   @Output() selected = new EventEmitter<RssFeedItemDto>();
+  @Output() articleBookmarkToggledEvent = new EventEmitter<RssFeedItemDto>();
   @Output() articleMarkedAsReadEvent = new EventEmitter<RssFeedItemDto>();
   @Output() titleClickedEvent = new EventEmitter();
   @Output() sortOrderUpdated = new EventEmitter<DisplaySortOrder>();
@@ -44,6 +45,10 @@ export class ArticlesListComponent {
 
   markedAsReadHandler(value: RssFeedItemDto){
     this.articleMarkedAsReadEvent.emit(value);
+  }
+
+  bookmarkToggledHandler(value: RssFeedItemDto) {
+    this.articleBookmarkToggledEvent.emit(value);
   }
 
   onTitleClicked() {

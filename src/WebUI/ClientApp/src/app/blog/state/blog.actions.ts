@@ -1,4 +1,4 @@
-import { BlogDto, RssFeedItemDto, UpdateFeedItemCommand } from '../../TechRSSReader-api';
+import { BlogDto, FeedItemsViewModel, RssFeedItemDto, UpdateFeedItemCommand } from '../../TechRSSReader-api';
 
 /* NgRx */
 import { Action } from '@ngrx/store';
@@ -19,6 +19,9 @@ export enum BlogActionTypes {
   LoadBlogWithItems = '[Articles GUI] Load Blog with Feed Items',
   LoadBlogWithItemsFail = '[Blog API] Load Blog with Feed Items Fail',
   LoadBlogWithItemsSuccess = '[Blog API] Load Blog with Feed Items Success',
+  LoadBookmarkedFeedItems = '[Articles GUI] Load Bookmarked Feed Items',
+  LoadBookmarkedFeedItemsFail = '[Blog API] Load Bookmarked Feed Items Fail',
+  LoadBookmarkedFeedItemsSuccess = '[Blog API] Load Bookmarked Feed Items Success',
   MarkItemAsRead = '[Articles GUI] Mark Item As Read',
   MarkItemAsReadFail = '[Blog API] Mark Item As Read Fail',
   MarkItemAsReadSuccess = '[Blog API] Mark Item As Read Success',
@@ -27,7 +30,10 @@ export enum BlogActionTypes {
   SetCurrentFeedItemPage = "[Articles GUI] Set Current Feed Item Page",
   RetrieveFeedItemsFromSource = '[Blog GUI] Retrieve Feed Items',
   RetrieveFeedItemsFromSourceSuccess = '[Blog API] Retrieve Feed Items Success',
-  RetrieveFeedItemsFromSourceFail = '[Blog GUI] Retrieve Feed Items Fail',
+  RetrieveFeedItemsFromSourceFail = '[Blog API] Retrieve Feed Items Fail',
+  ToggleFeedItemBookmark = '[Articles GUI] Toggle Feed Item Bookmark',
+  ToggleFeedItemBookmarkFail = '[Blog API] Toggle Feed Item Bookmark Fail',
+  ToggleFeedItemBookmarkSuccess = '[Blog API] Toggle Feed Item Bookmark Success',
   UpdateBlog = '[Blog GUI] Update Blog',
   UpdateBlogSuccess = '[Blog API] Update Blog Success',
   UpdateBlogFail = '[Blog API] Update Blog Fail'
@@ -104,6 +110,20 @@ export class LoadBlogWithItemsSuccess implements Action {
   constructor(public payload: BlogDto) {}
 }
 
+export class LoadBookmarkedFeedItems implements Action {
+  readonly type = BlogActionTypes.LoadBookmarkedFeedItems;
+}
+
+export class LoadBookmarkedFeedItemsFail implements Action {
+  readonly type = BlogActionTypes.LoadBookmarkedFeedItemsFail
+  constructor(public payload: string) {}
+}
+
+export class LoadBookmarkedFeedItemsSuccess implements Action {
+  readonly type = BlogActionTypes.LoadBookmarkedFeedItemsSuccess
+  constructor(public payload: FeedItemsViewModel) {}
+}
+
 export class MarkItemAsRead implements Action {
   readonly type = BlogActionTypes.MarkItemAsRead;
   constructor(public payload: UpdateFeedItemCommand) {}
@@ -151,6 +171,21 @@ export class SetCurrentFeedItemPage implements Action {
   constructor(public payload: number) {}
 }
 
+export class ToggleFeedItemBookmark implements Action {
+  readonly type = BlogActionTypes.ToggleFeedItemBookmark;
+  constructor(public payload: UpdateFeedItemCommand) {}
+}
+
+export class ToggleFeedItemBookmarkFail implements Action {
+  readonly type = BlogActionTypes.ToggleFeedItemBookmarkFail;
+  constructor (public payload: string) {}
+}
+
+export class ToggleFeedItemBookmarkSuccess implements Action {
+  readonly type = BlogActionTypes.ToggleFeedItemBookmarkSuccess;
+  constructor(public payload: RssFeedItemDto) {}
+}
+
 export class UpdateBlog implements Action {
   readonly type = BlogActionTypes.UpdateBlog;
   constructor (public payload: BlogDto) {}
@@ -181,6 +216,9 @@ export type BlogActions = ClearCurrentBlog
 | LoadBlogWithItems
 | LoadBlogWithItemsFail
 | LoadBlogWithItemsSuccess
+| LoadBookmarkedFeedItems
+| LoadBookmarkedFeedItemsFail
+| LoadBookmarkedFeedItemsSuccess
 | MarkItemAsRead
 | MarkItemAsReadFail
 | MarkItemAsReadSuccess
@@ -190,6 +228,9 @@ export type BlogActions = ClearCurrentBlog
 | SetCurrentBlog
 | SetCurrentFeedItem
 | SetCurrentFeedItemPage
+| ToggleFeedItemBookmark
+| ToggleFeedItemBookmarkFail
+| ToggleFeedItemBookmarkSuccess
 | UpdateBlog
 | UpdateBlogFail
 | UpdateBlogSuccess;

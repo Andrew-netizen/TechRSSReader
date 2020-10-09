@@ -49,6 +49,23 @@ export class BlogEffects {
     )
   );
 
+  loadBookmarkedFeedItems$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.LoadBookmarkedFeedItems),
+      mergeMap((action) =>
+        this.blogService.getBookmarkedFeedItems().pipe(
+          map(
+            (viewModel) =>
+              new blogActions.LoadBookmarkedFeedItemsSuccess(viewModel)
+          ),
+          catchError((error) =>
+            of(new blogActions.LoadBookmarkedFeedItemsFail(error))
+          )
+        )
+      )
+    )
+  );
+
   markItemAsRead$ = createEffect(() =>
     this.actions$.pipe(
       ofType(blogActions.BlogActionTypes.MarkItemAsRead),
@@ -115,6 +132,24 @@ export class BlogEffects {
       this.blogService.updateBlog(blog).pipe(
         map((updatedBlog) => new blogActions.UpdateBlogSuccess(updatedBlog)),
         catchError((error) => of(new blogActions.UpdateBlogFail(error)))
+      )
+    )
+  );
+
+  toggleFeedItemBookmark$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.ToggleFeedItemBookmark),
+      map((action: blogActions.ToggleFeedItemBookmark) => action.payload),
+      mergeMap((command: UpdateFeedItemCommand) =>
+        this.trainingService.updateFeedItem(command).pipe(
+          map(
+            (feedItem) =>
+              new blogActions.ToggleFeedItemBookmarkSuccess(feedItem),
+            catchError((error) =>
+              of(new blogActions.ToggleFeedItemBookmarkFail(error))
+            )
+          )
+        )
       )
     )
   );

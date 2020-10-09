@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { RssFeedItemDto, UpdateFeedItemCommand } from "src/app/techrssreader-api";
+import { RssFeedItemDto, UpdateFeedItemCommand } from "src/app/TechRSSReader-api";
 
 export enum TrainingActionTypes {
   GetTrainingItem = "[Training GUI] Get Training Item",

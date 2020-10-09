@@ -10,6 +10,8 @@ import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { faStar as falStar} from '@fortawesome/pro-light-svg-icons';
+import { faBookmark as farBookmark} from "@fortawesome/pro-regular-svg-icons";
+import {faBookmark as fasBookmark} from "@fortawesome/free-solid-svg-icons";
 
 import { AppComponent } from "./app.component";
 import { NavMenuComponent } from "./nav-menu/nav-menu.component";
@@ -35,11 +37,13 @@ import { environment } from "../environments/environment";
 import { EffectsModule } from "@ngrx/effects";
 import { storeFreeze } from "ngrx-store-freeze";
 import { State } from "./state/app.state";
+import * as articlesReducer from './articles/state/articles.reducer';
 import * as blogReducer from "./blog/state/blog.reducer";
 import * as trainingReducer from "./training/state/training.reducer";
 
 export const reducers: ActionReducerMap<State> = {
   // reducers
+  articles: articlesReducer.reducer,
   blogs: blogReducer.reducer,
   training: trainingReducer.reducer,
 };
@@ -97,5 +101,7 @@ export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(faStar as IconDefinition);
     library.addIcons(falStar as IconDefinition);
+    library.addIcons(farBookmark as IconDefinition);
+    library.addIcons(fasBookmark as IconDefinition);
   }
 }

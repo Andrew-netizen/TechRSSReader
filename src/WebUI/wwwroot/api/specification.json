@@ -223,6 +223,31 @@
         ]
       }
     },
+    "/api/RssFeedItems": {
+      "get": {
+        "tags": [
+          "RssFeedItems"
+        ],
+        "operationId": "RssFeedItems_GetBookmarked",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedItemsViewModel"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/RssFeedItems/GetNoUserPreference": {
       "get": {
         "tags": [
@@ -906,6 +931,19 @@
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/KeywordToIncludeDto"
+            }
+          }
+        }
+      },
+      "FeedItemsViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rssFeedItems": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/RssFeedItemDto"
             }
           }
         }

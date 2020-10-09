@@ -1,6 +1,5 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { RssFeedItemDto } from 'src/app/techrssreader-api';
-
+import { RssFeedItemDto } from 'src/app/TechRSSReader-api';
 
 @Component({
   selector: 'feeditem-display',
@@ -11,10 +10,15 @@ export class FeeditemDisplayComponent {
 
   @Input() feedItem: RssFeedItemDto;
   @Output() articleMarkedAsRead = new EventEmitter<RssFeedItemDto>();
+  @Output() bookmarkToggled = new EventEmitter<RssFeedItemDto>();
   @Output() titleClicked = new EventEmitter<RssFeedItemDto>();
 
   markAsReadClicked(feedItem: RssFeedItemDto): void {
     this.articleMarkedAsRead.emit(feedItem);
+  }
+
+  onBookmarkToggled(feedItem: RssFeedItemDto): void {
+    this.bookmarkToggled.emit(feedItem);
   }
 
   TitleClickedHandler(feedItem: RssFeedItemDto): void {

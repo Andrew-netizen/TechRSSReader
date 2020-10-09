@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { BlogDto } from "src/app/techrssreader-api";
+import { BlogDto } from "src/app/TechRSSReader-api";
 
 @Component({
   selector: "blog-list",

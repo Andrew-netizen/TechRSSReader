@@ -1,13 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromRoot from '../../state/app.state';
 import * as fromArticles from './articles.reducer';
 import * as fromBlog from '../../blog/state/blog.reducer';
 import { BlogDto, RssFeedItemDto } from 'src/app/techrssreader-api';
 import {orderBy } from 'lodash';
-
-export interface State extends fromRoot.State {
-  articles: fromArticles.ArticlesState;
-}
 
 // selector functions
 
@@ -39,15 +34,23 @@ export const getFilteredArticles = createSelector(
   getKeywordExclusion,
   getDisplaySortOrder,
   fromBlog.getCurrentBlog,
-  fromBlog.getCurrentBlogFeedItems,
-  (excludeAlreadyRead, keywordExclusion, displaySortOrder, blog, feedItems) =>
+  fromBlog.getFeedItems,
+  fromBlog.getFeedItemSource,
+  (excludeAlreadyRead, keywordExclusion, displaySortOrder, blog, feedItems, feedItemSource) =>
   {
 
     var result = feedItems;
+
     if (excludeAlreadyRead)
     {
       result = result.filter(feedItem => !feedItem.readAlready);
     }
+
+    if (feedItemSource === fromBlog.FeedItemSource.Bookmarked)
+    {
+      result = result.filter(feedItem => feedItem.bookmarked);
+    }
+
     if (keywordExclusion && blog)
     {
       result = result.filter(feedItem => !ContainsExcludedKeywords(blog, feedItem));
@@ -72,9 +75,23 @@ export const getPagesCount = createSelector(
   (articleCount, pageSize) => Math.ceil(articleCount / pageSize)
 );
 
+
+// Don't allow the current Feed Item Page to be greater
+// than the total page count
+export const getCurrentFeedItemPage = createSelector(
+  (fromBlog.getCurrentFeedItemPage),
+  getPagesCount,
+  (currentFeedItemPage, pageCount) => {
+    if (currentFeedItemPage <= pageCount)
+      return currentFeedItemPage;
+    else
+      return pageCount;
+  }
+);
+
 export const getPaginatedArticles = createSelector(
     getFilteredArticles,
-    fromBlog.getCurrentFeedItemPage,
+    getCurrentFeedItemPage,
     getPageSize,
     (articles, currentPage, pageSize) =>
       articles.slice((currentPage-1)*pageSize,currentPage*pageSize)

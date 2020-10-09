@@ -7,6 +7,7 @@ import { SharedModule } from "../shared/shared.module";
 
 import { ArticlesShellComponent } from './containers/articles-shell/articles-shell.component';
 import { ArticlesListComponent } from './components/articles-list/articles-list.component';
+import { ArticlesMenuComponent } from './components/articles-menu/articles-menu.component';
 
 /* NgRx */
 import { StoreModule } from '@ngrx/store';
@@ -16,6 +17,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+
 
 const articlesRoutes: Routes = [
   {
@@ -27,7 +29,7 @@ const articlesRoutes: Routes = [
 
 
 @NgModule({
-  declarations: [ArticlesShellComponent, ArticlesListComponent],
+  declarations: [ArticlesShellComponent, ArticlesListComponent, ArticlesMenuComponent],
   imports: [
     CommonModule,
     SharedModule,
