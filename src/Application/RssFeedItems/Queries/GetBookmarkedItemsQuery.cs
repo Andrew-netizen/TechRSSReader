@@ -29,7 +29,7 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
                 _currentUserService = currentUserService;
                 _mapper = mappper; 
                
-        }
+            }
 
             public async Task<FeedItemsViewModel> Handle(GetBookmarkedItemsQuery request, CancellationToken cancellationToken)
             {

@@ -75,7 +75,8 @@ namespace TechRSSReader.Application.UnitTests.Common
                 Title = "A General Theory of Relativity",
                 BlogId = 1,
                 Bookmarked = true,
-                CreatedBy = "00000000-0000-0000-0000-000000000000"
+                CreatedBy = "00000000-0000-0000-0000-000000000000", 
+                ReadAlready = false
             });
 
             context.RssFeedItems.Add(new RssFeedItem
@@ -84,7 +85,8 @@ namespace TechRSSReader.Application.UnitTests.Common
                 Title = "What I'm having for dinner",
                 BlogId = 1,
                 UserRating = 1,
-                CreatedBy = "00000000-0000-0000-0000-000000000000"
+                CreatedBy = "00000000-0000-0000-0000-000000000000",
+               ReadAlready = false
             });
 
             context.Blogs.Add(new Blog

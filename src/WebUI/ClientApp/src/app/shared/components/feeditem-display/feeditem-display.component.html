@@ -1,7 +1,7 @@
 <div class="card" *ngIf="feedItem">
-  <div class="card-header text-white bg-primary">
-    <button
-    class="bg-primary text-white"
+  <div class="text-white bg-primary m-0 py-2">
+    <span
+    class="bg-primary text-white m-1"
     (click)="onBookmarkToggled(feedItem)" >
       <fa-icon
 
@@ -9,7 +9,7 @@
           feedItem.bookmarked ? ['fas', 'bookmark'] : ['far', 'bookmark']
         "
       ></fa-icon>
-    </button>
+  </span>
   <span [ngClass]="{'font-weight-bold': !feedItem.readAlready}"
   (click)="TitleClickedHandler(feedItem)"
   [innerHTML]="feedItem.title"></span>

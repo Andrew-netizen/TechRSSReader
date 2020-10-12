@@ -1,8 +1,9 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { RssFeedItemDto } from 'src/app/TechRSSReader-api';
 
 @Component({
   selector: 'feeditem-display',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './feeditem-display.component.html',
   styleUrls: ['./feeditem-display.component.scss']
 })

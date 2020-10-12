@@ -3,6 +3,7 @@
     <articles-menu
     [feedItemSource]="feedItemSource$ | async"
     (bookmarksSelected)="bookmarksMenuSelected()"
+    (unreadSelected)="unreadMenuSelected()"
     ></articles-menu>
     <blog-list
       [blogs]="blogs$ | async"

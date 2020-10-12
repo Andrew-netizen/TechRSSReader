@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { RssFeedItemDto } from 'src/app/TechRSSReader-api';
 import { DisplaySortOrder } from '../../state/articles.reducer';
 
 @Component({
   selector: 'articles-list',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './articles-list.component.html',
   styleUrls: ['./articles-list.component.scss']
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
 import {
@@ -16,6 +16,7 @@ import { DisplaySortOrder } from "../../state/articles.reducer";
 
 @Component({
   selector: "articles-shell",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./articles-shell.component.html",
   styleUrls: ["./articles-shell.component.scss"],
 })
@@ -77,7 +78,10 @@ export class ArticlesShellComponent implements OnInit {
 
   bookmarksMenuSelected(): void {
     this.store.dispatch(new blogActions.LoadBookmarkedFeedItems());
-    //this.store.dispatch(new articlesActions.ToggleAlreadyRead(false));
+  }
+
+  unreadMenuSelected(): void {
+    this.store.dispatch(new blogActions.LoadUnreadFeedItems());
   }
 
   currentPageChanged(value: number): void {

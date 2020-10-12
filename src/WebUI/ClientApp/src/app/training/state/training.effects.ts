@@ -51,6 +51,24 @@ export class TrainingEffects {
     { dispatch: false }
   );
 
+  toggleBookmark$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(trainingActions.TrainingActionTypes.ToggleBookmark),
+    map((action: trainingActions.ToggleBookmark) => action.payload),
+    mergeMap((command: UpdateFeedItemCommand) =>
+      this.trainingService.updateFeedItem(command).pipe(
+        map(
+          (feedItem) =>
+            new trainingActions.ToggleBookmarkSuccess(feedItem),
+          catchError((error) =>
+            of(new trainingActions.ToggleBookmarkFail(error))
+          )
+        )
+      )
+    )
+  )
+);
+
   updateUserInterest$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
       ofType(trainingActions.TrainingActionTypes.UpdateUserInterest),

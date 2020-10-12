@@ -12,6 +12,7 @@
 </div>
 <feeditem-display
 [feedItem]="currentFeedItem"
+(click)="bookmarkToggledHandler(currentFeedItem)"
 ></feeditem-display>
 <div class="card" *ngIf="currentFeedItem">
   <div clas="card-body">

@@ -22,6 +22,9 @@ export enum BlogActionTypes {
   LoadBookmarkedFeedItems = '[Articles GUI] Load Bookmarked Feed Items',
   LoadBookmarkedFeedItemsFail = '[Blog API] Load Bookmarked Feed Items Fail',
   LoadBookmarkedFeedItemsSuccess = '[Blog API] Load Bookmarked Feed Items Success',
+  LoadUnreadFeedItems = '[Articles GUI] Load Unread Feed Items',
+  LoadUnreadFeedItemsFail = '[Blog API] Load Unread Feed Items Fail',
+  LoadUnreadFeedItemsSuccess = '[Blog API] Load Unread Feed Items Success',
   MarkItemAsRead = '[Articles GUI] Mark Item As Read',
   MarkItemAsReadFail = '[Blog API] Mark Item As Read Fail',
   MarkItemAsReadSuccess = '[Blog API] Mark Item As Read Success',
@@ -124,6 +127,21 @@ export class LoadBookmarkedFeedItemsSuccess implements Action {
   constructor(public payload: FeedItemsViewModel) {}
 }
 
+export class LoadUnreadFeedItems implements Action {
+  readonly type = BlogActionTypes.LoadUnreadFeedItems;
+}
+
+export class LoadUnreadFeedItemsFail implements Action {
+  readonly type = BlogActionTypes.LoadUnreadFeedItemsFail
+  constructor(public payload: string) {}
+}
+
+export class LoadUnreadFeedItemsSuccess implements Action {
+  readonly type = BlogActionTypes.LoadUnreadFeedItemsSuccess
+  constructor(public payload: FeedItemsViewModel) {}
+}
+
+
 export class MarkItemAsRead implements Action {
   readonly type = BlogActionTypes.MarkItemAsRead;
   constructor(public payload: UpdateFeedItemCommand) {}
@@ -219,6 +237,9 @@ export type BlogActions = ClearCurrentBlog
 | LoadBookmarkedFeedItems
 | LoadBookmarkedFeedItemsFail
 | LoadBookmarkedFeedItemsSuccess
+| LoadUnreadFeedItems
+| LoadUnreadFeedItemsFail
+| LoadUnreadFeedItemsSuccess
 | MarkItemAsRead
 | MarkItemAsReadFail
 | MarkItemAsReadSuccess

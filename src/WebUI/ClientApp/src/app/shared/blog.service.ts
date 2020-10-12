@@ -27,6 +27,10 @@ export class BlogService {
     return this.feedItemsClient.getBookmarked();
   }
 
+  getUnreadFeedItems(): Observable<FeedItemsViewModel> {
+    return this.feedItemsClient.getUnread();
+  }
+
   createBlog(blog:BlogDto): Observable<BlogDto> {
     const command: CreateBlogCommand = CreateBlogCommand.fromJS(blog);
     return this.blogsClient.create(command);

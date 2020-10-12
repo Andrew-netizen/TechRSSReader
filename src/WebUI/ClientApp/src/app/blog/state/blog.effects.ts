@@ -66,6 +66,22 @@ export class BlogEffects {
     )
   );
 
+  loadUnreadFeedItems$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.LoadUnreadFeedItems),
+      mergeMap((action) =>
+        this.blogService.getUnreadFeedItems().pipe(
+          map(
+            (viewModel) => new blogActions.LoadUnreadFeedItemsSuccess(viewModel)
+          ),
+          catchError((error) =>
+            of(new blogActions.LoadUnreadFeedItemsFail(error))
+          )
+        )
+      )
+    )
+  );
+
   markItemAsRead$ = createEffect(() =>
     this.actions$.pipe(
       ofType(blogActions.BlogActionTypes.MarkItemAsRead),

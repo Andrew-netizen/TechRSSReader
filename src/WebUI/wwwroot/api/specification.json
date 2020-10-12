@@ -223,7 +223,32 @@
         ]
       }
     },
-    "/api/RssFeedItems": {
+    "/api/RssFeedItems/unread": {
+      "get": {
+        "tags": [
+          "RssFeedItems"
+        ],
+        "operationId": "RssFeedItems_GetUnread",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedItemsViewModel"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/RssFeedItems/bookmarked": {
       "get": {
         "tags": [
           "RssFeedItems"

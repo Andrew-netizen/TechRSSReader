@@ -13,6 +13,7 @@
     <training-item
     [selectedBlog]="selectedBlog$ | async"
     [currentFeedItem]="currentFeedItem$ | async"
+    (articleBookmarkToggledEvent)="toggleItemBookmark($event)"
     (loadItemRequest)="loadTrainingFeedItem($event)"
     (userRegisteredInterest)="updateUserInterest($event)"
     ></training-item>

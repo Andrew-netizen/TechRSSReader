@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { BlogDto } from "src/app/TechRSSReader-api";
 
 @Component({
   selector: "blog-list",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./blog-list.component.html",
   styleUrls: ["./blog-list.component.scss"],
 })

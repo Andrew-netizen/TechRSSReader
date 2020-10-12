@@ -45,4 +45,15 @@ export class TrainingShellComponent implements OnInit {
     }
 
   }
+
+  toggleItemBookmark(value: RssFeedItemDto): void {
+    const command: UpdateFeedItemCommand = UpdateFeedItemCommand.fromJS({
+      id: value.id,
+      bookmarked: !value.bookmarked,
+      readAlready: value.readAlready,
+      userRating: value.userRating,
+    });
+    this.store.dispatch(new trainingActions.ToggleBookmark(command));
+  }
+
 }

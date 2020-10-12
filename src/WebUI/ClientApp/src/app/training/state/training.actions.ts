@@ -5,6 +5,9 @@ export enum TrainingActionTypes {
   GetTrainingItem = "[Training GUI] Get Training Item",
   GetTrainingItemFail = "[RSSFeedItem API] Get Training Item Fail",
   GetTrainingItemSuccess = "[RSSFeedItem API] Get Training Item Success",
+  ToggleBookmark = "[Training GUI] Toggle Item Bookmark",
+  ToggleBookmarkFail = "[Blog API] Toggle Item Bookmark Fail",
+  ToggleBookmarkSuccess = "[Blog API] Toggle Item Bookmark Success",
   UpdateUserInterest = "[Training GUI] Update User Interest",
   UpdateUserInterestFail = "[RSSFeedItem API] Update User Interest Fail",
   UpdateUserInterestSuccess = "[RSSFeedItem API] Update User Interest Success"
@@ -22,6 +25,21 @@ export class GetTrainingItemFail implements Action {
 
 export class GetTrainingItemSuccess implements Action {
   readonly type = TrainingActionTypes.GetTrainingItemSuccess;
+  constructor(public payload: RssFeedItemDto) {}
+}
+
+export class ToggleBookmark implements Action {
+  readonly type = TrainingActionTypes.ToggleBookmark;
+  constructor(public payload: UpdateFeedItemCommand) {}
+}
+
+export class ToggleBookmarkFail implements Action {
+  readonly type = TrainingActionTypes.ToggleBookmarkFail;
+  constructor(public payload: string) {}
+}
+
+export class ToggleBookmarkSuccess implements Action {
+  readonly type = TrainingActionTypes.ToggleBookmarkSuccess;
   constructor(public payload: RssFeedItemDto) {}
 }
 
@@ -43,6 +61,9 @@ export class UpdateUserInterestSuccess implements Action {
 export type TrainingActions = GetTrainingItem
 | GetTrainingItemFail
 | GetTrainingItemSuccess
+| ToggleBookmark
+| ToggleBookmarkFail
+| ToggleBookmarkSuccess
 | UpdateUserInterest
 | UpdateUserInterestFail
 | UpdateUserInterestSuccess;

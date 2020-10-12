@@ -36,6 +36,18 @@ export function reducer(state = initialState, action: TrainingActions): Training
       ...state,
       currentFeedItem: action.payload
     };
+    case TrainingActionTypes.ToggleBookmarkFail:
+      return {
+        ...state,
+        error: action.payload
+      };
+
+      case TrainingActionTypes.ToggleBookmarkSuccess:
+    return {
+      ...state,
+      currentFeedItem: action.payload
+    };
+
     case TrainingActionTypes.UpdateUserInterestFail:
     return {
       ...state,

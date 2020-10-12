@@ -62,14 +62,15 @@
         class="list-group-item list-group-item-action rounded-0"
       >
         <div *ngIf="feedItem?.id !== selectedFeedItem?.id">
-          <button (click)="bookmarkToggledHandler(feedItem)" >
+          <span class="m-1"
+          (click)="bookmarkToggledHandler(feedItem)" >
             <fa-icon
               [icon]="
                 feedItem.bookmarked ? ['fas', 'bookmark'] : ['far', 'bookmark']
               "
             ></fa-icon>
-          </button>
-          <button
+          </span>
+          <span
             (click)="feedItemSelected(feedItem)"
             [innerHTML]="feedItem.title"
             [ngClass]="{
@@ -78,7 +79,7 @@
             [ngClass]="{
               'font-weight-light text-secondary': feedItem.readAlready
             }"
-          ></button>
+          ></span>
           <div class="float-right">
             <fa-icon
               *ngIf="feedItem.userRatingPrediction"

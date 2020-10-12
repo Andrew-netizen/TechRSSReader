@@ -12,6 +12,7 @@ import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { faStar as falStar} from '@fortawesome/pro-light-svg-icons';
 import { faBookmark as farBookmark} from "@fortawesome/pro-regular-svg-icons";
 import {faBookmark as fasBookmark} from "@fortawesome/free-solid-svg-icons";
+import { faNewspaper } from "@fortawesome/pro-regular-svg-icons";
 
 import { AppComponent } from "./app.component";
 import { NavMenuComponent } from "./nav-menu/nav-menu.component";
@@ -103,5 +104,6 @@ export class AppModule {
     library.addIcons(falStar as IconDefinition);
     library.addIcons(farBookmark as IconDefinition);
     library.addIcons(fasBookmark as IconDefinition);
+    library.addIcons(faNewspaper as IconDefinition);
   }
 }

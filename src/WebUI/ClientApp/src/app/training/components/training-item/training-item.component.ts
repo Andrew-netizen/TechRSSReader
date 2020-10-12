@@ -19,6 +19,7 @@ export class TrainingItemComponent {
   @Output() userRegisteredInterest = new EventEmitter<
     UpdateFeedItemCommand
   >();
+  @Output() articleBookmarkToggledEvent = new EventEmitter<RssFeedItemDto>();
 
   trainingForm: FormGroup;
 
@@ -29,6 +30,10 @@ export class TrainingItemComponent {
       userRating: 0,
       readAlready: false
     });
+  }
+
+  bookmarkToggledHandler(value: RssFeedItemDto) {
+    this.articleBookmarkToggledEvent.emit(value);
   }
 
   loadFeedItemClicked(): void {

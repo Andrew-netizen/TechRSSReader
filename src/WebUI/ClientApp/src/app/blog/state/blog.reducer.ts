@@ -8,7 +8,7 @@ export enum FeedItemSource {
   Blog,
   Bookmarked,
   Null,
-  Recommended,
+  Unread,
 }
 
 export interface BlogState {
@@ -67,12 +67,9 @@ export const getCurrentBlog = createSelector(
   }
 );
 
-export const getFeedItems = createSelector(
-  getBlogFeatureState,
-  (state) => {
-    return state.feedItems
-  }
-);
+export const getFeedItems = createSelector(getBlogFeatureState, (state) => {
+  return state.feedItems;
+});
 
 export const getCurrentFeedItemPage = createSelector(
   getBlogFeatureState,
@@ -93,7 +90,6 @@ export const getRetrievedFeedItemCount = createSelector(
   getBlogFeatureState,
   (state) => state.retrievedFeedItemCount
 );
-
 
 export const getCurrentFeedItemId = createSelector(
   getBlogFeatureState,
@@ -241,6 +237,32 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         currentFeedItemPage: 1,
         error: "",
       };
+
+    case BlogActionTypes.LoadUnreadFeedItems:
+      return {
+        ...state,
+        feedItems: [],
+        currentBlogId: null,
+        retrievedFeedItemCount: null,
+      };
+
+    case BlogActionTypes.LoadUnreadFeedItemsFail:
+      return {
+        ...state,
+        feedItems: [],
+        currentFeedItemId: null,
+        error: action.payload,
+      };
+
+      case BlogActionTypes.LoadUnreadFeedItemsSuccess:
+        return {
+          ...state,
+          feedItems: action.payload.rssFeedItems,
+          feedItemSource: FeedItemSource.Unread,
+          currentFeedItemId: null,
+          currentFeedItemPage: 1,
+          error: "",
+        };
 
     case BlogActionTypes.MarkItemAsReadFail:
       return {
