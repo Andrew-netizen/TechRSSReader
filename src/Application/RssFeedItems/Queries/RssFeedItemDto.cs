@@ -1,5 +1,5 @@
-﻿using System;
-using TechRSSReader.Application.Blogs.Queries.GetBlogs;
+﻿using AutoMapper;
+using System;
 using TechRSSReader.Application.Common.Mappings;
 using TechRSSReader.Domain.Entities;
 
@@ -12,6 +12,8 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
         public string Author { get; set; }
 
         public int BlogId { get; set; }
+
+        public string BlogTitle { get; set; }
 
         public bool Bookmarked { get; set; }
 
@@ -38,5 +40,11 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
         public int? UserRating { get; set; }
 
         public Single? UserRatingPrediction { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<RssFeedItem, RssFeedItemDto>()
+                .ForMember(item => item.BlogTitle, config => config.Ignore());
+        }
     }
 }

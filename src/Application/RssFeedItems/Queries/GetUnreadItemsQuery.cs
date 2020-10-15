@@ -2,10 +2,13 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TechRSSReader.Application.Common.Interfaces;
+using TechRSSReader.Domain.Entities;
 
 namespace TechRSSReader.Application.RssFeedItems.Queries
 {
@@ -16,12 +19,14 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
             private readonly IApplicationDbContext _context;
             private readonly ICurrentUserService _currentUserService;
             private readonly IMapper _mapper;
+            private readonly IUserInterestPredictor _userInterestPredictor;
 
-            public GetUnreadItemsQueryHandler(IApplicationDbContext context, ICurrentUserService currentUserService, IMapper mappper)
+            public GetUnreadItemsQueryHandler(IApplicationDbContext context, ICurrentUserService currentUserService, IMapper mappper, IUserInterestPredictor userInterestPredictor)
             {
                 _context = context;
                 _currentUserService = currentUserService;
                 _mapper = mappper;
+                _userInterestPredictor = userInterestPredictor;
 
             }
 
@@ -29,11 +34,24 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
             {
                 var viewModel = new FeedItemsViewModel();
 
-                viewModel.RssFeedItems = await _context.RssFeedItems
+                IList<RssFeedItem> feedItems = await _context.RssFeedItems
+                    .Include(item => item.Blog)
                     .Where(item => !item.ReadAlready)
                     .Where(item => item.CreatedBy.Equals(_currentUserService.UserId))
-                    .ProjectTo<RssFeedItemDto>(_mapper.ConfigurationProvider)
+                    .AsNoTracking()
                     .ToListAsync(cancellationToken);
+
+                foreach (RssFeedItem feedItem in feedItems)
+                {
+                    if (!feedItem.UserRatingPrediction.HasValue)
+                    {
+                        float predictedStarRating = _userInterestPredictor.PredictStarRating(feedItem);
+                        feedItem.UserRatingPrediction = predictedStarRating;
+                    }
+                    RssFeedItemDto feedItemDto = _mapper.Map<RssFeedItemDto>(feedItem);
+                    feedItemDto.BlogTitle = feedItem.Blog.Title;
+                    viewModel.RssFeedItems.Add(feedItemDto);
+                }
 
                 return viewModel;
             }

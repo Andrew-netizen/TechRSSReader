@@ -12,6 +12,8 @@ namespace TechRSSReader.Domain.Entities
 
         public int BlogId { get; set; }
 
+        public Blog Blog { get; set; }
+
         public bool Bookmarked { get; set; }
 
         public string Categories { get; set; }

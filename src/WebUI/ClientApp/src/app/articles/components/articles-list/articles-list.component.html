@@ -80,6 +80,12 @@
               'font-weight-light text-secondary': feedItem.readAlready
             }"
           ></span>
+          &nbsp;
+          <small
+          class="rounded px-2 py-1 border border-warn"
+          *ngIf="feedItem.blogTitle"
+        ><b>{{ feedItem.blogTitle }}</b>
+        </small>
           <div class="float-right">
             <fa-icon
               *ngIf="feedItem.userRatingPrediction"

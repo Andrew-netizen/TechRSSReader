@@ -26,6 +26,7 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
             {
                 List<RssFeedItem> result = await _context.RssFeedItems
                     .Where(item => item.UserRating.HasValue)
+                    .AsNoTracking()
                     .ToListAsync();
 
                 return result; 

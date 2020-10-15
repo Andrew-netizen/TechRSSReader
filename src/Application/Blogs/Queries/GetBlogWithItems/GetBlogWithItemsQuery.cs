@@ -33,6 +33,7 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
                 Blog blog = await _context.Blogs
                     .Include(blog => blog.RssFeedItems)
                     .Where(blog => blog.Id == request.Id)
+                    .AsNoTracking()
                     .FirstOrDefaultAsync(cancellationToken);
 
                 blog.RssFeedItems = blog.RssFeedItems.OrderByDescending(feedItem => feedItem.PublishingDate).ToList();

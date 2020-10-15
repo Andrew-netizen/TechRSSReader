@@ -1350,6 +1350,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
     id?: number;
     author?: string | undefined;
     blogId?: number;
+    blogTitle?: string | undefined;
     bookmarked?: boolean;
     categories?: string | undefined;
     content?: string | undefined;
@@ -1378,6 +1379,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
             this.id = data["id"];
             this.author = data["author"];
             this.blogId = data["blogId"];
+            this.blogTitle = data["blogTitle"];
             this.bookmarked = data["bookmarked"];
             this.categories = data["categories"];
             this.content = data["content"];
@@ -1406,6 +1408,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
         data["id"] = this.id;
         data["author"] = this.author;
         data["blogId"] = this.blogId;
+        data["blogTitle"] = this.blogTitle;
         data["bookmarked"] = this.bookmarked;
         data["categories"] = this.categories;
         data["content"] = this.content;
@@ -1427,6 +1430,7 @@ export interface IRssFeedItemDto {
     id?: number;
     author?: string | undefined;
     blogId?: number;
+    blogTitle?: string | undefined;
     bookmarked?: boolean;
     categories?: string | undefined;
     content?: string | undefined;

@@ -31,6 +31,7 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
                 RssFeedItem rssFeedItem = await _context.RssFeedItems
                     .Where(item => item.BlogId == request.BlogId)
                     .Where(item => !item.UserRating.HasValue)
+                    .AsNoTracking()
                     .FirstOrDefaultAsync();
 
                 if (rssFeedItem != null)

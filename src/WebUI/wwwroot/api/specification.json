@@ -841,6 +841,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "blogTitle": {
+            "type": "string",
+            "nullable": true
+          },
           "bookmarked": {
             "type": "boolean"
           },

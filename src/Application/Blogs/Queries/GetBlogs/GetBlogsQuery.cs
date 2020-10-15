@@ -33,6 +33,7 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogs
                     .Where(blog => blog.CreatedBy == _currentUserService.UserId)
                     .ProjectTo<BlogDto>(_mapper.ConfigurationProvider)
                     .OrderBy(t => t.Title)
+                    .AsNoTracking()
                     .ToListAsync(cancellationToken);
 
                 return viewModel;

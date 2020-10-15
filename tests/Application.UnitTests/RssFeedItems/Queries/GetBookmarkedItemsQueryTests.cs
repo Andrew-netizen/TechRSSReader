@@ -16,12 +16,14 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Queries
         private readonly ApplicationDbContext _context;
         private readonly ICurrentUserService _currentUserService; 
         private readonly IMapper _mapper;
+        private readonly IUserInterestPredictor _userInterestPredictor;
 
         public GetBookmarkedItemsQueryTests(QueryTestFixture fixture)
         {
             _context = fixture.Context;
             _currentUserService = fixture.CurrentUserService; 
             _mapper = fixture.Mapper;
+            _userInterestPredictor = fixture.UserInterestPredictor; 
         }
 
         [Fact]
@@ -29,13 +31,14 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Queries
         {
             var query = new GetBookmarkedItemsQuery();
 
-            var handler = new GetBookmarkedItemsQuery.GetBookmarkedItemsQueryHandler(_context, _currentUserService, _mapper);
+            var handler = new GetBookmarkedItemsQuery.GetBookmarkedItemsQueryHandler(_context, _currentUserService, _mapper, _userInterestPredictor);
 
             var result = await handler.Handle(query, CancellationToken.None);
 
             result.ShouldBeOfType<FeedItemsViewModel>();
 
             result.RssFeedItems.Count.ShouldBe(1);
+            result.RssFeedItems[0].BlogTitle.ShouldNotBeNullOrWhiteSpace();
         }
     }
 }

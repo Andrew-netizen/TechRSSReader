@@ -17,12 +17,14 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Queries
         private readonly ApplicationDbContext _context;
         private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
+        private readonly IUserInterestPredictor _userInterestPredictor;
 
         public GetUnreadItemsQueryTests(QueryTestFixture fixture)
         {
             _context = fixture.Context;
             _currentUserService = fixture.CurrentUserService;
             _mapper = fixture.Mapper;
+            _userInterestPredictor = fixture.UserInterestPredictor; 
         }
 
         [Fact]
@@ -30,7 +32,7 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Queries
         {
             var query = new GetUnreadItemsQuery();
 
-            var handler = new GetUnreadItemsQuery.GetUnreadItemsQueryHandler(_context, _currentUserService, _mapper);
+            var handler = new GetUnreadItemsQuery.GetUnreadItemsQueryHandler(_context, _currentUserService, _mapper, _userInterestPredictor);
 
             var result = await handler.Handle(query, CancellationToken.None);
 
@@ -40,6 +42,7 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Queries
             foreach (var item in result.RssFeedItems)
             {
                 item.ReadAlready.ShouldBeFalse();
+                item.BlogTitle.ShouldNotBeNullOrWhiteSpace();
             }
         }
     }
