@@ -31,6 +31,7 @@ export class ArticlesShellComponent implements OnInit {
   pagesCount$: Observable<number>;
   selectedBlog$: Observable<BlogDto>;
   selectedFeedItem$: Observable<RssFeedItemDto>;
+  showBlogTitle$: Observable<boolean>;
   totalArticleCount$: Observable<number>;
 
   constructor(private store: Store<fromRoot.State>) {}
@@ -63,8 +64,13 @@ export class ArticlesShellComponent implements OnInit {
     this.pagesCount$ = this.store.pipe(select(fromArticles.getPagesCount));
 
     this.selectedBlog$ = this.store.pipe(select(fromBlog.getCurrentBlog));
+
     this.selectedFeedItem$ = this.store.pipe(
       select(fromBlog.getCurrentFeedItem)
+    );
+
+    this.showBlogTitle$ = this.store.pipe(
+      select(fromArticles.getShowBlogTitle)
     );
 
     this.totalArticleCount$ = this.store.pipe(

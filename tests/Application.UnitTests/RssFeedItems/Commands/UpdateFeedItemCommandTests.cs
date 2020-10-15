@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem;
+using TechRSSReader.Application.RssFeedItems.Queries;
 using TechRSSReader.Application.UnitTests.Common;
 using Xunit;
 
@@ -26,16 +27,19 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Commands
                 UserRating = 3 
             };
 
-            var handler = new UpdateFeedItemCommand.UpdateFeedItemCommandHandler(Context, Mapper);
+            var handler = new UpdateFeedItemCommand.UpdateFeedItemCommandHandler(Context, Mapper, UserInterestPredictor);
 
 
-            await handler.Handle(command, CancellationToken.None);
+            RssFeedItemDto result = await handler.Handle(command, CancellationToken.None);
+            result.UserRatingPrediction.HasValue.ShouldBeTrue();
+            result.BlogTitle.ShouldNotBeNullOrWhiteSpace();
 
             var rssFeedItem = Context.RssFeedItems.Find(command.Id);
 
             rssFeedItem.Id.ShouldBe(command.Id);
             rssFeedItem.ReadAlready.ShouldBe(command.ReadAlready);
             rssFeedItem.UserRating.ShouldBe(command.UserRating);
+            
 
         }
     }

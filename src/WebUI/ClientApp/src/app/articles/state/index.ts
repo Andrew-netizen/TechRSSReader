@@ -97,6 +97,10 @@ export const getPaginatedArticles = createSelector(
       articles.slice((currentPage-1)*pageSize,currentPage*pageSize)
   );
 
+export const getShowBlogTitle = createSelector(
+  fromBlog.getFeedItemSource,
+  source => (source === fromBlog.FeedItemSource.Bookmarked) || (source === fromBlog.FeedItemSource.Unread)
+);
 
 function ContainsExcludedKeywords(blog: BlogDto, feedItem: RssFeedItemDto): boolean {
   var hasExcludedKeyword: boolean;

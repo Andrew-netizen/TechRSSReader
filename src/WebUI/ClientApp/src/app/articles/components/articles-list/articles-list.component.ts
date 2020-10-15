@@ -18,6 +18,7 @@ export class ArticlesListComponent {
   @Input() keywordExclusion: boolean;
   @Input() pageCount: number;
   @Input() selectedFeedItem: RssFeedItemDto;
+  @Input() showBlogTitle: boolean;
   @Input() totalArticlesCount: number;
   @Output() currentPageUpdated = new EventEmitter<number>();
   @Output() excludeAlreadyReadUpdated = new EventEmitter<boolean>();

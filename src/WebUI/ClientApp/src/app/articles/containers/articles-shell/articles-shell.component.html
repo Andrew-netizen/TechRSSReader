@@ -21,6 +21,7 @@
     [keywordExclusion]="keywordExclusion$ | async"
     [pageCount]="pagesCount$ | async"
     [selectedFeedItem]="selectedFeedItem$ | async"
+    [showBlogTitle]="showBlogTitle$ | async"
     [totalArticlesCount]="totalArticleCount$ | async"
     (articleMarkedAsReadEvent)="markItemAsAlreadyRead($event)"
     (articleBookmarkToggledEvent)="toggleItemBookmark($event)"

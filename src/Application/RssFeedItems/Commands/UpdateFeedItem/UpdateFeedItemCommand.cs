@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TechRSSReader.Application.Common.Exceptions;
@@ -23,12 +25,14 @@ namespace TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem
         public class UpdateFeedItemCommandHandler : IRequestHandler<UpdateFeedItemCommand, RssFeedItemDto>
         {
             private readonly IApplicationDbContext _context;
-            private readonly IMapper _mapper; 
+            private readonly IMapper _mapper;
+            private readonly IUserInterestPredictor _userInterestPredictor; 
 
-            public UpdateFeedItemCommandHandler(IApplicationDbContext context, IMapper mapper)
+            public UpdateFeedItemCommandHandler(IApplicationDbContext context, IMapper mapper, IUserInterestPredictor userInterestPredictor)
             {
                 _context = context;
-                _mapper = mapper; 
+                _mapper = mapper;
+                _userInterestPredictor = userInterestPredictor; 
             }
 
             public async Task<RssFeedItemDto> Handle(UpdateFeedItemCommand request, CancellationToken cancellationToken)
@@ -46,8 +50,21 @@ namespace TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem
 
                 int objectsSaved = await _context.SaveChangesAsync(cancellationToken);
 
+                rssFeedItem = await _context.RssFeedItems
+                       .Include(item => item.Blog)
+                       .Where(item => item.Id == request.Id)
+                       .FirstAsync(cancellationToken);
+                                        
+                if (!rssFeedItem.UserRatingPrediction.HasValue)
+                {
+                    float predictedStarRating = _userInterestPredictor.PredictStarRating(rssFeedItem);
+                    rssFeedItem.UserRatingPrediction = predictedStarRating;
+                }
+                
+                RssFeedItemDto result = _mapper.Map<RssFeedItemDto>(rssFeedItem);
+                result.BlogTitle = rssFeedItem.Blog.Title;
+                return result; 
 
-                return _mapper.Map<RssFeedItemDto>(_context.RssFeedItems.Find(request.Id));
             }
         }
     }
