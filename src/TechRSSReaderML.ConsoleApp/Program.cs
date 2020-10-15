@@ -9,6 +9,7 @@ using TechRSSReader.Application;
 using TechRSSReader.Application.Common.Interfaces;
 using TechRSSReader.Application.Common.Mappings;
 using TechRSSReader.Infrastructure.FeedReader.Maps;
+using TechRSSReader.Infrastructure.Identity;
 using TechRSSReaderML.ConsoleApp.Services;
 using TechRSSReaderML.Model;
 
@@ -88,11 +89,13 @@ namespace TechRSSReaderML.ConsoleApp
 
         private static ServiceProvider ConfigureServices(IConfiguration configuration)
         {
+            CurrentUserService currentUserService = new CurrentUserService(configuration);
+
             var services = new ServiceCollection()
                 .AddApplication()
                 .AddInfrastructure(configuration, null)
                 .AddTransient<IModelTrainingService, ModelTrainingService>()
-                .AddScoped<ICurrentUserService, CurrentUserService>()
+                .AddSingleton<ICurrentUserService>(currentUserService)
                 .AddAutoMapper(typeof(MappingProfile).Assembly, typeof(RssFeedItemMap).Assembly);
 
             return services.BuildServiceProvider();

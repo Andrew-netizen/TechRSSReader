@@ -1,12 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Dapper;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using TechRSSReader.Application.Common.Interfaces;
+using TechRSSReader.Infrastructure.Persistence;
 
 namespace TechRSSReaderML.ConsoleApp.Services
 {
     class CurrentUserService : ICurrentUserService
     {
-        public string UserId => "1273228d-89b1-4290-bad6-1ab9a74de8e1";
+
+        private string userId { get; set; }
+        private IConfiguration _configuration;
+
+        public CurrentUserService(IConfiguration configuration)
+        {
+            _configuration = configuration; 
+        }
+
+        private string GetUserId()
+        {
+            string result = null;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (var connection = new SqlConnection(connectionString))
+            {
+                 result = connection.ExecuteScalar<string>($"SELECT Id FROM AspNetUsers WHERE UserName= '{ApplicationDbContextSeed.MLConsoleAppUserName}';");
+            }
+            return result; 
+        }
+
+        public string UserId
+        {
+            get
+            {
+                if (userId == null)
+                    userId = GetUserId();
+                return userId;
+            }
+        }
     }
 }

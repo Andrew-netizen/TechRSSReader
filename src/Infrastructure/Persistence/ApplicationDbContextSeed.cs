@@ -7,13 +7,16 @@ namespace TechRSSReader.Infrastructure.Persistence
 {
     public static class ApplicationDbContextSeed
     {
+
+        public const string MLConsoleAppUserName = "TechRSSReader_MLConsoleApp";
+
         public static async Task SeedAsync(UserManager<ApplicationUser> userManager)
         {
-            var defaultUser = new ApplicationUser { UserName = "jason@clean-architecture", Email = "jason@clean-architecture" };
+            var defaultUser = new ApplicationUser { UserName = MLConsoleAppUserName, Email = "consoleApp@smartrssreader" };
 
             if (userManager.Users.All(u => u.Id != defaultUser.Id))
             {
-                await userManager.CreateAsync(defaultUser, "TechRSSReader!");
+                IdentityResult result = await userManager.CreateAsync(defaultUser, "TechRSSReader1!");
             }
         }
     }
