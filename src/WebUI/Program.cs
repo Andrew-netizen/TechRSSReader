@@ -1,15 +1,20 @@
-using TechRSSReader.Infrastructure.Identity;
-using TechRSSReader.Infrastructure.Persistence;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 using Serilog;
 using Serilog.Events;
+using System;
+using System.Threading.Tasks;
+using TechRSSReader.Infrastructure.Identity;
+using TechRSSReader.Infrastructure.Persistence;
 
 namespace TechRSSReader.WebUI
 {
@@ -63,8 +68,32 @@ namespace TechRSSReader.WebUI
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+                WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostContext, builder) =>
+                  {
+                      if (hostContext.HostingEnvironment.IsDevelopment())
+                      {
+                          builder.AddUserSecrets<Program>();
+                      }
+
+                    
+                      if (hostContext.HostingEnvironment.IsProduction())
+                      {
+                          var builtConfig = builder.Build();
+
+                          var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                          var keyVaultClient = new KeyVaultClient(
+                              new KeyVaultClient.AuthenticationCallback(
+                                  azureServiceTokenProvider.KeyVaultTokenCallback));
+
+                          builder.AddAzureKeyVault(
+                              $"https://{builtConfig["KeyVaultName"]}.vault.azure.net/",
+                              keyVaultClient,
+                              new DefaultKeyVaultSecretManager());
+                      }
+                  })
                 .UseSerilog()
                 .UseStartup<Startup>();
+        
     }
 }

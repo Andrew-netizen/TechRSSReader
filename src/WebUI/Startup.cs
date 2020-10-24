@@ -1,8 +1,4 @@
-using TechRSSReader.Application;
-using TechRSSReader.Application.Common.Interfaces;
-using TechRSSReader.Infrastructure.Persistence;
-using TechRSSReader.WebUI.Common;
-using TechRSSReader.WebUI.Services;
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,9 +10,13 @@ using Microsoft.Extensions.Hosting;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using System.Linq;
-using AutoMapper;
+using TechRSSReader.Application;
+using TechRSSReader.Application.Common.Interfaces;
 using TechRSSReader.Application.Common.Mappings;
 using TechRSSReader.Infrastructure.FeedReader.Maps;
+using TechRSSReader.Infrastructure.Persistence;
+using TechRSSReader.WebUI.Common;
+using TechRSSReader.WebUI.Services;
 
 namespace TechRSSReader.WebUI
 {
@@ -35,6 +35,7 @@ namespace TechRSSReader.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddApplication();
             services.AddInfrastructure(Configuration, Environment);
 

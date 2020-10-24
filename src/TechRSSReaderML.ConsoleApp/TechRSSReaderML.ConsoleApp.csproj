@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>8c2d89e4-15d6-4caf-ba4f-c3224f7c2856</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.0" />
     <PackageReference Include="Microsoft.ML" Version="1.5.0" />
     <PackageReference Include="Microsoft.ML.LightGBM" Version="1.5.0" />
   </ItemGroup>
