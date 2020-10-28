@@ -14,7 +14,7 @@
   (click)="TitleClickedHandler(feedItem)"
   [innerHTML]="feedItem.title"></span>
   <div class="float-right">
-    <button class="btn btn-light btn-sm"
+    <button class="btn btn-light btn-sm mx-1"
     *ngIf="!feedItem.readAlready"
     (click)="markAsReadClicked(feedItem)">
       Mark as Read
