@@ -10,8 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Events;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using TechRSSReader.Infrastructure.Identity;
 using TechRSSReader.Infrastructure.Persistence;
@@ -22,16 +22,25 @@ namespace TechRSSReader.WebUI
     {
         public async static Task Main(string[] args)
         {
+
+            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            var configuration = new ConfigurationBuilder()
+                 .SetBasePath(Directory.GetCurrentDirectory())
+                 .AddJsonFile("appsettings.json")
+                 .AddJsonFile($"appsettings.{environment}.json")
+                 .Build();
+
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Warning()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                .Enrich.FromLogContext()
-                .WriteTo.Debug()
-                .CreateLogger();
+                   .ReadFrom.Configuration(configuration)
+                   .CreateLogger();
 
             try
             {
                 var host = CreateWebHostBuilder(args).Build();
+
+             
+                
 
                 using (var scope = host.Services.CreateScope())
                 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using TechRSSReader.Application.Common.Exceptions;
 using TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem;
 using TechRSSReader.Application.RssFeedItems.Queries;
 
@@ -11,9 +11,17 @@ namespace TechRSSReader.WebUI.Controllers
     [Authorize]
     public class RssFeedItemsController: ApiController
     {
+
+        private readonly ILogger<RssFeedItemsController> _logger;
+        public RssFeedItemsController(ILogger<RssFeedItemsController> logger)
+        {
+            _logger = logger;
+        }
+
         [Route("unread")]
         public async Task<FeedItemsViewModel> GetUnread()
         {
+            _logger.LogWarning("GetUnread Method");
             return await Mediator.Send(new GetUnreadItemsQuery());
 
         }
@@ -21,6 +29,7 @@ namespace TechRSSReader.WebUI.Controllers
         [Route("bookmarked")]
         public async Task<FeedItemsViewModel> GetBookmarked()
         {
+            _logger.LogWarning("GetBookmarked Method");
             return await Mediator.Send(new GetBookmarkedItemsQuery());
 
         }
