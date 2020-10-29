@@ -25,15 +25,25 @@ namespace TechRSSReader.WebUI
 
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            var configuration = new ConfigurationBuilder()
+            if (environment.ToLower().Equals("production"))
+            {
+                Log.Logger = new LoggerConfiguration()
+                      .WriteTo.ApplicationInsights(TelemetryConverter.Traces, Serilog.Events.LogEventLevel.Warning)
+                      .CreateLogger();
+            }
+            else
+            {
+                var configuration = new ConfigurationBuilder()
                  .SetBasePath(Directory.GetCurrentDirectory())
                  .AddJsonFile("appsettings.json")
                  .AddJsonFile($"appsettings.{environment}.json")
                  .Build();
 
-            Log.Logger = new LoggerConfiguration()
-                   .ReadFrom.Configuration(configuration)
-                   .CreateLogger();
+                Log.Logger = new LoggerConfiguration()
+                       .ReadFrom.Configuration(configuration)
+                       .CreateLogger();
+            }
+            
 
             try
             {
