@@ -25,14 +25,10 @@ namespace TechRSSReader.WebUI
 
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            if (environment.ToLower().Equals("production"))
+            if ((!string.IsNullOrEmpty(environment)) && environment.ToLower().Equals("production"))
             {
                 Log.Logger = new LoggerConfiguration()
-                      .WriteTo.File(@"D:\home\LogFiles\Application\trace.log",
-                        fileSizeLimitBytes: 1_000_000,
-                        rollOnFileSizeLimit: true,
-                        shared: true,
-                        flushToDiskInterval: TimeSpan.FromSeconds(1))
+                      .WriteTo.ApplicationInsights(TelemetryConverter.Traces, Serilog.Events.LogEventLevel.Warning)
                       .Enrich.WithMachineName()
                       .Enrich.WithProcessId()
                       .Enrich.FromLogContext()
