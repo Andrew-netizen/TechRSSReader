@@ -9,21 +9,21 @@ using Microsoft.Extensions.Options;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using EnsureThat;
 
 namespace TechRSSReader.Infrastructure.Persistence
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
     {
-        private readonly ICurrentUserService _currentUserService;
         private readonly IDateTime _dateTime;
 
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions,
-            ICurrentUserService currentUserService,
             IDateTime dateTime) : base(options, operationalStoreOptions)
         {
-            _currentUserService = currentUserService;
             _dateTime = dateTime;
         }
 
@@ -37,16 +37,22 @@ namespace TechRSSReader.Infrastructure.Persistence
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> SaveChangesAsync(string userId, CancellationToken cancellationToken = new CancellationToken())
+        {
+            EnsureArg.IsNotNullOrEmpty(userId, "User Id");
             foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedBy = _currentUserService.UserId;
+                        entry.Entity.CreatedBy = userId;
                         entry.Entity.Created = _dateTime.Now;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
+                        entry.Entity.LastModifiedBy = userId;
                         entry.Entity.LastModified = _dateTime.Now;
                         break;
                 }

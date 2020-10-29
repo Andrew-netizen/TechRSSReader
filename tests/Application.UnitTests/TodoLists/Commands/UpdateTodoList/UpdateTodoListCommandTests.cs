@@ -19,7 +19,7 @@ namespace TechRSSReader.Application.UnitTests.TodoLists.Commands.UpdateTodoList
                 Title = "Shopping",
             };
 
-            var handler = new UpdateTodoListCommand.UpdateTodoListCommandHandler(Context);
+            var handler = new UpdateTodoListCommand.UpdateTodoListCommandHandler(Context, CurrentUserService);
 
             await handler.Handle(command, CancellationToken.None);
 
@@ -38,7 +38,7 @@ namespace TechRSSReader.Application.UnitTests.TodoLists.Commands.UpdateTodoList
                 Title = "Bucket List",
             };
 
-            var handler = new UpdateTodoListCommand.UpdateTodoListCommandHandler(Context);
+            var handler = new UpdateTodoListCommand.UpdateTodoListCommandHandler(Context, CurrentUserService);
 
             Should.ThrowAsync<NotFoundException>(() =>
                 handler.Handle(command, CancellationToken.None));

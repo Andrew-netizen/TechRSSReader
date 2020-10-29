@@ -17,7 +17,7 @@ namespace TechRSSReader.Application.UnitTests.TodoLists.Commands.CreateTodoList
                 Title = "Bucket List"
             };
 
-            var handler = new CreateTodoListCommand.CreateTodoListCommandHandler(Context);
+            var handler = new CreateTodoListCommand.CreateTodoListCommandHandler(Context, CurrentUserService);
 
             var result = await handler.Handle(command, CancellationToken.None);
 

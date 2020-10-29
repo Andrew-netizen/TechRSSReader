@@ -18,10 +18,12 @@ namespace TechRSSReader.Application.TodoItems.Commands.UpdateTodoItem
         public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemCommand>
         {
             private readonly IApplicationDbContext _context;
+            private readonly ICurrentUserService _currentUserService; 
 
-            public UpdateTodoItemCommandHandler(IApplicationDbContext context)
+            public UpdateTodoItemCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
             {
                 _context = context;
+                _currentUserService = currentUserService;
             }
 
             public async Task<Unit> Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
@@ -36,7 +38,7 @@ namespace TechRSSReader.Application.TodoItems.Commands.UpdateTodoItem
                 entity.Title = request.Title;
                 entity.Done = request.Done;
 
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
 
                 return Unit.Value;
             }

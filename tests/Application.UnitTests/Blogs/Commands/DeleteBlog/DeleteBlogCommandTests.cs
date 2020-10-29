@@ -17,7 +17,7 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.DeleteBlog
                 Id = 1
             };
 
-            var handler = new DeleteBlogCommand.DeleteBlogCommandHandler(Context);
+            var handler = new DeleteBlogCommand.DeleteBlogCommandHandler(Context, CurrentUserService);
 
             int result = await handler.Handle(command, CancellationToken.None);
 

@@ -1,13 +1,13 @@
-﻿using TechRSSReader.Application.Common.Interfaces;
-using TechRSSReader.Domain.Entities;
-using TechRSSReader.Infrastructure.Persistence;
-using IdentityServer4.EntityFramework.Options;
+﻿using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
 using Shouldly;
 using System;
 using System.Threading.Tasks;
+using TechRSSReader.Application.Common.Interfaces;
+using TechRSSReader.Domain.Entities;
+using TechRSSReader.Infrastructure.Persistence;
 using Xunit;
 
 namespace TechRSSReader.Infrastructure.IntegrationTests.Persistence
@@ -41,7 +41,7 @@ namespace TechRSSReader.Infrastructure.IntegrationTests.Persistence
                     PersistedGrants = new TableConfiguration("PersistedGrants")
                 });
 
-            _sut = new ApplicationDbContext(options, operationalStoreOptions, _currentUserServiceMock.Object, _dateTimeMock.Object);
+            _sut = new ApplicationDbContext(options, operationalStoreOptions,_dateTimeMock.Object);
 
             _sut.TodoItems.Add(new TodoItem
             {
@@ -64,7 +64,7 @@ namespace TechRSSReader.Infrastructure.IntegrationTests.Persistence
 
             _sut.TodoItems.Add(item);
 
-            await _sut.SaveChangesAsync();
+            await _sut.SaveChangesAsync(_currentUserServiceMock.Object.UserId);
 
             item.Created.ShouldBe(_dateTime);
             item.CreatedBy.ShouldBe(_userId);
@@ -79,7 +79,7 @@ namespace TechRSSReader.Infrastructure.IntegrationTests.Persistence
 
             item.Done = true;
 
-            await _sut.SaveChangesAsync();
+            await _sut.SaveChangesAsync(_currentUserServiceMock.Object.UserId);
 
             item.LastModified.ShouldNotBeNull();
             item.LastModified.ShouldBe(_dateTime);

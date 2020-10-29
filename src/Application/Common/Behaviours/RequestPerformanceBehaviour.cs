@@ -36,14 +36,23 @@ namespace TechRSSReader.Application.Common.Behaviours
 
             var elapsedMilliseconds = _timer.ElapsedMilliseconds;
 
-            if (elapsedMilliseconds > 500)
+            if (elapsedMilliseconds > 1000)
             {
                 var requestName = typeof(TRequest).Name;
                 var userId = _currentUserService.UserId;
-                var userName = await _identityService.GetUserNameAsync(userId);
+                if (userId != null)
+                {
+                    var userName = await _identityService.GetUserNameAsync(userId);
 
-                _logger.LogWarning("TechRSSReader Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
-                    requestName, elapsedMilliseconds, userId, userName, request);
+                    _logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
+                        requestName, elapsedMilliseconds, userId, userName, request);
+                }
+                else
+                {
+                    _logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
+                        requestName, elapsedMilliseconds, request);
+                }
+                
             }
 
             return response;

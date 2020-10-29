@@ -21,7 +21,7 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
         [Fact]
         public async Task Handle_LoadSlashdot()
         {
-            Blog slashdot = new Blog { Title = "Slashot", XmlAddress= "http://rss.slashdot.org/Slashdot/slashdotMain" };
+            Blog slashdot = new Blog { Title = "Slashot", XmlAddress= "http://rss.slashdot.org/Slashdot/slashdotMain", CreatedBy = CurrentUserService.UserId };
             Context.Blogs.Add(slashdot);
             Context.SaveChanges();
 
@@ -68,7 +68,7 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
         [Fact]
         public async Task Handle_LoadAWSNews()
         {
-            Blog awsNews = new Blog { Title = "AWS News", XmlAddress = "https://aws.amazon.com/about-aws/whats-new/recent/feed/" };
+            Blog awsNews = new Blog { Title = "AWS News", XmlAddress = "https://aws.amazon.com/about-aws/whats-new/recent/feed/", CreatedBy = CurrentUserService.UserId };
             Context.Blogs.Add(awsNews);
             Context.SaveChanges();
 

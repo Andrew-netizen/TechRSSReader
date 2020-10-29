@@ -27,7 +27,7 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Commands
                 UserRating = 3 
             };
 
-            var handler = new UpdateFeedItemCommand.UpdateFeedItemCommandHandler(Context, Mapper, UserInterestPredictor);
+            var handler = new UpdateFeedItemCommand.UpdateFeedItemCommandHandler(Context, Mapper, UserInterestPredictor, CurrentUserService);
 
 
             RssFeedItemDto result = await handler.Handle(command, CancellationToken.None);

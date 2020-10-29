@@ -15,10 +15,12 @@ namespace TechRSSReader.Application.TodoItems.Commands.CreateTodoItem
         public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, long>
         {
             private readonly IApplicationDbContext _context;
+            private readonly ICurrentUserService _currentUserService; 
 
-            public CreateTodoItemCommandHandler(IApplicationDbContext context)
+            public CreateTodoItemCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
             {
                 _context = context;
+                _currentUserService = currentUserService;
             }
 
             public async Task<long> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
@@ -32,7 +34,7 @@ namespace TechRSSReader.Application.TodoItems.Commands.CreateTodoItem
 
                 _context.TodoItems.Add(entity);
 
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
 
                 return entity.Id;
             }

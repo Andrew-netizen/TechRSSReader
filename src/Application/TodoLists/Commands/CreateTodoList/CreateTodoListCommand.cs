@@ -13,10 +13,12 @@ namespace TechRSSReader.Application.TodoLists.Commands.CreateTodoList
         public class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListCommand, int>
         {
             private readonly IApplicationDbContext _context;
+            private readonly ICurrentUserService _currentUserService;
 
-            public CreateTodoListCommandHandler(IApplicationDbContext context)
+            public CreateTodoListCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
             {
                 _context = context;
+                _currentUserService = currentUserService;
             }
 
             public async Task<int> Handle(CreateTodoListCommand request, CancellationToken cancellationToken)
@@ -27,7 +29,7 @@ namespace TechRSSReader.Application.TodoLists.Commands.CreateTodoList
 
                 _context.TodoLists.Add(entity);
 
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
 
                 return entity.Id;
             }

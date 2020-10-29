@@ -29,11 +29,13 @@ namespace TechRSSReader.Application.Blogs.Commands.CreateBlog
 
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
+            private readonly ICurrentUserService _currentUserService;
 
-            public CreateBlogCommandHandler(IApplicationDbContext context, IMapper mapper)
+            public CreateBlogCommandHandler(IApplicationDbContext context, IMapper mapper, ICurrentUserService currentUserService)
             {
                 _context = context;
                 _mapper = mapper;
+                _currentUserService = currentUserService;
             }
 
             public async Task<BlogDto> Handle(CreateBlogCommand request, CancellationToken cancellationToken)
@@ -54,7 +56,7 @@ namespace TechRSSReader.Application.Blogs.Commands.CreateBlog
                 }
 
                 _context.Blogs.Add(blog);
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
                
                 return _mapper.Map<BlogDto>(blog);
             }

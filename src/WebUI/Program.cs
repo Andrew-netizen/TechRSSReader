@@ -28,7 +28,7 @@ namespace TechRSSReader.WebUI
             if ((!string.IsNullOrEmpty(environment)) && environment.ToLower().Equals("production"))
             {
                 Log.Logger = new LoggerConfiguration()
-                      .WriteTo.ApplicationInsights(TelemetryConverter.Traces, Serilog.Events.LogEventLevel.Warning)
+                      .WriteTo.ApplicationInsights(TelemetryConverter.Events, Serilog.Events.LogEventLevel.Information)
                       .Enrich.WithMachineName()
                       .Enrich.WithProcessId()
                       .Enrich.FromLogContext()
@@ -46,32 +46,26 @@ namespace TechRSSReader.WebUI
                        .ReadFrom.Configuration(configuration)
                        .CreateLogger();
             }
-            
+
 
             try
             {
                 var host = CreateWebHostBuilder(args).Build();
 
-             
-                
-
                 using (var scope = host.Services.CreateScope())
                 {
                     var services = scope.ServiceProvider;
-
                     try
                     {
                         var context = services.GetRequiredService<ApplicationDbContext>();
                         context.Database.Migrate();
 
                         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-
                         await ApplicationDbContextSeed.SeedAsync(userManager);
                     }
                     catch (Exception ex)
                     {
                         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
                         logger.LogError(ex, "An error occurred while migrating or seeding the database.");
                     }
                 }

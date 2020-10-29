@@ -1,4 +1,5 @@
 using AutoMapper;
+using Coravel;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using System.Linq;
@@ -42,6 +44,8 @@ namespace TechRSSReader.WebUI
             services.AddAutoMapper(typeof(MappingProfile).Assembly, typeof(RssFeedItemMap).Assembly);
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+            services.AddScheduler();
 
             services.AddHttpContextAccessor();
 
@@ -88,12 +92,36 @@ namespace TechRSSReader.WebUI
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+
+                // Retrieve RSS feed items every ten minutes
+                var provider = app.ApplicationServices;
+                provider.UseScheduler(scheduler =>
+                {
+                    scheduler.ScheduleWithParams<GetNewRssFeedItemsService>(provider)
+                    .EveryTenMinutes();
+                }).OnError((exception) =>
+                {
+                    var logger = provider.GetService<ILogger<Startup>>();
+                    logger.LogError($"Error in scheduler: {exception.Message}, Stack Trace:{exception.StackTrace}");
+                });
             }
             else
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+
+                // Retrieve RSS feed items every hour
+                var provider = app.ApplicationServices;
+                provider.UseScheduler(scheduler =>
+                {
+                    scheduler.ScheduleWithParams<GetNewRssFeedItemsService>(provider)
+                    .Hourly();
+                }).OnError((exception) =>
+                {
+                    var logger = provider.GetService<ILogger<Startup>>();
+                    logger.LogError($"Error in scheduler: {exception.Message}, Stack Trace:{exception.StackTrace}");
+                });
             }
 
             app.UseCustomExceptionHandler();

@@ -38,7 +38,7 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.CreateBlog
                 }
             };
 
-            var handler = new CreateBlogCommand.CreateBlogCommandHandler(Context, Mapper);
+            var handler = new CreateBlogCommand.CreateBlogCommandHandler(Context, Mapper, CurrentUserService);
 
             BlogDto output = await handler.Handle(command, CancellationToken.None);
 

@@ -21,7 +21,6 @@ namespace TechRSSReader.WebUI.Controllers
         [Route("unread")]
         public async Task<FeedItemsViewModel> GetUnread()
         {
-            _logger.LogWarning("GetUnread Method");
             return await Mediator.Send(new GetUnreadItemsQuery());
 
         }
@@ -29,7 +28,6 @@ namespace TechRSSReader.WebUI.Controllers
         [Route("bookmarked")]
         public async Task<FeedItemsViewModel> GetBookmarked()
         {
-            _logger.LogWarning("GetBookmarked Method");
             return await Mediator.Send(new GetBookmarkedItemsQuery());
 
         }

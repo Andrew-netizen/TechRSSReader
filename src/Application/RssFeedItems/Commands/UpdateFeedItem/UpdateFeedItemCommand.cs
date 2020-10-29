@@ -26,13 +26,16 @@ namespace TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
-            private readonly IUserInterestPredictor _userInterestPredictor; 
+            private readonly IUserInterestPredictor _userInterestPredictor;
+            private readonly ICurrentUserService _currentUserService; 
 
-            public UpdateFeedItemCommandHandler(IApplicationDbContext context, IMapper mapper, IUserInterestPredictor userInterestPredictor)
+            public UpdateFeedItemCommandHandler(IApplicationDbContext context, IMapper mapper, IUserInterestPredictor userInterestPredictor, 
+                                                ICurrentUserService currentUserService)
             {
                 _context = context;
                 _mapper = mapper;
-                _userInterestPredictor = userInterestPredictor; 
+                _userInterestPredictor = userInterestPredictor;
+                _currentUserService = currentUserService;
             }
 
             public async Task<RssFeedItemDto> Handle(UpdateFeedItemCommand request, CancellationToken cancellationToken)
@@ -48,7 +51,7 @@ namespace TechRSSReader.Application.RssFeedItems.Commands.UpdateFeedItem
 
                 _context.RssFeedItems.Update(rssFeedItem);
 
-                int objectsSaved = await _context.SaveChangesAsync(cancellationToken);
+                int objectsSaved = await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
 
                 rssFeedItem = await _context.RssFeedItems
                        .Include(item => item.Blog)

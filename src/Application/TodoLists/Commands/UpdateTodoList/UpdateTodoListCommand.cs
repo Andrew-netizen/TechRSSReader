@@ -16,10 +16,12 @@ namespace TechRSSReader.Application.TodoLists.Commands.UpdateTodoList
         public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListCommand>
         {
             private readonly IApplicationDbContext _context;
+            private readonly ICurrentUserService _currentUserService;
 
-            public UpdateTodoListCommandHandler(IApplicationDbContext context)
+            public UpdateTodoListCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
             {
                 _context = context;
+                _currentUserService = currentUserService;
             }
 
             public async Task<Unit> Handle(UpdateTodoListCommand request, CancellationToken cancellationToken)
@@ -33,7 +35,7 @@ namespace TechRSSReader.Application.TodoLists.Commands.UpdateTodoList
 
                 entity.Title = request.Title;
 
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
 
                 return Unit.Value;
             }

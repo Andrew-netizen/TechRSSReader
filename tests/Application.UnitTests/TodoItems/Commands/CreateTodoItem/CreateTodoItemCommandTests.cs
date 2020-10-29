@@ -17,7 +17,7 @@ namespace TechRSSReader.Application.UnitTests.TodoItems.Commands.CreateTodoItem
                 Title = "Do yet another thing."
             };
 
-            var handler = new CreateTodoItemCommand.CreateTodoItemCommandHandler(Context);
+            var handler = new CreateTodoItemCommand.CreateTodoItemCommandHandler(Context, CurrentUserService);
 
             var result = await handler.Handle(command, CancellationToken.None);
 

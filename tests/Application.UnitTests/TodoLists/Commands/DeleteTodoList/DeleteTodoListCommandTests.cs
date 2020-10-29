@@ -18,7 +18,7 @@ namespace TechRSSReader.Application.UnitTests.TodoLists.Commands.DeleteTodoList
                 Id = 1
             };
 
-            var handler = new DeleteTodoItemCommand.DeleteTodoItemCommandHandler(Context);
+            var handler = new DeleteTodoItemCommand.DeleteTodoItemCommandHandler(Context, CurrentUserService);
 
             await handler.Handle(command, CancellationToken.None);
 
@@ -35,7 +35,7 @@ namespace TechRSSReader.Application.UnitTests.TodoLists.Commands.DeleteTodoList
                 Id = 99
             };
 
-            var handler = new DeleteTodoItemCommand.DeleteTodoItemCommandHandler(Context);
+            var handler = new DeleteTodoItemCommand.DeleteTodoItemCommandHandler(Context, CurrentUserService);
 
             Should.ThrowAsync<NotFoundException>(() =>
                 handler.Handle(command, CancellationToken.None));

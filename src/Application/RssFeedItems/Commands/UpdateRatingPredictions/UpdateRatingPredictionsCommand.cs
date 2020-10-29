@@ -19,13 +19,15 @@ namespace TechRSSReader.Application.RssFeedItems.Commands.UpdateRatingPrediction
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
             private readonly IUserInterestPredictor _userInterestPredictor;
+            private readonly ICurrentUserService _currentUserService; 
 
             public UpdateRatingPredictionsCommandHandler(IApplicationDbContext context, 
-                IMapper mapper, IUserInterestPredictor userInterestPredictor)
+                IMapper mapper, IUserInterestPredictor userInterestPredictor, ICurrentUserService currentUserService)
             {
                 _context = context;
                 _mapper = mapper;
                 _userInterestPredictor = userInterestPredictor;
+                _currentUserService = currentUserService;
             }
 
             public async Task<Unit> Handle(UpdateRatingPredictionsCommand request, CancellationToken cancellationToken)
@@ -39,7 +41,7 @@ namespace TechRSSReader.Application.RssFeedItems.Commands.UpdateRatingPrediction
                     _context.RssFeedItems.Update(rssFeedItem);
                 }
 
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
 
                 return default;
             }

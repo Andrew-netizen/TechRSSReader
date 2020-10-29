@@ -20,7 +20,7 @@ namespace TechRSSReader.Application.UnitTests.TodoItems.Commands.UpdateTodoItem
                 Done = true
             };
 
-            var handler = new UpdateTodoItemCommand.UpdateTodoItemCommandHandler(Context);
+            var handler = new UpdateTodoItemCommand.UpdateTodoItemCommandHandler(Context, CurrentUserService);
 
             await handler.Handle(command, CancellationToken.None);
 
@@ -41,7 +41,7 @@ namespace TechRSSReader.Application.UnitTests.TodoItems.Commands.UpdateTodoItem
                 Done = false
             };
 
-            var sut = new UpdateTodoItemCommand.UpdateTodoItemCommandHandler(Context);
+            var sut = new UpdateTodoItemCommand.UpdateTodoItemCommandHandler(Context, CurrentUserService);
 
             Should.ThrowAsync<NotFoundException>(() => 
                 sut.Handle(command, CancellationToken.None));

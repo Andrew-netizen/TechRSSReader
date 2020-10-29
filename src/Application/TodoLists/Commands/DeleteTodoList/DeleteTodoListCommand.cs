@@ -16,10 +16,12 @@ namespace TechRSSReader.Application.TodoLists.Commands.DeleteTodoList
         public class DeleteTodoListCommandHandler : IRequestHandler<DeleteTodoListCommand>
         {
             private readonly IApplicationDbContext _context;
+            private readonly ICurrentUserService _currentUserService;
 
-            public DeleteTodoListCommandHandler(IApplicationDbContext context)
+            public DeleteTodoListCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
             {
                 _context = context;
+                _currentUserService = currentUserService;
             }
 
             public async Task<Unit> Handle(DeleteTodoListCommand request, CancellationToken cancellationToken)
@@ -35,7 +37,7 @@ namespace TechRSSReader.Application.TodoLists.Commands.DeleteTodoList
 
                 _context.TodoLists.Remove(entity);
 
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
 
                 return Unit.Value;
             }

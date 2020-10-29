@@ -18,7 +18,7 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Commands
             var command = new UpdateRatingPredictionsCommand();
 
             var handler = new UpdateRatingPredictionsCommand.UpdateRatingPredictionsCommandHandler(
-                    Context, Mapper, UserInterestPredictor);
+                    Context, Mapper, UserInterestPredictor, CurrentUserService);
 
             await handler.Handle(command, CancellationToken.None);
 

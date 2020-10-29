@@ -14,10 +14,12 @@ namespace TechRSSReader.Application.TodoItems.Commands.DeleteTodoItem
         public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand>
         {
             private readonly IApplicationDbContext _context;
+            private readonly ICurrentUserService _currentUserService;
 
-            public DeleteTodoItemCommandHandler(IApplicationDbContext context)
+            public DeleteTodoItemCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
             {
                 _context = context;
+                _currentUserService = currentUserService;
             }
 
             public async Task<Unit> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
@@ -31,7 +33,7 @@ namespace TechRSSReader.Application.TodoItems.Commands.DeleteTodoItem
 
                 _context.TodoItems.Remove(entity);
 
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
 
                 return Unit.Value;
             }

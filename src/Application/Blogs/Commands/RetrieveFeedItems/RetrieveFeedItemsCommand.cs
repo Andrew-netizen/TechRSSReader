@@ -20,14 +20,15 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
         {
             private readonly IApplicationDbContext _context;
             private readonly IFeedReader _feedReader;
-            private readonly ILogger<RetrieveFeedItemsCommandHandler> _logger; 
-
+            private readonly ILogger<RetrieveFeedItemsCommandHandler> _logger;
+            
             public RetrieveFeedItemsCommandHandler(IApplicationDbContext context, IFeedReader feedReader, 
                 ILogger<RetrieveFeedItemsCommandHandler> logger)
             {
                 _context = context;
                 _feedReader = feedReader;
-                _logger = logger; 
+                _logger = logger;
+                
             }
 
             public async Task<int> Handle(RetrieveFeedItemsCommand request, CancellationToken cancellationToken)
@@ -45,7 +46,6 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
 
                     FeedReadResult feedResponse = await _feedReader.ReadAsync(rssFeed.XmlAddress, cancellationToken);
                     RssFeedItemValidator validator = new RssFeedItemValidator();
-
                     foreach (RssFeedItem item in feedResponse.RssFeedItems)
                     {
                         ValidationResult validationResult = validator.Validate(item);
@@ -68,7 +68,8 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
                         }
                     }
 
-                    result = await _context.SaveChangesAsync(cancellationToken);
+
+                    result = await _context.SaveChangesAsync(rssFeed.CreatedBy, cancellationToken);
                 }
                 catch(Exception ex)
                 {
@@ -78,6 +79,7 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
 
                 return result; 
             }
+         
         }
     }
 }

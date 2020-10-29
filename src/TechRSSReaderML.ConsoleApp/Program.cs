@@ -3,13 +3,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
-using System.Reflection; 
+using System.Reflection;
 using System.Threading.Tasks;
 using TechRSSReader.Application;
 using TechRSSReader.Application.Common.Interfaces;
 using TechRSSReader.Application.Common.Mappings;
 using TechRSSReader.Infrastructure.FeedReader.Maps;
-using TechRSSReader.Infrastructure.Identity;
 using TechRSSReaderML.ConsoleApp.Services;
 using TechRSSReaderML.Model;
 
@@ -80,11 +79,20 @@ namespace TechRSSReaderML.ConsoleApp
 
         private static IConfiguration GetConfiguration(string[] args)
         {
-            return new ConfigurationBuilder()
+            IConfigurationBuilder builder = new ConfigurationBuilder()
                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
-                .AddCommandLine(args)
-                .Build();
+                .AddCommandLine(args);
+
+            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            var isDevelopment = string.IsNullOrEmpty(environment) ||
+                               environment.ToLower() == "development";
+
+            if (isDevelopment)
+                builder.AddUserSecrets<Program>();
+
+            return builder.Build();
         }
 
         private static ServiceProvider ConfigureServices(IConfiguration configuration)

@@ -23,10 +23,18 @@ namespace TechRSSReader.Application.Common.Behaviours
         {
             var requestName = typeof(TRequest).Name;
             var userId = _currentUserService.UserId;
-            var userName = await _identityService.GetUserNameAsync(userId);
+            if (userId == null)
+            {
+                _logger.LogInformation("TechRSSReader Request: {Name} {@Request}",
+                    requestName, request);
+            }
+            else
+            {
+                var userName = await _identityService.GetUserNameAsync(userId);
+                _logger.LogInformation("TechRSSReader Request: {Name} {@UserId} {@UserName} {@Request}",
+                    requestName, userId, userName, request);
+            }
 
-            _logger.LogInformation("TechRSSReader Request: {Name} {@UserId} {@UserName} {@Request}",
-                requestName, userId, userName ,request);
         }
     }
 }

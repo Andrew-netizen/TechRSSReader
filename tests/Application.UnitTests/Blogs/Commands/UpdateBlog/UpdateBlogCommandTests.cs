@@ -20,7 +20,7 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.UpdateBlog
                 XmlAddress = "http://www.smh.com.au"
             };
 
-            var handler = new UpdateBlogCommand.UpdateBlogCommandHandler(Context, Mapper);
+            var handler = new UpdateBlogCommand.UpdateBlogCommandHandler(Context, Mapper, CurrentUserService);
 
             await handler.Handle(command, CancellationToken.None);
 
