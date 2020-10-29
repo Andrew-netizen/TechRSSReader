@@ -29,6 +29,9 @@ namespace TechRSSReader.WebUI
             {
                 Log.Logger = new LoggerConfiguration()
                       .WriteTo.ApplicationInsights(TelemetryConverter.Traces, Serilog.Events.LogEventLevel.Warning)
+                      .Enrich.WithMachineName()
+                      .Enrich.WithProcessId()
+                      .Enrich.FromLogContext()
                       .CreateLogger();
             }
             else
