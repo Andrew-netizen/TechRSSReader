@@ -28,7 +28,11 @@ namespace TechRSSReader.WebUI
             if (environment.ToLower().Equals("production"))
             {
                 Log.Logger = new LoggerConfiguration()
-                      .WriteTo.ApplicationInsights(TelemetryConverter.Traces, Serilog.Events.LogEventLevel.Warning)
+                      .WriteTo.File(@"D:\home\LogFiles\Application\trace.log",
+                        fileSizeLimitBytes: 1_000_000,
+                        rollOnFileSizeLimit: true,
+                        shared: true,
+                        flushToDiskInterval: TimeSpan.FromSeconds(1))
                       .Enrich.WithMachineName()
                       .Enrich.WithProcessId()
                       .Enrich.FromLogContext()
