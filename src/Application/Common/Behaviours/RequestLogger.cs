@@ -25,13 +25,13 @@ namespace TechRSSReader.Application.Common.Behaviours
             var userId = _currentUserService.UserId;
             if (userId == null)
             {
-                _logger.LogInformation("TechRSSReader Request: {Name} {@Request}",
+                _logger.LogDebug("TechRSSReader Request: {Name} {@Request}",
                     requestName, request);
             }
             else
             {
                 var userName = await _identityService.GetUserNameAsync(userId);
-                _logger.LogInformation("TechRSSReader Request: {Name} {@UserId} {@UserName} {@Request}",
+                _logger.LogDebug("TechRSSReader Request: {Name} {@UserId} {@UserName} {@Request}",
                     requestName, userId, userName, request);
             }
 

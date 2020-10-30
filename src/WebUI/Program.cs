@@ -29,6 +29,7 @@ namespace TechRSSReader.WebUI
             {
                 Log.Logger = new LoggerConfiguration()
                       .WriteTo.ApplicationInsights(TelemetryConverter.Events, Serilog.Events.LogEventLevel.Information)
+                      .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", Serilog.Events.LogEventLevel.Warning)
                       .Enrich.WithMachineName()
                       .Enrich.WithProcessId()
                       .Enrich.FromLogContext()
