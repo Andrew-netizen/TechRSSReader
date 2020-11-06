@@ -22,7 +22,7 @@ const blogRoutes: Routes = [
     path: "blogs",
     component: BlogShellComponent,
     canActivate: [AuthorizeGuard],
-  },
+  }
 ];
 
 @NgModule({

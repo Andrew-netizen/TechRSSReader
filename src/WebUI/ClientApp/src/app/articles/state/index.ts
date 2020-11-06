@@ -56,6 +56,7 @@ export const getFilteredArticles = createSelector(
       result = result.filter(feedItem => !ContainsExcludedKeywords(blog, feedItem));
     }
 
+
     if (displaySortOrder === fromArticles.DisplaySortOrder.PredictedRating)
       result = orderBy(result, ['userRatingPrediction'], ['desc']);
     if (displaySortOrder === fromArticles.DisplaySortOrder.PublishDateDesc)
