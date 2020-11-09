@@ -35,6 +35,6 @@
     </div>
     <div class="row">Publishing Date: {{ feedItem.publishingDateString }}</div>
     <hr/>
-    <div class="row"><a [href]="feedItem.link" >Read More ...</a></div>
+    <div class="row"><a [href]="this.domSanitizationService.bypassSecurityTrustUrl(feedItem.link)" >Read More ...</a></div>
   </div>
 </div>

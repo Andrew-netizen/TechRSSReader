@@ -35,6 +35,8 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   blog: BlogDto | null;
 
   private currentBlogSubscription: Subscription;
+  private valueChangesSubscription: Subscription;
+  private retrievedFeedItemsSubscription: Subscription;
 
   // Use with the generic validation message class
   displayMessage: { [key: string]: string } = {};
@@ -112,7 +114,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     this.errorMessage$ = this.store.pipe(select(fromBlog.getError));
 
     // Watch for value changes
-    this.blogForm.valueChanges.subscribe(
+    this.valueChangesSubscription = this.blogForm.valueChanges.subscribe(
       (value) =>
         (this.displayMessage = this.genericValidator.processMessages(
           this.blogForm
@@ -121,7 +123,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
 
     // Watch for changes in the number of retrieved feed items.
     // Show a toast to the user when this value changes.
-    this.store
+    this.retrievedFeedItemsSubscription = this.store
       .pipe(
         select(fromBlog.getRetrievedFeedItemCount),
         takeWhile(() => this.componentActive)
@@ -134,6 +136,8 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.componentActive = false;
     this.currentBlogSubscription.unsubscribe();
+    this.retrievedFeedItemsSubscription.unsubscribe();
+    this.valueChangesSubscription.unsubscribe();
   }
 
   convertKeywordsToIncludeToFormArray(
