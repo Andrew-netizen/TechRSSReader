@@ -9,6 +9,10 @@
   <ItemGroup>
     <Compile Remove="Persistence\Migrations\20200917003651_AddUserRating.cs" />
     <Compile Remove="Persistence\Migrations\20200917003651_AddUserRating.Designer.cs" />
+    <Compile Remove="Persistence\Migrations\20201110012210_AddExcludedByKeyword.cs" />
+    <Compile Remove="Persistence\Migrations\20201110012210_AddExcludedByKeyword.Designer.cs" />
+    <Compile Remove="Persistence\Migrations\20201110012634_AddExcludedByKeyword.cs" />
+    <Compile Remove="Persistence\Migrations\20201110012634_AddExcludedByKeyword.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

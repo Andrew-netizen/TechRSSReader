@@ -37,6 +37,7 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
                 IList<RssFeedItem> feedItems = await _context.RssFeedItems
                     .Include(item => item.Blog)
                     .Where(item => !item.ReadAlready)
+                    .Where(item => item.ExcludedByKeyword.HasValue)
                     .Where(item => item.CreatedBy.Equals(_currentUserService.UserId))
                     .AsNoTracking()
                     .ToListAsync(cancellationToken);

@@ -23,6 +23,8 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
 
         public string Description { get; set; }
 
+        public bool? ExcludedByKeyword { get; set; }
+
         public string Link { get; set; }
 
         public DateTime? PublishingDate { get; set; }

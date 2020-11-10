@@ -43,7 +43,10 @@ namespace TechRSSReader.Infrastructure.Persistence.Configurations
             builder.Property(item => item.Title)
                 .HasMaxLength(500)
                 .IsRequired();
-                
+
+            builder.HasIndex(item => item.BlogId);
+
+            builder.HasIndex(item => new { item.BlogId, item.ReadAlready, item.ExcludedByKeyword });
         }
     }
 }

@@ -64,7 +64,7 @@ namespace TechRSSReader.Application.UnitTests.Common
                 Title = "Einstein Blog",
                 XmlAddress = "http://einstein.com",
                 KeywordsToInclude = new List<KeywordToInclude> { new KeywordToInclude { Keyword = "Physics" } },
-                KeywordsToExclude = new List<KeywordToExclude> { new KeywordToExclude { Keyword = "Fashion" } },
+                KeywordsToExclude = new List<KeywordToExclude> { new KeywordToExclude { Keyword = "Food" } },
                 CreatedBy = "00000000-0000-0000-0000-000000000000"
             });
 
@@ -74,7 +74,9 @@ namespace TechRSSReader.Application.UnitTests.Common
                 Title = "A General Theory of Relativity",
                 BlogId = 1,
                 Bookmarked = true,
-                CreatedBy = "00000000-0000-0000-0000-000000000000", 
+                Categories = "physics",
+                CreatedBy = "00000000-0000-0000-0000-000000000000",
+                ExcludedByKeyword = false,
                 ReadAlready = false
             });
 
@@ -83,6 +85,8 @@ namespace TechRSSReader.Application.UnitTests.Common
                 Id = 2,
                 Title = "What I'm having for dinner",
                 BlogId = 1,
+                Categories = "food",
+                ExcludedByKeyword = true, 
                 UserRating = 1,
                 CreatedBy = "00000000-0000-0000-0000-000000000000",
                ReadAlready = false

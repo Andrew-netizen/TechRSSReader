@@ -51,9 +51,9 @@ export const getFilteredArticles = createSelector(
       result = result.filter(feedItem => feedItem.bookmarked);
     }
 
-    if (keywordExclusion && blog)
+    if (keywordExclusion)
     {
-      result = result.filter(feedItem => !ContainsExcludedKeywords(blog, feedItem));
+      result = result.filter(feedItem => !feedItem.excludedByKeyword);
     }
 
 
@@ -103,26 +103,3 @@ export const getShowBlogTitle = createSelector(
   source => (source === fromBlog.FeedItemSource.Bookmarked) || (source === fromBlog.FeedItemSource.Unread)
 );
 
-function ContainsExcludedKeywords(blog: BlogDto, feedItem: RssFeedItemDto): boolean {
-  var hasExcludedKeyword: boolean;
-  hasExcludedKeyword = false;
-  if (!blog.keywordsToExclude || !feedItem.categories)
-  {
-    return hasExcludedKeyword;
-  }
-
-  var keywordIndex: number;
-  keywordIndex = 0;
-  while (keywordIndex < blog.keywordsToExclude.length)
-  {
-      var regularExpression = new RegExp(blog.keywordsToExclude[keywordIndex].keyword, "gi");
-      if (feedItem.categories.search(regularExpression)!= -1)
-      {
-        hasExcludedKeyword = true;
-        break;
-      }
-      keywordIndex++;
-  }
-
-  return hasExcludedKeyword;
-}

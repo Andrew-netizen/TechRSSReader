@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TechRSSReader.Application.Blogs.Queries.GetBlogs;
@@ -63,6 +64,19 @@ namespace TechRSSReader.Application.Blogs.Commands.UpdateBlog
                 }
 
                 _context.Blogs.Update(blog);
+
+                // Update the ExcludedByKeyword flag for all associated feed items.
+                // This is necessary because we've just updated the list of keywords for the blog.
+
+                List<RssFeedItem> feedItems = _context.RssFeedItems
+                                                    .Where(item => item.BlogId == blog.Id)
+                                                    .ToList();
+                foreach (RssFeedItem feedItem in feedItems)
+                {
+                    feedItem.ExcludedByKeyword = feedItem.ContainsExcludedKeywords(blog);
+                    _context.RssFeedItems.Update(feedItem);
+                }
+                
                 await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
 
                 return _mapper.Map<BlogDto>(blog);

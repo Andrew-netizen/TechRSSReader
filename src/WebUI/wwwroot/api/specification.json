@@ -860,6 +860,10 @@
             "type": "string",
             "nullable": true
           },
+          "excludedByKeyword": {
+            "type": "boolean",
+            "nullable": true
+          },
           "link": {
             "type": "string",
             "nullable": true

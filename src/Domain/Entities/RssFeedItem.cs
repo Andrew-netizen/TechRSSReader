@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using TechRSSReader.Domain.Common;
+using TechRSSReader.Domain.ValueObjects;
 
 namespace TechRSSReader.Domain.Entities
 {
@@ -22,6 +24,8 @@ namespace TechRSSReader.Domain.Entities
 
         public string Description { get; set; }
 
+        public bool? ExcludedByKeyword { get; set; }
+
         public string Link { get; set; }
 
         public DateTime?  PublishingDate { get; set; }
@@ -39,6 +43,16 @@ namespace TechRSSReader.Domain.Entities
         public int? UserRating { get; set; }
 
         public Single? UserRatingPrediction { get; set; }
+
+        public bool ContainsExcludedKeywords(Blog blog)
+        {
+            foreach (KeywordToExclude keyword in blog.KeywordsToExclude)
+            {
+                if (Regex.IsMatch(this.Categories, keyword.Keyword, RegexOptions.IgnoreCase))
+                    return true;
+            }
+            return false;
+        }
 
 
     }

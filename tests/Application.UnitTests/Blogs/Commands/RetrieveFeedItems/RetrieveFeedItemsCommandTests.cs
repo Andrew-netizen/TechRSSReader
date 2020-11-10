@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems;
 using TechRSSReader.Application.UnitTests.Common;
 using TechRSSReader.Domain.Entities;
+using TechRSSReader.Domain.ValueObjects;
 using Xunit;
 
 namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
@@ -21,7 +22,10 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
         [Fact]
         public async Task Handle_LoadSlashdot()
         {
+            KeywordToExclude keywordToExclude = new KeywordToExclude();
+            keywordToExclude.Keyword = "privacy";
             Blog slashdot = new Blog { Title = "Slashot", XmlAddress= "http://rss.slashdot.org/Slashdot/slashdotMain", CreatedBy = CurrentUserService.UserId };
+            slashdot.KeywordsToExclude.Add(keywordToExclude);
             Context.Blogs.Add(slashdot);
             Context.SaveChanges();
 
@@ -46,6 +50,20 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
 
             int retrievedItemsCount = retrievedItems.Count; 
 
+            foreach (RssFeedItem feedItem in retrievedItems)
+            {
+                if (feedItem.Categories.Contains("privacy", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    feedItem.ExcludedByKeyword.HasValue.ShouldBeTrue();
+                    feedItem.ExcludedByKeyword.Value.ShouldBeTrue();
+                }
+                else
+                {
+                    feedItem.ExcludedByKeyword.HasValue.ShouldBeTrue();
+                    feedItem.ExcludedByKeyword.Value.ShouldBeFalse();
+                }
+            }
+
             result = await handler.Handle(command, CancellationToken.None);
 
             result.ShouldBe(0);
@@ -68,7 +86,9 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
         [Fact]
         public async Task Handle_LoadAWSNews()
         {
-            Blog awsNews = new Blog { Title = "AWS News", XmlAddress = "https://aws.amazon.com/about-aws/whats-new/recent/feed/", CreatedBy = CurrentUserService.UserId };
+            
+            Blog awsNews = new Blog { Title = "AWS News", XmlAddress = "https://aws.amazon.com/about-aws/whats-new/recent/feed/", CreatedBy = CurrentUserService.UserId};
+            
             Context.Blogs.Add(awsNews);
             Context.SaveChanges();
 
@@ -83,6 +103,8 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
             var result = await handler.Handle(command, CancellationToken.None);
 
             result.ShouldBeGreaterThan(0);
+
+
 
         }
     }

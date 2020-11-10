@@ -1355,6 +1355,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
     categories?: string | undefined;
     content?: string | undefined;
     description?: string | undefined;
+    excludedByKeyword?: boolean | undefined;
     link?: string | undefined;
     publishingDate?: Date | undefined;
     publishingDateString?: string | undefined;
@@ -1384,6 +1385,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
             this.categories = data["categories"];
             this.content = data["content"];
             this.description = data["description"];
+            this.excludedByKeyword = data["excludedByKeyword"];
             this.link = data["link"];
             this.publishingDate = data["publishingDate"] ? new Date(data["publishingDate"].toString()) : <any>undefined;
             this.publishingDateString = data["publishingDateString"];
@@ -1413,6 +1415,7 @@ export class RssFeedItemDto implements IRssFeedItemDto {
         data["categories"] = this.categories;
         data["content"] = this.content;
         data["description"] = this.description;
+        data["excludedByKeyword"] = this.excludedByKeyword;
         data["link"] = this.link;
         data["publishingDate"] = this.publishingDate ? this.publishingDate.toISOString() : <any>undefined;
         data["publishingDateString"] = this.publishingDateString;
@@ -1435,6 +1438,7 @@ export interface IRssFeedItemDto {
     categories?: string | undefined;
     content?: string | undefined;
     description?: string | undefined;
+    excludedByKeyword?: boolean | undefined;
     link?: string | undefined;
     publishingDate?: Date | undefined;
     publishingDateString?: string | undefined;

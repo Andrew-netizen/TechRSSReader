@@ -42,6 +42,7 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Queries
             foreach (var item in result.RssFeedItems)
             {
                 item.ReadAlready.ShouldBeFalse();
+                item.ExcludedByKeyword.HasValue.ShouldBeTrue();
                 item.BlogTitle.ShouldNotBeNullOrWhiteSpace();
             }
         }

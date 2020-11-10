@@ -64,6 +64,7 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
                         if (existingItem == null)
                         {
                             item.BlogId = request.BlogId;
+                            item.ExcludedByKeyword = item.ContainsExcludedKeywords(rssFeed);
                             _context.RssFeedItems.Add(item);
                         }
                     }
