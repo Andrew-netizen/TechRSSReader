@@ -32,5 +32,19 @@ namespace Domain.UnitTests.Entities
             result.ShouldBeTrue();
         }
 
+        [Fact]
+        public void ReturnsFalseNoCPlusPlus()
+        {
+            Blog blog = new Blog();
+            KeywordToExclude space = new KeywordToExclude();
+            space.Keyword = "C++";
+            blog.KeywordsToExclude.Add(space);
+            RssFeedItem target = new RssFeedItem();
+            target.Categories = "CISALONGWORD";
+            bool result = target.ContainsExcludedKeywords(blog);
+
+            result.ShouldBeFalse();
+        }
+
     }
 }

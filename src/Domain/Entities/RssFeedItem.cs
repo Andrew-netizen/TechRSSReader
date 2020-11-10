@@ -48,7 +48,7 @@ namespace TechRSSReader.Domain.Entities
         {
             foreach (KeywordToExclude keyword in blog.KeywordsToExclude)
             {
-                if (Regex.IsMatch(this.Categories, keyword.Keyword, RegexOptions.IgnoreCase))
+                if (this.Categories.Contains(keyword.Keyword, StringComparison.OrdinalIgnoreCase))
                     return true;
             }
             return false;
