@@ -19,12 +19,10 @@ import { NavMenuComponent } from "./nav-menu/nav-menu.component";
 import { HomeComponent } from "./home/home.component";
 import { CounterComponent } from "./counter/counter.component";
 import { FetchDataComponent } from "./fetch-data/fetch-data.component";
-import { TodoComponent } from "./todo/todo.component";
 import { ApiAuthorizationModule } from "src/api-authorization/api-authorization.module";
 import { AuthorizeGuard } from "src/api-authorization/authorize.guard";
 import { AuthorizeInterceptor } from "src/api-authorization/authorize.interceptor";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ModalModule } from "ngx-bootstrap/modal";
 import { BlogModule } from "./blog/blog.module";
 import { SharedModule } from "./shared/shared.module";
 import { ToastrModule } from "ngx-toastr";
@@ -60,7 +58,6 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    TodoComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -79,12 +76,10 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
         path: "fetch-data",
         component: FetchDataComponent,
         canActivate: [AuthorizeGuard],
-      },
-      { path: "todo", component: TodoComponent, canActivate: [AuthorizeGuard] },
+      }
     ]),
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    ModalModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({
       name: "Tech RSS Reader DevTools",

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BlogDto, RssFeedItemDto, UpdateFeedItemCommand } from 'src/app/techrssreader-api';
+import { BlogDto, RssFeedItemDto, UpdateFeedItemCommand } from 'src/app/TechRSSReader-api';
 import * as fromRoot from '../../../state/app.state';
 import * as fromBlog from '../../../blog/state/blog.reducer';
 import * as fromTraining from '../../state/training.reducer';
