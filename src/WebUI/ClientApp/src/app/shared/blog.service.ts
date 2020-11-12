@@ -6,7 +6,9 @@ import {
   CreateBlogCommand, RssFeedItemDto, RssFeedItemsClient, FeedItemsViewModel
 } from "../TechRSSReader-api";
 import { map } from "rxjs/operators";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class BlogService {
   constructor(private blogsClient: BlogsClient,
             private feedItemsClient: RssFeedItemsClient) {}
