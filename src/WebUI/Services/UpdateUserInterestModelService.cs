@@ -61,9 +61,6 @@ namespace TechRSSReader.WebUI.Services
                             _logger.LogInformation($"Copied {temporaryModelFile} to {modelFile}");
                         }
                         
-                        _logger.LogInformation("Content Root Path is " + _webHostEnvironment.ContentRootPath);
-                        _logger.LogInformation("Web Root Path is " + _webHostEnvironment.WebRootPath);
-
                         await modelTrainingService.UpdateFeedItemPredictions();
 
                     }

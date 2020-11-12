@@ -1,7 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromArticles from './articles.reducer';
 import * as fromBlog from '../../blog/state/blog.reducer';
-import { BlogDto, RssFeedItemDto } from 'src/app/techrssreader-api';
 import {orderBy } from 'lodash';
 
 // selector functions
@@ -33,10 +32,9 @@ export const getFilteredArticles = createSelector(
   getExcludeAlreadyRead,
   getKeywordExclusion,
   getDisplaySortOrder,
-  fromBlog.getCurrentBlog,
   fromBlog.getFeedItems,
   fromBlog.getFeedItemSource,
-  (excludeAlreadyRead, keywordExclusion, displaySortOrder, blog, feedItems, feedItemSource) =>
+  (excludeAlreadyRead, keywordExclusion, displaySortOrder, feedItems, feedItemSource) =>
   {
 
     var result = feedItems;
