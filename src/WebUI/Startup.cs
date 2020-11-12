@@ -97,8 +97,15 @@ namespace TechRSSReader.WebUI
                 var provider = app.ApplicationServices;
                 provider.UseScheduler(scheduler =>
                 {
+                    
                     scheduler.ScheduleWithParams<GetNewRssFeedItemsService>(provider)
-                    .EveryTenMinutes();
+                    .EveryTenMinutes()
+                    .PreventOverlapping("GetNewRssFeedItemsService");
+
+                    scheduler.ScheduleWithParams<UpdateUserInterestModelService>(provider)
+                      .EveryTenMinutes()
+                      .PreventOverlapping("UpdateUserInterestModelService");
+
                 }).OnError((exception) =>
                 {
                     var logger = provider.GetService<ILogger<Startup>>();
@@ -116,7 +123,13 @@ namespace TechRSSReader.WebUI
                 provider.UseScheduler(scheduler =>
                 {
                     scheduler.ScheduleWithParams<GetNewRssFeedItemsService>(provider)
-                    .Hourly();
+                    .Hourly()
+                    .PreventOverlapping("GetNewRssFeedItemsService");
+
+                    scheduler.ScheduleWithParams<UpdateUserInterestModelService>(provider)
+                    .Hourly()
+                    .PreventOverlapping("UpdateUserInterestModelService");
+
                 }).OnError((exception) =>
                 {
                     var logger = provider.GetService<ILogger<Startup>>();

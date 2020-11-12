@@ -69,6 +69,7 @@ namespace TechRSSReader.Application
                 services.AddTransient<IDateTime, DateTimeService>();
                 services.AddTransient<IIdentityService, IdentityService>();
                 services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
+                services.AddTransient<IModelTrainingService, ModelTrainingService>();
             }
 
             services.AddTransient<IFeedReader, RssFeedReader>();

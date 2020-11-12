@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.IO;
 using System.Reflection;
@@ -24,23 +26,26 @@ namespace TechRSSReaderML.ConsoleApp
             IConfiguration configuration = GetConfiguration(args);
             ServiceProvider serviceProvider = ConfigureServices(configuration);
             ConfigurationBinder.Bind(configuration.GetSection("AppSettings"), appSettings);
+            Microsoft.Extensions.Logging.ILogger _logger = serviceProvider.GetService<ILogger<Program>>();
             string modelDataFileName = null;
             try
             {
-                Console.WriteLine($"=============== Loading the Data ===============");
-
                 IModelTrainingService modelTrainingService = serviceProvider.GetService<IModelTrainingService>();
                 modelDataFileName = await modelTrainingService.CreateModelDataFileAsync();
 
-                ModelBuilder.CreateModel(modelDataFileName);
+                string newModelFile = await modelTrainingService.CreateModel(modelDataFileName);
 
-                Console.WriteLine($"=============== Copying Model to the Website ===============");
+                // ModelBuilder.CreateModel(modelDataFileName);
 
+                _logger.LogInformation($"=============== Copying Model to the Website ===============");
+
+                
+                
                 if (File.Exists(appSettings.MLModelFile))
                     File.Delete(appSettings.MLModelFile);
-                File.Copy(ModelBuilder.GetSavedModelPath(), appSettings.MLModelFile);
+                File.Copy(newModelFile, appSettings.MLModelFile);
 
-                Console.WriteLine($"=============== Copying the Model for Prediction ===============");
+                _logger.LogInformation($"=============== Copying the Model for Prediction ===============");
 
                 string executablePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 string modelDirectory = Path.Combine(executablePath, "MLModels");
@@ -49,15 +54,12 @@ namespace TechRSSReaderML.ConsoleApp
                 string modelFile = Path.Combine(modelDirectory, "MLModel.zip");
                 if (File.Exists(modelFile))
                     File.Delete(modelFile);
-                File.Copy(ModelBuilder.GetSavedModelPath(), modelFile);
+                File.Copy(newModelFile, modelFile);
 
-                Console.WriteLine($"=============== Updating FeedItem Predictions ===============");
+                _logger.LogInformation($"=============== Updating FeedItem Predictions ===============");
 
                 await modelTrainingService.UpdateFeedItemPredictions();
-
-                Console.WriteLine();
-
-                
+                                
             }
             finally
             {
@@ -72,7 +74,7 @@ namespace TechRSSReaderML.ConsoleApp
             // Make a single prediction on the sample data and print results
             var predictionResult = ConsumeModel.Predict(sampleData);
 
-            WriteSampleOutputToConsole(sampleData, predictionResult);
+            WriteSampleOutputToConsole(serviceProvider, sampleData, predictionResult);
 
             Console.ReadKey();
         }
@@ -80,9 +82,10 @@ namespace TechRSSReaderML.ConsoleApp
         private static IConfiguration GetConfiguration(string[] args)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
-               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables()
-                .AddCommandLine(args);
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+               .AddEnvironmentVariables()
+               .AddCommandLine(args);
 
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
@@ -102,14 +105,29 @@ namespace TechRSSReaderML.ConsoleApp
             var services = new ServiceCollection()
                 .AddApplication()
                 .AddInfrastructure(configuration, null)
-                .AddTransient<IModelTrainingService, ModelTrainingService>()
                 .AddSingleton<ICurrentUserService>(currentUserService)
                 .AddAutoMapper(typeof(MappingProfile).Assembly, typeof(RssFeedItemMap).Assembly);
+
+
+            //var serilogLogger = new LoggerConfiguration()
+            //   .ReadFrom.Configuration(configuration)
+            //   .CreateLogger();
+
+            var serilogLogger = new LoggerConfiguration()
+                    .WriteTo.Console()
+                    .MinimumLevel.Information()
+                    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+                    .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
+                    .CreateLogger();
+
+            services.AddLogging(builder =>
+            {
+                builder.AddSerilog(serilogLogger);
+            });
 
             return services.BuildServiceProvider();
 
         }
-               
 
         static StarRatingInput SampleData()
         {
@@ -138,31 +156,35 @@ namespace TechRSSReaderML.ConsoleApp
             };
         }
 
-        static void WriteSampleOutputToConsole(StarRatingInput sampleData, StarRatingOutput predictionResult)
+        static void WriteSampleOutputToConsole(ServiceProvider serviceProvider, StarRatingInput sampleData, StarRatingOutput predictionResult)
         {
-            Console.WriteLine("Using model to make single prediction -- Comparing actual UserRating with predicted UserRating from sample data...\n\n");
-            Console.WriteLine($"Id: {sampleData.Id}");
-            Console.WriteLine($"CreatedBy: {sampleData.CreatedBy}");
-            Console.WriteLine($"Created: {sampleData.Created}");
-            Console.WriteLine($"LastModifiedBy: {sampleData.LastModifiedBy}");
-            Console.WriteLine($"LastModified: {sampleData.LastModified}");
-            Console.WriteLine($"Author: {sampleData.Author}");
-            Console.WriteLine($"BlogId: {sampleData.BlogId}");
-            Console.WriteLine($"Categories: {sampleData.Categories}");
-            Console.WriteLine($"Content: {sampleData.Content}");
-            Console.WriteLine($"Description: {sampleData.Description}");
-            Console.WriteLine($"Link: {sampleData.Link}");
-            Console.WriteLine($"PublishingDate: {sampleData.PublishingDate}");
-            Console.WriteLine($"PublishingDateString: {sampleData.PublishingDateString}");
-            Console.WriteLine($"RetrievedDateTime: {sampleData.RetrievedDateTime}");
-            Console.WriteLine($"RssId: {sampleData.RssId}");
-            Console.WriteLine($"Title: {sampleData.Title}");
-            Console.WriteLine($"UserInterested: {sampleData.UserInterested}");
-            Console.WriteLine($"UserInterestPrediction: {sampleData.UserInterestPrediction}");
-            Console.WriteLine($"ReadAlready: {sampleData.ReadAlready}");
-            Console.WriteLine($"UserRatingPrediction: {sampleData.UserRatingPrediction}");
-            Console.WriteLine($"\n\nPredicted UserRating: {predictionResult.Score}\n\n");
-            Console.WriteLine("=============== End of process, hit any key to finish ===============");
+
+            Microsoft.Extensions.Logging.ILogger _logger = serviceProvider.GetService<ILogger<Program>>();
+
+
+            _logger.LogInformation("Using model to make single prediction -- Comparing actual UserRating with predicted UserRating from sample data...");
+            //Console.WriteLine($"Id: {sampleData.Id}");
+            //Console.WriteLine($"CreatedBy: {sampleData.CreatedBy}");
+            //Console.WriteLine($"Created: {sampleData.Created}");
+            //Console.WriteLine($"LastModifiedBy: {sampleData.LastModifiedBy}");
+            //Console.WriteLine($"LastModified: {sampleData.LastModified}");
+            //Console.WriteLine($"Author: {sampleData.Author}");
+            //Console.WriteLine($"BlogId: {sampleData.BlogId}");
+            //Console.WriteLine($"Categories: {sampleData.Categories}");
+            //Console.WriteLine($"Content: {sampleData.Content}");
+            //Console.WriteLine($"Description: {sampleData.Description}");
+            //Console.WriteLine($"Link: {sampleData.Link}");
+            //Console.WriteLine($"PublishingDate: {sampleData.PublishingDate}");
+            //Console.WriteLine($"PublishingDateString: {sampleData.PublishingDateString}");
+            //Console.WriteLine($"RetrievedDateTime: {sampleData.RetrievedDateTime}");
+            //Console.WriteLine($"RssId: {sampleData.RssId}");
+            //Console.WriteLine($"Title: {sampleData.Title}");
+            _logger.LogInformation($"UserInterested: {sampleData.UserInterested}");
+            //Console.WriteLine($"UserInterestPrediction: {sampleData.UserInterestPrediction}");
+            //Console.WriteLine($"ReadAlready: {sampleData.ReadAlready}");
+            //Console.WriteLine($"UserRatingPrediction: {sampleData.UserRatingPrediction}");
+            _logger.LogInformation($"Predicted UserRating: {predictionResult.Score}");
+            _logger.LogInformation("=============== End of process, hit any key to finish ===============");
         }
     }
 }

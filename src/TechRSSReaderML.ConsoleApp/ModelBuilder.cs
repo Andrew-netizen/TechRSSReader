@@ -12,7 +12,6 @@ namespace TechRSSReaderML.ConsoleApp
 {
     public static class ModelBuilder
     {
-        private static string TRAIN_DATA_FILEPATH = @"C:\Users\awoodyatt\AppData\Local\Temp\68640b86-9a37-4fbf-9da7-4701c4cca976.tsv";
         private static string MODEL_FILE = ConsumeModel.MLNetModelPath;
 
         // Create MLContext to be shared across the model creation workflow objects 
@@ -21,15 +20,10 @@ namespace TechRSSReaderML.ConsoleApp
 
         public static void CreateModel(string filePath)
         {
-
-            if (filePath != null)
-            {
-                TRAIN_DATA_FILEPATH = filePath; 
-            }
-
+            
             // Load Data
             IDataView trainingDataView = mlContext.Data.LoadFromTextFile<StarRatingInput>(
-                                            path: TRAIN_DATA_FILEPATH,
+                                            path: filePath,
                                             hasHeader: true,
                                             separatorChar: '\t',
                                             allowQuoting: true,
@@ -105,7 +99,7 @@ namespace TechRSSReaderML.ConsoleApp
 
         public static string GetAbsolutePath(string relativePath)
         {
-            FileInfo _dataRoot = new FileInfo(typeof(Program).Assembly.Location);
+             FileInfo _dataRoot = new FileInfo(typeof(Program).Assembly.Location);
             string assemblyFolderPath = _dataRoot.Directory.FullName;
 
             string fullPath = Path.Combine(assemblyFolderPath, relativePath);

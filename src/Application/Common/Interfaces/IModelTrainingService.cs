@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 
-namespace TechRSSReaderML.ConsoleApp.Services
+namespace TechRSSReader.Application.Common.Interfaces
 {
-    interface IModelTrainingService
+    public interface IModelTrainingService
     {
         public Task<string> CreateModelDataFileAsync();
 
         public Task UpdateFeedItemPredictions();
 
+        public Task<string> CreateModel(string fileName);
     }
 }

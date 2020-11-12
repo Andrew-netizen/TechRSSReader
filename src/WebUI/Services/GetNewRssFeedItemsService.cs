@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems;
 using TechRSSReader.Application.Blogs.Queries.GetAllUserBlogs;
 using TechRSSReader.Domain.Entities;
-using TechRSSReader.Infrastructure.Persistence;
 
 namespace TechRSSReader.WebUI.Services
 {
