@@ -1,33 +1,27 @@
 <header>
-  <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-primary border-bottom box-shadow mb-3">
+  <nav class="navbar navbar-expand-md bg-primary justify-content-center">
     <div class="container">
-      <a class="navbar-brand text-white" [routerLink]="['/']">Smart RSS Reader</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
-        aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
-        <span class="navbar-toggler-icon"></span>
+      <a class="navbar-brand text-white d-flex w-50 mr-auto" [routerLink]="['/']">Smart RSS Reader</a>
+      <button class="navbar-toggler text-white" type="button" data-toggle="collapse" data-target="#collapsingNavbar3"
+        aria-label="Toggle navigation" [attr.aria-expanded]="navbarCollapsed" (click)="navbarCollapsed = !navbarCollapsed">
+        <fa-icon [icon]="['far', 'bars']"></fa-icon>
       </button>
-      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]="{ show: isExpanded }">
-        <app-login-menu></app-login-menu>
-        <ul class="navbar-nav flex-grow">
+      <div id="collapsingNavbar3" [ngbCollapse]="navbarCollapsed" class="navbar-collapse collapse w-100">
+        <ul class="nav navbar-nav ml-auto w-100 justify-content-end" >
           <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-white" [routerLink]="['/']">Home</a>
+            <a class="nav-link text-white" [routerLink]="['/']" (click)="navbarCollapsed = true" >Home</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-white" [routerLink]="['/blogs']">Feeds</a>
+            <a class="nav-link text-white" [routerLink]="['/blogs']" (click)="navbarCollapsed = true" >Feeds</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-white" [routerLink]="['/training']">Improve Recommendations</a>
+            <a class="nav-link text-white" [routerLink]="['/training']" (click)="navbarCollapsed = true" >Rate</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-white" [routerLink]="['/articles']">Articles</a>
+            <a class="nav-link text-white" [routerLink]="['/articles']" (click)="navbarCollapsed = true" >Articles</a>
           </li>
-          <!--<li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-white" [routerLink]="['/counter']">Counter</a>
-          </li>-->
-          <!--<li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-white" [routerLink]="['/fetch-data']">Fetch data</a>
-          </li>-->
         </ul>
+        <app-login-menu></app-login-menu>
       </div>
     </div>
   </nav>

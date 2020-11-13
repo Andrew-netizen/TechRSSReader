@@ -13,6 +13,7 @@ import { faStar as falStar} from '@fortawesome/pro-light-svg-icons';
 import { faBookmark as farBookmark} from "@fortawesome/pro-regular-svg-icons";
 import {faBookmark as fasBookmark} from "@fortawesome/free-solid-svg-icons";
 import { faNewspaper } from "@fortawesome/pro-regular-svg-icons";
+import {faBars} from "@fortawesome/pro-regular-svg-icons";
 
 import { AppComponent } from "./app.component";
 import { NavMenuComponent } from "./nav-menu/nav-menu.component";
@@ -39,6 +40,7 @@ import { State } from "./state/app.state";
 import * as articlesReducer from './articles/state/articles.reducer';
 import * as blogReducer from "./blog/state/blog.reducer";
 import * as trainingReducer from "./training/state/training.reducer";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export const reducers: ActionReducerMap<State> = {
   // reducers
@@ -87,6 +89,7 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([]),
+    NgbModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
@@ -95,10 +98,11 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
-    library.addIcons(faStar as IconDefinition);
+    library.addIcons(faStar as IconDefinition );
     library.addIcons(falStar as IconDefinition);
     library.addIcons(farBookmark as IconDefinition);
     library.addIcons(fasBookmark as IconDefinition);
     library.addIcons(faNewspaper as IconDefinition);
+    library.addIcons(faBars as IconDefinition);
   }
 }
