@@ -14,10 +14,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducer } from './state/articles.reducer';
 
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const articlesRoutes: Routes = [
   {
@@ -34,12 +31,12 @@ const articlesRoutes: Routes = [
     CommonModule,
     SharedModule,
     FontAwesomeModule,
+    NgbModule,
     RouterModule.forChild(articlesRoutes),
     StoreModule.forFeature('articles', reducer),
   ]
 })
 export class ArticlesModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(faStar as IconDefinition);
+  constructor() {
   }
  }

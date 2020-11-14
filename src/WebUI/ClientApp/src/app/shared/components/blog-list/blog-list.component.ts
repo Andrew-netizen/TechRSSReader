@@ -12,6 +12,8 @@ export class BlogListComponent {
   @Input() selectedBlog: BlogDto;
   @Output() selected = new EventEmitter<BlogDto>();
 
+  public isCollapsed = false;
+
   blogSelected(blog: BlogDto): void {
     this.selected.emit(blog);
   }

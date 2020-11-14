@@ -62,13 +62,12 @@
         class="list-group-item list-group-item-action rounded-0"
       >
         <div *ngIf="feedItem?.id !== selectedFeedItem?.id">
-          <span class="m-1"
-          (click)="bookmarkToggledHandler(feedItem)" >
-            <fa-icon
-              [icon]="
-                feedItem.bookmarked ? ['fas', 'bookmark'] : ['far', 'bookmark']
+          <span class="m-1" (click)="bookmarkToggledHandler(feedItem)">
+            <i
+              [className]="
+                feedItem.bookmarked ? 'fas fa-bookmark' : 'far fa-bookmark'
               "
-            ></fa-icon>
+            ></i>
           </span>
           <span
             (click)="feedItemSelected(feedItem)"
@@ -82,56 +81,51 @@
           ></span>
           &nbsp;
           <small
-          class="rounded px-2 py-1 border border-warn"
-          *ngIf="feedItem.blogTitle && showBlogTitle"
-        ><b>{{ feedItem.blogTitle }}</b>
-        </small>
+            class="rounded px-2 py-1 border border-warn"
+            *ngIf="feedItem.blogTitle && showBlogTitle"
+            ><b>{{ feedItem.blogTitle }}</b>
+          </small>
           <div class="float-right">
-            <fa-icon
+            <i
               *ngIf="feedItem.userRatingPrediction"
-              class="mx-1"
-              [icon]="
+              [className]="
                 feedItem.userRatingPrediction > 0
-                  ? ['fas', 'star']
-                  : ['fal', 'star']
+                  ? 'fas fa-star mx-1'
+                  : 'fal fa-star mx-1'
               "
-            ></fa-icon>
-            <fa-icon
+            ></i>
+            <i
               *ngIf="feedItem.userRatingPrediction"
-              class="mx-1"
-              [icon]="
+              [className]="
                 feedItem.userRatingPrediction > 1
-                  ? ['fas', 'star']
-                  : ['fal', 'star']
+                  ? 'fas fa-star mx-1'
+                  : 'fal fa-star mx-1'
               "
-            ></fa-icon>
-            <fa-icon
+            ></i>
+            <i
               *ngIf="feedItem.userRatingPrediction"
-              class="mx-1"
-              [icon]="
+              [className]="
                 feedItem.userRatingPrediction > 2
-                  ? ['fas', 'star']
-                  : ['fal', 'star']
+                  ? 'fas fa-star mx-1'
+                  : 'fal fa-star mx-1'
               "
-            ></fa-icon>
-            <fa-icon
+            ></i>
+            <i
               *ngIf="feedItem.userRatingPrediction"
-              class="mx-1"
-              [icon]="
+              [className]="
                 feedItem.userRatingPrediction > 3
-                  ? ['fas', 'star']
-                  : ['fal', 'star']
+                  ? 'fas fa-star mx-1'
+                  : 'fal fa-star mx-1'
               "
-            ></fa-icon>
-            <fa-icon
+            ></i>
+            <i
               *ngIf="feedItem.userRatingPrediction"
-              class="mx-1"
-              [icon]="
+              [className]="
                 feedItem.userRatingPrediction > 4
-                  ? ['fas', 'star']
-                  : ['fal', 'star']
+                  ? 'fas fa-star mx-1'
+                  : 'fal fa-star mx-1'
               "
-            ></fa-icon>
+            ></i>
             <small
               *ngIf="feedItem.categories"
               class="rounded px-2 py-1 border border-warn"

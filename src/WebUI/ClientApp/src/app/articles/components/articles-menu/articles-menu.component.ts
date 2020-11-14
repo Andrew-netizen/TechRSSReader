@@ -9,6 +9,8 @@ import { FeedItemSource } from "../../../blog/state/blog.reducer";
 })
 export class ArticlesMenuComponent {
 
+  public isCollapsed = false;
+
   public FeedItemSourceEnum = FeedItemSource;
 
   @Input() feedItemSource: FeedItemSource;

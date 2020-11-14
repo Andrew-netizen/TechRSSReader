@@ -1,31 +1,37 @@
 <div class="card" *ngIf="feedItem">
   <div class="text-white bg-primary m-0 py-2">
     <span
-    class="bg-primary text-white m-1"
-    (click)="onBookmarkToggled(feedItem)" >
-      <fa-icon
-
-        [icon]="
-          feedItem.bookmarked ? ['fas', 'bookmark'] : ['far', 'bookmark']
+      class="bg-primary text-white m-1"
+      (click)="onBookmarkToggled(feedItem)"
+    >
+      <i
+        [className]="
+          feedItem.bookmarked ? 'fas fa-bookmark' : 'far fa-bookmark'
         "
-      ></fa-icon>
-  </span>
-  <span [ngClass]="{'font-weight-bold': !feedItem.readAlready}"
-  (click)="TitleClickedHandler(feedItem)"
-  [innerHTML]="feedItem.title"></span>
-  <div class="float-right">
-    <button class="btn btn-light btn-sm mx-1"
-    *ngIf="!feedItem.readAlready"
-    (click)="markAsReadClicked(feedItem)">
-      Mark as Read
-    </button>
-    <span *ngIf="feedItem.publishingDate" class="mx-3">
-      {{feedItem.publishingDate | publishingDatePipe}}
+      ></i>
     </span>
-  </div>
+    <span
+      [ngClass]="{ 'font-weight-bold': !feedItem.readAlready }"
+      (click)="TitleClickedHandler(feedItem)"
+      [innerHTML]="feedItem.title"
+    ></span>
+    <div class="float-right">
+      <button
+        class="btn btn-light btn-sm mx-1"
+        *ngIf="!feedItem.readAlready"
+        (click)="markAsReadClicked(feedItem)"
+      >
+        Mark as Read
+      </button>
+      <span *ngIf="feedItem.publishingDate" class="mx-3">
+        {{ feedItem.publishingDate | publishingDatePipe }}
+      </span>
+    </div>
   </div>
   <div class="card-body">
-    <div *ngIf="feedItem.categories" class="row">Categories: <span [innerHTML]="feedItem.categories"></span></div>
+    <div *ngIf="feedItem.categories" class="row">
+      Categories: <span [innerHTML]="feedItem.categories"></span>
+    </div>
     <hr *ngIf="feedItem.categories" />
     <div class="row" *ngIf="feedItem.description">
       <span [innerHTML]="feedItem.description"></span>
@@ -34,7 +40,14 @@
       <span [innerHTML]="feedItem.content"></span>
     </div>
     <div class="row">Publishing Date: {{ feedItem.publishingDateString }}</div>
-    <hr/>
-    <div class="row"><a [href]="this.domSanitizationService.bypassSecurityTrustUrl(feedItem.link)" >Read More ...</a></div>
+    <hr />
+    <div class="row">
+      <a
+        [href]="
+          this.domSanitizationService.bypassSecurityTrustUrl(feedItem.link)
+        "
+        >Read More ...</a
+      >
+    </div>
   </div>
 </div>

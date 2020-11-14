@@ -4,13 +4,10 @@
       <a class="navbar-brand text-white d-flex w-50 mr-auto" [routerLink]="['/']">Smart RSS Reader</a>
       <button class="navbar-toggler text-white" type="button" data-toggle="collapse" data-target="#collapsingNavbar3"
         aria-label="Toggle navigation" [attr.aria-expanded]="navbarCollapsed" (click)="navbarCollapsed = !navbarCollapsed">
-        <fa-icon [icon]="['far', 'bars']"></fa-icon>
+        <i class="far fa-bars"></i>
       </button>
       <div id="collapsingNavbar3" [ngbCollapse]="navbarCollapsed" class="navbar-collapse collapse w-100">
         <ul class="nav navbar-nav ml-auto w-100 justify-content-end" >
-          <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-white" [routerLink]="['/']" (click)="navbarCollapsed = true" >Home</a>
-          </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-white" [routerLink]="['/blogs']" (click)="navbarCollapsed = true" >Feeds</a>
           </li>

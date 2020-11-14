@@ -7,7 +7,8 @@ import { FeeditemDisplayComponent } from "./components/feeditem-display/feeditem
 import { BlogListComponent } from "./components/blog-list/blog-list.component";
 import { PublishingDatePipe } from "./publishingdate.pipe";
 import { StarComponent } from "./components/star/star.component";
-import { PaginatorComponent } from './components/paginator/paginator.component';
+import { PaginatorComponent } from "./components/paginator/paginator.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     StarComponent,
     PaginatorComponent,
   ],
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, NgbModule],
   exports: [
     BlogListComponent,
     FeeditemDisplayComponent,

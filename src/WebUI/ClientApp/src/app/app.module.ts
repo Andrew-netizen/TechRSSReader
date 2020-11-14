@@ -6,14 +6,6 @@ import { RouterModule } from "@angular/router";
 
 // Fontawesome imports
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { faStar as falStar} from '@fortawesome/pro-light-svg-icons';
-import { faBookmark as farBookmark} from "@fortawesome/pro-regular-svg-icons";
-import {faBookmark as fasBookmark} from "@fortawesome/free-solid-svg-icons";
-import { faNewspaper } from "@fortawesome/pro-regular-svg-icons";
-import {faBars} from "@fortawesome/pro-regular-svg-icons";
 
 import { AppComponent } from "./app.component";
 import { NavMenuComponent } from "./nav-menu/nav-menu.component";
@@ -97,12 +89,7 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(faStar as IconDefinition );
-    library.addIcons(falStar as IconDefinition);
-    library.addIcons(farBookmark as IconDefinition);
-    library.addIcons(fasBookmark as IconDefinition);
-    library.addIcons(faNewspaper as IconDefinition);
-    library.addIcons(faBars as IconDefinition);
+  constructor() {
   }
 }
+
