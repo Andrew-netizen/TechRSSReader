@@ -1,6 +1,4 @@
- <img align="left" width="116" height="116" src="https://raw.githubusercontent.com/JasonGT/TechRSSReader/master/.github/icon.png" />
- 
- # Smart RSS Reader 
+  # Smart RSS Reader 
 
 <br/>
 
@@ -13,7 +11,7 @@ It arose because I was tired of having too many items to read in InoReader, and 
 * .NET Core 3
 * ASP .NET Core 3
 * Entity Framework Core 3
-* Angular 8
+* Angular 10
 * ML.Net
 
 ## License
