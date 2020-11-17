@@ -1,0 +1,16 @@
+<form class="d-flex" (ngSubmit)="saveUserInterest()" [formGroup]="trainingForm">
+  <pm-star
+    [rating]="
+      trainingForm.get('userRating') ? trainingForm.get('userRating').value : 0
+    "
+    (ratingClicked)="handleRatingClicked($event)"
+  ></pm-star>
+  <button
+    class="btn btn-primary mr-3"
+    type="submit"
+    style="width: 80px"
+    [disabled]="!trainingForm.dirty"
+  >
+    Rate
+  </button>
+</form>

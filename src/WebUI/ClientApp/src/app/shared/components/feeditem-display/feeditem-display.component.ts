@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-import { RssFeedItemDto } from 'src/app/TechRSSReader-api';
+import { RssFeedItemDto, UpdateFeedItemCommand } from 'src/app/TechRSSReader-api';
 import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
@@ -14,6 +14,7 @@ export class FeeditemDisplayComponent {
   @Output() articleMarkedAsRead = new EventEmitter<RssFeedItemDto>();
   @Output() bookmarkToggled = new EventEmitter<RssFeedItemDto>();
   @Output() titleClicked = new EventEmitter<RssFeedItemDto>();
+  @Output() userInterestUpdated = new EventEmitter<UpdateFeedItemCommand>();
 
 constructor(public domSanitizationService: DomSanitizer) {}
 
@@ -29,4 +30,7 @@ constructor(public domSanitizationService: DomSanitizer) {}
     this.titleClicked.emit(feedItem);
   }
 
+  updateUserInterest(command: UpdateFeedItemCommand): void {
+    this.userInterestUpdated.emit(command);
+  }
 }

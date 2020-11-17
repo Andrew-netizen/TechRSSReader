@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FeedItemSource } from 'src/app/blog/state/blog.reducer';
-import { BlogDto, RssFeedItemDto } from 'src/app/TechRSSReader-api';
+import { BlogDto, RssFeedItemDto, UpdateFeedItemCommand } from 'src/app/TechRSSReader-api';
 
 @Component({
   selector: 'articles-list',
@@ -26,7 +26,7 @@ export class ArticlesListComponent {
   @Output() currentPageUpdated = new EventEmitter<number>();
   @Output() selected = new EventEmitter<RssFeedItemDto>();
   @Output() titleClickedEvent = new EventEmitter();
-
+  @Output() userInterestUpdated = new EventEmitter<UpdateFeedItemCommand>();
 
   currentPageUpdatedHandler(value: number): void {
     this.currentPageUpdated.emit(value);
@@ -48,4 +48,7 @@ export class ArticlesListComponent {
     this.titleClickedEvent.emit();
   }
 
+  handleUserInterestUpdate(value: UpdateFeedItemCommand): void {
+    this.userInterestUpdated.emit(value);
+  }
 }

@@ -19,8 +19,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { BlogModule } from "./blog/blog.module";
 import { SharedModule } from "./shared/shared.module";
 import { ToastrModule } from "ngx-toastr";
-import { TrainingModule } from "./training/training.module";
 import { ArticlesModule } from "./articles/articles.module";
+import { TrainingService } from "./training/training.service";
 
 /* NgRx */
 import { StoreModule, MetaReducer, ActionReducerMap } from "@ngrx/store";
@@ -31,14 +31,13 @@ import { storeFreeze } from "ngrx-store-freeze";
 import { State } from "./state/app.state";
 import * as articlesReducer from './articles/state/articles.reducer';
 import * as blogReducer from "./blog/state/blog.reducer";
-import * as trainingReducer from "./training/state/training.reducer";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 export const reducers: ActionReducerMap<State> = {
   // reducers
   articles: articlesReducer.reducer,
   blogs: blogReducer.reducer,
-  training: trainingReducer.reducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
@@ -60,7 +59,6 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
     FormsModule,
     BlogModule,
     SharedModule,
-    TrainingModule,
     ArticlesModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
@@ -85,6 +83,7 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    TrainingService
   ],
   bootstrap: [AppComponent],
 })

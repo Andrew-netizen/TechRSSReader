@@ -139,4 +139,8 @@ export class ArticlesShellComponent implements OnInit, OnDestroy {
     this.store.dispatch(new blogActions.ToggleFeedItemBookmark(command));
   }
 
+  userInterestUpdateHandler(value: UpdateFeedItemCommand): void {
+    this.store.dispatch(new blogActions.UpdateUserInterest(value));
+  }
+
 }

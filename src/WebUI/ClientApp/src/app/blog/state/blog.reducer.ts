@@ -32,7 +32,7 @@ const initialState: BlogState = {
   feedItemSource: FeedItemSource.Null,
   feedItems: [],
   retrievedFeedItemCount: null,
-  sidebarMenuCollapsed: false
+  sidebarMenuCollapsed: false,
 };
 
 // Selector functions
@@ -92,12 +92,10 @@ export const getFeedItemSectionTitle = createSelector(
   getBlogFeatureState,
   getCurrentBlog,
   (state, blog) => {
-    if (state.feedItemSource === FeedItemSource.Unread)
-      return "New";
-    if (state.feedItemSource === FeedItemSource.Bookmarked)
-      return "Bookmarks";
-    if ((state.feedItemSource === FeedItemSource.Blog) && (blog)){
-        return blog.title;
+    if (state.feedItemSource === FeedItemSource.Unread) return "New";
+    if (state.feedItemSource === FeedItemSource.Bookmarked) return "Bookmarks";
+    if (state.feedItemSource === FeedItemSource.Blog && blog) {
+      return blog.title;
     }
   }
 );
@@ -278,15 +276,15 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         error: action.payload,
       };
 
-      case BlogActionTypes.LoadUnreadFeedItemsSuccess:
-        return {
-          ...state,
-          feedItems: action.payload.rssFeedItems,
-          feedItemSource: FeedItemSource.Unread,
-          currentFeedItemId: null,
-          currentFeedItemPage: 1,
-          error: "",
-        };
+    case BlogActionTypes.LoadUnreadFeedItemsSuccess:
+      return {
+        ...state,
+        feedItems: action.payload.rssFeedItems,
+        feedItemSource: FeedItemSource.Unread,
+        currentFeedItemId: null,
+        currentFeedItemPage: 1,
+        error: "",
+      };
 
     case BlogActionTypes.MarkItemAsReadFail:
       return {
@@ -335,13 +333,13 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       };
 
     case BlogActionTypes.SetCurrentBlogId:
-    return {
-      ...state,
-      currentBlogId: action.payload,
-      feedItems: [],
-      currentFeedItemId: null,
-      retrievedFeedItemCount: null,
-    };
+      return {
+        ...state,
+        currentBlogId: action.payload,
+        feedItems: [],
+        currentFeedItemId: null,
+        retrievedFeedItemCount: null,
+      };
 
     case BlogActionTypes.SetCurrentFeedItem:
       return {
@@ -355,13 +353,11 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         currentFeedItemPage: action.payload,
       };
 
-
-      case BlogActionTypes.SetSidebarMenuCollapsed:
+    case BlogActionTypes.SetSidebarMenuCollapsed:
       return {
         ...state,
         sidebarMenuCollapsed: action.payload,
       };
-
 
     case BlogActionTypes.ToggleFeedItemBookmarkFail:
       return {
@@ -395,6 +391,22 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         error: action.payload,
       };
+
+    case BlogActionTypes.UpdateUserInterestFail:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+      case BlogActionTypes.UpdateUserInterestSuccess:
+        const userInterestUpdatedFeedItems = state.feedItems.map((item) =>
+          action.payload.id === item.id ? action.payload : item
+        );
+        return {
+          ...state,
+          feedItems: userInterestUpdatedFeedItems,
+          error: "",
+        };
 
     default:
       return state;

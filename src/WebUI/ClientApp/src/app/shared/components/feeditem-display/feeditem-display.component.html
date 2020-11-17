@@ -41,13 +41,22 @@
     </div>
     <div class="row">Publishing Date: {{ feedItem.publishingDateString }}</div>
     <hr />
-    <div class="row">
-      <a
+    <div class="d-flex">
+      <div class="p-2">
+        <a
         [href]="
           this.domSanitizationService.bypassSecurityTrustUrl(feedItem.link)
         "
         >Read More ...</a
       >
+      </div>
+      <div class="ml-auto">
+        <app-rate-feeditem
+          [currentFeedItem]=(feedItem)
+          (userRegisteredInterest)="updateUserInterest($event)"
+        >
+        </app-rate-feeditem>
+      </div>
     </div>
   </div>
 </div>

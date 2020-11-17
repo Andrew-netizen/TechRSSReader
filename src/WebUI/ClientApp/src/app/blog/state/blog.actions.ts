@@ -42,7 +42,10 @@ export enum BlogActionTypes {
   ToggleFeedItemBookmarkSuccess = '[Blog API] Toggle Feed Item Bookmark Success',
   UpdateBlog = '[Blog GUI] Update Blog',
   UpdateBlogSuccess = '[Blog API] Update Blog Success',
-  UpdateBlogFail = '[Blog API] Update Blog Fail'
+  UpdateBlogFail = '[Blog API] Update Blog Fail',
+  UpdateUserInterest = "[Articles GUI] Update User Interest",
+  UpdateUserInterestFail = "[RSSFeedItem API] Update User Interest Fail",
+  UpdateUserInterestSuccess = "[RSSFeedItem API] Update User Interest Success"
 }
 
 export class ClearBlogs implements Action {
@@ -237,6 +240,21 @@ export class UpdateBlogFail implements Action {
   constructor(public payload: string) {}
 }
 
+export class UpdateUserInterest implements Action {
+  readonly type = BlogActionTypes.UpdateUserInterest;
+  constructor(public payload: UpdateFeedItemCommand) {}
+}
+
+export class UpdateUserInterestFail implements Action {
+  readonly type = BlogActionTypes.UpdateUserInterestFail;
+  constructor(public payload: string) {}
+}
+
+export class UpdateUserInterestSuccess implements Action {
+  readonly type = BlogActionTypes.UpdateUserInterestSuccess;
+  constructor(public payload: RssFeedItemDto) {}
+}
+
 export type BlogActions = ClearBlogs
 | ClearCurrentBlog
 | ClearCurrentFeedItem
@@ -275,5 +293,8 @@ export type BlogActions = ClearBlogs
 | ToggleFeedItemBookmarkSuccess
 | UpdateBlog
 | UpdateBlogFail
-| UpdateBlogSuccess;
+| UpdateBlogSuccess
+| UpdateUserInterest
+| UpdateUserInterestFail
+| UpdateUserInterestSuccess;
 

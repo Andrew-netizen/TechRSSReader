@@ -208,6 +208,24 @@ export class BlogEffects {
     )
   );
 
+  updateUserInterest$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(blogActions.BlogActionTypes.UpdateUserInterest),
+    map((action: blogActions.UpdateUserInterest) => action.payload),
+    mergeMap((command: UpdateFeedItemCommand) =>
+      this.trainingService.updateFeedItem(command).pipe(
+        map(
+          (feedItem) =>
+            new blogActions.UpdateUserInterestSuccess(feedItem),
+          catchError((error) =>
+            of(new blogActions.UpdateUserInterestFail(error))
+          )
+        )
+      )
+    )
+  )
+);
+
   redirectToArticle(blog: BlogDto): void {
     this.router.navigate(["/articles", blog.id]);
   }

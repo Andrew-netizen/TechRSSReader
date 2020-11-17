@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ReactiveFormsModule } from "@angular/forms";
 
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
@@ -12,7 +13,8 @@ import { StarComponent } from "./components/star/star.component";
 import { PaginatorComponent } from "./components/paginator/paginator.component";
 
 import { SidebarMenuComponent } from "./components/sidebar-menu/sidebar-menu.component";
-import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
+import { SettingsModalComponent } from "./components/settings-modal/settings-modal.component";
+import { RateFeeditemComponent } from "./components/rate-feeditem/rate-feeditem.component";
 
 @NgModule({
   declarations: [
@@ -23,8 +25,15 @@ import { SettingsModalComponent } from './components/settings-modal/settings-mod
     PaginatorComponent,
     SidebarMenuComponent,
     SettingsModalComponent,
+    RateFeeditemComponent,
   ],
-  imports: [CommonModule, FontAwesomeModule, NgbModule, RouterModule],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    NgbModule,
+    RouterModule,
+    ReactiveFormsModule,
+  ],
   exports: [
     BlogListComponent,
     FeeditemDisplayComponent,
