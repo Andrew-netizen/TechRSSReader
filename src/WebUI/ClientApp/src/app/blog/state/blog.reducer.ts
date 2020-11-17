@@ -14,23 +14,25 @@ export enum FeedItemSource {
 export interface BlogState {
   blogs: BlogDto[];
   currentBlogId: number | null;
+  currentFeedItemId: number | null;
   currentFeedItemPage: number;
   error: string;
   feedItemSource: FeedItemSource;
-  retrievedFeedItemCount: number | null;
   feedItems: RssFeedItemDto[];
-  currentFeedItemId: number | null;
+  retrievedFeedItemCount: number | null;
+  sidebarMenuCollapsed: boolean;
 }
 
 const initialState: BlogState = {
   blogs: [],
   currentBlogId: null,
+  currentFeedItemId: null,
   currentFeedItemPage: 1,
   error: "",
   feedItemSource: FeedItemSource.Null,
-  retrievedFeedItemCount: null,
   feedItems: [],
-  currentFeedItemId: null,
+  retrievedFeedItemCount: null,
+  sidebarMenuCollapsed: false
 };
 
 // Selector functions
@@ -86,9 +88,28 @@ export const getFeedItemSource = createSelector(
   (state) => state.feedItemSource
 );
 
+export const getFeedItemSectionTitle = createSelector(
+  getBlogFeatureState,
+  getCurrentBlog,
+  (state, blog) => {
+    if (state.feedItemSource === FeedItemSource.Unread)
+      return "New";
+    if (state.feedItemSource === FeedItemSource.Bookmarked)
+      return "Bookmarks";
+    if ((state.feedItemSource === FeedItemSource.Blog) && (blog)){
+        return blog.title;
+    }
+  }
+);
+
 export const getRetrievedFeedItemCount = createSelector(
   getBlogFeatureState,
   (state) => state.retrievedFeedItemCount
+);
+
+export const getSidebarMenuCollapsed = createSelector(
+  getBlogFeatureState,
+  (state) => state.sidebarMenuCollapsed
 );
 
 export const getCurrentFeedItemId = createSelector(
@@ -108,6 +129,9 @@ export const getCurrentFeedItem = createSelector(
 
 export function reducer(state = initialState, action: BlogActions): BlogState {
   switch (action.type) {
+    case BlogActionTypes.ClearBlogs:
+      return initialState;
+
     case BlogActionTypes.ClearCurrentBlog:
       return {
         ...state,
@@ -310,6 +334,15 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         retrievedFeedItemCount: null,
       };
 
+    case BlogActionTypes.SetCurrentBlogId:
+    return {
+      ...state,
+      currentBlogId: action.payload,
+      feedItems: [],
+      currentFeedItemId: null,
+      retrievedFeedItemCount: null,
+    };
+
     case BlogActionTypes.SetCurrentFeedItem:
       return {
         ...state,
@@ -321,6 +354,14 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         currentFeedItemPage: action.payload,
       };
+
+
+      case BlogActionTypes.SetSidebarMenuCollapsed:
+      return {
+        ...state,
+        sidebarMenuCollapsed: action.payload,
+      };
+
 
     case BlogActionTypes.ToggleFeedItemBookmarkFail:
       return {

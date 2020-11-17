@@ -1,25 +1,79 @@
 <header>
-  <nav class="navbar navbar-expand-md bg-primary justify-content-center">
-    <div class="container">
-      <a class="navbar-brand text-white d-flex w-50 mr-auto" [routerLink]="['/']">Smart RSS Reader</a>
-      <button class="navbar-toggler text-white" type="button" data-toggle="collapse" data-target="#collapsingNavbar3"
-        aria-label="Toggle navigation" [attr.aria-expanded]="navbarCollapsed" (click)="navbarCollapsed = !navbarCollapsed">
-        <i class="far fa-bars"></i>
-      </button>
-      <div id="collapsingNavbar3" [ngbCollapse]="navbarCollapsed" class="navbar-collapse collapse w-100">
-        <ul class="nav navbar-nav ml-auto w-100 justify-content-end" >
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-white" [routerLink]="['/blogs']" (click)="navbarCollapsed = true" >Feeds</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-white" [routerLink]="['/training']" (click)="navbarCollapsed = true" >Rate</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-white" [routerLink]="['/articles']" (click)="navbarCollapsed = true" >Articles</a>
-          </li>
-        </ul>
-        <app-login-menu></app-login-menu>
-      </div>
+  <nav
+    class="navbar navbar-expand bg-primary justify-content-center container-fluid"
+  >
+    <button
+      [className]="
+        (sidebarCollapsed$ | async) ? 'navbar-toggler-new bg-primary text-white' : 'd-none'
+      "
+      type="button"
+      aria-label="Toggle navigation"
+      (click)="showSidebar()"
+    >
+      <i class="far fa-bars fa-lg"></i>
+    </button>
+    <a class="navbar-brand text-white d-flex w-50 mr-auto" [routerLink]="['/']">
+      <i class="fal fa-head-side-brain fa-lg"></i>
+    </a>
+    <div
+      class="navbar-collapse"
+      [class.collapse]="collapsed"
+      id="navbarContent"
+      *ngIf="isAuthenticated$ | async"
+    >
+      <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item settings-icon mx-2">
+            <i class="fal fa-cog fa-lg text-white bg-primary" (click)="openSettingsModal()"></i>
+        </li>
+        <li class="nav-item align-middle" ngbDropdown>
+          <a
+            class="nav-link text-white"
+            tabindex="0"
+            ngbDropdownToggle
+            id="navbarDropdown2"
+            role="button"
+          >
+            <i class="fal fa-user-circle fa-lg"></i>
+          </a>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="navbarDropdown2"
+            class="dropdown-menu dropdown-menu-right"
+          >
+            <a
+              ngbDropdownItem
+              class="nav-link text-dark"
+              [routerLink]="['/authentication/profile']"
+              title="Manage"
+              >Account</a
+            >
+            <a
+              ngbDropdownItem
+              class="nav-link text-dark"
+              [routerLink]="['/authentication/logout']"
+              [state]="{ local: true }"
+              title="Logout"
+              >Logout</a
+            >
+          </div>
+        </li>
+        <li class="nav-item"></li>
+      </ul>
     </div>
+    <ul class="navbar-nav" *ngIf="!(isAuthenticated$ | async)">
+      <li class="nav-item">
+        <a
+          class="nav-link text-white"
+          [routerLink]="['/authentication/register']"
+          >Register</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" [routerLink]="['/authentication/login']"
+          >Login</a
+        >
+      </li>
+    </ul>
   </nav>
 </header>

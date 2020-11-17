@@ -1,6 +1,11 @@
 <body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+  <div class="wrapper">
+    <app-sidebar-menu></app-sidebar-menu>
+    <div id="content">
+      <app-nav-menu></app-nav-menu>
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
 </body>

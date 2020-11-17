@@ -1,0 +1,86 @@
+<nav
+  id="sidebar"
+  [className]="(collapsed$ | async) ? 'collapse' : 'bg-secondary'"
+  *ngIf="isAuthenticated$ | async"
+>
+  <div class="sidebar-header d-flex row" style="align-items: center;">
+    <div class="col">
+      <h5 class="m-1 text-white">Smart&nbsp;RSS&nbsp;Reader</h5>
+    </div>
+    <div class="col text-right">
+      <span
+      *ngIf="showMenuCollapseButton"
+      id="dismissMenu"
+      class="m-2 text-white"
+      (click)="hideMenu()"
+    >
+      <i class="fas fa-arrow-left"></i>
+    </span>
+    </div>
+  </div>
+  <ul class="list-unstyled components">
+    <li [routerLinkActive]="['link-active']">
+      <a
+        class="nav-link text-white"
+        [routerLink]="['/articles/new']"
+        (click)="menuItemClicked()"
+      >
+        <i class="far fa-newspaper"></i>
+        New</a
+      >
+    </li>
+    <li [routerLinkActive]="['link-active']">
+      <a
+        class="nav-link text-white"
+        [routerLink]="['/articles/bookmarked']"
+        (click)="menuItemClicked()"
+      >
+        <i class="fas fa-bookmark"></i>
+        Bookmarks</a
+      >
+    </li>
+    <li [routerLinkActive]="['link-active']">
+      <a
+        class="nav-link text-white"
+        [routerLink]="['/training']"
+        (click)="menuItemClicked()"
+      >
+        <i class="fas fa-star"></i>
+        Rate</a
+      >
+    </li>
+    <li [routerLinkActive]="['link-active']">
+      <div class="row align-items-center">
+        <div class="col text-white">
+          <h6 class="nav-link">
+              <i class="fal fa-rss"></i>
+              Feeds
+          </h6>
+        </div>
+        <div class="col text-right">
+          <a
+              class="nav-link text-white"
+              [routerLink]="['/blogs/add']"
+              (click)="menuItemClicked()"
+            >
+            <i class="far fa-plus-circle text-white fa-lg m-2"></i>
+          </a>
+
+        </div>
+      </div>
+      <ul class="list-unstyled ml-4" *ngIf="blogs$ | async">
+        <li
+          *ngFor="let blog of blogs$ | async"
+          [routerLinkActive]="['link-active']"
+        >
+          <a
+            class="nav-link text-white"
+            [routerLink]="['/articles/', blog.id]"
+            (click)="menuItemClicked()"
+            >{{ blog.title }}</a
+          >
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>

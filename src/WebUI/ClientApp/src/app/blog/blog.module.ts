@@ -19,7 +19,7 @@ import { BlogAddComponent } from './components/blog-add/blog-add.component';
 
 const blogRoutes: Routes = [
   {
-    path: "blogs",
+    path: "blogs/:id",
     component: BlogShellComponent,
     canActivate: [AuthorizeGuard],
   }

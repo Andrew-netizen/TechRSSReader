@@ -21,6 +21,7 @@ import {
   KeywordToExcludeDto,
   KeywordToIncludeDto,
 } from "src/app/TechRSSReader-api";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "blog-edit",
@@ -54,7 +55,8 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromRoot.State>,
     private fb: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {
     // Defines all of the validation messages for the form.
     // These could instead be retrieved from a file or database.
@@ -241,9 +243,8 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   }
 
   cancelEdit(): void {
-    // Redisplay the currently selected product
-    // replacing any edits made
-    this.displayBlog(this.blog);
+    // Redirect back to the articles page.
+    this.router.navigate(['/articles', this.blog.id]);
   }
 
   deleteBlog(): void {

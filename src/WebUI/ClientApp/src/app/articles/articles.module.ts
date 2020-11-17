@@ -15,10 +15,11 @@ import { reducer } from './state/articles.reducer';
 
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BlogEditbuttonComponent } from './components/blog-editbutton/blog-editbutton.component';
 
 const articlesRoutes: Routes = [
   {
-    path: "articles",
+    path: "articles/:id",
     component: ArticlesShellComponent,
     canActivate: [AuthorizeGuard],
   },
@@ -26,7 +27,7 @@ const articlesRoutes: Routes = [
 
 
 @NgModule({
-  declarations: [ArticlesShellComponent, ArticlesListComponent, ArticlesMenuComponent],
+  declarations: [ArticlesShellComponent, ArticlesListComponent, ArticlesMenuComponent, BlogEditbuttonComponent],
   imports: [
     CommonModule,
     SharedModule,

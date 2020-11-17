@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { RssFeedItemDto } from 'src/app/TechRSSReader-api';
-import { DisplaySortOrder } from '../../state/articles.reducer';
+import { FeedItemSource } from 'src/app/blog/state/blog.reducer';
+import { BlogDto, RssFeedItemDto } from 'src/app/TechRSSReader-api';
 
 @Component({
   selector: 'articles-list',
@@ -9,25 +9,24 @@ import { DisplaySortOrder } from '../../state/articles.reducer';
   styleUrls: ['./articles-list.component.scss']
 })
 export class ArticlesListComponent {
-  public DisplaySortOrderEnum = DisplaySortOrder;
+
+  public FeedItemSourceEnum = FeedItemSource;
 
   @Input() currentPage: number;
-  @Input() displaySortOrder: DisplaySortOrder;
-  @Input() excludeAlreadyRead: boolean;
   @Input() feedItems: RssFeedItemDto[];
-  @Input() keywordExclusion: boolean;
+  @Input() feedItemSectionTitle: string;
+  @Input() feedItemSource: FeedItemSource;
   @Input() pageCount: number;
+  @Input() selectedBlog: BlogDto;
   @Input() selectedFeedItem: RssFeedItemDto;
   @Input() showBlogTitle: boolean;
   @Input() totalArticlesCount: number;
-  @Output() currentPageUpdated = new EventEmitter<number>();
-  @Output() excludeAlreadyReadUpdated = new EventEmitter<boolean>();
-  @Output() keywordExclusionUpdated = new EventEmitter<boolean>();
-  @Output() selected = new EventEmitter<RssFeedItemDto>();
   @Output() articleBookmarkToggledEvent = new EventEmitter<RssFeedItemDto>();
   @Output() articleMarkedAsReadEvent = new EventEmitter<RssFeedItemDto>();
+  @Output() currentPageUpdated = new EventEmitter<number>();
+  @Output() selected = new EventEmitter<RssFeedItemDto>();
   @Output() titleClickedEvent = new EventEmitter();
-  @Output() sortOrderUpdated = new EventEmitter<DisplaySortOrder>();
+
 
   currentPageUpdatedHandler(value: number): void {
     this.currentPageUpdated.emit(value);
@@ -35,14 +34,6 @@ export class ArticlesListComponent {
 
   feedItemSelected(feedItem: RssFeedItemDto): void {
     this.selected.emit(feedItem);
-  }
-
-  excludeAlreadyReadChanged(value: boolean): void {
-    this.excludeAlreadyReadUpdated.emit(value);
-  }
-
-  keywordExclusionChanged(value: boolean): void {
-    this.keywordExclusionUpdated.emit(value);
   }
 
   markedAsReadHandler(value: RssFeedItemDto){
@@ -57,7 +48,4 @@ export class ArticlesListComponent {
     this.titleClickedEvent.emit();
   }
 
-  sortOrderChanged(value: DisplaySortOrder): void {
-    this.sortOrderUpdated.emit(value);
-  }
 }

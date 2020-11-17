@@ -29,6 +29,17 @@ code {
   border-color: #1861ac;
 }
 
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
+#content {
+  min-width: 0;
+  width:100%;
+}
+
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 @import "~ngx-toastr/toastr-bs4-alert";
 

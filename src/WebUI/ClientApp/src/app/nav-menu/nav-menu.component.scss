@@ -16,3 +16,23 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+.header {
+  height: 56px;
+}
+
+.navbar-toggler-new {
+  padding: 0.25rem 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+.navbar-toggler-new:hover, .navbar-toggler-new:focus {
+  text-decoration: none;
+}
+
+.settings-icon {
+  align-self:center;
+}

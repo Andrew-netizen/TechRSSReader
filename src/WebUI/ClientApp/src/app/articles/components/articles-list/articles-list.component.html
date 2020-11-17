@@ -1,57 +1,14 @@
 <div class="card">
   <div class="card-header">
     <div class="row">
-      <div class="col-md-4">
-        <h4>Articles</h4>
+      <div class="col">
+        <h4>{{ feedItemSectionTitle }}</h4>
       </div>
-      <div class="col-md-8 form-check text-right">
-        <label><b>Sort by:</b></label>
-        &nbsp; &nbsp; &nbsp;
-        <label>
-          <input
-            class="form-check-input"
-            type="radio"
-            (change)="sortOrderChanged(DisplaySortOrderEnum.PredictedRating)"
-            [checked]="
-              displaySortOrder === DisplaySortOrderEnum.PredictedRating
-            "
-          />
-          Predicted Rating
-        </label>
-        &nbsp; &nbsp; &nbsp;
-        <label>
-          <input
-            class="form-check-input"
-            type="radio"
-            (change)="sortOrderChanged(DisplaySortOrderEnum.PublishDateDesc)"
-            [checked]="
-              displaySortOrder === DisplaySortOrderEnum.PublishDateDesc
-            "
-          />
-          Publication Date
-        </label>
-        &nbsp; &nbsp; &nbsp;
-        <label><b>Exclusions:</b></label>
-        &nbsp; &nbsp; &nbsp;
-        <label>
-          <input
-            class="form-check-input"
-            type="checkbox"
-            (change)="keywordExclusionChanged($event.target.checked)"
-            [checked]="keywordExclusion"
-          />
-          By Keyword
-        </label>
-        &nbsp; &nbsp; &nbsp;
-        <label>
-          <input
-            class="form-check-input"
-            type="checkbox"
-            (change)="excludeAlreadyReadChanged($event.target.checked)"
-            [checked]="excludeAlreadyRead"
-          />
-          Already Read
-        </label>
+      <div
+        class="col text-right"
+        *ngIf="feedItemSource === FeedItemSourceEnum.Blog && selectedBlog"
+      >
+        <app-blog-editbutton [blog]="selectedBlog"></app-blog-editbutton>
       </div>
     </div>
   </div>

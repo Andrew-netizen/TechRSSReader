@@ -1,0 +1,76 @@
+<div class="modal-header bg-primary">
+  <h4 class="modal-title text-white">Settings</h4>
+  <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <h5>Sort by:</h5>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      (change)="sortOrderChanged(DisplaySortOrderEnum.PredictedRating)"
+      id="sortOrderPredictedRatingId"
+      [checked]="
+        (displaySortOrder$ | async) === DisplaySortOrderEnum.PredictedRating
+      "
+    />
+    <label class="form-check-label" for="sortOrderPredictedRatingId">
+      Predicted Rating
+    </label>
+  </div>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      id="sortOrderPublishDateId"
+      (change)="sortOrderChanged(DisplaySortOrderEnum.PublishDateDesc)"
+      [checked]="
+        (displaySortOrder$ | async) === DisplaySortOrderEnum.PublishDateDesc
+      "
+    />
+    <label class="form-check-label" for="sortOrderPublishDateId">
+      Publication Date
+    </label>
+  </div>
+  <h5>Exclusions:</h5>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      id="keywordExclusionId"
+      (change)="keywordExclusionChanged($event.target.checked)"
+      [checked]="keywordExclusion$ | async"
+    />
+    <label class="form-check-label" for="keywordExclusionId">
+      By Keyword
+    </label>
+  </div>
+  <div class="form-check">
+    <input
+    class="form-check-input"
+    type="checkbox"
+    id="alreadyReadId"
+    (change)="excludeAlreadyReadChanged($event.target.checked)"
+    [checked]="excludeAlreadyRead$ | async"
+  />
+  <label class="form-check-label" for="alreadyReadId">
+    Already Read
+  </label>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close('Close click')"
+  >
+    Close
+  </button>
+</div>

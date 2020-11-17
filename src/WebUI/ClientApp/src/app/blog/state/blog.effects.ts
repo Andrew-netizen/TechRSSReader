@@ -8,19 +8,23 @@ import { Action } from "@ngrx/store";
 import { Actions, createEffect, Effect, ofType } from "@ngrx/effects";
 import * as blogActions from "./blog.actions";
 import { Observable, of } from "rxjs";
-import { mergeMap, map, catchError, concatMap } from "rxjs/operators";
 import {
-  BlogDto,
-  RssFeedItemDto,
-  UpdateFeedItemCommand,
-} from "src/app/techrssreader-api";
+  mergeMap,
+  map,
+  catchError,
+  concatMap,
+  tap,
+} from "rxjs/operators";
+import { BlogDto, UpdateFeedItemCommand } from "src/app/techrssreader-api";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class BlogEffects {
   constructor(
     private blogService: BlogService,
     private trainingService: TrainingService,
-    private actions$: Actions
+    private actions$: Actions,
+    private router: Router
   ) {}
 
   @Effect()
@@ -128,6 +132,17 @@ export class BlogEffects {
     )
   );
 
+  createBlogSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(blogActions.BlogActionTypes.CreateBlogSuccess),
+        tap((action: blogActions.CreateBlogSuccess) => {
+          this.redirectToArticle(action.payload)
+        })
+      ),
+    { dispatch: false }
+  );
+
   @Effect()
   deleteBlog$: Observable<Action> = this.actions$.pipe(
     ofType(blogActions.BlogActionTypes.DeleteBlog),
@@ -140,6 +155,17 @@ export class BlogEffects {
     )
   );
 
+  deleteBlogSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(blogActions.BlogActionTypes.DeleteBlogSuccess),
+        tap((action: blogActions.DeleteBlogSuccess) => {
+          this.router.navigate(['/']);
+        })
+      ),
+    { dispatch: false }
+  );
+
   @Effect()
   updateBlog$: Observable<Action> = this.actions$.pipe(
     ofType(blogActions.BlogActionTypes.UpdateBlog),
@@ -150,6 +176,18 @@ export class BlogEffects {
         catchError((error) => of(new blogActions.UpdateBlogFail(error)))
       )
     )
+  );
+
+
+  updateBlogSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(blogActions.BlogActionTypes.UpdateBlogSuccess),
+        tap((action: blogActions.UpdateBlogSuccess) => {
+          this.redirectToArticle(action.payload)
+        })
+      ),
+    { dispatch: false }
   );
 
   toggleFeedItemBookmark$ = createEffect(() =>
@@ -169,4 +207,8 @@ export class BlogEffects {
       )
     )
   );
+
+  redirectToArticle(blog: BlogDto): void {
+    this.router.navigate(["/articles", blog.id]);
+  }
 }

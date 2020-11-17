@@ -1,36 +1,19 @@
 <div class="row">
-  <div class="col-xl-2 col-md-4">
-    <articles-menu
-    [feedItemSource]="feedItemSource$ | async"
-    (bookmarksSelected)="bookmarksMenuSelected()"
-    (unreadSelected)="unreadMenuSelected()"
-    ></articles-menu>
-    <blog-list
-      [blogs]="blogs$ | async"
-      [selectedBlog]="selectedBlog$ | async"
-      (selected)="blogSelected($event)"
-    >
-    </blog-list>
-  </div>
-  <div class="col-xl-10 col-md-8">
-    <articles-list
+  <articles-list
+
     [currentPage]="currentPage$ | async"
-    [displaySortOrder]="displaySortOrder$ | async"
-    [excludeAlreadyRead]="excludeAlreadyRead$ | async"
     [feedItems]="feedItems$ | async"
-    [keywordExclusion]="keywordExclusion$ | async"
+    [feedItemSectionTitle]="feedItemSectionTitle$ | async"
+    [feedItemSource]="feedItemSource$ | async"
     [pageCount]="pagesCount$ | async"
+    [selectedBlog]="selectedBlog$ | async"
     [selectedFeedItem]="selectedFeedItem$ | async"
     [showBlogTitle]="showBlogTitle$ | async"
     [totalArticlesCount]="totalArticleCount$ | async"
     (articleMarkedAsReadEvent)="markItemAsAlreadyRead($event)"
     (articleBookmarkToggledEvent)="toggleItemBookmark($event)"
     (currentPageUpdated)="currentPageChanged($event)"
-    (excludeAlreadyReadUpdated)="excludeAlreadyReadChanged($event)"
-    (keywordExclusionUpdated)="keywordExclusionChanged($event)"
     (selected)="feedItemSelected($event)"
-    (sortOrderUpdated)="setDisplaySortOrder($event)"
     (titleClickedEvent)="clearCurrentFeedItem()"
-    ></articles-list>
-  </div>
-  </div>
+  ></articles-list>
+</div>

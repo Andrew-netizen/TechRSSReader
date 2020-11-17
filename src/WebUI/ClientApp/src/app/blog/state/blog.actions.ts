@@ -4,6 +4,7 @@ import { BlogDto, FeedItemsViewModel, RssFeedItemDto, UpdateFeedItemCommand } fr
 import { Action } from '@ngrx/store';
 
 export enum BlogActionTypes {
+  ClearBlogs = '[Sidebar GUI] Clear Blogs',
   ClearCurrentBlog = '[Blog GUI] Clear Current Blog',
   ClearCurrentFeedItem = '[Shared GUI] Clear Current Feed Item',
   CreateBlog = '[Blog GUI] Create Blog',
@@ -29,8 +30,10 @@ export enum BlogActionTypes {
   MarkItemAsReadFail = '[Blog API] Mark Item As Read Fail',
   MarkItemAsReadSuccess = '[Blog API] Mark Item As Read Success',
   SetCurrentBlog = '[Blog GUI] Set Current Blog',
+  SetCurrentBlogId = '[SideBar GUI] Set Current Blog Id',
   SetCurrentFeedItem = '[Article GUI] Set Current Feed Item',
   SetCurrentFeedItemPage = "[Articles GUI] Set Current Feed Item Page",
+  SetSidebarMenuCollapsed = '[Sidebar GUI] Set Sidebar Menu collapsed',
   RetrieveFeedItemsFromSource = '[Blog GUI] Retrieve Feed Items',
   RetrieveFeedItemsFromSourceSuccess = '[Blog API] Retrieve Feed Items Success',
   RetrieveFeedItemsFromSourceFail = '[Blog API] Retrieve Feed Items Fail',
@@ -40,6 +43,10 @@ export enum BlogActionTypes {
   UpdateBlog = '[Blog GUI] Update Blog',
   UpdateBlogSuccess = '[Blog API] Update Blog Success',
   UpdateBlogFail = '[Blog API] Update Blog Fail'
+}
+
+export class ClearBlogs implements Action {
+  readonly type = BlogActionTypes.ClearBlogs;
 }
 
 export class ClearCurrentBlog implements Action {
@@ -179,6 +186,12 @@ export class SetCurrentBlog implements Action {
   constructor(public payload: BlogDto) { }
 }
 
+export class SetCurrentBlogId implements Action {
+  readonly type = BlogActionTypes.SetCurrentBlogId;
+
+  constructor(public payload: number) { }
+}
+
 export class SetCurrentFeedItem implements Action {
   readonly type = BlogActionTypes.SetCurrentFeedItem;
   constructor(public payload: RssFeedItemDto) {}
@@ -187,6 +200,11 @@ export class SetCurrentFeedItem implements Action {
 export class SetCurrentFeedItemPage implements Action {
   readonly type = BlogActionTypes.SetCurrentFeedItemPage;
   constructor(public payload: number) {}
+}
+
+export class SetSidebarMenuCollapsed implements Action {
+  readonly type = BlogActionTypes.SetSidebarMenuCollapsed;
+  constructor(public payload: boolean) {}
 }
 
 export class ToggleFeedItemBookmark implements Action {
@@ -219,7 +237,8 @@ export class UpdateBlogFail implements Action {
   constructor(public payload: string) {}
 }
 
-export type BlogActions = ClearCurrentBlog
+export type BlogActions = ClearBlogs
+| ClearCurrentBlog
 | ClearCurrentFeedItem
 | CreateBlog
 | CreateBlogFail
@@ -247,8 +266,10 @@ export type BlogActions = ClearCurrentBlog
 | RetrieveFeedItemsFromSourceFail
 | RetrieveFeedItemsFromSourceSuccess
 | SetCurrentBlog
+| SetCurrentBlogId
 | SetCurrentFeedItem
 | SetCurrentFeedItemPage
+| SetSidebarMenuCollapsed
 | ToggleFeedItemBookmark
 | ToggleFeedItemBookmarkFail
 | ToggleFeedItemBookmarkSuccess
