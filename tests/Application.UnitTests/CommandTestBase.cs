@@ -1,10 +1,10 @@
-using TechRSSReader.Infrastructure.Persistence;
+using AutoMapper;
+using Moq;
 using System;
 using TechRSSReader.Application.Common.Interfaces;
-using AutoMapper;
-using TechRSSReader.Infrastructure.FeedReader.Maps;
 using TechRSSReader.Application.Common.Mappings;
-using Moq;
+using TechRSSReader.Infrastructure.FeedReader.Maps;
+using TechRSSReader.Infrastructure.Persistence;
 
 namespace TechRSSReader.Application.UnitTests.Common
 {

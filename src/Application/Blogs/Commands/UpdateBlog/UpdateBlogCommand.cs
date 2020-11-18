@@ -66,18 +66,7 @@ namespace TechRSSReader.Application.Blogs.Commands.UpdateBlog
                 _context.Blogs.Update(blog);
                 await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
 
-                // Update the ExcludedByKeyword flag for all associated feed items.
-                // This is necessary because we've just updated the list of keywords for the blog.
 
-                List<RssFeedItem> feedItems = _context.RssFeedItems
-                                                    .Where(item => item.BlogId == blog.Id)
-                                                    .ToList();
-                foreach (RssFeedItem feedItem in feedItems)
-                {
-                    feedItem.ExcludedByKeyword = feedItem.ContainsExcludedKeywords(blog);
-                    _context.RssFeedItems.Update(feedItem);
-                    await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
-                }
                 
                 
 

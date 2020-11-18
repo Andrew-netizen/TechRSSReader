@@ -57,7 +57,7 @@ namespace TechRSSReader.WebUI
                 .AddNewtonsoftJson();
 
             services.AddRazorPages();
-
+            
             // Customise default API behaviour
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -106,6 +106,10 @@ namespace TechRSSReader.WebUI
                       .EveryTenMinutes()
                       .PreventOverlapping("UpdateUserInterestModelService");
 
+                    scheduler.ScheduleWithParams<GetAllBlogsService>(provider)
+                       .EveryMinute()
+                       .PreventOverlapping("GetAllBlogsService");
+
                 }).OnError((exception) =>
                 {
                     var logger = provider.GetService<ILogger<Startup>>();
@@ -123,12 +127,16 @@ namespace TechRSSReader.WebUI
                 provider.UseScheduler(scheduler =>
                 {
                     scheduler.ScheduleWithParams<GetNewRssFeedItemsService>(provider)
-                    .Hourly()
-                    .PreventOverlapping("GetNewRssFeedItemsService");
+                        .Hourly()
+                        .PreventOverlapping("GetNewRssFeedItemsService");
 
                     scheduler.ScheduleWithParams<UpdateUserInterestModelService>(provider)
-                    .Hourly()
-                    .PreventOverlapping("UpdateUserInterestModelService");
+                        .Hourly()
+                        .PreventOverlapping("UpdateUserInterestModelService");
+
+                    scheduler.ScheduleWithParams<GetAllBlogsService>(provider)
+                        .EveryMinute()
+                        .PreventOverlapping("GetAllBlogsService");
 
                 }).OnError((exception) =>
                 {
