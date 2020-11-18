@@ -1,23 +1,29 @@
-﻿using Shouldly;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
+using Shouldly;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TechRSSReader.Application.Blogs.Commands.UpdateBlog;
+using TechRSSReader.Application.Blogs.Notifications;
 using TechRSSReader.Application.UnitTests.Common;
 using Xunit;
-using Xunit.Abstractions;
 
-namespace TechRSSReader.Application.UnitTests.Blogs.Commands.UpdateBlog
+namespace TechRSSReader.Application.UnitTests.Blogs.Notifications
 {
-    public class UpdateBlogCommandTests: CommandTestBase
+    public class BlogUpdatedNotificationsTests: CommandTestBase
     {
         [Fact]
         public async Task Handle_Valid()
         {
+            // Check to see that if a user has updated a blog, then the
+            // Update FeedItemExclusions command will set the Keyword Exclusions
+            // flag as necessary
+
             var command = new UpdateBlogCommand
             {
-                
-                Id = 1, 
+
+                Id = 1,
                 Title = "Einstein's Updated Blog",
                 XmlAddress = "http://www.smh.com.au"
             };
@@ -32,23 +38,28 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.UpdateBlog
 
             await handler.Handle(command, CancellationToken.None);
 
-            var entity = Context.Blogs.Find(command.Id);
+            // Now run the update Exclusions command.
 
-            entity.ShouldNotBeNull();
-            entity.Title.ShouldBe(command.Title);
-            entity.XmlAddress.ShouldBe(command.XmlAddress);
-            entity.KeywordsToExclude.Count.ShouldBe(0);
-            entity.KeywordsToInclude.Count.ShouldBe(0);
+            var input = new BlogUpdatedNotification
+            {
+                BlogId = 1,
+            };
 
-            // The flag "ExcludedByKeyword" is not to be updated on all associated feed items.
-            // That will be done in a separate task.
+
+            var loggerMock = new Mock<ILogger<BlogUpdatedHandler>>();
+            var target = new BlogUpdatedHandler(Context, loggerMock.Object);
+            await target.Handle(input, CancellationToken.None);
+
+            // The flag "ExcludedByKeyword" should have been updated.
+            // THere are no exclusion keywords in the updated blog.
+            // So, no feed items should be marked as excluded. 
 
             einsteinsExcludedFeedItems = Context.RssFeedItems.
                     Where(item => item.BlogId == 1)
                     .Where(item => (item.ExcludedByKeyword.HasValue && item.ExcludedByKeyword.Value)).Count();
 
-            einsteinsExcludedFeedItems.ShouldBe(1);
-        }
+            einsteinsExcludedFeedItems.ShouldBe(0);
 
+        }
     }
 }

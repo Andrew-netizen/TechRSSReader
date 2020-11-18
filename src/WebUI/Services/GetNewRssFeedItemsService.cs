@@ -47,7 +47,7 @@ namespace TechRSSReader.WebUI.Services
             }
             catch (Exception exception)
             {
-                _logger.LogInformation($"Exception in GetNewRssFeedItemsService:{exception.Message}, Stack Trace:{exception.StackTrace}");
+                _logger.LogError($"Exception in GetNewRssFeedItemsService:{exception.Message}, Stack Trace:{exception.StackTrace}");
             }
         }
     }

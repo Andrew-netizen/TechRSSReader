@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,6 +7,7 @@ using TechRSSReader.Application.Blogs.Commands.CreateBlog;
 using TechRSSReader.Application.Blogs.Commands.DeleteBlog;
 using TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems;
 using TechRSSReader.Application.Blogs.Commands.UpdateBlog;
+using TechRSSReader.Application.Blogs.Notifications;
 using TechRSSReader.Application.Blogs.Queries.GetBlogs;
 using TechRSSReader.Application.Blogs.Queries.GetBlogWithItems;
 
@@ -18,10 +18,11 @@ namespace TechRSSReader.WebUI.Controllers
     public class BlogsController: ApiController
     {
 
-        private readonly ILogger<BlogsController> _logger; 
+        private readonly ILogger<BlogsController> _logger;
         public BlogsController(ILogger<BlogsController> logger)
         {
-            _logger = logger; 
+            _logger = logger;
+
         }
 
         /// <summary>
@@ -110,8 +111,11 @@ namespace TechRSSReader.WebUI.Controllers
         [HttpPut("{id}")]
         public async Task<BlogDto> Update(int id, UpdateBlogCommand command)
         {
-            return await Mediator.Send(command);
-            
+            BlogDto result = await Mediator.Send(command);
+            await Mediator.Publish(new BlogUpdatedNotification { BlogId = id });
+
+            return result; 
+
         }
     }
 }
