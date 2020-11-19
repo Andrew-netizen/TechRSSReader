@@ -1,11 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 
+$enable-responsive-font-sizes: true;
+
+@import "/scss/main.scss";
+
 $theme-colors: (
   "primary": #3500d3,
   //"secondary": #190061,
   //"success": #33cc33,
   //"info": #240090,
 );
+
+$font-family-sans-serif: -Roboto, "Helvetica Neue", sans-serif !default;
 
 $container-max-widths: (
   sm: 540px,
@@ -43,5 +49,3 @@ code {
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 @import "~ngx-toastr/toastr-bs4-alert";
 
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';

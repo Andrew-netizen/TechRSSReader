@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import {  select, Store } from "@ngrx/store";
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import {tap} from 'rxjs/operators';
 
 
@@ -16,12 +16,11 @@ import { SettingsModalComponent } from '../shared/components/settings-modal/sett
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.scss']
 })
-export class NavMenuComponent implements OnInit, OnDestroy {
+export class NavMenuComponent implements OnInit {
 
   public navbarCollapsed: boolean = true;
   public isAuthenticated$: Observable<boolean>;
   public sidebarCollapsed$: Observable<boolean>;
-  private sidebarCollapsedSubscription: Subscription;
   public collapsed: boolean = false;
 
   constructor(private store: Store<fromRoot.State>,
@@ -32,12 +31,6 @@ export class NavMenuComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isAuthenticated$ = this.authorizeService.isAuthenticated();
     this.sidebarCollapsed$ = this.store.pipe(select(fromBlog.getSidebarMenuCollapsed));
-
-    this.sidebarCollapsed$.subscribe(val => console.log("sidebar collapsed is", val));
-  }
-
-  ngOnDestroy(): void {
-      this.sidebarCollapsedSubscription.unsubscribe();
   }
 
   openSettingsModal(): void {

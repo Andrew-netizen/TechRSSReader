@@ -32,7 +32,7 @@ const initialState: BlogState = {
   feedItemSource: FeedItemSource.Null,
   feedItems: [],
   retrievedFeedItemCount: null,
-  sidebarMenuCollapsed: false,
+  sidebarMenuCollapsed: true,
 };
 
 // Selector functions
@@ -128,7 +128,17 @@ export const getCurrentFeedItem = createSelector(
 export function reducer(state = initialState, action: BlogActions): BlogState {
   switch (action.type) {
     case BlogActionTypes.ClearBlogs:
-      return initialState;
+      return {
+        ...state,
+        blogs: [],
+        currentBlogId: null,
+        currentFeedItemId: null,
+        currentFeedItemPage: 1,
+        error: "",
+        feedItemSource: FeedItemSource.Null,
+        feedItems: [],
+        retrievedFeedItemCount: null,
+      };
 
     case BlogActionTypes.ClearCurrentBlog:
       return {

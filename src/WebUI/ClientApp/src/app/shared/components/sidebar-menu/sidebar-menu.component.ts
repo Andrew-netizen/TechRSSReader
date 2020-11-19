@@ -19,7 +19,6 @@ import {
   styleUrls: ["./sidebar-menu.component.scss"],
 })
 export class SidebarMenuComponent implements OnInit, OnDestroy {
-
   public blogs$: Observable<BlogDto[]>;
   public collapsed$: Observable<boolean>;
   public isAuthenticated$: Observable<boolean>;
@@ -49,13 +48,15 @@ export class SidebarMenuComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.collapsed$ = this.store.pipe(select(fromBlog.getSidebarMenuCollapsed));
+
     this.breakpointSubscription = this.breakpointObserver
       .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
       .subscribe((state: BreakpointState) => {
-        this.showMenuCollapseButton = state.matches
+        this.showMenuCollapseButton = state.matches;
+        if (!state.matches)
+          this.store.dispatch(new blogActions.SetSidebarMenuCollapsed(false));
       });
-
-      this.collapsed$ = this.store.pipe(select(fromBlog.getSidebarMenuCollapsed));
   }
 
   hideMenu(): void {
@@ -64,7 +65,7 @@ export class SidebarMenuComponent implements OnInit, OnDestroy {
 
   menuItemClicked(): void {
     if (this.showMenuCollapseButton)
-    this.store.dispatch(new blogActions.SetSidebarMenuCollapsed(true));
+      this.store.dispatch(new blogActions.SetSidebarMenuCollapsed(true));
   }
 
   ngOnDestroy(): void {

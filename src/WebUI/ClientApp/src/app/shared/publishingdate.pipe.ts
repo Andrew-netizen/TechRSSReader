@@ -15,7 +15,7 @@ export class PublishingDatePipe implements PipeTransform {
     (value.getMonth() == yesterday.getMonth()) &&
     (value.getFullYear() == yesterday.getFullYear());
 
-    const month = value.toLocaleString('default', { month: 'long' });
+    const month = value.toLocaleString('default', { month: 'short' });
     const dayOfMonth = value.getDate();
 
     let dayString: string = "";

@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header">
+  <div class="card-header p-1">
     <div class="row">
       <div class="col">
         <h4>{{ feedItemSectionTitle }}</h4>
@@ -18,7 +18,7 @@
         *ngFor="let feedItem of feedItems"
         class="list-group-item list-group-item-action rounded-0"
       >
-        <div *ngIf="feedItem?.id !== selectedFeedItem?.id">
+        <div *ngIf="feedItem?.id !== selectedFeedItem?.id" class="p-2">
           <span class="m-1" (click)="bookmarkToggledHandler(feedItem)">
             <i
               [className]="
@@ -42,7 +42,7 @@
             *ngIf="feedItem.blogTitle && showBlogTitle"
             ><b>{{ feedItem.blogTitle }}</b>
           </small>
-          <div class="float-right">
+          <div class="float-right m-1">
             <i
               *ngIf="feedItem.userRatingPrediction"
               [className]="
@@ -86,8 +86,7 @@
             <small
               *ngIf="feedItem.categories"
               class="rounded px-2 py-1 border border-warn"
-            >
-              Categories: &nbsp;{{ feedItem.categories }}
+            >{{ feedItem.categories | categoriesPipe }}
             </small>
             &nbsp;
             <small

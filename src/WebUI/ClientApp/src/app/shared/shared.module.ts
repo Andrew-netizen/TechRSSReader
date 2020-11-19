@@ -9,6 +9,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FeeditemDisplayComponent } from "./components/feeditem-display/feeditem-display.component";
 import { BlogListComponent } from "./components/blog-list/blog-list.component";
 import { PublishingDatePipe } from "./publishingdate.pipe";
+import { CategoriesPipe} from "./categories.pipe";
 import { StarComponent } from "./components/star/star.component";
 import { PaginatorComponent } from "./components/paginator/paginator.component";
 
@@ -18,8 +19,9 @@ import { RateFeeditemComponent } from "./components/rate-feeditem/rate-feeditem.
 
 @NgModule({
   declarations: [
-    FeeditemDisplayComponent,
     BlogListComponent,
+    CategoriesPipe,
+    FeeditemDisplayComponent,
     PublishingDatePipe,
     StarComponent,
     PaginatorComponent,
@@ -36,6 +38,7 @@ import { RateFeeditemComponent } from "./components/rate-feeditem/rate-feeditem.
   ],
   exports: [
     BlogListComponent,
+    CategoriesPipe,
     FeeditemDisplayComponent,
     PaginatorComponent,
     PublishingDatePipe,
