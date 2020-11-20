@@ -8,8 +8,8 @@ import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { AppComponent } from "./app.component";
-import { NavMenuComponent } from "./nav-menu/nav-menu.component";
 import { HomeComponent } from "./home/home.component";
+import { HomeLoggedoutComponent} from "./home/home-loggedout/home-loggedout.component";
 import { CounterComponent } from "./counter/counter.component";
 import { FetchDataComponent } from "./fetch-data/fetch-data.component";
 import { ApiAuthorizationModule } from "src/api-authorization/api-authorization.module";
@@ -47,8 +47,8 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
     HomeComponent,
+    HomeLoggedoutComponent,
     CounterComponent,
     FetchDataComponent,
   ],

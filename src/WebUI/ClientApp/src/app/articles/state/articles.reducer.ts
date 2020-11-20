@@ -12,6 +12,7 @@ export interface ArticlesState {
   excludeAlreadyRead: boolean;
   keywordExclusion: boolean;
   pageSize: number;
+  filterText: string | null;
 }
 
 const initialState: ArticlesState = {
@@ -20,6 +21,7 @@ const initialState: ArticlesState = {
   excludeAlreadyRead: true,
   keywordExclusion: true,
   pageSize: 10,
+  filterText: null,
 };
 
 export function reducer(
@@ -31,6 +33,11 @@ export function reducer(
       return {
         ...state,
         displaySortOrder: action.payload,
+      };
+    case ArticlesActionTypes.SetFilterText:
+      return {
+        ...state,
+        filterText: action.payload,
       };
     case ArticlesActionTypes.ToggleAlreadyRead:
       return {

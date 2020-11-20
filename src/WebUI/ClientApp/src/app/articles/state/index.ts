@@ -2,6 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromArticles from './articles.reducer';
 import * as fromBlog from '../../blog/state/blog.reducer';
 import {orderBy } from 'lodash';
+import { RssFeedItemDto } from 'src/app/TechRSSReader-api';
 
 // selector functions
 
@@ -10,6 +11,11 @@ const getArticlesFeatureState = createFeatureSelector<fromArticles.ArticlesState
 export const getExcludeAlreadyRead = createSelector(
   getArticlesFeatureState,
   state => state.excludeAlreadyRead
+);
+
+export const getFilterText = createSelector(
+  getArticlesFeatureState,
+  state => state.filterText
 );
 
 export const getKeywordExclusion = createSelector(
@@ -32,9 +38,10 @@ export const getFilteredArticles = createSelector(
   getExcludeAlreadyRead,
   getKeywordExclusion,
   getDisplaySortOrder,
+  getFilterText,
   fromBlog.getFeedItems,
   fromBlog.getFeedItemSource,
-  (excludeAlreadyRead, keywordExclusion, displaySortOrder, feedItems, feedItemSource) =>
+  (excludeAlreadyRead, keywordExclusion, displaySortOrder, filterText, feedItems, feedItemSource) =>
   {
 
     var result = feedItems;
@@ -54,6 +61,11 @@ export const getFilteredArticles = createSelector(
       result = result.filter(feedItem => !feedItem.excludedByKeyword);
     }
 
+    if ((filterText) && (filterText.length > 0))
+    {
+      result = result.filter((feedItem: RssFeedItemDto) =>
+        feedItem.title.toLocaleLowerCase().indexOf(filterText) !== -1);
+    }
 
     if (displaySortOrder === fromArticles.DisplaySortOrder.PredictedRating)
       result = orderBy(result, ['userRatingPrediction'], ['desc']);

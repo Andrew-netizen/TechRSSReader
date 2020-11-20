@@ -6,6 +6,7 @@ import { BlogDto } from "src/app/TechRSSReader-api";
 import * as fromRoot from "../../../state/app.state";
 import * as fromBlog from "../../../blog/state/blog.reducer";
 import * as blogActions from "../../../blog/state/blog.actions";
+import * as articlesActions from "../../../articles/state/articles.actions";
 import { AuthorizeService } from "src/api-authorization/authorize.service";
 import {
   BreakpointObserver,
@@ -66,6 +67,7 @@ export class SidebarMenuComponent implements OnInit, OnDestroy {
   menuItemClicked(): void {
     if (this.showMenuCollapseButton)
       this.store.dispatch(new blogActions.SetSidebarMenuCollapsed(true));
+    this.store.dispatch(new articlesActions.SetFilterText(null));
   }
 
   ngOnDestroy(): void {

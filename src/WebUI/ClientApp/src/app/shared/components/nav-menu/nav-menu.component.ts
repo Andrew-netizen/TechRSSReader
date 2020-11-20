@@ -1,15 +1,13 @@
 import { Component,  OnInit } from '@angular/core';
 import {  select, Store } from "@ngrx/store";
 import { Observable } from 'rxjs';
-import {tap} from 'rxjs/operators';
 
-
-import * as fromRoot from "../state/app.state";
-import * as fromBlog from "../blog/state/blog.reducer";
-import * as blogActions from "../blog/state/blog.actions";
+import * as fromRoot from "../../../state/app.state";
+import * as fromBlog from "../../../blog/state/blog.reducer";
+import * as blogActions from "../../../blog/state/blog.actions";
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { SettingsModalComponent } from '../shared/components/settings-modal/settings-modal.component';
+import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
 
 @Component({
   selector: 'app-nav-menu',
@@ -35,10 +33,6 @@ export class NavMenuComponent implements OnInit {
 
   openSettingsModal(): void {
     this.modalService.open(SettingsModalComponent);
-  }
-
-  toggle() {
-    this.navbarCollapsed = !this.navbarCollapsed;
   }
 
   showSidebar(): void {
