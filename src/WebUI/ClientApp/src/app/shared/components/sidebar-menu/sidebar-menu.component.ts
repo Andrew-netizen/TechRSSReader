@@ -13,6 +13,7 @@ import {
   Breakpoints,
   BreakpointState,
 } from "@angular/cdk/layout";
+import { distinctUntilChanged } from "rxjs/operators";
 
 @Component({
   selector: "app-sidebar-menu",
@@ -38,7 +39,13 @@ export class SidebarMenuComponent implements OnInit, OnDestroy {
       BlogDto[]
     >;
     this.isAuthenticated$ = this.authorizeService.isAuthenticated();
-    this.authenticationSubscription = this.isAuthenticated$.subscribe(
+    this.authenticationSubscription = this.isAuthenticated$
+    .pipe(
+      // If previous query is different from current
+      distinctUntilChanged()
+      // Subscription from response
+    )
+    .subscribe(
       (authenticated) => {
         if (authenticated) {
           this.store.dispatch(new blogActions.LoadBlogs());
