@@ -7,7 +7,7 @@ using System.IO;
 using TechRSSReader.Domain.Entities;
 using TechRSSReaderML.Model;
 using AutoMapper;
-using System;
+using CsvHelper.Configuration;
 
 namespace TechRSSReader.Infrastructure.Files
 {
@@ -25,7 +25,8 @@ namespace TechRSSReader.Infrastructure.Files
             using var memoryStream = new MemoryStream();
             using (var streamWriter = new StreamWriter(memoryStream))
             {
-                using var csvWriter = new CsvWriter(streamWriter);
+                CsvConfiguration configuration = new CsvConfiguration(System.Globalization.CultureInfo.CurrentCulture);
+                using var csvWriter = new CsvWriter(streamWriter, configuration);
 
                 csvWriter.Configuration.RegisterClassMap<TodoItemRecordMap>();
                 csvWriter.WriteRecords(records);
@@ -45,11 +46,11 @@ namespace TechRSSReader.Infrastructure.Files
             }
             using StreamWriter fileWriter = File.CreateText(fileName);
 
-            CsvHelper.Configuration.Configuration configuration = new CsvHelper.Configuration.Configuration();
+            CsvConfiguration configuration = new CsvConfiguration(System.Globalization.CultureInfo.CurrentCulture);
             configuration.Delimiter = "\t";
 
             using var csvWriter = new CsvWriter(fileWriter, configuration);
-
+            
             csvWriter.Configuration.RegisterClassMap<StarRatingInputClassMap>();
             csvWriter.WriteRecords(csvInput);
         }

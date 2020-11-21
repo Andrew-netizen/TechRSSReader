@@ -18,6 +18,6 @@ namespace TechRSSReader.Domain.Entities
 
         public ICollection<KeywordToExclude> KeywordsToExclude { get; set; } = new List<KeywordToExclude>();
 
-        public ICollection<RssFeedItem> RssFeedItems { get; set; } 
+        public virtual ICollection<RssFeedItem> RssFeedItems { get; set; } 
     }
 }

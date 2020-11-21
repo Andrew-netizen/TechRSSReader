@@ -57,7 +57,9 @@ namespace TechRSSReader.WebUI
                 .AddNewtonsoftJson();
 
             services.AddRazorPages();
-            
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
             // Customise default API behaviour
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -91,13 +93,13 @@ namespace TechRSSReader.WebUI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
 
                 // Retrieve RSS feed items every ten minutes
                 var provider = app.ApplicationServices;
                 provider.UseScheduler(scheduler =>
                 {
-                    
+
                     scheduler.ScheduleWithParams<GetNewRssFeedItemsService>(provider)
                     .EveryTenMinutes()
                     .PreventOverlapping("GetNewRssFeedItemsService");

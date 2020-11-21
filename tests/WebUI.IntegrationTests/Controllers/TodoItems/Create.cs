@@ -31,22 +31,6 @@ namespace TechRSSReader.WebUI.IntegrationTests.Controllers.TodoItems
 
             response.EnsureSuccessStatusCode();
         }
-
-        [Fact]
-        public async Task GivenInvalidCreateTodoItemCommand_ReturnsBadRequest()
-        {
-            var client = await _factory.GetAuthenticatedClientAsync();
-
-            var command = new CreateTodoItemCommand
-            {
-                Title = "This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length."
-            };
-
-            var content = IntegrationTestHelper.GetRequestContent(command);
-
-            var response = await client.PostAsync($"/api/todoitems", content);
-
-            response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-        }
+               
     }
 }

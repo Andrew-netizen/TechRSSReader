@@ -1,5 +1,6 @@
 ﻿using TechRSSReader.Application.TodoLists.Queries.ExportTodos;
 using CsvHelper.Configuration;
+using System.Globalization;
 
 namespace TechRSSReader.Infrastructure.Files.Maps
 {
@@ -7,7 +8,7 @@ namespace TechRSSReader.Infrastructure.Files.Maps
     {
         public TodoItemRecordMap()
         {
-            AutoMap();
+            AutoMap(CultureInfo.CurrentCulture);
             Map(m => m.Done).ConvertUsing(c => c.Done ? "Yes" : "No");
         }
     }

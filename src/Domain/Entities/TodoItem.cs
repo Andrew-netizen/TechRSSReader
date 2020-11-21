@@ -21,6 +21,6 @@ namespace TechRSSReader.Domain.Entities
         public PriorityLevel Priority { get; set; }
 
 
-        public TodoList List { get; set; }
+        public virtual TodoList List { get; set; }
     }
 }

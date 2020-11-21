@@ -1,5 +1,6 @@
 ﻿using TechRSSReader.Domain.Entities;
 using CsvHelper.Configuration;
+using System.Globalization;
 
 namespace TechRSSReader.Infrastructure.Files.Maps
 {
@@ -7,7 +8,7 @@ namespace TechRSSReader.Infrastructure.Files.Maps
     {
         public StarRatingInputClassMap()
         {
-            AutoMap();
+            AutoMap(CultureInfo.CurrentCulture);
         }
 
     }
