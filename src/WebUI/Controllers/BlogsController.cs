@@ -42,9 +42,9 @@ namespace TechRSSReader.WebUI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<BlogDto> Get(int id)
+        public async Task<BlogDetailsDto> Get(int id)
         {
-            BlogDto blogDto = null; 
+            BlogDetailsDto blogDto = null; 
 
             try
             {

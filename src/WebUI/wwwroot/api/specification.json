@@ -90,7 +90,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BlogDto"
+                  "$ref": "#/components/schemas/BlogDetailsDto"
                 }
               }
             }
@@ -787,13 +787,6 @@
             "items": {
               "$ref": "#/components/schemas/KeywordToExcludeDto"
             }
-          },
-          "rssFeedItems": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/RssFeedItemDto"
-            }
           }
         }
       },
@@ -824,6 +817,26 @@
             "nullable": true
           }
         }
+      },
+      "BlogDetailsDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BlogDto"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "rssFeedItems": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/RssFeedItemDto"
+                }
+              }
+            }
+          }
+        ]
       },
       "RssFeedItemDto": {
         "type": "object",

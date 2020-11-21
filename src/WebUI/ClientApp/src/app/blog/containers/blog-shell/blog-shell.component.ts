@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Observable, Subscription } from "rxjs";
-import { BlogDto } from "src/app/techrssreader-api";
+import { Subscription } from "rxjs";
 
-import { Store, select } from "@ngrx/store";
+import { Store } from "@ngrx/store";
 import * as fromRoot from "../../../state/app.state";
-import * as fromBlog from "../../state/blog.reducer";
 import * as blogActions from "../../state/blog.actions";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using TechRSSReader.Application.Common.Mappings;
-using TechRSSReader.Application.RssFeedItems.Queries;
 using TechRSSReader.Domain.Entities;
 
 namespace TechRSSReader.Application.Blogs.Queries.GetBlogs
@@ -18,7 +17,5 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogs
         public IList<KeywordToIncludeDto> KeywordsToInclude { get; set; }
 
         public IList<KeywordToExcludeDto> KeywordsToExclude { get; set; }
-
-        public IList<RssFeedItemDto> RssFeedItems { get; set; }
     }
 }

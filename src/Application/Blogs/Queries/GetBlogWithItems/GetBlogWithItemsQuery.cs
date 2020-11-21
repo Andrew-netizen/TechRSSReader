@@ -10,11 +10,11 @@ using TechRSSReader.Domain.Entities;
 
 namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
 {
-    public class GetBlogWithItemsQuery: IRequest<BlogDto>
+    public class GetBlogWithItemsQuery: IRequest<BlogDetailsDto>
     {
         public int Id { get; set; }
 
-        public class GetBlogWithItemsQueryHandler : IRequestHandler<GetBlogWithItemsQuery, BlogDto>
+        public class GetBlogWithItemsQueryHandler : IRequestHandler<GetBlogWithItemsQuery, BlogDetailsDto>
         {
 
             private readonly IApplicationDbContext _context;
@@ -28,7 +28,7 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
                 _userInterestPredictor = userInterestPredictor;
             }
 
-            public async Task<BlogDto> Handle(GetBlogWithItemsQuery request, CancellationToken cancellationToken)
+            public async Task<BlogDetailsDto> Handle(GetBlogWithItemsQuery request, CancellationToken cancellationToken)
             {
                 Blog blog = await _context.Blogs
                     .Include(blog => blog.RssFeedItems)
@@ -47,7 +47,7 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
                     }
                 }
 
-                return _mapper.Map<BlogDto>(blog);
+                return _mapper.Map<BlogDetailsDto>(blog);
             }
         }
 

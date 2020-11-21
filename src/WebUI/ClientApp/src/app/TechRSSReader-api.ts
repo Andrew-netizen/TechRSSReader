@@ -17,7 +17,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 export interface IBlogsClient {
     get(): Observable<BlogsViewModel>;
     create(command: CreateBlogCommand): Observable<BlogDto>;
-    get2(id: number): Observable<BlogDto>;
+    get2(id: number): Observable<BlogDetailsDto>;
     delete(id: number): Observable<number>;
     update(id: number, command: UpdateBlogCommand): Observable<BlogDto>;
     retrieveFeedItemsFromSource(id: number | undefined): Observable<number>;
@@ -136,7 +136,7 @@ export class BlogsClient implements IBlogsClient {
         return _observableOf<BlogDto>(<any>null);
     }
 
-    get2(id: number): Observable<BlogDto> {
+    get2(id: number): Observable<BlogDetailsDto> {
         let url_ = this.baseUrl + "/api/Blogs/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -158,14 +158,14 @@ export class BlogsClient implements IBlogsClient {
                 try {
                     return this.processGet2(<any>response_);
                 } catch (e) {
-                    return <Observable<BlogDto>><any>_observableThrow(e);
+                    return <Observable<BlogDetailsDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BlogDto>><any>_observableThrow(response_);
+                return <Observable<BlogDetailsDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet2(response: HttpResponseBase): Observable<BlogDto> {
+    protected processGet2(response: HttpResponseBase): Observable<BlogDetailsDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -176,7 +176,7 @@ export class BlogsClient implements IBlogsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BlogDto.fromJS(resultData200);
+            result200 = BlogDetailsDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -184,7 +184,7 @@ export class BlogsClient implements IBlogsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BlogDto>(<any>null);
+        return _observableOf<BlogDetailsDto>(<any>null);
     }
 
     delete(id: number): Observable<number> {
@@ -1192,7 +1192,6 @@ export class BlogDto implements IBlogDto {
     xmlAddress?: string | undefined;
     keywordsToInclude?: KeywordToIncludeDto[] | undefined;
     keywordsToExclude?: KeywordToExcludeDto[] | undefined;
-    rssFeedItems?: RssFeedItemDto[] | undefined;
 
     constructor(data?: IBlogDto) {
         if (data) {
@@ -1217,11 +1216,6 @@ export class BlogDto implements IBlogDto {
                 this.keywordsToExclude = [] as any;
                 for (let item of _data["keywordsToExclude"])
                     this.keywordsToExclude!.push(KeywordToExcludeDto.fromJS(item));
-            }
-            if (Array.isArray(_data["rssFeedItems"])) {
-                this.rssFeedItems = [] as any;
-                for (let item of _data["rssFeedItems"])
-                    this.rssFeedItems!.push(RssFeedItemDto.fromJS(item));
             }
         }
     }
@@ -1248,11 +1242,6 @@ export class BlogDto implements IBlogDto {
             for (let item of this.keywordsToExclude)
                 data["keywordsToExclude"].push(item.toJSON());
         }
-        if (Array.isArray(this.rssFeedItems)) {
-            data["rssFeedItems"] = [];
-            for (let item of this.rssFeedItems)
-                data["rssFeedItems"].push(item.toJSON());
-        }
         return data; 
     }
 }
@@ -1263,7 +1252,6 @@ export interface IBlogDto {
     xmlAddress?: string | undefined;
     keywordsToInclude?: KeywordToIncludeDto[] | undefined;
     keywordsToExclude?: KeywordToExcludeDto[] | undefined;
-    rssFeedItems?: RssFeedItemDto[] | undefined;
 }
 
 export class KeywordToIncludeDto implements IKeywordToIncludeDto {
@@ -1344,6 +1332,47 @@ export class KeywordToExcludeDto implements IKeywordToExcludeDto {
 export interface IKeywordToExcludeDto {
     blogId?: number;
     keyword?: string | undefined;
+}
+
+export class BlogDetailsDto extends BlogDto implements IBlogDetailsDto {
+    rssFeedItems?: RssFeedItemDto[] | undefined;
+
+    constructor(data?: IBlogDetailsDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["rssFeedItems"])) {
+                this.rssFeedItems = [] as any;
+                for (let item of _data["rssFeedItems"])
+                    this.rssFeedItems!.push(RssFeedItemDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BlogDetailsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BlogDetailsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.rssFeedItems)) {
+            data["rssFeedItems"] = [];
+            for (let item of this.rssFeedItems)
+                data["rssFeedItems"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBlogDetailsDto extends IBlogDto {
+    rssFeedItems?: RssFeedItemDto[] | undefined;
 }
 
 export class RssFeedItemDto implements IRssFeedItemDto {

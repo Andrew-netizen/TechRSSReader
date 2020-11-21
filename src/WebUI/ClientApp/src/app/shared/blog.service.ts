@@ -1,6 +1,7 @@
 import { Observable } from "rxjs";
 import {
   BlogsClient,
+  BlogDetailsDto,
   BlogDto,
   UpdateBlogCommand,
   CreateBlogCommand, RssFeedItemDto, RssFeedItemsClient, FeedItemsViewModel
@@ -17,7 +18,7 @@ export class BlogService {
     return this.blogsClient.get().pipe(map((data) => data.blogs));
   }
 
-  getBlogWithFeedItems(id: number): Observable<BlogDto> {
+  getBlogWithFeedItems(id: number): Observable<BlogDetailsDto> {
     return this.blogsClient.get2(id);
   }
 

@@ -1,4 +1,4 @@
-import { BlogDto, FeedItemsViewModel, RssFeedItemDto, UpdateFeedItemCommand } from '../../TechRSSReader-api';
+import { BlogDetailsDto, BlogDto, FeedItemsViewModel, RssFeedItemDto, UpdateFeedItemCommand } from '../../TechRSSReader-api';
 
 /* NgRx */
 import { Action } from '@ngrx/store';
@@ -120,7 +120,7 @@ export class LoadBlogWithItemsFail implements Action {
 
 export class LoadBlogWithItemsSuccess implements Action {
   readonly type = BlogActionTypes.LoadBlogWithItemsSuccess;
-  constructor(public payload: BlogDto) {}
+  constructor(public payload: BlogDetailsDto) {}
 }
 
 export class LoadBookmarkedFeedItems implements Action {
