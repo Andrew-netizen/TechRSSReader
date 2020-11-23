@@ -78,7 +78,7 @@ namespace TechRSSReader.Application.UnitTests.Common
                 CreatedBy = "00000000-0000-0000-0000-000000000000",
                 ExcludedByKeyword = false,
                 ReadAlready = false, 
-                UserRatingPrediction = 4
+                UserRatingPrediction = 1.5F
             });
 
             context.RssFeedItems.Add(new RssFeedItem
@@ -91,7 +91,7 @@ namespace TechRSSReader.Application.UnitTests.Common
                 UserRating = 1,
                 CreatedBy = "00000000-0000-0000-0000-000000000000",
                 ReadAlready = false, 
-                UserRatingPrediction = 1
+                UserRatingPrediction = 1.5F
             });
 
             context.RssFeedItems.Add(new RssFeedItem

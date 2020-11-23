@@ -42,7 +42,9 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Queries
             result.RssFeedItems.Count.ShouldBe(3);
             result.RssFeedItems[0].UserRatingPrediction.HasValue.ShouldBeTrue();
             result.RssFeedItems[0].UserRatingPrediction.Value.ShouldBe(1.5F);
-            
+            result.RssFeedItems[1].UserRatingPrediction.Value.ShouldBe(1.5F);
+            result.RssFeedItems[2].UserRatingPrediction.Value.ShouldBe(1.5F);
+
             result.KeywordsToExclude.Count.ShouldBe(1);
             result.KeywordsToInclude.Count.ShouldBe(1);
         }

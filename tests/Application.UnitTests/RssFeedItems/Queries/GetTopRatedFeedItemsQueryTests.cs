@@ -42,7 +42,7 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Queries
             resultFeedItems.Count.ShouldBe(1);
             RssFeedItemDto firstFeedItem = resultFeedItems[0];
             firstFeedItem.Id.ShouldBe(1);
-            firstFeedItem.UserRatingPrediction.ShouldBe(4F);
+            firstFeedItem.UserRatingPrediction.ShouldBe(1.5F);
         }
     }
 }
