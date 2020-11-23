@@ -8,13 +8,7 @@ import { Action } from "@ngrx/store";
 import { Actions, createEffect, Effect, ofType } from "@ngrx/effects";
 import * as blogActions from "./blog.actions";
 import { Observable, of } from "rxjs";
-import {
-  mergeMap,
-  map,
-  catchError,
-  concatMap,
-  tap,
-} from "rxjs/operators";
+import { mergeMap, map, catchError, concatMap, tap } from "rxjs/operators";
 import { BlogDto, UpdateFeedItemCommand } from "src/app/techrssreader-api";
 import { Router } from "@angular/router";
 
@@ -64,6 +58,23 @@ export class BlogEffects {
           ),
           catchError((error) =>
             of(new blogActions.LoadBookmarkedFeedItemsFail(error))
+          )
+        )
+      )
+    )
+  );
+
+  loadTopRatedFeedItems$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.LoadTopRatedFeedItems),
+      mergeMap((action) =>
+        this.blogService.getTopRatedFeedItems().pipe(
+          map(
+            (viewModel) =>
+              new blogActions.LoadTopRatedFeedItemsSuccess(viewModel)
+          ),
+          catchError((error) =>
+            of(new blogActions.LoadTopRatedFeedItemsFail(error))
           )
         )
       )
@@ -137,7 +148,7 @@ export class BlogEffects {
       this.actions$.pipe(
         ofType(blogActions.BlogActionTypes.CreateBlogSuccess),
         tap((action: blogActions.CreateBlogSuccess) => {
-          this.redirectToArticle(action.payload)
+          this.redirectToArticle(action.payload);
         })
       ),
     { dispatch: false }
@@ -160,7 +171,7 @@ export class BlogEffects {
       this.actions$.pipe(
         ofType(blogActions.BlogActionTypes.DeleteBlogSuccess),
         tap((action: blogActions.DeleteBlogSuccess) => {
-          this.router.navigate(['/']);
+          this.router.navigate(["/"]);
         })
       ),
     { dispatch: false }
@@ -178,13 +189,12 @@ export class BlogEffects {
     )
   );
 
-
   updateBlogSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(blogActions.BlogActionTypes.UpdateBlogSuccess),
         tap((action: blogActions.UpdateBlogSuccess) => {
-          this.redirectToArticle(action.payload)
+          this.redirectToArticle(action.payload);
         })
       ),
     { dispatch: false }
@@ -209,22 +219,21 @@ export class BlogEffects {
   );
 
   updateUserInterest$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(blogActions.BlogActionTypes.UpdateUserInterest),
-    map((action: blogActions.UpdateUserInterest) => action.payload),
-    mergeMap((command: UpdateFeedItemCommand) =>
-      this.trainingService.updateFeedItem(command).pipe(
-        map(
-          (feedItem) =>
-            new blogActions.UpdateUserInterestSuccess(feedItem),
-          catchError((error) =>
-            of(new blogActions.UpdateUserInterestFail(error))
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.UpdateUserInterest),
+      map((action: blogActions.UpdateUserInterest) => action.payload),
+      mergeMap((command: UpdateFeedItemCommand) =>
+        this.trainingService.updateFeedItem(command).pipe(
+          map(
+            (feedItem) => new blogActions.UpdateUserInterestSuccess(feedItem),
+            catchError((error) =>
+              of(new blogActions.UpdateUserInterestFail(error))
+            )
           )
         )
       )
     )
-  )
-);
+  );
 
   redirectToArticle(blog: BlogDto): void {
     this.router.navigate(["/articles", blog.id]);

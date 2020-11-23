@@ -7,6 +7,8 @@ namespace TechRSSReader.Domain.Entities
 {
     public class RssFeedItem: AuditableEntity
     {
+        private bool _readAlready; 
+        private int? _userRating; 
 
         public int Id { get; set; }
         
@@ -32,7 +34,18 @@ namespace TechRSSReader.Domain.Entities
 
         public string PublishingDateString { get; set; }
 
-        public bool ReadAlready { get; set; }
+        public bool ReadAlready { 
+            get
+            {
+                return _readAlready;
+            }
+            set
+            {
+                if ((!UserReadDate.HasValue) && (!_readAlready) && (value))
+                    this.UserReadDate = DateTime.Now;
+                _readAlready = value;
+            }
+        }
 
         public DateTime RetrievedDateTime { get; set; }
 
@@ -40,9 +53,24 @@ namespace TechRSSReader.Domain.Entities
 
         public string Title { get; set; }
                 
-        public int? UserRating { get; set; }
+        public DateTime? UserRatedDate { get; set; }
+
+        public int? UserRating { 
+            get
+            {
+                return _userRating;
+            }
+            set
+            {
+                if ((!UserRatedDate.HasValue) && (!_userRating.HasValue) && (value.HasValue))
+                    this.UserRatedDate = DateTime.Now;
+                _userRating = value;
+            }
+        }
 
         public Single? UserRatingPrediction { get; set; }
+
+        public DateTime? UserReadDate { get; set; }
 
         public bool ContainsExcludedKeywords(Blog blog)
         {

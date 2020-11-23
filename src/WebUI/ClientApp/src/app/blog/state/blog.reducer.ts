@@ -8,6 +8,7 @@ export enum FeedItemSource {
   Blog,
   Bookmarked,
   Null,
+  TopRated,
   Unread,
 }
 
@@ -94,6 +95,7 @@ export const getFeedItemSectionTitle = createSelector(
   (state, blog) => {
     if (state.feedItemSource === FeedItemSource.Unread) return "New";
     if (state.feedItemSource === FeedItemSource.Bookmarked) return "Bookmarks";
+    if (state.feedItemSource === FeedItemSource.TopRated) return "Top Rated";
     if (state.feedItemSource === FeedItemSource.Blog && blog) {
       return blog.title;
     }
@@ -270,6 +272,32 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         error: "",
       };
 
+    case BlogActionTypes.LoadTopRatedFeedItems:
+      return {
+        ...state,
+        feedItems: [],
+        currentBlogId: null,
+        retrievedFeedItemCount: null,
+      };
+
+    case BlogActionTypes.LoadTopRatedFeedItemsFail:
+      return {
+        ...state,
+        feedItems: [],
+        currentFeedItemId: null,
+        error: action.payload,
+      };
+
+    case BlogActionTypes.LoadTopRatedFeedItemsSuccess:
+      return {
+        ...state,
+        feedItems: action.payload.rssFeedItems,
+        feedItemSource: FeedItemSource.TopRated,
+        currentFeedItemId: null,
+        currentFeedItemPage: 1,
+        error: "",
+      };
+
     case BlogActionTypes.LoadUnreadFeedItems:
       return {
         ...state,
@@ -408,15 +436,15 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         error: action.payload,
       };
 
-      case BlogActionTypes.UpdateUserInterestSuccess:
-        const userInterestUpdatedFeedItems = state.feedItems.map((item) =>
-          action.payload.id === item.id ? action.payload : item
-        );
-        return {
-          ...state,
-          feedItems: userInterestUpdatedFeedItems,
-          error: "",
-        };
+    case BlogActionTypes.UpdateUserInterestSuccess:
+      const userInterestUpdatedFeedItems = state.feedItems.map((item) =>
+        action.payload.id === item.id ? action.payload : item
+      );
+      return {
+        ...state,
+        feedItems: userInterestUpdatedFeedItems,
+        error: "",
+      };
 
     default:
       return state;

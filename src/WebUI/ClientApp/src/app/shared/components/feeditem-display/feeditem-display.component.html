@@ -30,7 +30,9 @@
   </div>
   <div class="card-body">
     <div *ngIf="feedItem.categories" class="row">
-      Categories: <span [innerHTML]="feedItem.categories"></span>
+      Categories:&nbsp;<span
+        [innerHTML]="feedItem.categories | categoriesSpacePipe"
+      ></span>
     </div>
     <hr *ngIf="feedItem.categories" />
     <div class="row" *ngIf="feedItem.description">
@@ -44,18 +46,27 @@
     <div class="d-flex">
       <div class="p-2">
         <a
-        [href]="
-          this.domSanitizationService.bypassSecurityTrustUrl(feedItem.link)
-        "
-        >Read More ...</a
-      >
+          [href]="
+            this.domSanitizationService.bypassSecurityTrustUrl(feedItem.link)
+          "
+          >Read More ...</a
+        >
       </div>
       <div class="ml-auto">
-        <app-rate-feeditem
-          [currentFeedItem]=(feedItem)
-          (userRegisteredInterest)="updateUserInterest($event)"
-        >
-        </app-rate-feeditem>
+        <div class="float-right d-inline-flex">
+          <button
+            class="btn btn-secondary btn-sm mx-2"
+            *ngIf="!feedItem.readAlready"
+            (click)="markAsReadClicked(feedItem)"
+          >
+            Mark as Read
+          </button>
+          <app-rate-feeditem
+            [currentFeedItem]="feedItem"
+            (userRegisteredInterest)="updateUserInterest($event)"
+          >
+          </app-rate-feeditem>
+        </div>
       </div>
     </div>
   </div>

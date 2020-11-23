@@ -110,6 +110,6 @@ export const getPaginatedArticles = createSelector(
 
 export const getShowBlogTitle = createSelector(
   fromBlog.getFeedItemSource,
-  source => (source === fromBlog.FeedItemSource.Bookmarked) || (source === fromBlog.FeedItemSource.Unread)
+  source => (source === fromBlog.FeedItemSource.Bookmarked) || (source === fromBlog.FeedItemSource.Unread) || (source === fromBlog.FeedItemSource.TopRated)
 );
 

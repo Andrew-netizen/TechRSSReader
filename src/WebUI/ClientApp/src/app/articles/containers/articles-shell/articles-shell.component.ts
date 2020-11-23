@@ -47,6 +47,7 @@ export class ArticlesShellComponent implements OnInit, OnDestroy {
       (params: ParamMap) => {
         if (params.get("id") === "new") this.unreadMenuSelected();
         if (params.get("id") === "bookmarked") this.bookmarksMenuSelected();
+        if (params.get("id") === "toprated") this.topRatedMenuSelected();
         if (!isNaN(Number(params.get("id")))) {
           this.blogMenuItemSelected(Number(params.get("id")));
         }
@@ -101,6 +102,10 @@ export class ArticlesShellComponent implements OnInit, OnDestroy {
 
   bookmarksMenuSelected(): void {
     this.store.dispatch(new blogActions.LoadBookmarkedFeedItems());
+  }
+
+  topRatedMenuSelected(): void {
+    this.store.dispatch(new blogActions.LoadTopRatedFeedItems());
   }
 
   unreadMenuSelected(): void {

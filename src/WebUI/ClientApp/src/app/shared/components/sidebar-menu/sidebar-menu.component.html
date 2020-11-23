@@ -32,6 +32,16 @@
     <li [routerLinkActive]="['link-active']">
       <a
         class="nav-link text-white"
+        [routerLink]="['/articles/toprated']"
+        (click)="menuItemClicked()"
+      >
+        <i class="fas fa-star"></i>
+        Top Rated</a
+      >
+    </li>
+    <li [routerLinkActive]="['link-active']">
+      <a
+        class="nav-link text-white"
         [routerLink]="['/articles/bookmarked']"
         (click)="menuItemClicked()"
       >

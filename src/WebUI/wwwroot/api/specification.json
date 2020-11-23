@@ -223,12 +223,12 @@
         ]
       }
     },
-    "/api/RssFeedItems/unread": {
+    "/api/RssFeedItems/bookmarked": {
       "get": {
         "tags": [
           "RssFeedItems"
         ],
-        "operationId": "RssFeedItems_GetUnread",
+        "operationId": "RssFeedItems_GetBookmarked",
         "responses": {
           "200": {
             "description": "",
@@ -248,12 +248,37 @@
         ]
       }
     },
-    "/api/RssFeedItems/bookmarked": {
+    "/api/RssFeedItems/topRated": {
       "get": {
         "tags": [
           "RssFeedItems"
         ],
-        "operationId": "RssFeedItems_GetBookmarked",
+        "operationId": "RssFeedItems_GetTopRated",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedItemsViewModel"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/RssFeedItems/unread": {
+      "get": {
+        "tags": [
+          "RssFeedItems"
+        ],
+        "operationId": "RssFeedItems_GetUnread",
         "responses": {
           "200": {
             "description": "",

@@ -77,7 +77,8 @@ namespace TechRSSReader.Application.UnitTests.Common
                 Categories = "physics",
                 CreatedBy = "00000000-0000-0000-0000-000000000000",
                 ExcludedByKeyword = false,
-                ReadAlready = false
+                ReadAlready = false, 
+                UserRatingPrediction = 4
             });
 
             context.RssFeedItems.Add(new RssFeedItem
@@ -89,7 +90,20 @@ namespace TechRSSReader.Application.UnitTests.Common
                 ExcludedByKeyword = true, 
                 UserRating = 1,
                 CreatedBy = "00000000-0000-0000-0000-000000000000",
-               ReadAlready = false
+                ReadAlready = false, 
+                UserRatingPrediction = 1
+            });
+
+            context.RssFeedItems.Add(new RssFeedItem
+            {
+                Id = 3,
+                Title = "Nothing in particular",
+                BlogId = 1,
+                Categories = "",
+                ExcludedByKeyword = false,
+                UserRating = 1,
+                CreatedBy = "00000000-0000-0000-0000-000000000000",
+                ReadAlready = true
             });
 
             context.Blogs.Add(new Blog

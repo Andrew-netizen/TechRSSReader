@@ -18,17 +18,26 @@ namespace TechRSSReader.WebUI.Controllers
             _logger = logger;
         }
 
-        [Route("unread")]
-        public async Task<FeedItemsViewModel> GetUnread()
-        {
-            return await Mediator.Send(new GetUnreadItemsQuery());
-
-        }
+       
 
         [Route("bookmarked")]
         public async Task<FeedItemsViewModel> GetBookmarked()
         {
             return await Mediator.Send(new GetBookmarkedItemsQuery());
+
+        }
+
+        [Route("topRated")]
+        public async Task<FeedItemsViewModel> GetTopRated()
+        {
+            return await Mediator.Send(new GetTopRatedFeedItemsQuery());
+        }
+
+
+        [Route("unread")]
+        public async Task<FeedItemsViewModel> GetUnread()
+        {
+            return await Mediator.Send(new GetUnreadItemsQuery());
 
         }
 

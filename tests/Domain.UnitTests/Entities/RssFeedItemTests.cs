@@ -1,4 +1,5 @@
 ﻿using Shouldly;
+using System;
 using TechRSSReader.Domain.Entities;
 using TechRSSReader.Domain.ValueObjects;
 using Xunit;
@@ -46,5 +47,34 @@ namespace Domain.UnitTests.Entities
             result.ShouldBeFalse();
         }
 
+        [Fact]
+        public void UserRatedDate()
+        {
+         
+            RssFeedItem target = new RssFeedItem();
+            target.UserRating = 1;
+            DateTime timeNow = DateTime.Now;
+            DateTime? result = target.UserRatedDate;
+            result.HasValue.ShouldBeTrue();
+            TimeSpan timeSpan = timeNow - result.Value;
+            Math.Abs(timeSpan.TotalSeconds).ShouldBeLessThan(1);
+            
+            
+        }
+
+        [Fact]
+        public void UserReadDate()
+        {
+
+            RssFeedItem target = new RssFeedItem();
+            target.ReadAlready = true; 
+            DateTime timeNow = DateTime.Now;
+            DateTime? result = target.UserReadDate;
+            result.HasValue.ShouldBeTrue();
+            TimeSpan timeSpan = timeNow - result.Value;
+            Math.Abs(timeSpan.TotalSeconds).ShouldBeLessThan(1);
+
+
+        }
     }
 }

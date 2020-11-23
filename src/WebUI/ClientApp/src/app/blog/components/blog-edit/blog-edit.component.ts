@@ -244,7 +244,10 @@ export class BlogEditComponent implements OnInit, OnDestroy {
 
   cancelEdit(): void {
     // Redirect back to the articles page.
-    this.router.navigate(['/articles', this.blog.id]);
+    if (this.blog.id > 0)
+      this.router.navigate(['/articles', this.blog.id]);
+    else
+      this.router.navigate(['/']);
   }
 
   deleteBlog(): void {

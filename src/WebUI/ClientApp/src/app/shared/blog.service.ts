@@ -30,6 +30,10 @@ export class BlogService {
     return this.feedItemsClient.getBookmarked();
   }
 
+  getTopRatedFeedItems(): Observable<FeedItemsViewModel> {
+    return this.feedItemsClient.getTopRated();
+  }
+
   getUnreadFeedItems(): Observable<FeedItemsViewModel> {
     return this.feedItemsClient.getUnread();
   }

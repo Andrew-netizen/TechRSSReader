@@ -10,6 +10,7 @@ import { FeeditemDisplayComponent } from "./components/feeditem-display/feeditem
 import { BlogListComponent } from "./components/blog-list/blog-list.component";
 import { PublishingDatePipe } from "./publishingdate.pipe";
 import { CategoriesPipe} from "./categories.pipe";
+import {CategoriesSpacePipe} from './categoriesSpace.pipe';
 import { NavMenuComponent } from "./components/nav-menu/nav-menu.component";
 import { StarComponent } from "./components/star/star.component";
 import { PaginatorComponent } from "./components/paginator/paginator.component";
@@ -18,11 +19,13 @@ import { SidebarMenuComponent } from "./components/sidebar-menu/sidebar-menu.com
 import { SettingsModalComponent } from "./components/settings-modal/settings-modal.component";
 import { RateFeeditemComponent } from "./components/rate-feeditem/rate-feeditem.component";
 import { NavSearchComponent } from './components/nav-search/nav-search.component';
+import { AutoFocusDirective } from './auto-focus.directive';
 
 @NgModule({
   declarations: [
     BlogListComponent,
     CategoriesPipe,
+    CategoriesSpacePipe,
     FeeditemDisplayComponent,
     NavMenuComponent,
     PublishingDatePipe,
@@ -32,6 +35,7 @@ import { NavSearchComponent } from './components/nav-search/nav-search.component
     SettingsModalComponent,
     RateFeeditemComponent,
     NavSearchComponent,
+    AutoFocusDirective,
   ],
   imports: [
     CommonModule,
@@ -43,6 +47,7 @@ import { NavSearchComponent } from './components/nav-search/nav-search.component
   exports: [
     BlogListComponent,
     CategoriesPipe,
+    CategoriesSpacePipe,
     FeeditemDisplayComponent,
     NavMenuComponent,
     PaginatorComponent,
