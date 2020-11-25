@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 // Fontawesome imports
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -15,12 +16,13 @@ import { FetchDataComponent } from "./fetch-data/fetch-data.component";
 import { ApiAuthorizationModule } from "src/api-authorization/api-authorization.module";
 import { AuthorizeGuard } from "src/api-authorization/authorize.guard";
 import { AuthorizeInterceptor } from "src/api-authorization/authorize.interceptor";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { BlogModule } from "./blog/blog.module";
 import { SharedModule } from "./shared/shared.module";
 import { ToastrModule } from "ngx-toastr";
 import { ArticlesModule } from "./articles/articles.module";
 import { TrainingService } from "./training/training.service";
+import { DashboardModule} from "./dashboard/dashboard.module";
 
 /* NgRx */
 import { StoreModule, MetaReducer, ActionReducerMap } from "@ngrx/store";
@@ -54,6 +56,7 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
+    DashboardModule,
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,

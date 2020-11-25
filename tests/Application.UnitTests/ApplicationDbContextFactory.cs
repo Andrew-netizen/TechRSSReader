@@ -121,6 +121,17 @@ namespace TechRSSReader.Application.UnitTests.Common
                 XmlAddress = "http://aws.amazon.com/rss/whats-new.rss",
                 CreatedBy = "00000000-0000-0000-0000-000000000000"
             });
+
+            context.WeeklyBlogSummaries.Add(new WeeklyBlogSummary
+            {
+                BlogId = 1,
+                WeekBegins = new DateTime(2020, 11, 16),
+                NewItems = 5,
+                ItemsRead = 6,
+                ItemsExcluded = 3,
+                ItemsRatedAtLeastThree = 3
+            });
+
             context.SaveChanges();
         }
 

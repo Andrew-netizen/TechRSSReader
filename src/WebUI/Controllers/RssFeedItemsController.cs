@@ -12,14 +12,6 @@ namespace TechRSSReader.WebUI.Controllers
     public class RssFeedItemsController: ApiController
     {
 
-        private readonly ILogger<RssFeedItemsController> _logger;
-        public RssFeedItemsController(ILogger<RssFeedItemsController> logger)
-        {
-            _logger = logger;
-        }
-
-       
-
         [Route("bookmarked")]
         public async Task<FeedItemsViewModel> GetBookmarked()
         {

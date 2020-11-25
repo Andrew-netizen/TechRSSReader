@@ -22,8 +22,10 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
         [Fact]
         public async Task Handle_LoadSlashdot()
         {
-            KeywordToExclude keywordToExclude = new KeywordToExclude();
-            keywordToExclude.Keyword = "privacy";
+            KeywordToExclude keywordToExclude = new KeywordToExclude
+            {
+                Keyword = "privacy"
+            };
             Blog slashdot = new Blog { Title = "Slashot", XmlAddress= "http://rss.slashdot.org/Slashdot/slashdotMain", CreatedBy = CurrentUserService.UserId };
             slashdot.KeywordsToExclude.Add(keywordToExclude);
             Context.Blogs.Add(slashdot);

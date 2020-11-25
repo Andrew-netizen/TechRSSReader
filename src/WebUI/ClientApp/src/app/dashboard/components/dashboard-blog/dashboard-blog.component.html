@@ -1,0 +1,29 @@
+<div class="card">
+  <div class="card-header p-1">
+    <h4>{{ blogTitle }}</h4>
+  </div>
+  <div class="card-body">
+    <h6 class="m-2">This week</h6>
+    <ngx-charts-number-card
+      [view]="cardView"
+      [scheme]="colorSchemeSecondRow"
+      [results]="thisWeekData"
+      [cardColor]="cardColor"
+    >
+    </ngx-charts-number-card>
+    <ngx-charts-line-chart
+      [view]="lineChartView"
+      [scheme]="colorSchemeSecondRow"
+      [legend]="legend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxis]="xAxis"
+      [yAxis]="yAxis"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [timeline]="timeline"
+      [results]="multiWeekData"
+    >
+    </ngx-charts-line-chart>
+  </div>
+</div>

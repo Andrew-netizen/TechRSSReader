@@ -1,4 +1,4 @@
-import { BlogDto, RssFeedItemDto } from "../../TechRSSReader-api";
+import { BlogDto, RssFeedItemDto, WeeklyBlogSummaryDto } from "../../TechRSSReader-api";
 
 /* NgRx */
 import { createFeatureSelector, createSelector } from "@ngrx/store";
@@ -20,8 +20,10 @@ export interface BlogState {
   error: string;
   feedItemSource: FeedItemSource;
   feedItems: RssFeedItemDto[];
+  isLoading: boolean;
   retrievedFeedItemCount: number | null;
   sidebarMenuCollapsed: boolean;
+  weeklyBlogSummaries: WeeklyBlogSummaryDto[];
 }
 
 const initialState: BlogState = {
@@ -32,8 +34,10 @@ const initialState: BlogState = {
   error: "",
   feedItemSource: FeedItemSource.Null,
   feedItems: [],
+  isLoading: false,
   retrievedFeedItemCount: null,
   sidebarMenuCollapsed: true,
+  weeklyBlogSummaries: []
 };
 
 // Selector functions

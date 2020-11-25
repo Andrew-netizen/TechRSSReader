@@ -27,14 +27,15 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogs
 
             public async Task<BlogsViewModel> Handle(GetBlogsQuery request, CancellationToken cancellationToken)
             {
-                var viewModel = new BlogsViewModel();
-
-                viewModel.Blogs = await _context.Blogs
+                BlogsViewModel viewModel = new BlogsViewModel
+                {
+                    Blogs = await _context.Blogs
                     .Where(blog => blog.CreatedBy == _currentUserService.UserId)
                     .ProjectTo<BlogDto>(_mapper.ConfigurationProvider)
                     .OrderBy(t => t.Title)
                     .AsNoTracking()
-                    .ToListAsync(cancellationToken);
+                    .ToListAsync(cancellationToken)
+                };
 
                 return viewModel;
             }

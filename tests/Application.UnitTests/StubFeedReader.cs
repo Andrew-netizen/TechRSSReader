@@ -24,8 +24,7 @@ namespace TechRSSReader.Application.UnitTests
         {
             FeedReadResult result = new FeedReadResult();
 
-            string rssContentFile = string.Empty; 
-
+            string rssContentFile;
             if (uri.Contains("aws", StringComparison.OrdinalIgnoreCase))
             {
                 rssContentFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\aws-2020-09-14.xml";

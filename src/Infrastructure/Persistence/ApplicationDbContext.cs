@@ -35,6 +35,8 @@ namespace TechRSSReader.Infrastructure.Persistence
 
         public DbSet<RssFeedItem> RssFeedItems { get; set; }
 
+        public DbSet<WeeklyBlogSummary> WeeklyBlogSummaries { get; set; }
+        
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();

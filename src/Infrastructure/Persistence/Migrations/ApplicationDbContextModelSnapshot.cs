@@ -444,6 +444,38 @@ namespace TechRSSReader.Infrastructure.Persistence.Migrations
                     b.ToTable("TodoLists");
                 });
 
+            modelBuilder.Entity("TechRSSReader.Domain.Entities.WeeklyBlogSummary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemsExcluded")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemsRatedAtLeastThree")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemsRead")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NewItems")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("WeekBegins")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("WeeklyBlogSummaries");
+                });
+
             modelBuilder.Entity("TechRSSReader.Infrastructure.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -621,6 +653,17 @@ namespace TechRSSReader.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("List");
+                });
+
+            modelBuilder.Entity("TechRSSReader.Domain.Entities.WeeklyBlogSummary", b =>
+                {
+                    b.HasOne("TechRSSReader.Domain.Entities.Blog", "Blog")
+                        .WithMany()
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
                 });
 
             modelBuilder.Entity("TechRSSReader.Domain.Entities.Blog", b =>

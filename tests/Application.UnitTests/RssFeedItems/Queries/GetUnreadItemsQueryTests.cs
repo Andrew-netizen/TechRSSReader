@@ -38,7 +38,8 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Queries
 
             result.ShouldBeOfType<FeedItemsViewModel>();
 
-            result.RssFeedItems.Count.ShouldBe(2);
+            // Exclude items that are read, and items that have been Excluded by Keyword.
+            result.RssFeedItems.Count.ShouldBe(1);
             foreach (var item in result.RssFeedItems)
             {
                 item.ReadAlready.ShouldBeFalse();

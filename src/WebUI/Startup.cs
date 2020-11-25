@@ -101,8 +101,8 @@ namespace TechRSSReader.WebUI
                 {
 
                     scheduler.ScheduleWithParams<GetNewRssFeedItemsService>(provider)
-                    .EveryTenMinutes()
-                    .PreventOverlapping("GetNewRssFeedItemsService");
+                        .EveryTenMinutes()
+                        .PreventOverlapping("GetNewRssFeedItemsService");
 
                     scheduler.ScheduleWithParams<UpdateUserInterestModelService>(provider)
                       .EveryTenMinutes()
@@ -111,6 +111,10 @@ namespace TechRSSReader.WebUI
                     scheduler.ScheduleWithParams<GetAllBlogsService>(provider)
                        .EveryMinute()
                        .PreventOverlapping("GetAllBlogsService");
+
+                    scheduler.ScheduleWithParams<WeeklyBlogSummariesService>(provider)
+                        .EveryTenMinutes()
+                        .PreventOverlapping("WeeklyBlogSummariesService");
 
                 }).OnError((exception) =>
                 {
@@ -133,12 +137,16 @@ namespace TechRSSReader.WebUI
                         .PreventOverlapping("GetNewRssFeedItemsService");
 
                     scheduler.ScheduleWithParams<UpdateUserInterestModelService>(provider)
-                        .Hourly()
+                        .DailyAtHour(4)
                         .PreventOverlapping("UpdateUserInterestModelService");
 
                     scheduler.ScheduleWithParams<GetAllBlogsService>(provider)
                         .EveryMinute()
                         .PreventOverlapping("GetAllBlogsService");
+
+                    scheduler.ScheduleWithParams<WeeklyBlogSummariesService>(provider)
+                        .DailyAtHour(2)
+                        .PreventOverlapping("WeeklyBlogSummariesService");
 
                 }).OnError((exception) =>
                 {

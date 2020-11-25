@@ -12,11 +12,11 @@ namespace TechRSSReaderML.ConsoleApp
 {
     public static class ModelBuilder
     {
-        private static string MODEL_FILE = ConsumeModel.MLNetModelPath;
+        private static readonly string MODEL_FILE = ConsumeModel.MLNetModelPath;
 
         // Create MLContext to be shared across the model creation workflow objects 
         // Set a random seed for repeatable/deterministic results across multiple trainings.
-        private static MLContext mlContext = new MLContext(seed: 1);
+        private static readonly MLContext mlContext = new MLContext(seed: 1);
 
         public static void CreateModel(string filePath)
         {

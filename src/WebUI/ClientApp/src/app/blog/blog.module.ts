@@ -15,7 +15,6 @@ import { BlogEffects } from "./state/blog.effects";
 
 import {BlogService} from '../shared/blog.service';
 import { BlogEditComponent } from './components/blog-edit/blog-edit.component';
-import { BlogAddComponent } from './components/blog-add/blog-add.component';
 
 const blogRoutes: Routes = [
   {
@@ -37,7 +36,7 @@ const blogRoutes: Routes = [
     EffectsModule.forFeature([BlogEffects]),
   ],
   exports: [],
-  declarations: [BlogShellComponent, BlogEditComponent, BlogAddComponent],
+  declarations: [BlogShellComponent, BlogEditComponent],
   providers: [BlogService],
 })
 export class BlogModule {}

@@ -26,9 +26,11 @@ namespace TechRSSReader.Infrastructure.IntegrationTests.FeedReader
         public async Task QuerySlashdot()
         {
 
-            Blog slashdot = new Blog();
-            slashdot.XmlAddress = "http://rss.slashdot.org/Slashdot/slashdotMain";
-            slashdot.Title = "Slashdot";
+            Blog slashdot = new Blog
+            {
+                XmlAddress = "http://rss.slashdot.org/Slashdot/slashdotMain",
+                Title = "Slashdot"
+            };
 
             RssFeedReader target = new RssFeedReader(_fixture.Mapper);
             FeedReadResult result = await target.ReadAsync(slashdot.XmlAddress, CancellationToken.None);

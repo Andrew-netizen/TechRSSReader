@@ -22,24 +22,24 @@ namespace TechRSSReader.Infrastructure.IntegrationTests.Files
         public void SaveCsvFile()
         {
             CsvFileBuilder target = new CsvFileBuilder(_fixture.Mapper);
-            List<RssFeedItem> input = new List<RssFeedItem>();
-            input.Add(SampleData());
+            List<RssFeedItem> input = new List<RssFeedItem>
+            {
+                SampleData()
+            };
             string fileName = Path.GetTempPath() + Guid.NewGuid().ToString() + ".tsv";
             
             try
             {
                 target.CreateModelDataFile(input, fileName);
                 File.Exists(fileName).ShouldBeTrue();
-                using (StreamReader tsvFileStream = new StreamReader(fileName))
-                {
-                    string headingLine = tsvFileStream.ReadLine();
-                    headingLine.ShouldNotBeNull();
-                    string[] headingColumns = headingLine.Split('\t');
-                    headingColumns[0].ShouldBe("Id");
-                    headingColumns[1].ShouldBe("CreatedBy");
-                    string dataLine = tsvFileStream.ReadLine();
-                    dataLine.ShouldNotBeNull();
-                }
+                using StreamReader tsvFileStream = new StreamReader(fileName);
+                string headingLine = tsvFileStream.ReadLine();
+                headingLine.ShouldNotBeNull();
+                string[] headingColumns = headingLine.Split('\t');
+                headingColumns[0].ShouldBe("Id");
+                headingColumns[1].ShouldBe("CreatedBy");
+                string dataLine = tsvFileStream.ReadLine();
+                dataLine.ShouldNotBeNull();
 
             }
             finally
@@ -52,7 +52,7 @@ namespace TechRSSReader.Infrastructure.IntegrationTests.Files
 
         }
 
-        private RssFeedItem SampleData()
+        private static RssFeedItem SampleData()
         {
             return new RssFeedItem()
             {

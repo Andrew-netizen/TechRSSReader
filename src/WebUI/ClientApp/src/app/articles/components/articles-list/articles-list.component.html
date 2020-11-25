@@ -8,7 +8,9 @@
         class="col text-right"
         *ngIf="feedItemSource === FeedItemSourceEnum.Blog && selectedBlog"
       >
-        <app-blog-editbutton [blog]="selectedBlog"></app-blog-editbutton>
+      <app-blog-statsbutton  [blog]="selectedBlog"></app-blog-statsbutton>
+      <app-blog-editbutton [blog]="selectedBlog"></app-blog-editbutton>
+
       </div>
     </div>
   </div>

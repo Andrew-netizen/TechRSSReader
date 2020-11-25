@@ -6,8 +6,6 @@ import { ReactiveFormsModule } from "@angular/forms";
 
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
-import { FeeditemDisplayComponent } from "./components/feeditem-display/feeditem-display.component";
-import { BlogListComponent } from "./components/blog-list/blog-list.component";
 import { PublishingDatePipe } from "./publishingdate.pipe";
 import { CategoriesPipe} from "./categories.pipe";
 import {CategoriesSpacePipe} from './categoriesSpace.pipe';
@@ -23,10 +21,8 @@ import { AutoFocusDirective } from './auto-focus.directive';
 
 @NgModule({
   declarations: [
-    BlogListComponent,
     CategoriesPipe,
     CategoriesSpacePipe,
-    FeeditemDisplayComponent,
     NavMenuComponent,
     PublishingDatePipe,
     StarComponent,
@@ -45,13 +41,12 @@ import { AutoFocusDirective } from './auto-focus.directive';
     ReactiveFormsModule,
   ],
   exports: [
-    BlogListComponent,
     CategoriesPipe,
     CategoriesSpacePipe,
-    FeeditemDisplayComponent,
     NavMenuComponent,
     PaginatorComponent,
     PublishingDatePipe,
+    RateFeeditemComponent,
     StarComponent,
     SidebarMenuComponent,
   ],

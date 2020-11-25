@@ -766,6 +766,43 @@
           }
         ]
       }
+    },
+    "/api/WeeklyBlogSummaries/{id}": {
+      "get": {
+        "tags": [
+          "WeeklyBlogSummaries"
+        ],
+        "operationId": "WeeklyBlogSummaries_GetLatest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeeklyBlogSummaryViewModel"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1235,6 +1272,53 @@
           "summary": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "WeeklyBlogSummaryViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "weeklyBlogSummaries": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/WeeklyBlogSummaryDto"
+            }
+          }
+        }
+      },
+      "WeeklyBlogSummaryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "blogId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "itemsExcluded": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "itemsRatedAtLeastThree": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "itemsRead": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "newItems": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "weekBegins": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       }

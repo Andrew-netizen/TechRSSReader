@@ -1191,6 +1191,75 @@ export class WeatherForecastClient implements IWeatherForecastClient {
     }
 }
 
+export interface IWeeklyBlogSummariesClient {
+    getLatest(id: number): Observable<WeeklyBlogSummaryViewModel>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class WeeklyBlogSummariesClient implements IWeeklyBlogSummariesClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    getLatest(id: number): Observable<WeeklyBlogSummaryViewModel> {
+        let url_ = this.baseUrl + "/api/WeeklyBlogSummaries/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLatest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLatest(<any>response_);
+                } catch (e) {
+                    return <Observable<WeeklyBlogSummaryViewModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WeeklyBlogSummaryViewModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLatest(response: HttpResponseBase): Observable<WeeklyBlogSummaryViewModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = WeeklyBlogSummaryViewModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WeeklyBlogSummaryViewModel>(<any>null);
+    }
+}
+
 export class BlogsViewModel implements IBlogsViewModel {
     blogs?: BlogDto[] | undefined;
 
@@ -2221,6 +2290,110 @@ export interface IWeatherForecast {
     temperatureC?: number;
     temperatureF?: number;
     summary?: string | undefined;
+}
+
+export class WeeklyBlogSummaryViewModel implements IWeeklyBlogSummaryViewModel {
+    weeklyBlogSummaries?: WeeklyBlogSummaryDto[] | undefined;
+
+    constructor(data?: IWeeklyBlogSummaryViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["weeklyBlogSummaries"])) {
+                this.weeklyBlogSummaries = [] as any;
+                for (let item of _data["weeklyBlogSummaries"])
+                    this.weeklyBlogSummaries!.push(WeeklyBlogSummaryDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): WeeklyBlogSummaryViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new WeeklyBlogSummaryViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.weeklyBlogSummaries)) {
+            data["weeklyBlogSummaries"] = [];
+            for (let item of this.weeklyBlogSummaries)
+                data["weeklyBlogSummaries"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IWeeklyBlogSummaryViewModel {
+    weeklyBlogSummaries?: WeeklyBlogSummaryDto[] | undefined;
+}
+
+export class WeeklyBlogSummaryDto implements IWeeklyBlogSummaryDto {
+    id?: number;
+    blogId?: number;
+    itemsExcluded?: number;
+    itemsRatedAtLeastThree?: number;
+    itemsRead?: number;
+    newItems?: number;
+    weekBegins?: Date;
+
+    constructor(data?: IWeeklyBlogSummaryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.blogId = _data["blogId"];
+            this.itemsExcluded = _data["itemsExcluded"];
+            this.itemsRatedAtLeastThree = _data["itemsRatedAtLeastThree"];
+            this.itemsRead = _data["itemsRead"];
+            this.newItems = _data["newItems"];
+            this.weekBegins = _data["weekBegins"] ? new Date(_data["weekBegins"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): WeeklyBlogSummaryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WeeklyBlogSummaryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["blogId"] = this.blogId;
+        data["itemsExcluded"] = this.itemsExcluded;
+        data["itemsRatedAtLeastThree"] = this.itemsRatedAtLeastThree;
+        data["itemsRead"] = this.itemsRead;
+        data["newItems"] = this.newItems;
+        data["weekBegins"] = this.weekBegins ? this.weekBegins.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IWeeklyBlogSummaryDto {
+    id?: number;
+    blogId?: number;
+    itemsExcluded?: number;
+    itemsRatedAtLeastThree?: number;
+    itemsRead?: number;
+    newItems?: number;
+    weekBegins?: Date;
 }
 
 export interface FileResponse {

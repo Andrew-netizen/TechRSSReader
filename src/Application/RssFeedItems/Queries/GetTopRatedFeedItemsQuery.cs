@@ -29,21 +29,27 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
             }
             public async Task<FeedItemsViewModel> Handle(GetTopRatedFeedItemsQuery request, CancellationToken cancellationToken)
             {
-                var viewModel = new FeedItemsViewModel();
+                FeedItemsViewModel result = new FeedItemsViewModel();
 
-                viewModel.RssFeedItems = await _context.RssFeedItems
+                IList<RssFeedItem> rssFeedItems = await _context.RssFeedItems
                     .Include(item => item.Blog)
                     .Where(item => !item.ReadAlready)
                     .Where(item => (item.ExcludedByKeyword.HasValue && !item.ExcludedByKeyword.Value))
                     .Where(item => item.UserRatingPrediction.HasValue)
                     .Where(item => item.CreatedBy.Equals(_currentUserService.UserId))
-                    .ProjectTo<RssFeedItemDto>(_mapper.ConfigurationProvider)
                     .OrderByDescending(item => item.UserRatingPrediction)
                     .Take(50)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken);
-                
-                return viewModel;
+
+                foreach (RssFeedItem feedItem in rssFeedItems)
+                {
+                    RssFeedItemDto feedItemDto = _mapper.Map<RssFeedItemDto>(feedItem);
+                    feedItemDto.BlogTitle = feedItem.Blog.Title;
+                    result.RssFeedItems.Add(feedItemDto);
+                }
+
+                return result;
             }
         }
     }

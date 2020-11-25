@@ -15,6 +15,8 @@ namespace TechRSSReader.Application.Common.Interfaces
         
         DbSet<RssFeedItem> RssFeedItems { get; set; }
 
+        DbSet<WeeklyBlogSummary> WeeklyBlogSummaries { get; set; }
+
         Task<int> SaveChangesAsync(string userId, CancellationToken cancellationToken);
     }
 }

@@ -40,6 +40,7 @@ namespace TechRSSReader.Application.UnitTests.Common
         public void Dispose()
         {
             ApplicationDbContextFactory.Destroy(Context);
+            GC.SuppressFinalize(this);
         }
     }
 }

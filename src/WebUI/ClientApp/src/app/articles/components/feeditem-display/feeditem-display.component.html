@@ -54,18 +54,18 @@
       </div>
       <div class="ml-auto">
         <div class="float-right d-inline-flex">
-          <button
-            class="btn btn-secondary btn-sm mx-2"
-            *ngIf="!feedItem.readAlready"
-            (click)="markAsReadClicked(feedItem)"
-          >
-            Mark as Read
-          </button>
           <app-rate-feeditem
             [currentFeedItem]="feedItem"
             (userRegisteredInterest)="updateUserInterest($event)"
           >
           </app-rate-feeditem>
+          <button
+            class="btn btn-secondary btn-sm"
+            *ngIf="!feedItem.readAlready"
+            (click)="markAsReadClicked(feedItem)"
+          >
+            Mark as Read
+          </button>
         </div>
       </div>
     </div>

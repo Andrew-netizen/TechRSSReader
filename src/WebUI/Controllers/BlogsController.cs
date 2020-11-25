@@ -44,8 +44,7 @@ namespace TechRSSReader.WebUI.Controllers
         [HttpGet("{id}")]
         public async Task<BlogDetailsDto> Get(int id)
         {
-            BlogDetailsDto blogDto = null; 
-
+            BlogDetailsDto blogDto;
             try
             {
                 blogDto = await Mediator.Send(new GetBlogWithItemsQuery { Id = id });

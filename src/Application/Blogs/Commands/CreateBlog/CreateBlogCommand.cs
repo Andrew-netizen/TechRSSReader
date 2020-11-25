@@ -40,9 +40,11 @@ namespace TechRSSReader.Application.Blogs.Commands.CreateBlog
 
             public async Task<BlogDto> Handle(CreateBlogCommand request, CancellationToken cancellationToken)
             {
-                Blog blog = new Blog();
-                blog.Title = request.Title;
-                blog.XmlAddress = request.XmlAddress;
+                Blog blog = new Blog
+                {
+                    Title = request.Title,
+                    XmlAddress = request.XmlAddress
+                };
 
                 foreach (KeywordToExcludeDto keywordToExclude in request.KeywordsToExclude)
                 {
