@@ -137,7 +137,7 @@ namespace TechRSSReader.WebUI
                         .PreventOverlapping("GetNewRssFeedItemsService");
 
                     scheduler.ScheduleWithParams<UpdateUserInterestModelService>(provider)
-                        .DailyAtHour(4)
+                        .DailyAtHour(16)
                         .PreventOverlapping("UpdateUserInterestModelService");
 
                     scheduler.ScheduleWithParams<GetAllBlogsService>(provider)
@@ -145,7 +145,7 @@ namespace TechRSSReader.WebUI
                         .PreventOverlapping("GetAllBlogsService");
 
                     scheduler.ScheduleWithParams<WeeklyBlogSummariesService>(provider)
-                        .DailyAtHour(2)
+                        .DailyAtHour(17)
                         .PreventOverlapping("WeeklyBlogSummariesService");
 
                 }).OnError((exception) =>
