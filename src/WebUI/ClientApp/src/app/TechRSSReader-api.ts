@@ -2343,6 +2343,7 @@ export class WeeklyBlogSummaryDto implements IWeeklyBlogSummaryDto {
     itemsRatedAtLeastThree?: number;
     itemsRead?: number;
     newItems?: number;
+    newNotExcluded?: number;
     weekBegins?: Date;
 
     constructor(data?: IWeeklyBlogSummaryDto) {
@@ -2362,6 +2363,7 @@ export class WeeklyBlogSummaryDto implements IWeeklyBlogSummaryDto {
             this.itemsRatedAtLeastThree = _data["itemsRatedAtLeastThree"];
             this.itemsRead = _data["itemsRead"];
             this.newItems = _data["newItems"];
+            this.newNotExcluded = _data["newNotExcluded"];
             this.weekBegins = _data["weekBegins"] ? new Date(_data["weekBegins"].toString()) : <any>undefined;
         }
     }
@@ -2381,6 +2383,7 @@ export class WeeklyBlogSummaryDto implements IWeeklyBlogSummaryDto {
         data["itemsRatedAtLeastThree"] = this.itemsRatedAtLeastThree;
         data["itemsRead"] = this.itemsRead;
         data["newItems"] = this.newItems;
+        data["newNotExcluded"] = this.newNotExcluded;
         data["weekBegins"] = this.weekBegins ? this.weekBegins.toISOString() : <any>undefined;
         return data; 
     }
@@ -2393,6 +2396,7 @@ export interface IWeeklyBlogSummaryDto {
     itemsRatedAtLeastThree?: number;
     itemsRead?: number;
     newItems?: number;
+    newNotExcluded?: number;
     weekBegins?: Date;
 }
 

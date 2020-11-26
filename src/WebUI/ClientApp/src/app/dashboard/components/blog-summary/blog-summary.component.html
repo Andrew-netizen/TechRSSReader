@@ -1,0 +1,17 @@
+<div class="card" *ngIf="selectedBlog">
+  <div class="card-header p-1">
+    <h4>{{ selectedBlog.title }}</h4>
+  </div>
+  <div class="card-body">
+    <h6 class="m-2">This week</h6>
+    <!-- <ngx-charts-number-card
+      [view]="cardView"
+      [scheme]="colorSchemeSecondRow"
+      [results]="thisWeekData"
+      [cardColor]="cardColor"
+    >
+    </ngx-charts-number-card> -->
+    <app-blog-card-thisweek [latestCardData]="latestCardData">
+    </app-blog-card-thisweek>
+  </div>
+</div>

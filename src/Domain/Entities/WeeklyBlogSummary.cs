@@ -19,6 +19,13 @@ namespace TechRSSReader.Domain.Entities
 
         public int NewItems { get; set; }
 
+        public int NewNotExcluded { 
+            get
+            {
+                return NewItems - ItemsExcluded;
+            }
+        }
+
         public int ItemsRead { get; set; }
 
         public DateTime WeekBegins { get; set; }

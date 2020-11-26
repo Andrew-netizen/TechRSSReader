@@ -4,15 +4,22 @@ import {
   BlogDetailsDto,
   BlogDto,
   UpdateBlogCommand,
-  CreateBlogCommand, RssFeedItemDto, RssFeedItemsClient, FeedItemsViewModel
+  CreateBlogCommand,
+  RssFeedItemsClient,
+  FeedItemsViewModel,
+  WeeklyBlogSummaryViewModel,
+  WeeklyBlogSummariesClient,
 } from "../TechRSSReader-api";
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 
 @Injectable()
 export class BlogService {
-  constructor(private blogsClient: BlogsClient,
-            private feedItemsClient: RssFeedItemsClient) {}
+  constructor(
+    private blogsClient: BlogsClient,
+    private feedItemsClient: RssFeedItemsClient,
+    private weeklyBlogSummariesClient: WeeklyBlogSummariesClient
+  ) {}
 
   getBlogs(): Observable<BlogDto[]> {
     return this.blogsClient.get().pipe(map((data) => data.blogs));
@@ -38,7 +45,13 @@ export class BlogService {
     return this.feedItemsClient.getUnread();
   }
 
-  createBlog(blog:BlogDto): Observable<BlogDto> {
+  getWeeklyBlogSummaries(
+    blogId: number
+  ): Observable<WeeklyBlogSummaryViewModel> {
+    return this.weeklyBlogSummariesClient.getLatest(blogId);
+  }
+
+  createBlog(blog: BlogDto): Observable<BlogDto> {
     const command: CreateBlogCommand = CreateBlogCommand.fromJS(blog);
     return this.blogsClient.create(command);
   }

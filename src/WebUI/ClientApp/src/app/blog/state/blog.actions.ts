@@ -1,4 +1,4 @@
-import { BlogDetailsDto, BlogDto, FeedItemsViewModel, RssFeedItemDto, UpdateFeedItemCommand } from '../../TechRSSReader-api';
+import { BlogDetailsDto, BlogDto, FeedItemsViewModel, RssFeedItemDto, UpdateFeedItemCommand, WeeklyBlogSummaryViewModel } from '../../TechRSSReader-api';
 
 /* NgRx */
 import { Action } from '@ngrx/store';
@@ -29,6 +29,9 @@ export enum BlogActionTypes {
   LoadUnreadFeedItems = '[Articles GUI] Load Unread Feed Items',
   LoadUnreadFeedItemsFail = '[Blog API] Load Unread Feed Items Fail',
   LoadUnreadFeedItemsSuccess = '[Blog API] Load Unread Feed Items Success',
+  LoadWeeklyBlogSummaries = '[Dashboard GUI] Load Weekly Blog Summaries',
+  LoadWeeklyBlogSummariesFail = '[Blog API] Load Weekly Blog Summaries Fail',
+  LoadWeeklyBlogSummariesSuccess = '[Blog API] Load Weekly Blog Summaries Success',
   MarkItemAsRead = '[Articles GUI] Mark Item As Read',
   MarkItemAsReadFail = '[Blog API] Mark Item As Read Fail',
   MarkItemAsReadSuccess = '[Blog API] Mark Item As Read Success',
@@ -169,6 +172,21 @@ export class LoadUnreadFeedItemsSuccess implements Action {
 }
 
 
+export class LoadWeeklyBlogSummaries implements Action {
+  readonly type = BlogActionTypes.LoadWeeklyBlogSummaries;
+  constructor(public payload: number) {}
+}
+
+export class LoadWeeklyBlogSummariesFail implements Action {
+  readonly type = BlogActionTypes.LoadWeeklyBlogSummariesFail;
+  constructor(public payload: string) {}
+}
+
+export class LoadWeeklyBlogSummariesSuccess implements Action {
+  readonly type = BlogActionTypes.LoadWeeklyBlogSummariesSuccess;
+  constructor(public payload: WeeklyBlogSummaryViewModel) {}
+}
+
 export class MarkItemAsRead implements Action {
   readonly type = BlogActionTypes.MarkItemAsRead;
   constructor(public payload: UpdateFeedItemCommand) {}
@@ -297,6 +315,9 @@ export type BlogActions = ClearBlogs
 | LoadUnreadFeedItems
 | LoadUnreadFeedItemsFail
 | LoadUnreadFeedItemsSuccess
+| LoadWeeklyBlogSummaries
+| LoadWeeklyBlogSummariesFail
+| LoadWeeklyBlogSummariesSuccess
 | MarkItemAsRead
 | MarkItemAsReadFail
 | MarkItemAsReadSuccess

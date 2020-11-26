@@ -13,7 +13,8 @@ import { AuthorizeGuard } from "src/api-authorization/authorize.guard";
 import { DashboardBlogComponent } from "./components/dashboard-blog/dashboard-blog.component";
 import { DashboardShellComponent } from "./containers/dashboard-shell/dashboard-shell.component";
 import { BlogstatsShellComponent } from './containers/blogstats-shell/blogstats-shell.component';
-
+import { BlogCardThisweekComponent } from './components/blog-card-thisweek/blog-card-thisweek.component';
+import { BlogSummaryComponent } from './components/blog-summary/blog-summary.component';
 const dashboardRoutes: Routes = [
   {
     path: "dashboard",
@@ -29,7 +30,7 @@ const dashboardRoutes: Routes = [
 
 
 @NgModule({
-  declarations: [DashboardBlogComponent, DashboardShellComponent, BlogstatsShellComponent],
+  declarations: [DashboardBlogComponent, DashboardShellComponent, BlogstatsShellComponent, BlogCardThisweekComponent, BlogSummaryComponent],
   imports: [
     BrowserAnimationsModule,
     CommonModule,

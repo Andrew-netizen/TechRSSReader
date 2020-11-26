@@ -97,6 +97,24 @@ export class BlogEffects {
     )
   );
 
+  loadWeeklyBlogSummaries$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.LoadWeeklyBlogSummaries),
+      map((action: blogActions.LoadWeeklyBlogSummaries) => action.payload),
+      mergeMap((blogId: number) =>
+        this.blogService.getWeeklyBlogSummaries(blogId).pipe(
+          map(
+            (viewModel) =>
+              new blogActions.LoadWeeklyBlogSummariesSuccess(viewModel)
+          ),
+          catchError((error) =>
+            of(new blogActions.LoadWeeklyBlogSummariesFail(error))
+          )
+        )
+      )
+    )
+  );
+
   markItemAsRead$ = createEffect(() =>
     this.actions$.pipe(
       ofType(blogActions.BlogActionTypes.MarkItemAsRead),

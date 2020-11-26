@@ -18,6 +18,8 @@ namespace TechRSSReader.Application.WeeklyBlogSummaries.Queries
 
         public int NewItems { get; set; }
 
+        public int NewNotExcluded { get; set; }
+
         public DateTime WeekBegins { get; set; }
     }
 }

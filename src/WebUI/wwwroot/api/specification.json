@@ -1316,6 +1316,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "newNotExcluded": {
+            "type": "integer",
+            "format": "int32"
+          },
           "weekBegins": {
             "type": "string",
             "format": "date-time"

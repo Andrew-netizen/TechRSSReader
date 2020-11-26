@@ -140,6 +140,11 @@ export const getCurrentFeedItem = createSelector(
   }
 );
 
+export const getWeeklyBlogSummaries = createSelector(
+  getBlogFeatureState,
+  (state) => state.weeklyBlogSummaries
+);
+
 export function reducer(state = initialState, action: BlogActions): BlogState {
   switch (action.type) {
     case BlogActionTypes.ClearBlogs:
@@ -216,7 +221,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         retrievedFeedItemCount: null,
         feedItems: [],
         error: "",
-        isLoading: false
+        isLoading: false,
       };
 
     case BlogActionTypes.InitializeCurrentBlog:
@@ -368,6 +373,27 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         isLoading: false,
       };
 
+    case BlogActionTypes.LoadWeeklyBlogSummaries:
+      return {
+        ...state,
+        weeklyBlogSummaries: [],
+        isLoading: true,
+      };
+
+    case BlogActionTypes.LoadWeeklyBlogSummariesFail:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      };
+
+    case BlogActionTypes.LoadWeeklyBlogSummariesSuccess:
+      return {
+        ...state,
+        weeklyBlogSummaries: action.payload.weeklyBlogSummaries,
+        isLoading: false,
+      };
+
     case BlogActionTypes.MarkItemAsReadFail:
       return {
         ...state,
@@ -460,7 +486,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
     case BlogActionTypes.UpdateBlog:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
 
     case BlogActionTypes.UpdateBlogSuccess:
@@ -472,14 +498,14 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         blogs: updatedBlogs,
         currentBlogId: action.payload.id,
         error: "",
-        isLoading: false
+        isLoading: false,
       };
 
     case BlogActionTypes.UpdateBlogFail:
       return {
         ...state,
         error: action.payload,
-        isLoading: false
+        isLoading: false,
       };
 
     case BlogActionTypes.UpdateUserInterestFail:
