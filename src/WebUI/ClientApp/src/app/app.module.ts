@@ -34,6 +34,7 @@ import { State } from "./state/app.state";
 import * as articlesReducer from './articles/state/articles.reducer';
 import * as blogReducer from "./blog/state/blog.reducer";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 export const reducers: ActionReducerMap<State> = {
@@ -83,6 +84,7 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
     }),
     EffectsModule.forRoot([]),
     NgbModule,
+    NgxSpinnerModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

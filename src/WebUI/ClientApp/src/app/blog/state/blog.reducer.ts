@@ -1,4 +1,8 @@
-import { BlogDto, RssFeedItemDto, WeeklyBlogSummaryDto } from "../../TechRSSReader-api";
+import {
+  BlogDto,
+  RssFeedItemDto,
+  WeeklyBlogSummaryDto,
+} from "../../TechRSSReader-api";
 
 /* NgRx */
 import { createFeatureSelector, createSelector } from "@ngrx/store";
@@ -37,7 +41,7 @@ const initialState: BlogState = {
   isLoading: false,
   retrievedFeedItemCount: null,
   sidebarMenuCollapsed: true,
-  weeklyBlogSummaries: []
+  weeklyBlogSummaries: [],
 };
 
 // Selector functions
@@ -106,6 +110,11 @@ export const getFeedItemSectionTitle = createSelector(
   }
 );
 
+export const getIsLoading = createSelector(
+  getBlogFeatureState,
+  (state) => state.isLoading
+);
+
 export const getRetrievedFeedItemCount = createSelector(
   getBlogFeatureState,
   (state) => state.retrievedFeedItemCount
@@ -144,6 +153,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItemSource: FeedItemSource.Null,
         feedItems: [],
         retrievedFeedItemCount: null,
+        isLoading: false,
       };
 
     case BlogActionTypes.ClearCurrentBlog:
@@ -161,10 +171,17 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         currentFeedItemId: null,
       };
 
+    case BlogActionTypes.CreateBlog:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
     case BlogActionTypes.CreateBlogFail:
       return {
         ...state,
         error: action.payload,
+        isLoading: false,
       };
 
     case BlogActionTypes.CreateBlogSuccess:
@@ -176,6 +193,13 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
         currentFeedItemId: null,
         error: "",
+        isLoading: false,
+      };
+
+    case BlogActionTypes.DeleteBlog:
+      return {
+        ...state,
+        isLoading: true,
       };
 
     case BlogActionTypes.DeleteBlogFail:
@@ -192,6 +216,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         retrievedFeedItemCount: null,
         feedItems: [],
         error: "",
+        isLoading: false
       };
 
     case BlogActionTypes.InitializeCurrentBlog:
@@ -208,6 +233,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
         currentFeedItemId: null,
         retrievedFeedItemCount: null,
+        isLoading: true,
       };
 
     case BlogActionTypes.LoadBlogsSuccess:
@@ -215,6 +241,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         blogs: action.payload,
         error: "",
+        isLoading: false,
       };
 
     case BlogActionTypes.LoadBlogsFail:
@@ -222,6 +249,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         blogs: [],
         error: action.payload,
+        isLoading: false,
       };
 
     case BlogActionTypes.LoadBlogWithItems:
@@ -230,6 +258,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
         currentBlogId: action.payload,
         retrievedFeedItemCount: null,
+        isLoading: true,
       };
 
     case BlogActionTypes.LoadBlogWithItemsFail:
@@ -238,6 +267,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
         currentFeedItemId: null,
         error: action.payload,
+        isLoading: false,
       };
 
     case BlogActionTypes.LoadBlogWithItemsSuccess:
@@ -248,6 +278,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         currentFeedItemId: null,
         currentFeedItemPage: 1,
         error: "",
+        isLoading: false,
       };
 
     case BlogActionTypes.LoadBookmarkedFeedItems:
@@ -256,6 +287,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
         currentBlogId: null,
         retrievedFeedItemCount: null,
+        isLoading: true,
       };
 
     case BlogActionTypes.LoadBookmarkedFeedItemsFail:
@@ -264,6 +296,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
         currentFeedItemId: null,
         error: action.payload,
+        isLoading: false,
       };
 
     case BlogActionTypes.LoadBookmarkedFeedItemsSuccess:
@@ -274,6 +307,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         currentFeedItemId: null,
         currentFeedItemPage: 1,
         error: "",
+        isLoading: false,
       };
 
     case BlogActionTypes.LoadTopRatedFeedItems:
@@ -282,6 +316,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
         currentBlogId: null,
         retrievedFeedItemCount: null,
+        isLoading: true,
       };
 
     case BlogActionTypes.LoadTopRatedFeedItemsFail:
@@ -290,6 +325,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
         currentFeedItemId: null,
         error: action.payload,
+        isLoading: false,
       };
 
     case BlogActionTypes.LoadTopRatedFeedItemsSuccess:
@@ -300,6 +336,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         currentFeedItemId: null,
         currentFeedItemPage: 1,
         error: "",
+        isLoading: false,
       };
 
     case BlogActionTypes.LoadUnreadFeedItems:
@@ -308,6 +345,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
         currentBlogId: null,
         retrievedFeedItemCount: null,
+        isLoading: true,
       };
 
     case BlogActionTypes.LoadUnreadFeedItemsFail:
@@ -316,6 +354,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         feedItems: [],
         currentFeedItemId: null,
         error: action.payload,
+        isLoading: false,
       };
 
     case BlogActionTypes.LoadUnreadFeedItemsSuccess:
@@ -326,6 +365,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         currentFeedItemId: null,
         currentFeedItemPage: 1,
         error: "",
+        isLoading: false,
       };
 
     case BlogActionTypes.MarkItemAsReadFail:
@@ -417,6 +457,12 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         error: "",
       };
 
+    case BlogActionTypes.UpdateBlog:
+      return {
+        ...state,
+        isLoading: true
+      };
+
     case BlogActionTypes.UpdateBlogSuccess:
       const updatedBlogs = state.blogs.map((item) =>
         action.payload.id === item.id ? action.payload : item
@@ -426,12 +472,14 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         blogs: updatedBlogs,
         currentBlogId: action.payload.id,
         error: "",
+        isLoading: false
       };
 
     case BlogActionTypes.UpdateBlogFail:
       return {
         ...state,
         error: action.payload,
+        isLoading: false
       };
 
     case BlogActionTypes.UpdateUserInterestFail:
