@@ -767,6 +767,31 @@
         ]
       }
     },
+    "/api/WeeklyBlogSummaries": {
+      "get": {
+        "tags": [
+          "WeeklyBlogSummaries"
+        ],
+        "operationId": "WeeklyBlogSummaries_GetAllBlogsLatest",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeeklyBlogSummaryViewModel"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/WeeklyBlogSummaries/{id}": {
       "get": {
         "tags": [
@@ -1299,6 +1324,10 @@
           "blogId": {
             "type": "integer",
             "format": "int32"
+          },
+          "blogTitle": {
+            "type": "string",
+            "nullable": true
           },
           "itemsExcluded": {
             "type": "integer",

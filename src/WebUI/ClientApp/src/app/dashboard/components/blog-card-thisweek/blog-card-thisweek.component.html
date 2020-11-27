@@ -1,8 +1,15 @@
-<ngx-charts-number-card
-  *ngIf="latestCardData"
-  [view]="cardView"
-  [scheme]="colorScheme"
-  [results]="latestCardData"
-  [cardColor]="cardColor"
->
-</ngx-charts-number-card>
+<div class="card m-2">
+  <div class="card-body">
+    <h5 class="class-title" *ngIf="weeklyBlogSummary">
+      {{ weeklyBlogSummary.blogTitle }}
+    </h5>
+    <ngx-charts-number-card
+      *ngIf="latestCardData"
+      [view]="cardView"
+      [scheme]="colorScheme"
+      [results]="latestCardData"
+      [cardColor]="cardColor"
+    >
+    </ngx-charts-number-card>
+  </div>
+</div>

@@ -37,5 +37,6 @@ const dashboardRoutes: Routes = [
     NgxChartsModule,
     RouterModule.forChild(dashboardRoutes),
   ],
+  exports: [DashboardShellComponent]
 })
 export class DashboardModule {}

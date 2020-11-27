@@ -21,10 +21,27 @@ export class BlogEffects {
     private router: Router
   ) {}
 
+  loadAllBlogsLatestSummaries$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.LoadAllBlogSummaries),
+      mergeMap(() =>
+        this.blogService.getAllBlogLatestSummaries().pipe(
+          map(
+            (viewModel) =>
+              new blogActions.LoadAllBlogSummariesSuccess(viewModel)
+          ),
+          catchError((error) =>
+            of(new blogActions.LoadAllBlogSummariesFail(error))
+          )
+        )
+      )
+    )
+  );
+
   @Effect()
   loadBlogs$: Observable<Action> = this.actions$.pipe(
     ofType(blogActions.BlogActionTypes.LoadBlogs),
-    mergeMap((action) =>
+    mergeMap(() =>
       this.blogService.getBlogs().pipe(
         map((blogs) => new blogActions.LoadBlogsSuccess(blogs)),
         catchError((error) => of(new blogActions.LoadBlogsFail(error)))

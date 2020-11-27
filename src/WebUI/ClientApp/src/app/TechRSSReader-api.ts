@@ -1192,6 +1192,7 @@ export class WeatherForecastClient implements IWeatherForecastClient {
 }
 
 export interface IWeeklyBlogSummariesClient {
+    getAllBlogsLatest(): Observable<WeeklyBlogSummaryViewModel>;
     getLatest(id: number): Observable<WeeklyBlogSummaryViewModel>;
 }
 
@@ -1206,6 +1207,54 @@ export class WeeklyBlogSummariesClient implements IWeeklyBlogSummariesClient {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    getAllBlogsLatest(): Observable<WeeklyBlogSummaryViewModel> {
+        let url_ = this.baseUrl + "/api/WeeklyBlogSummaries";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllBlogsLatest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllBlogsLatest(<any>response_);
+                } catch (e) {
+                    return <Observable<WeeklyBlogSummaryViewModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WeeklyBlogSummaryViewModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllBlogsLatest(response: HttpResponseBase): Observable<WeeklyBlogSummaryViewModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = WeeklyBlogSummaryViewModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WeeklyBlogSummaryViewModel>(<any>null);
     }
 
     getLatest(id: number): Observable<WeeklyBlogSummaryViewModel> {
@@ -2339,6 +2388,7 @@ export interface IWeeklyBlogSummaryViewModel {
 export class WeeklyBlogSummaryDto implements IWeeklyBlogSummaryDto {
     id?: number;
     blogId?: number;
+    blogTitle?: string | undefined;
     itemsExcluded?: number;
     itemsRatedAtLeastThree?: number;
     itemsRead?: number;
@@ -2359,6 +2409,7 @@ export class WeeklyBlogSummaryDto implements IWeeklyBlogSummaryDto {
         if (_data) {
             this.id = _data["id"];
             this.blogId = _data["blogId"];
+            this.blogTitle = _data["blogTitle"];
             this.itemsExcluded = _data["itemsExcluded"];
             this.itemsRatedAtLeastThree = _data["itemsRatedAtLeastThree"];
             this.itemsRead = _data["itemsRead"];
@@ -2379,6 +2430,7 @@ export class WeeklyBlogSummaryDto implements IWeeklyBlogSummaryDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["blogId"] = this.blogId;
+        data["blogTitle"] = this.blogTitle;
         data["itemsExcluded"] = this.itemsExcluded;
         data["itemsRatedAtLeastThree"] = this.itemsRatedAtLeastThree;
         data["itemsRead"] = this.itemsRead;
@@ -2392,6 +2444,7 @@ export class WeeklyBlogSummaryDto implements IWeeklyBlogSummaryDto {
 export interface IWeeklyBlogSummaryDto {
     id?: number;
     blogId?: number;
+    blogTitle?: string | undefined;
     itemsExcluded?: number;
     itemsRatedAtLeastThree?: number;
     itemsRead?: number;

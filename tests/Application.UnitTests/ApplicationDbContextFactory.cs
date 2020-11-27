@@ -1,4 +1,5 @@
 using TechRSSReader.Application.Common.Interfaces;
+using TechRSSReader.Application.Common.Utils;
 using TechRSSReader.Domain.Entities;
 using TechRSSReader.Infrastructure.Persistence;
 using IdentityServer4.EntityFramework.Options;
@@ -18,7 +19,7 @@ namespace TechRSSReader.Application.UnitTests.Common
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
-
+            
             var operationalStoreOptions = Options.Create(
                 new OperationalStoreOptions
                 {
@@ -125,7 +126,7 @@ namespace TechRSSReader.Application.UnitTests.Common
             context.WeeklyBlogSummaries.Add(new WeeklyBlogSummary
             {
                 BlogId = 1,
-                WeekBegins = new DateTime(2020, 11, 16),
+                WeekBegins = DateUtility.GetLastMonday(DateTime.Today),
                 NewItems = 5,
                 ItemsRead = 6,
                 ItemsExcluded = 3,

@@ -45,6 +45,10 @@ export class BlogService {
     return this.feedItemsClient.getUnread();
   }
 
+  getAllBlogLatestSummaries(): Observable<WeeklyBlogSummaryViewModel> {
+    return this.weeklyBlogSummariesClient.getAllBlogsLatest();
+  }
+
   getWeeklyBlogSummaries(
     blogId: number
   ): Observable<WeeklyBlogSummaryViewModel> {

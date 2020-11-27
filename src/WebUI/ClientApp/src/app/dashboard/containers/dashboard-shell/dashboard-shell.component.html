@@ -1,4 +1,6 @@
 <div class="row">
-  <app-dashboard-blog></app-dashboard-blog>
+  <app-dashboard-blog
+    [allBlogsCardData]="latestCardData$ | async"
+    [weeklyBlogSummaries]="weeklyBlogSummaries$ | async"
+  ></app-dashboard-blog>
 </div>
-

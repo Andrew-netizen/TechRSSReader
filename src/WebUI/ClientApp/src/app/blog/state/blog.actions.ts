@@ -1,57 +1,67 @@
-import { BlogDetailsDto, BlogDto, FeedItemsViewModel, RssFeedItemDto, UpdateFeedItemCommand, WeeklyBlogSummaryViewModel } from '../../TechRSSReader-api';
+import {
+  BlogDetailsDto,
+  BlogDto,
+  FeedItemsViewModel,
+  RssFeedItemDto,
+  UpdateFeedItemCommand,
+  WeeklyBlogSummaryViewModel,
+} from "../../TechRSSReader-api";
 
 /* NgRx */
-import { Action } from '@ngrx/store';
+import { Action } from "@ngrx/store";
 
 export enum BlogActionTypes {
-  ClearBlogs = '[Sidebar GUI] Clear Blogs',
-  ClearCurrentBlog = '[Blog GUI] Clear Current Blog',
-  ClearCurrentFeedItem = '[Shared GUI] Clear Current Feed Item',
-  CreateBlog = '[Blog GUI] Create Blog',
-  CreateBlogFail = '[Blog API] Create Blog Fail',
-  CreateBlogSuccess = '[Blog API] Create Blog Success',
-  DeleteBlog = '[Blog GUI] Delete Blog',
-  DeleteBlogFail = '[Blog API] Delete Blog Fail',
-  DeleteBlogSuccess = '[Blog API] Delete Blog Success',
-  InitializeCurrentBlog = '[Blog GUI] Initialize Current Blog',
-  LoadBlogs = '[Blog GUI] Load Blogs',
-  LoadBlogsSuccess = '[Blog API] Load Blogs Success',
-  LoadBlogsFail = '[Blog API] Load Blogs Fail',
-  LoadBlogWithItems = '[Articles GUI] Load Blog with Feed Items',
-  LoadBlogWithItemsFail = '[Blog API] Load Blog with Feed Items Fail',
-  LoadBlogWithItemsSuccess = '[Blog API] Load Blog with Feed Items Success',
-  LoadBookmarkedFeedItems = '[Articles GUI] Load Bookmarked Feed Items',
-  LoadBookmarkedFeedItemsFail = '[Blog API] Load Bookmarked Feed Items Fail',
-  LoadBookmarkedFeedItemsSuccess = '[Blog API] Load Bookmarked Feed Items Success',
-  LoadTopRatedFeedItems = '[Articles GUI] Load Top Rated Feed Items',
-  LoadTopRatedFeedItemsFail = '[Blog API] Load Top Rated Feed Items Fail',
-  LoadTopRatedFeedItemsSuccess = '[Blog API] Load Top Rated Feed Items Success',
-  LoadUnreadFeedItems = '[Articles GUI] Load Unread Feed Items',
-  LoadUnreadFeedItemsFail = '[Blog API] Load Unread Feed Items Fail',
-  LoadUnreadFeedItemsSuccess = '[Blog API] Load Unread Feed Items Success',
-  LoadWeeklyBlogSummaries = '[Dashboard GUI] Load Weekly Blog Summaries',
-  LoadWeeklyBlogSummariesFail = '[Blog API] Load Weekly Blog Summaries Fail',
-  LoadWeeklyBlogSummariesSuccess = '[Blog API] Load Weekly Blog Summaries Success',
-  MarkItemAsRead = '[Articles GUI] Mark Item As Read',
-  MarkItemAsReadFail = '[Blog API] Mark Item As Read Fail',
-  MarkItemAsReadSuccess = '[Blog API] Mark Item As Read Success',
-  SetCurrentBlog = '[Blog GUI] Set Current Blog',
-  SetCurrentBlogId = '[SideBar GUI] Set Current Blog Id',
-  SetCurrentFeedItem = '[Article GUI] Set Current Feed Item',
+  ClearBlogs = "[Sidebar GUI] Clear Blogs",
+  ClearCurrentBlog = "[Blog GUI] Clear Current Blog",
+  ClearCurrentFeedItem = "[Shared GUI] Clear Current Feed Item",
+  CreateBlog = "[Blog GUI] Create Blog",
+  CreateBlogFail = "[Blog API] Create Blog Fail",
+  CreateBlogSuccess = "[Blog API] Create Blog Success",
+  DeleteBlog = "[Blog GUI] Delete Blog",
+  DeleteBlogFail = "[Blog API] Delete Blog Fail",
+  DeleteBlogSuccess = "[Blog API] Delete Blog Success",
+  InitializeCurrentBlog = "[Blog GUI] Initialize Current Blog",
+  LoadAllBlogSummaries = "[Dashboard GUI] Load All Blog Weekly Summaries",
+  LoadAllBlogSummariesFail = "[Blog API] Load All Blog Weekly Summaries Fail",
+  LoadAllBlogSummariesSuccess = "[Blog API] Load All Blog Weekly Summaries Success",
+  LoadBlogs = "[Blog GUI] Load Blogs",
+  LoadBlogsSuccess = "[Blog API] Load Blogs Success",
+  LoadBlogsFail = "[Blog API] Load Blogs Fail",
+  LoadBlogWithItems = "[Articles GUI] Load Blog with Feed Items",
+  LoadBlogWithItemsFail = "[Blog API] Load Blog with Feed Items Fail",
+  LoadBlogWithItemsSuccess = "[Blog API] Load Blog with Feed Items Success",
+  LoadBookmarkedFeedItems = "[Articles GUI] Load Bookmarked Feed Items",
+  LoadBookmarkedFeedItemsFail = "[Blog API] Load Bookmarked Feed Items Fail",
+  LoadBookmarkedFeedItemsSuccess = "[Blog API] Load Bookmarked Feed Items Success",
+  LoadTopRatedFeedItems = "[Articles GUI] Load Top Rated Feed Items",
+  LoadTopRatedFeedItemsFail = "[Blog API] Load Top Rated Feed Items Fail",
+  LoadTopRatedFeedItemsSuccess = "[Blog API] Load Top Rated Feed Items Success",
+  LoadUnreadFeedItems = "[Articles GUI] Load Unread Feed Items",
+  LoadUnreadFeedItemsFail = "[Blog API] Load Unread Feed Items Fail",
+  LoadUnreadFeedItemsSuccess = "[Blog API] Load Unread Feed Items Success",
+  LoadWeeklyBlogSummaries = "[Dashboard GUI] Load Weekly Blog Summaries",
+  LoadWeeklyBlogSummariesFail = "[Blog API] Load Weekly Blog Summaries Fail",
+  LoadWeeklyBlogSummariesSuccess = "[Blog API] Load Weekly Blog Summaries Success",
+  MarkItemAsRead = "[Articles GUI] Mark Item As Read",
+  MarkItemAsReadFail = "[Blog API] Mark Item As Read Fail",
+  MarkItemAsReadSuccess = "[Blog API] Mark Item As Read Success",
+  SetCurrentBlog = "[Blog GUI] Set Current Blog",
+  SetCurrentBlogId = "[SideBar GUI] Set Current Blog Id",
+  SetCurrentFeedItem = "[Article GUI] Set Current Feed Item",
   SetCurrentFeedItemPage = "[Articles GUI] Set Current Feed Item Page",
-  SetSidebarMenuCollapsed = '[Sidebar GUI] Set Sidebar Menu collapsed',
-  RetrieveFeedItemsFromSource = '[Blog GUI] Retrieve Feed Items',
-  RetrieveFeedItemsFromSourceSuccess = '[Blog API] Retrieve Feed Items Success',
-  RetrieveFeedItemsFromSourceFail = '[Blog API] Retrieve Feed Items Fail',
-  ToggleFeedItemBookmark = '[Articles GUI] Toggle Feed Item Bookmark',
-  ToggleFeedItemBookmarkFail = '[Blog API] Toggle Feed Item Bookmark Fail',
-  ToggleFeedItemBookmarkSuccess = '[Blog API] Toggle Feed Item Bookmark Success',
-  UpdateBlog = '[Blog GUI] Update Blog',
-  UpdateBlogSuccess = '[Blog API] Update Blog Success',
-  UpdateBlogFail = '[Blog API] Update Blog Fail',
+  SetSidebarMenuCollapsed = "[Sidebar GUI] Set Sidebar Menu collapsed",
+  RetrieveFeedItemsFromSource = "[Blog GUI] Retrieve Feed Items",
+  RetrieveFeedItemsFromSourceSuccess = "[Blog API] Retrieve Feed Items Success",
+  RetrieveFeedItemsFromSourceFail = "[Blog API] Retrieve Feed Items Fail",
+  ToggleFeedItemBookmark = "[Articles GUI] Toggle Feed Item Bookmark",
+  ToggleFeedItemBookmarkFail = "[Blog API] Toggle Feed Item Bookmark Fail",
+  ToggleFeedItemBookmarkSuccess = "[Blog API] Toggle Feed Item Bookmark Success",
+  UpdateBlog = "[Blog GUI] Update Blog",
+  UpdateBlogSuccess = "[Blog API] Update Blog Success",
+  UpdateBlogFail = "[Blog API] Update Blog Fail",
   UpdateUserInterest = "[Articles GUI] Update User Interest",
   UpdateUserInterestFail = "[RSSFeedItem API] Update User Interest Fail",
-  UpdateUserInterestSuccess = "[RSSFeedItem API] Update User Interest Success"
+  UpdateUserInterestSuccess = "[RSSFeedItem API] Update User Interest Success",
 }
 
 export class ClearBlogs implements Action {
@@ -83,7 +93,7 @@ export class CreateBlogSuccess implements Action {
 
 export class DeleteBlog implements Action {
   readonly type = BlogActionTypes.DeleteBlog;
-  constructor (public payload: number) {}
+  constructor(public payload: number) {}
 }
 
 export class DeleteBlogFail implements Action {
@@ -93,25 +103,39 @@ export class DeleteBlogFail implements Action {
 
 export class DeleteBlogSuccess implements Action {
   readonly type = BlogActionTypes.DeleteBlogSuccess;
-  constructor (public payload: number) {}
+  constructor(public payload: number) {}
 }
 
 export class InitializeCurrentBlog implements Action {
   readonly type = BlogActionTypes.InitializeCurrentBlog;
 }
 
+export class LoadAllBlogSummaries implements Action {
+  readonly type = BlogActionTypes.LoadAllBlogSummaries;
+}
+
+export class LoadAllBlogSummariesFail implements Action {
+  readonly type = BlogActionTypes.LoadAllBlogSummariesFail;
+  constructor(public payload: string) {}
+}
+
+export class LoadAllBlogSummariesSuccess implements Action {
+  readonly type = BlogActionTypes.LoadAllBlogSummariesSuccess;
+  constructor(public payload: WeeklyBlogSummaryViewModel) {}
+}
+
 export class LoadBlogs implements Action {
   readonly type = BlogActionTypes.LoadBlogs;
 }
 
-export class LoadBlogsSuccess implements Action {
-  readonly type = BlogActionTypes.LoadBlogsSuccess;
-  constructor(public payload: BlogDto[]) { }
-}
-
 export class LoadBlogsFail implements Action {
   readonly type = BlogActionTypes.LoadBlogsFail;
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
+}
+
+export class LoadBlogsSuccess implements Action {
+  readonly type = BlogActionTypes.LoadBlogsSuccess;
+  constructor(public payload: BlogDto[]) {}
 }
 
 export class LoadBlogWithItems implements Action {
@@ -134,12 +158,12 @@ export class LoadBookmarkedFeedItems implements Action {
 }
 
 export class LoadBookmarkedFeedItemsFail implements Action {
-  readonly type = BlogActionTypes.LoadBookmarkedFeedItemsFail
+  readonly type = BlogActionTypes.LoadBookmarkedFeedItemsFail;
   constructor(public payload: string) {}
 }
 
 export class LoadBookmarkedFeedItemsSuccess implements Action {
-  readonly type = BlogActionTypes.LoadBookmarkedFeedItemsSuccess
+  readonly type = BlogActionTypes.LoadBookmarkedFeedItemsSuccess;
   constructor(public payload: FeedItemsViewModel) {}
 }
 
@@ -162,15 +186,14 @@ export class LoadUnreadFeedItems implements Action {
 }
 
 export class LoadUnreadFeedItemsFail implements Action {
-  readonly type = BlogActionTypes.LoadUnreadFeedItemsFail
+  readonly type = BlogActionTypes.LoadUnreadFeedItemsFail;
   constructor(public payload: string) {}
 }
 
 export class LoadUnreadFeedItemsSuccess implements Action {
-  readonly type = BlogActionTypes.LoadUnreadFeedItemsSuccess
+  readonly type = BlogActionTypes.LoadUnreadFeedItemsSuccess;
   constructor(public payload: FeedItemsViewModel) {}
 }
-
 
 export class LoadWeeklyBlogSummaries implements Action {
   readonly type = BlogActionTypes.LoadWeeklyBlogSummaries;
@@ -194,14 +217,13 @@ export class MarkItemAsRead implements Action {
 
 export class MarkItemAsReadFail implements Action {
   readonly type = BlogActionTypes.MarkItemAsReadFail;
-  constructor (public payload: string) {}
+  constructor(public payload: string) {}
 }
 
 export class MarkItemAsReadSuccess implements Action {
   readonly type = BlogActionTypes.MarkItemAsReadSuccess;
   constructor(public payload: RssFeedItemDto) {}
 }
-
 
 export class RetrieveFeedItemsFromSource implements Action {
   readonly type = BlogActionTypes.RetrieveFeedItemsFromSource;
@@ -215,19 +237,19 @@ export class RetrieveFeedItemsFromSourceSuccess implements Action {
 
 export class RetrieveFeedItemsFromSourceFail implements Action {
   readonly type = BlogActionTypes.RetrieveFeedItemsFromSourceFail;
-  constructor (public payload: string) {}
+  constructor(public payload: string) {}
 }
 
 export class SetCurrentBlog implements Action {
   readonly type = BlogActionTypes.SetCurrentBlog;
 
-  constructor(public payload: BlogDto) { }
+  constructor(public payload: BlogDto) {}
 }
 
 export class SetCurrentBlogId implements Action {
   readonly type = BlogActionTypes.SetCurrentBlogId;
 
-  constructor(public payload: number) { }
+  constructor(public payload: number) {}
 }
 
 export class SetCurrentFeedItem implements Action {
@@ -252,7 +274,7 @@ export class ToggleFeedItemBookmark implements Action {
 
 export class ToggleFeedItemBookmarkFail implements Action {
   readonly type = BlogActionTypes.ToggleFeedItemBookmarkFail;
-  constructor (public payload: string) {}
+  constructor(public payload: string) {}
 }
 
 export class ToggleFeedItemBookmarkSuccess implements Action {
@@ -262,7 +284,7 @@ export class ToggleFeedItemBookmarkSuccess implements Action {
 
 export class UpdateBlog implements Action {
   readonly type = BlogActionTypes.UpdateBlog;
-  constructor (public payload: BlogDto) {}
+  constructor(public payload: BlogDto) {}
 }
 
 export class UpdateBlogSuccess implements Action {
@@ -290,52 +312,55 @@ export class UpdateUserInterestSuccess implements Action {
   constructor(public payload: RssFeedItemDto) {}
 }
 
-export type BlogActions = ClearBlogs
-| ClearCurrentBlog
-| ClearCurrentFeedItem
-| CreateBlog
-| CreateBlogFail
-| CreateBlogSuccess
-| DeleteBlog
-| DeleteBlogFail
-| DeleteBlogSuccess
-| InitializeCurrentBlog
-| LoadBlogs
-| LoadBlogsFail
-| LoadBlogsSuccess
-| LoadBlogWithItems
-| LoadBlogWithItemsFail
-| LoadBlogWithItemsSuccess
-| LoadBookmarkedFeedItems
-| LoadBookmarkedFeedItemsFail
-| LoadBookmarkedFeedItemsSuccess
-| LoadTopRatedFeedItems
-| LoadTopRatedFeedItemsFail
-| LoadTopRatedFeedItemsSuccess
-| LoadUnreadFeedItems
-| LoadUnreadFeedItemsFail
-| LoadUnreadFeedItemsSuccess
-| LoadWeeklyBlogSummaries
-| LoadWeeklyBlogSummariesFail
-| LoadWeeklyBlogSummariesSuccess
-| MarkItemAsRead
-| MarkItemAsReadFail
-| MarkItemAsReadSuccess
-| RetrieveFeedItemsFromSource
-| RetrieveFeedItemsFromSourceFail
-| RetrieveFeedItemsFromSourceSuccess
-| SetCurrentBlog
-| SetCurrentBlogId
-| SetCurrentFeedItem
-| SetCurrentFeedItemPage
-| SetSidebarMenuCollapsed
-| ToggleFeedItemBookmark
-| ToggleFeedItemBookmarkFail
-| ToggleFeedItemBookmarkSuccess
-| UpdateBlog
-| UpdateBlogFail
-| UpdateBlogSuccess
-| UpdateUserInterest
-| UpdateUserInterestFail
-| UpdateUserInterestSuccess;
-
+export type BlogActions =
+  | ClearBlogs
+  | ClearCurrentBlog
+  | ClearCurrentFeedItem
+  | CreateBlog
+  | CreateBlogFail
+  | CreateBlogSuccess
+  | DeleteBlog
+  | DeleteBlogFail
+  | DeleteBlogSuccess
+  | InitializeCurrentBlog
+  | LoadAllBlogSummaries
+  | LoadAllBlogSummariesFail
+  | LoadAllBlogSummariesSuccess
+  | LoadBlogs
+  | LoadBlogsFail
+  | LoadBlogsSuccess
+  | LoadBlogWithItems
+  | LoadBlogWithItemsFail
+  | LoadBlogWithItemsSuccess
+  | LoadBookmarkedFeedItems
+  | LoadBookmarkedFeedItemsFail
+  | LoadBookmarkedFeedItemsSuccess
+  | LoadTopRatedFeedItems
+  | LoadTopRatedFeedItemsFail
+  | LoadTopRatedFeedItemsSuccess
+  | LoadUnreadFeedItems
+  | LoadUnreadFeedItemsFail
+  | LoadUnreadFeedItemsSuccess
+  | LoadWeeklyBlogSummaries
+  | LoadWeeklyBlogSummariesFail
+  | LoadWeeklyBlogSummariesSuccess
+  | MarkItemAsRead
+  | MarkItemAsReadFail
+  | MarkItemAsReadSuccess
+  | RetrieveFeedItemsFromSource
+  | RetrieveFeedItemsFromSourceFail
+  | RetrieveFeedItemsFromSourceSuccess
+  | SetCurrentBlog
+  | SetCurrentBlogId
+  | SetCurrentFeedItem
+  | SetCurrentFeedItemPage
+  | SetSidebarMenuCollapsed
+  | ToggleFeedItemBookmark
+  | ToggleFeedItemBookmarkFail
+  | ToggleFeedItemBookmarkSuccess
+  | UpdateBlog
+  | UpdateBlogFail
+  | UpdateBlogSuccess
+  | UpdateUserInterest
+  | UpdateUserInterestFail
+  | UpdateUserInterestSuccess;

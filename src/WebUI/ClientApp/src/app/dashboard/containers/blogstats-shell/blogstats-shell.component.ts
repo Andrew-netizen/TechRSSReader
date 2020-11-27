@@ -13,7 +13,7 @@ import * as fromRoot from "../../../state/app.state";
 import * as fromBlog from "../../../blog/state/blog.reducer";
 import * as blogActions from "../../../blog/state/blog.actions";
 import { map } from "rxjs/operators";
-import { CardData } from "../../card-data";
+import { BlogCardData, CardData, mapCardData } from "../../card-data";
 
 @Component({
   selector: "app-blogstats-shell",
@@ -24,7 +24,7 @@ import { CardData } from "../../card-data";
 export class BlogstatsShellComponent implements OnInit, OnDestroy {
   selectedBlog$: Observable<BlogDto>;
   weeklyBlogSummaries$: Observable<WeeklyBlogSummaryDto[]>;
-  latestCardData$: Observable<CardData[] | null>;
+  cardDataArray$: Observable<CardData[] | null>;
   paramMapSubscription: Subscription;
 
   constructor(
@@ -48,9 +48,9 @@ export class BlogstatsShellComponent implements OnInit, OnDestroy {
       select(fromBlog.getWeeklyBlogSummaries)
     );
 
-    this.latestCardData$ = this.weeklyBlogSummaries$.pipe(
+    this.cardDataArray$ = this.weeklyBlogSummaries$.pipe(
       map((value) => {
-        if (value && value.length > 0) return this.mapCardData(value[0]);
+        if (value && value.length > 0) return mapCardData(value[0]).toArray();
         else return null;
       })
     );
@@ -60,21 +60,5 @@ export class BlogstatsShellComponent implements OnInit, OnDestroy {
     this.paramMapSubscription.unsubscribe();
   }
 
-  mapCardData(weeklyBlogSummary: WeeklyBlogSummaryDto): CardData[] {
-    const result: CardData[] = [];
-    result.push(
-      new CardData("New", weeklyBlogSummary.newNotExcluded.toString())
-    );
-    result.push(
-      new CardData("You Read", weeklyBlogSummary.itemsRead.toString())
-    );
-    result.push(
-      new CardData(
-        "You Liked",
-        weeklyBlogSummary.itemsRatedAtLeastThree.toString()
-      )
-    );
 
-    return result;
-  }
 }

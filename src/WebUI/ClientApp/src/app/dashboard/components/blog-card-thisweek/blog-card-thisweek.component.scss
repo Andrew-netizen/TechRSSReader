@@ -1,0 +1,19 @@
+@media (min-width: 768px) {
+  .card {
+    max-width: 650px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .card {
+    max-width: 450px;
+  }
+}
+
+.card {
+  background-color: #3AAFA9;
+}
+
+.class-title {
+  color: #FEFFFF;
+}

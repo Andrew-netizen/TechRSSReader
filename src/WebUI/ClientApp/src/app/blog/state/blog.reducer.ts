@@ -232,6 +232,27 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         retrievedFeedItemCount: null,
       };
 
+    case BlogActionTypes.LoadAllBlogSummaries:
+      return {
+        ...state,
+        weeklyBlogSummaries: [],
+        isLoading: true,
+      };
+
+    case BlogActionTypes.LoadAllBlogSummariesFail:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      };
+
+    case BlogActionTypes.LoadAllBlogSummariesSuccess:
+      return {
+        ...state,
+        weeklyBlogSummaries: action.payload.weeklyBlogSummaries,
+        isLoading: false,
+      };
+
     case BlogActionTypes.LoadBlogs:
       return {
         ...state,

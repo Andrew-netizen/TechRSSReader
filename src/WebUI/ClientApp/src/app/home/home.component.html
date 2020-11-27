@@ -1,2 +1,2 @@
 <app-home-loggedout *ngIf="!(isAuthenticated$ | async)"></app-home-loggedout>
-
+<app-dashboard-shell *ngIf="(isAuthenticated$ | async)"></app-dashboard-shell>

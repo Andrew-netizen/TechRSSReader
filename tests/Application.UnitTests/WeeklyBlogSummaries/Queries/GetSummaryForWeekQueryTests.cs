@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using TechRSSReader.Application.Common.Utils;
 using TechRSSReader.Application.UnitTests.Common;
 using TechRSSReader.Application.WeeklyBlogSummaries.Queries;
 using TechRSSReader.Domain.Entities;
@@ -45,7 +46,7 @@ namespace TechRSSReader.Application.UnitTests.WeeklyBlogSummaries.Queries
             var query = new GetSummaryForWeekQuery
             {
                 BlogId = 1,
-                WeekBegins = new DateTime(2020, 11, 16)
+                WeekBegins = DateUtility.GetLastMonday(DateTime.Today)
             };
 
             var handler = new GetSummaryForWeekQuery.GetSummaryForWeekQueryHandler(_context, _mapper);
