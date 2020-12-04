@@ -1,0 +1,29 @@
+<div class="modal-header bg-secondary">
+  <h4 class="modal-title text-white">Add Tag</h4>
+  <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addItemTagForm" novalidate (ngSubmit)="saveItemTag()">
+  <div class="modal-body">
+    <div class="container">
+      <div class="form-group">
+        <select class="form-control" formControlName="userTagId">
+          <option *ngFor="let userTag of userTags" value="{{userTag.id}}">
+            {{userTag.text}}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary">
+      Create
+    </button>
+  </div>
+</form>

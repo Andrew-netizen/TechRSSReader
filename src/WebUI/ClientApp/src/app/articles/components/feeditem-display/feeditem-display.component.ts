@@ -1,22 +1,38 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-import { RssFeedItemDto, UpdateFeedItemCommand } from 'src/app/TechRSSReader-api';
-import {DomSanitizer} from '@angular/platform-browser';
+import {
+  Component,
+  Input,
+  EventEmitter,
+  Output,
+  ChangeDetectionStrategy,
+} from "@angular/core";
+import {
+  FeedItemUserTagDto,
+  IRssFeedItemDetailsDto,
+  RssFeedItemDto,
+  UpdateFeedItemCommand,
+} from "src/app/TechRSSReader-api";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
-  selector: 'feeditem-display',
+  selector: "feeditem-display",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './feeditem-display.component.html',
-  styleUrls: ['./feeditem-display.component.scss']
+  templateUrl: "./feeditem-display.component.html",
+  styleUrls: ["./feeditem-display.component.scss"],
 })
 export class FeeditemDisplayComponent {
-
-  @Input() feedItem: RssFeedItemDto;
+  @Input() feedItem: IRssFeedItemDetailsDto;
+  @Input() feedItemUserTags: FeedItemUserTagDto[];
+  @Output() userClickedAddItemTag = new EventEmitter<RssFeedItemDto>();
   @Output() articleMarkedAsRead = new EventEmitter<RssFeedItemDto>();
   @Output() bookmarkToggled = new EventEmitter<RssFeedItemDto>();
   @Output() titleClicked = new EventEmitter<RssFeedItemDto>();
   @Output() userInterestUpdated = new EventEmitter<UpdateFeedItemCommand>();
 
-constructor(public domSanitizationService: DomSanitizer) {}
+  constructor(public domSanitizationService: DomSanitizer) {}
+
+  addTagToItemClicked(feedItem: RssFeedItemDto): void {
+    this.userClickedAddItemTag.emit(feedItem);
+  }
 
   markAsReadClicked(feedItem: RssFeedItemDto): void {
     this.articleMarkedAsRead.emit(feedItem);

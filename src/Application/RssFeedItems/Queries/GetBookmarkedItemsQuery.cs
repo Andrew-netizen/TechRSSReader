@@ -39,6 +39,27 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
                     .Where(item => item.Bookmarked)
                     .Where(item => item.CreatedBy.Equals(_currentUserService.UserId))
                     .AsNoTracking()
+                    .Select(r => new RssFeedItem
+                    {
+                        Id = r.Id,
+                        Author = r.Author,
+                        BlogId = r.BlogId,
+                        Blog = r.Blog,
+                        Bookmarked = r.Bookmarked,
+                        Categories = r.Categories,
+                        ExcludedByKeyword = r.ExcludedByKeyword,
+                        Link = r.Link,
+                        PublishingDate = r.PublishingDate,
+                        PublishingDateString = r.PublishingDateString,
+                        ReadAlready = r.ReadAlready,
+                        RetrievedDateTime = r.RetrievedDateTime,
+                        RssId = r.RssId,
+                        Title = r.Title,
+                        UserRatedDate = r.UserRatedDate,
+                        UserRating = r.UserRating,
+                        UserRatingPrediction = r.UserRatingPrediction,
+                        UserReadDate = r.UserReadDate
+                    })
                     .ToListAsync(cancellationToken);
                     
 

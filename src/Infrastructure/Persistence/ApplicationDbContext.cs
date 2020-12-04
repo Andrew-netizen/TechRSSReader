@@ -33,7 +33,11 @@ namespace TechRSSReader.Infrastructure.Persistence
 
         public DbSet<Blog> Blogs { get; set; }
 
+        public DbSet<FeedItemUserTag> FeedItemUserTags { get; set; }
+
         public DbSet<RssFeedItem> RssFeedItems { get; set; }
+
+        public DbSet<UserTag> UserTags { get; set;  }
 
         public DbSet<WeeklyBlogSummary> WeeklyBlogSummaries { get; set; }
         
@@ -66,7 +70,7 @@ namespace TechRSSReader.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
+            builder.Entity<FeedItemUserTag>().HasKey(item => new { item.RssFeedItemId, item.UserTagId });
             base.OnModelCreating(builder);
         }
     }

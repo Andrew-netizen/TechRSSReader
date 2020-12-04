@@ -29,12 +29,30 @@
     </div>
   </div>
   <div class="card-body">
-    <div *ngIf="feedItem.categories" class="row">
-      Categories:&nbsp;<span
-        [innerHTML]="feedItem.categories | categoriesSpacePipe"
-      ></span>
+    <div class="container">
+      <div class="row justify-content-between">
+        <div *ngIf="feedItem.categories" class="col">
+          Categories: {{ feedItem.categories | categoriesSpacePipe }}
+        </div>
+        <div class="col float-right text-right">
+          <span *ngIf="feedItemUserTags.length > 0">
+            Tags:
+          </span>
+          <ng-template ngFor let-feedItemUserTag [ngForOf]="feedItemUserTags">
+            <small class="rounded px-2 py-1 mx-1 text-white border bg-success">
+              {{ feedItemUserTag.userTagText }}
+            </small>
+          </ng-template>
+          <button
+            class="btn btn-secondary btn"
+            (click)="addTagToItemClicked(feedItem)"
+          >
+            Add Tag
+          </button>
+        </div>
+      </div>
     </div>
-    <hr *ngIf="feedItem.categories" />
+    <hr />
     <div class="row" *ngIf="feedItem.description">
       <span [innerHTML]="feedItem.description"></span>
     </div>

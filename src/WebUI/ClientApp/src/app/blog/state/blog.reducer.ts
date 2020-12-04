@@ -1,6 +1,9 @@
 import {
   BlogDto,
+  FeedItemUserTagDto,
+  IRssFeedItemDetailsDto,
   RssFeedItemDto,
+  UserTagDto,
   WeeklyBlogSummaryDto,
 } from "../../TechRSSReader-api";
 
@@ -14,33 +17,40 @@ export enum FeedItemSource {
   Null,
   TopRated,
   Unread,
+  UserTags,
 }
 
 export interface BlogState {
   blogs: BlogDto[];
   currentBlogId: number | null;
-  currentFeedItemId: number | null;
+  currentFeedItem: IRssFeedItemDetailsDto | null;
   currentFeedItemPage: number;
+  currentUserTagId: number | null;
   error: string;
   feedItemSource: FeedItemSource;
   feedItems: RssFeedItemDto[];
+  feedItemUserTags: FeedItemUserTagDto[];
   isLoading: boolean;
   retrievedFeedItemCount: number | null;
   sidebarMenuCollapsed: boolean;
+  userTags: UserTagDto[];
   weeklyBlogSummaries: WeeklyBlogSummaryDto[];
 }
 
 const initialState: BlogState = {
   blogs: [],
   currentBlogId: null,
-  currentFeedItemId: null,
+  currentFeedItem: null,
   currentFeedItemPage: 1,
+  currentUserTagId: null,
   error: "",
-  feedItemSource: FeedItemSource.Null,
   feedItems: [],
+  feedItemSource: FeedItemSource.Null,
+  feedItemUserTags: [],
   isLoading: false,
   retrievedFeedItemCount: null,
   sidebarMenuCollapsed: true,
+  userTags: [],
   weeklyBlogSummaries: [],
 };
 
@@ -56,6 +66,11 @@ export const getBlogs = createSelector(
 export const getCurrentBlogId = createSelector(
   getBlogFeatureState,
   (state) => state.currentBlogId
+);
+
+export const getCurrentUserTagId = createSelector(
+  getBlogFeatureState,
+  (state) => state.currentUserTagId
 );
 
 export const getCurrentBlog = createSelector(
@@ -75,6 +90,16 @@ export const getCurrentBlog = createSelector(
         ? state.blogs.find((p) => p.id === currentBlogId)
         : null;
     }
+  }
+);
+
+export const getCurrentUserTag = createSelector(
+  getBlogFeatureState,
+  getCurrentUserTagId,
+  (state, currentUserTagId) => {
+    return currentUserTagId
+      ? state.userTags.find((ut) => ut.id === currentUserTagId)
+      : null;
   }
 );
 
@@ -100,12 +125,16 @@ export const getFeedItemSource = createSelector(
 export const getFeedItemSectionTitle = createSelector(
   getBlogFeatureState,
   getCurrentBlog,
-  (state, blog) => {
+  getCurrentUserTag,
+  (state, blog, userTag) => {
     if (state.feedItemSource === FeedItemSource.Unread) return "New";
     if (state.feedItemSource === FeedItemSource.Bookmarked) return "Bookmarks";
     if (state.feedItemSource === FeedItemSource.TopRated) return "Top Rated";
     if (state.feedItemSource === FeedItemSource.Blog && blog) {
       return blog.title;
+    }
+    if (state.feedItemSource === FeedItemSource.UserTags && userTag) {
+      return userTag.text;
     }
   }
 );
@@ -125,19 +154,19 @@ export const getSidebarMenuCollapsed = createSelector(
   (state) => state.sidebarMenuCollapsed
 );
 
-export const getCurrentFeedItemId = createSelector(
+export const getUserTags = createSelector(
   getBlogFeatureState,
-  (state) => state.currentFeedItemId
+  (state) => state.userTags
 );
 
 export const getCurrentFeedItem = createSelector(
   getBlogFeatureState,
-  getCurrentFeedItemId,
-  (state, currentFeedItemId) => {
-    return currentFeedItemId
-      ? state.feedItems.find((p) => p.id === currentFeedItemId)
-      : null;
-  }
+  (state) => state.currentFeedItem
+);
+
+export const getFeedItemUserTags = createSelector(
+  getBlogFeatureState,
+  (state) => state.feedItemUserTags
 );
 
 export const getWeeklyBlogSummaries = createSelector(
@@ -152,7 +181,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         blogs: [],
         currentBlogId: null,
-        currentFeedItemId: null,
+        currentFeedItem: null,
         currentFeedItemPage: 1,
         error: "",
         feedItemSource: FeedItemSource.Null,
@@ -165,7 +194,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         currentBlogId: null,
-        currentFeedItemId: null,
+        currentFeedItem: null,
         retrievedFeedItemCount: null,
         feedItems: [],
       };
@@ -173,7 +202,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
     case BlogActionTypes.ClearCurrentFeedItem:
       return {
         ...state,
-        currentFeedItemId: null,
+        currentFeedItem: null,
       };
 
     case BlogActionTypes.CreateBlog:
@@ -196,9 +225,51 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         currentBlogId: action.payload.id,
         retrievedFeedItemCount: null,
         feedItems: [],
-        currentFeedItemId: null,
+        currentFeedItem: null,
         error: "",
         isLoading: false,
+      };
+
+    case BlogActionTypes.CreateFeedItemUserTag:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case BlogActionTypes.CreateFeedItemUserTagFail:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      };
+
+    case BlogActionTypes.CreateFeedItemUserTagSuccess:
+      return {
+        ...state,
+        error: "",
+        isLoading: false,
+        feedItemUserTags: [...state.feedItemUserTags, action.payload],
+      };
+
+    case BlogActionTypes.CreateUserTag:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case BlogActionTypes.CreateUserTagFail:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      };
+
+    case BlogActionTypes.CreateUserTagSuccess:
+      return {
+        ...state,
+        error: "",
+        isLoading: false,
+        userTags: [...state.userTags, action.payload],
       };
 
     case BlogActionTypes.DeleteBlog:
@@ -257,7 +328,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         feedItems: [],
-        currentFeedItemId: null,
+        currentFeedItem: null,
         retrievedFeedItemCount: null,
         isLoading: true,
       };
@@ -291,7 +362,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         feedItems: [],
-        currentFeedItemId: null,
+        currentFeedItem: null,
         error: action.payload,
         isLoading: false,
       };
@@ -301,8 +372,9 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         feedItems: action.payload.rssFeedItems,
         feedItemSource: FeedItemSource.Blog,
-        currentFeedItemId: null,
+        currentFeedItem: null,
         currentFeedItemPage: 1,
+        currentUserTagId: null,
         error: "",
         isLoading: false,
       };
@@ -320,7 +392,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         feedItems: [],
-        currentFeedItemId: null,
+        currentFeedItem: null,
         error: action.payload,
         isLoading: false,
       };
@@ -330,8 +402,9 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         feedItems: action.payload.rssFeedItems,
         feedItemSource: FeedItemSource.Bookmarked,
-        currentFeedItemId: null,
+        currentFeedItem: null,
         currentFeedItemPage: 1,
+        currentUserTagId: null,
         error: "",
         isLoading: false,
       };
@@ -349,7 +422,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         feedItems: [],
-        currentFeedItemId: null,
+        currentFeedItem: null,
         error: action.payload,
         isLoading: false,
       };
@@ -359,8 +432,9 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         feedItems: action.payload.rssFeedItems,
         feedItemSource: FeedItemSource.TopRated,
-        currentFeedItemId: null,
+        currentFeedItem: null,
         currentFeedItemPage: 1,
+        currentUserTagId: null,
         error: "",
         isLoading: false,
       };
@@ -378,7 +452,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         feedItems: [],
-        currentFeedItemId: null,
+        currentFeedItem: null,
         error: action.payload,
         isLoading: false,
       };
@@ -388,9 +462,62 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         feedItems: action.payload.rssFeedItems,
         feedItemSource: FeedItemSource.Unread,
-        currentFeedItemId: null,
+        currentFeedItem: null,
         currentFeedItemPage: 1,
+        currentUserTagId: null,
         error: "",
+        isLoading: false,
+      };
+
+    case BlogActionTypes.LoadUserTagFeedItems:
+      return {
+        ...state,
+        feedItems: [],
+        currentBlogId: null,
+        retrievedFeedItemCount: null,
+        isLoading: true,
+      };
+
+    case BlogActionTypes.LoadUserTagFeedItemsFail:
+      return {
+        ...state,
+        feedItems: [],
+        currentFeedItem: null,
+        error: action.payload,
+        isLoading: false,
+      };
+
+    case BlogActionTypes.LoadUserTagFeedItemsSuccess:
+      return {
+        ...state,
+        feedItems: action.payload.rssFeedItems,
+        feedItemSource: FeedItemSource.UserTags,
+        currentFeedItem: null,
+        currentFeedItemPage: 1,
+        currentUserTagId: action.payload.userTagId,
+        error: "",
+        isLoading: false,
+      };
+
+    case BlogActionTypes.LoadUserTags:
+      return {
+        ...state,
+        userTags: [],
+        isLoading: true,
+      };
+
+    case BlogActionTypes.LoadUserTagsFail:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      };
+
+    case BlogActionTypes.LoadUserTagsSuccess:
+      return {
+        ...state,
+        userTags: action.payload.userTags,
+        currentUserTagId: null,
         isLoading: false,
       };
 
@@ -425,10 +552,13 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       const updatedFeedItems = state.feedItems.map((item) =>
         action.payload.id === item.id ? action.payload : item
       );
+      let updatedFeedItemDetails: IRssFeedItemDetailsDto;
+      updatedFeedItemDetails = { ...state.currentFeedItem };
+      updatedFeedItemDetails.readAlready = action.payload.readAlready;
       return {
         ...state,
         feedItems: updatedFeedItems,
-        currentFeedItemId: action.payload.id,
+        currentFeedItem: updatedFeedItemDetails,
         error: "",
       };
 
@@ -457,7 +587,8 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         currentBlogId: action.payload.id,
         feedItems: [],
-        currentFeedItemId: null,
+        currentFeedItem: null,
+        currentUserTagId: null,
         retrievedFeedItemCount: null,
       };
 
@@ -466,14 +597,37 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         ...state,
         currentBlogId: action.payload,
         feedItems: [],
-        currentFeedItemId: null,
+        currentFeedItem: null,
+        currentUserTagId: null,
         retrievedFeedItemCount: null,
       };
 
-    case BlogActionTypes.SetCurrentFeedItem:
+    case BlogActionTypes.LoadFeedItemDetails:
       return {
         ...state,
-        currentFeedItemId: action.payload.id,
+        currentFeedItem: null,
+        isLoading: true,
+      };
+
+    case BlogActionTypes.LoadFeedItemDetailsFail:
+      return {
+        ...state,
+        currentFeedItem: null,
+        error: action.payload,
+        isLoading: false,
+      };
+
+    // Don't allow the code to access the feed Items from the current Feed Item. Nested state gets messy.
+    // Store it in the feedItemUserTags collection instead.
+    case BlogActionTypes.LoadFeedItemDetailsSuccess:
+      var newFeedItem: IRssFeedItemDetailsDto = { ...action.payload };
+      newFeedItem.feedItemUserTags = [];
+      return {
+        ...state,
+        currentFeedItem: newFeedItem,
+        feedItemUserTags: action.payload.feedItemUserTags,
+        error: "",
+        isLoading: false,
       };
 
     case BlogActionTypes.SetCurrentFeedItemPage:
@@ -539,9 +693,12 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       const userInterestUpdatedFeedItems = state.feedItems.map((item) =>
         action.payload.id === item.id ? action.payload : item
       );
+      let updatedCurrentFeedItemDetails = { ...state.currentFeedItem };
+      updatedCurrentFeedItemDetails.userRating = action.payload.userRating;
       return {
         ...state,
         feedItems: userInterestUpdatedFeedItems,
+        currentFeedItem: updatedCurrentFeedItemDetails,
         error: "",
       };
 

@@ -1,8 +1,8 @@
-﻿using TechRSSReader.Application.WeatherForecasts.Queries.GetWeatherForecasts;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TechRSSReader.Application.WeatherForecasts.Queries.GetWeatherForecasts;
 
 namespace TechRSSReader.WebUI.Controllers
 {

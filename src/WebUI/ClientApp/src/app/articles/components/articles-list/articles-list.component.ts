@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FeedItemSource } from 'src/app/blog/state/blog.reducer';
-import { BlogDto, RssFeedItemDto, UpdateFeedItemCommand } from 'src/app/TechRSSReader-api';
+import { BlogDto, FeedItemUserTagDto, RssFeedItemDetailsDto, RssFeedItemDto, UpdateFeedItemCommand } from 'src/app/TechRSSReader-api';
 
 @Component({
   selector: 'articles-list',
@@ -16,11 +16,13 @@ export class ArticlesListComponent {
   @Input() feedItems: RssFeedItemDto[];
   @Input() feedItemSectionTitle: string;
   @Input() feedItemSource: FeedItemSource;
+  @Input() feedItemUserTags: FeedItemUserTagDto[];
   @Input() pageCount: number;
   @Input() selectedBlog: BlogDto;
-  @Input() selectedFeedItem: RssFeedItemDto;
+  @Input() selectedFeedItem: RssFeedItemDetailsDto;
   @Input() showBlogTitle: boolean;
   @Input() totalArticlesCount: number;
+  @Output() addItemTagClickedEvent = new EventEmitter<RssFeedItemDto>();
   @Output() articleBookmarkToggledEvent = new EventEmitter<RssFeedItemDto>();
   @Output() articleMarkedAsReadEvent = new EventEmitter<RssFeedItemDto>();
   @Output() currentPageUpdated = new EventEmitter<number>();
@@ -42,6 +44,10 @@ export class ArticlesListComponent {
 
   bookmarkToggledHandler(value: RssFeedItemDto) {
     this.articleBookmarkToggledEvent.emit(value);
+  }
+
+  onAddItemTagClicked(value: RssFeedItemDto) {
+    this.addItemTagClickedEvent.emit(value);
   }
 
   onTitleClicked() {

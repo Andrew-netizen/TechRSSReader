@@ -9,13 +9,13 @@
     </div>
     <div class="col text-right">
       <span
-      *ngIf="showMenuCollapseButton"
-      id="dismissMenu"
-      class="m-2 text-white"
-      (click)="hideMenu()"
-    >
-      <i class="fas fa-arrow-left"></i>
-    </span>
+        *ngIf="showMenuCollapseButton"
+        id="dismissMenu"
+        class="m-2 text-white"
+        (click)="hideMenu()"
+      >
+        <i class="fas fa-arrow-left"></i>
+      </span>
     </div>
   </div>
   <ul class="list-unstyled components">
@@ -63,19 +63,18 @@
       <div class="row align-items-center">
         <div class="col text-white">
           <h6 class="nav-link">
-              <i class="fal fa-rss"></i>
-              Feeds
+            <i class="fal fa-rss"></i>
+            Feeds
           </h6>
         </div>
         <div class="col text-right">
           <a
-              class="nav-link text-white"
-              [routerLink]="['/blogs/add']"
-              (click)="menuItemClicked()"
-            >
+            class="nav-link text-white"
+            [routerLink]="['/blogs/add']"
+            (click)="menuItemClicked()"
+          >
             <i class="far fa-plus-circle text-white fa-lg m-2"></i>
           </a>
-
         </div>
       </div>
       <ul class="list-unstyled ml-4" *ngIf="blogs$ | async">
@@ -88,6 +87,34 @@
             [routerLink]="['/articles/', blog.id]"
             (click)="menuItemClicked()"
             >{{ blog.title }}</a
+          >
+        </li>
+      </ul>
+    </li>
+    <li [routerLinkActive]="['link-active']">
+      <div class="row align-items-center">
+        <div class="col text-white">
+          <h6 class="nav-link">
+            <i class="fal fa-tags"></i>
+            Tags
+          </h6>
+        </div>
+        <div class="col text-right">
+          <span class="nav-link text-white" (click)="openAddTagModal()">
+            <i class="far fa-plus-circle text-white fa-lg m-2"></i>
+          </span>
+        </div>
+      </div>
+      <ul class="list-unstyled ml-4" *ngIf="userTags$ | async">
+        <li
+          *ngFor="let userTag of userTags$ | async"
+          [routerLinkActive]="['link-active']"
+        >
+          <a
+            class="nav-link text-white"
+            [routerLink]="['/usertags/', userTag.id]"
+            (click)="menuItemClicked()"
+            >{{ userTag.text }}</a
           >
         </li>
       </ul>

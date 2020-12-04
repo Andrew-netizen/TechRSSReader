@@ -40,6 +40,27 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
                     .OrderByDescending(item => item.UserRatingPrediction)
                     .Take(50)
                     .AsNoTracking()
+                    .Select(x => new RssFeedItem
+                    {
+                        Id = x.Id,
+                        Author = x.Author,
+                        BlogId = x.BlogId,
+                        Blog = x.Blog,
+                        Bookmarked = x.Bookmarked,
+                        Categories = x.Categories,
+                        ExcludedByKeyword = x.ExcludedByKeyword,
+                        Link = x.Link,
+                        PublishingDate = x.PublishingDate,
+                        PublishingDateString = x.PublishingDateString,
+                        ReadAlready = x.ReadAlready,
+                        RetrievedDateTime = x.RetrievedDateTime,
+                        RssId = x.RssId,
+                        Title = x.Title,
+                        UserRatedDate = x.UserRatedDate,
+                        UserRating = x.UserRating,
+                        UserRatingPrediction = x.UserRatingPrediction,
+                        UserReadDate = x.UserReadDate
+                    })
                     .ToListAsync(cancellationToken);
 
                 foreach (RssFeedItem feedItem in rssFeedItems)

@@ -33,11 +33,17 @@ namespace TechRSSReader.WebUI.Controllers
 
         }
 
-        [HttpGet("[action]")]
-        public async Task<RssFeedItemDto> GetNoUserPreference(int blogId)
+        [Route("usertag/{id}")]
+        public async Task<FeedItemsViewModel> GetTagged(int id)
         {
-            return await Mediator.Send(new GetNoUserPreferenceQuery { BlogId = blogId});
-            
+            return await Mediator.Send(new GetTaggedFeedItemsQuery { UserTagId = id });
+
+        }
+
+        [HttpGet("{id}")]
+        public async Task<RssFeedItemDetailsDto> GetFeedItemDetails(int id)
+        {
+            return await Mediator.Send(new GetFeedItemDetailsQuery{ Id = id });
         }
 
         /// PUT: api/RssFeedItems/5

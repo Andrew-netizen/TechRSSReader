@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TechRSSReader.Domain.Common;
 using TechRSSReader.Domain.ValueObjects;
@@ -67,6 +68,8 @@ namespace TechRSSReader.Domain.Entities
                 _userRating = value;
             }
         }
+
+        public virtual IList<FeedItemUserTag> FeedItemUserTags { get; set; }
 
         public Single? UserRatingPrediction { get; set; }
 

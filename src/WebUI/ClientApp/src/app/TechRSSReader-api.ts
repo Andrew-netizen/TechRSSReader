@@ -346,11 +346,82 @@ export class BlogsClient implements IBlogsClient {
     }
 }
 
+export interface IFeedItemUserTagsClient {
+    create(command: CreateFeedItemUserTagCommand): Observable<FeedItemUserTagDto>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class FeedItemUserTagsClient implements IFeedItemUserTagsClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    create(command: CreateFeedItemUserTagCommand): Observable<FeedItemUserTagDto> {
+        let url_ = this.baseUrl + "/api/FeedItemUserTags";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<FeedItemUserTagDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FeedItemUserTagDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<FeedItemUserTagDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FeedItemUserTagDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FeedItemUserTagDto>(<any>null);
+    }
+}
+
 export interface IRssFeedItemsClient {
     getBookmarked(): Observable<FeedItemsViewModel>;
     getTopRated(): Observable<FeedItemsViewModel>;
     getUnread(): Observable<FeedItemsViewModel>;
-    getNoUserPreference(blogId: number | undefined): Observable<RssFeedItemDto>;
+    getTagged(id: number): Observable<FeedItemsViewModel>;
+    getFeedItemDetails(id: number): Observable<RssFeedItemDetailsDto>;
     update(id: number, command: UpdateFeedItemCommand): Observable<RssFeedItemDto>;
 }
 
@@ -511,12 +582,11 @@ export class RssFeedItemsClient implements IRssFeedItemsClient {
         return _observableOf<FeedItemsViewModel>(<any>null);
     }
 
-    getNoUserPreference(blogId: number | undefined): Observable<RssFeedItemDto> {
-        let url_ = this.baseUrl + "/api/RssFeedItems/GetNoUserPreference?";
-        if (blogId === null)
-            throw new Error("The parameter 'blogId' cannot be null.");
-        else if (blogId !== undefined)
-            url_ += "blogId=" + encodeURIComponent("" + blogId) + "&";
+    getTagged(id: number): Observable<FeedItemsViewModel> {
+        let url_ = this.baseUrl + "/api/RssFeedItems/usertag/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -528,20 +598,20 @@ export class RssFeedItemsClient implements IRssFeedItemsClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetNoUserPreference(response_);
+            return this.processGetTagged(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetNoUserPreference(<any>response_);
+                    return this.processGetTagged(<any>response_);
                 } catch (e) {
-                    return <Observable<RssFeedItemDto>><any>_observableThrow(e);
+                    return <Observable<FeedItemsViewModel>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<RssFeedItemDto>><any>_observableThrow(response_);
+                return <Observable<FeedItemsViewModel>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetNoUserPreference(response: HttpResponseBase): Observable<RssFeedItemDto> {
+    protected processGetTagged(response: HttpResponseBase): Observable<FeedItemsViewModel> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -552,7 +622,7 @@ export class RssFeedItemsClient implements IRssFeedItemsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = RssFeedItemDto.fromJS(resultData200);
+            result200 = FeedItemsViewModel.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -560,7 +630,58 @@ export class RssFeedItemsClient implements IRssFeedItemsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<RssFeedItemDto>(<any>null);
+        return _observableOf<FeedItemsViewModel>(<any>null);
+    }
+
+    getFeedItemDetails(id: number): Observable<RssFeedItemDetailsDto> {
+        let url_ = this.baseUrl + "/api/RssFeedItems/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetFeedItemDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFeedItemDetails(<any>response_);
+                } catch (e) {
+                    return <Observable<RssFeedItemDetailsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RssFeedItemDetailsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetFeedItemDetails(response: HttpResponseBase): Observable<RssFeedItemDetailsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = RssFeedItemDetailsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RssFeedItemDetailsDto>(<any>null);
     }
 
     update(id: number, command: UpdateFeedItemCommand): Observable<RssFeedItemDto> {
@@ -1121,6 +1242,125 @@ export class TodoListsClient implements ITodoListsClient {
     }
 }
 
+export interface IUserTagsClient {
+    get(): Observable<UserTagsViewModel>;
+    create(command: CreateUserTagCommand): Observable<UserTagDto>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class UserTagsClient implements IUserTagsClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    get(): Observable<UserTagsViewModel> {
+        let url_ = this.baseUrl + "/api/UserTags";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<UserTagsViewModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserTagsViewModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<UserTagsViewModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserTagsViewModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserTagsViewModel>(<any>null);
+    }
+
+    create(command: CreateUserTagCommand): Observable<UserTagDto> {
+        let url_ = this.baseUrl + "/api/UserTags";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<UserTagDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserTagDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<UserTagDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserTagDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserTagDto>(<any>null);
+    }
+}
+
 export interface IWeatherForecastClient {
     get(): Observable<WeatherForecast[]>;
 }
@@ -1549,8 +1789,6 @@ export class RssFeedItemDto implements IRssFeedItemDto {
     blogTitle?: string | undefined;
     bookmarked?: boolean;
     categories?: string | undefined;
-    content?: string | undefined;
-    description?: string | undefined;
     excludedByKeyword?: boolean | undefined;
     link?: string | undefined;
     publishingDate?: Date | undefined;
@@ -1579,8 +1817,6 @@ export class RssFeedItemDto implements IRssFeedItemDto {
             this.blogTitle = _data["blogTitle"];
             this.bookmarked = _data["bookmarked"];
             this.categories = _data["categories"];
-            this.content = _data["content"];
-            this.description = _data["description"];
             this.excludedByKeyword = _data["excludedByKeyword"];
             this.link = _data["link"];
             this.publishingDate = _data["publishingDate"] ? new Date(_data["publishingDate"].toString()) : <any>undefined;
@@ -1609,8 +1845,6 @@ export class RssFeedItemDto implements IRssFeedItemDto {
         data["blogTitle"] = this.blogTitle;
         data["bookmarked"] = this.bookmarked;
         data["categories"] = this.categories;
-        data["content"] = this.content;
-        data["description"] = this.description;
         data["excludedByKeyword"] = this.excludedByKeyword;
         data["link"] = this.link;
         data["publishingDate"] = this.publishingDate ? this.publishingDate.toISOString() : <any>undefined;
@@ -1632,8 +1866,6 @@ export interface IRssFeedItemDto {
     blogTitle?: string | undefined;
     bookmarked?: boolean;
     categories?: string | undefined;
-    content?: string | undefined;
-    description?: string | undefined;
     excludedByKeyword?: boolean | undefined;
     link?: string | undefined;
     publishingDate?: Date | undefined;
@@ -1782,8 +2014,93 @@ export interface IUpdateBlogCommand {
     keywordsToInclude?: KeywordToIncludeDto[] | undefined;
 }
 
+export class FeedItemUserTagDto implements IFeedItemUserTagDto {
+    userTagId?: number;
+    rssFeedItemId?: number;
+    userTagText?: string | undefined;
+
+    constructor(data?: IFeedItemUserTagDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.userTagId = _data["userTagId"];
+            this.rssFeedItemId = _data["rssFeedItemId"];
+            this.userTagText = _data["userTagText"];
+        }
+    }
+
+    static fromJS(data: any): FeedItemUserTagDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FeedItemUserTagDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userTagId"] = this.userTagId;
+        data["rssFeedItemId"] = this.rssFeedItemId;
+        data["userTagText"] = this.userTagText;
+        return data; 
+    }
+}
+
+export interface IFeedItemUserTagDto {
+    userTagId?: number;
+    rssFeedItemId?: number;
+    userTagText?: string | undefined;
+}
+
+export class CreateFeedItemUserTagCommand implements ICreateFeedItemUserTagCommand {
+    rssFeedItemId?: number;
+    userTagId?: number;
+
+    constructor(data?: ICreateFeedItemUserTagCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.rssFeedItemId = _data["rssFeedItemId"];
+            this.userTagId = _data["userTagId"];
+        }
+    }
+
+    static fromJS(data: any): CreateFeedItemUserTagCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateFeedItemUserTagCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["rssFeedItemId"] = this.rssFeedItemId;
+        data["userTagId"] = this.userTagId;
+        return data; 
+    }
+}
+
+export interface ICreateFeedItemUserTagCommand {
+    rssFeedItemId?: number;
+    userTagId?: number;
+}
+
 export class FeedItemsViewModel implements IFeedItemsViewModel {
     rssFeedItems?: RssFeedItemDto[] | undefined;
+    userTagId?: number | undefined;
 
     constructor(data?: IFeedItemsViewModel) {
         if (data) {
@@ -1801,6 +2118,7 @@ export class FeedItemsViewModel implements IFeedItemsViewModel {
                 for (let item of _data["rssFeedItems"])
                     this.rssFeedItems!.push(RssFeedItemDto.fromJS(item));
             }
+            this.userTagId = _data["userTagId"];
         }
     }
 
@@ -1818,12 +2136,63 @@ export class FeedItemsViewModel implements IFeedItemsViewModel {
             for (let item of this.rssFeedItems)
                 data["rssFeedItems"].push(item.toJSON());
         }
+        data["userTagId"] = this.userTagId;
         return data; 
     }
 }
 
 export interface IFeedItemsViewModel {
     rssFeedItems?: RssFeedItemDto[] | undefined;
+    userTagId?: number | undefined;
+}
+
+export class RssFeedItemDetailsDto extends RssFeedItemDto implements IRssFeedItemDetailsDto {
+    content?: string | undefined;
+    description?: string | undefined;
+    feedItemUserTags?: FeedItemUserTagDto[] | undefined;
+
+    constructor(data?: IRssFeedItemDetailsDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.content = _data["content"];
+            this.description = _data["description"];
+            if (Array.isArray(_data["feedItemUserTags"])) {
+                this.feedItemUserTags = [] as any;
+                for (let item of _data["feedItemUserTags"])
+                    this.feedItemUserTags!.push(FeedItemUserTagDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): RssFeedItemDetailsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RssFeedItemDetailsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["content"] = this.content;
+        data["description"] = this.description;
+        if (Array.isArray(this.feedItemUserTags)) {
+            data["feedItemUserTags"] = [];
+            for (let item of this.feedItemUserTags)
+                data["feedItemUserTags"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IRssFeedItemDetailsDto extends IRssFeedItemDto {
+    content?: string | undefined;
+    description?: string | undefined;
+    feedItemUserTags?: FeedItemUserTagDto[] | undefined;
 }
 
 export class UpdateFeedItemCommand implements IUpdateFeedItemCommand {
@@ -2291,6 +2660,130 @@ export class UpdateTodoListCommand implements IUpdateTodoListCommand {
 export interface IUpdateTodoListCommand {
     id?: number;
     title?: string | undefined;
+}
+
+export class UserTagsViewModel implements IUserTagsViewModel {
+    userTags?: UserTagDto[] | undefined;
+
+    constructor(data?: IUserTagsViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["userTags"])) {
+                this.userTags = [] as any;
+                for (let item of _data["userTags"])
+                    this.userTags!.push(UserTagDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): UserTagsViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserTagsViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.userTags)) {
+            data["userTags"] = [];
+            for (let item of this.userTags)
+                data["userTags"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IUserTagsViewModel {
+    userTags?: UserTagDto[] | undefined;
+}
+
+export class UserTagDto implements IUserTagDto {
+    id?: number;
+    text?: string | undefined;
+
+    constructor(data?: IUserTagDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.text = _data["text"];
+        }
+    }
+
+    static fromJS(data: any): UserTagDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserTagDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["text"] = this.text;
+        return data; 
+    }
+}
+
+export interface IUserTagDto {
+    id?: number;
+    text?: string | undefined;
+}
+
+export class CreateUserTagCommand implements ICreateUserTagCommand {
+    id?: number;
+    text?: string | undefined;
+
+    constructor(data?: ICreateUserTagCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.text = _data["text"];
+        }
+    }
+
+    static fromJS(data: any): CreateUserTagCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateUserTagCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["text"] = this.text;
+        return data; 
+    }
+}
+
+export interface ICreateUserTagCommand {
+    id?: number;
+    text?: string | undefined;
 }
 
 export class WeatherForecast implements IWeatherForecast {

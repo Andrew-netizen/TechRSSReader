@@ -68,7 +68,7 @@ namespace TechRSSReader.Application.UnitTests.Common
                 KeywordsToExclude = new List<KeywordToExclude> { new KeywordToExclude { Keyword = "Food" } },
                 CreatedBy = "00000000-0000-0000-0000-000000000000"
             });
-
+                        
             context.RssFeedItems.Add(new RssFeedItem
             {
                 Id = 1,
@@ -122,6 +122,24 @@ namespace TechRSSReader.Application.UnitTests.Common
                 XmlAddress = "http://aws.amazon.com/rss/whats-new.rss",
                 CreatedBy = "00000000-0000-0000-0000-000000000000"
             });
+
+            context.UserTags.Add(new UserTag
+            {
+                Id = 1,
+                CreatedBy = "00000000-0000-0000-0000-000000000000",
+                Text = "Physics"
+            });
+
+            context.UserTags.Add(new UserTag
+            {
+                Id = 2,
+                CreatedBy = "00000000-0000-0000-0000-000000000000",
+                Text = "Recipes"
+            });
+
+            context.FeedItemUserTags.Add(new FeedItemUserTag { RssFeedItemId = 1, UserTagId = 1 });
+
+            context.FeedItemUserTags.Add(new FeedItemUserTag { RssFeedItemId = 2, UserTagId = 2 });
 
             context.WeeklyBlogSummaries.Add(new WeeklyBlogSummary
             {

@@ -1,0 +1,27 @@
+<div class="modal-header bg-secondary">
+  <h4 class="modal-title text-white">Add Tag</h4>
+  <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addTagForm" novalidate (ngSubmit)="saveTag()">
+  <div class="modal-body">
+    <div class="container">
+      <div class="form-group">
+        <label for="tagtext">Tag Name</label>
+        <input type="text" class="form-control" formControlName="text" />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" [disabled]="!addTagForm.dirty">
+      Create
+    </button>
+  </div>
+</form>
+

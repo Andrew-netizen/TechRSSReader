@@ -9,7 +9,12 @@ import { Actions, createEffect, Effect, ofType } from "@ngrx/effects";
 import * as blogActions from "./blog.actions";
 import { Observable, of } from "rxjs";
 import { mergeMap, map, catchError, concatMap, tap } from "rxjs/operators";
-import { BlogDto, UpdateFeedItemCommand } from "src/app/techrssreader-api";
+import {
+  BlogDto,
+  FeedItemUserTagDto,
+  UpdateFeedItemCommand,
+  UserTagDto,
+} from "src/app/techrssreader-api";
 import { Router } from "@angular/router";
 
 @Injectable()
@@ -81,6 +86,22 @@ export class BlogEffects {
     )
   );
 
+ loadFeedItemDetails$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.LoadFeedItemDetails),
+      map((action: blogActions.LoadFeedItemDetails) => action.payload),
+      mergeMap((feedItemId: number) =>
+        this.blogService.getFeedItemDetails(feedItemId).pipe(
+          map((feedItemDetails) => new blogActions.LoadFeedItemDetailsSuccess(feedItemDetails)),
+          catchError((error) =>
+            of(new blogActions.LoadFeedItemDetailsFail(error))
+          )
+        )
+      )
+    )
+  );
+
+
   loadTopRatedFeedItems$ = createEffect(() =>
     this.actions$.pipe(
       ofType(blogActions.BlogActionTypes.LoadTopRatedFeedItems),
@@ -113,6 +134,37 @@ export class BlogEffects {
       )
     )
   );
+
+  loadUserTags$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.LoadUserTags),
+      mergeMap((action) =>
+        this.blogService.getUserTags().pipe(
+          map((viewModel) => new blogActions.LoadUserTagsSuccess(viewModel)),
+          catchError((error) => of(new blogActions.LoadUserTagsFail(error)))
+        )
+      )
+    )
+  );
+
+  loadUserTagFeedItems$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.LoadUserTagFeedItems),
+      map((action: blogActions.LoadUserTagFeedItems) => action.payload),
+      mergeMap((userTagId: number) =>
+        this.blogService.getTaggedFeedItems(userTagId).pipe(
+          map(
+            (viewModel) =>
+              new blogActions.LoadUserTagFeedItemsSuccess(viewModel)
+          ),
+          catchError((error) =>
+            of(new blogActions.LoadUserTagFeedItemsFail(error))
+          )
+        )
+      )
+    )
+  );
+
 
   loadWeeklyBlogSummaries$ = createEffect(() =>
     this.actions$.pipe(
@@ -187,6 +239,32 @@ export class BlogEffects {
         })
       ),
     { dispatch: false }
+  );
+
+  createUserTag$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.CreateUserTag),
+      map((action: blogActions.CreateUserTag) => action.payload),
+      mergeMap((userTag: UserTagDto) =>
+        this.blogService.createUserTag(userTag).pipe(
+          map((newUserTag) => new blogActions.CreateUserTagSuccess(newUserTag)),
+          catchError((error) => of(new blogActions.CreateUserTagFail(error)))
+        )
+      )
+    )
+  );
+
+  createFeedItemUserTag$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.CreateFeedItemUserTag),
+      map((action: blogActions.CreateFeedItemUserTag) => action.payload),
+      mergeMap((feedItemUserTag: FeedItemUserTagDto) =>
+        this.blogService.createFeedItemUserTag(feedItemUserTag).pipe(
+          map((newFeedItemUserTag) => new blogActions.CreateFeedItemUserTagSuccess(newFeedItemUserTag)),
+          catchError((error) => of(new blogActions.CreateFeedItemUserTagFail(error)))
+        )
+      )
+    )
   );
 
   @Effect()

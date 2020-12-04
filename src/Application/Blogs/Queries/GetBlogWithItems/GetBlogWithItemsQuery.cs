@@ -31,9 +31,37 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
             public async Task<BlogDetailsDto> Handle(GetBlogWithItemsQuery request, CancellationToken cancellationToken)
             {
                 Blog blog = await _context.Blogs
-                    .Include(blog => blog.RssFeedItems)
                     .Where(blog => blog.Id == request.Id)
                     .AsNoTracking()
+                    .Select(b => new Blog
+                    {
+                        Id = b.Id, 
+                        Title = b.Title,
+                        XmlAddress = b.XmlAddress,
+                        KeywordsToExclude = b.KeywordsToExclude, 
+                        KeywordsToInclude = b.KeywordsToInclude, 
+                        RssFeedItems = b.RssFeedItems.Select(r => new RssFeedItem
+                        {
+                            Id = r.Id,
+                            Author = r.Author,
+                            BlogId = r.BlogId,
+                            Blog = r.Blog,
+                            Bookmarked = r.Bookmarked,
+                            Categories = r.Categories,
+                            ExcludedByKeyword = r.ExcludedByKeyword,
+                            Link = r.Link,
+                            PublishingDate = r.PublishingDate,
+                            PublishingDateString = r.PublishingDateString,
+                            ReadAlready = r.ReadAlready,
+                            RetrievedDateTime = r.RetrievedDateTime,
+                            RssId = r.RssId,
+                            Title = r.Title,
+                            UserRatedDate = r.UserRatedDate,
+                            UserRating = r.UserRating,
+                            UserRatingPrediction = r.UserRatingPrediction,
+                            UserReadDate = r.UserReadDate
+                        }).ToList()
+                    })
                     .FirstOrDefaultAsync(cancellationToken);
 
                 blog.RssFeedItems = blog.RssFeedItems.OrderByDescending(feedItem => feedItem.PublishingDate).ToList();

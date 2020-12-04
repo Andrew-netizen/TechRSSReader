@@ -102,9 +102,11 @@
         <feeditem-display
           *ngIf="feedItem?.id === selectedFeedItem?.id"
           [feedItem]="selectedFeedItem"
+          [feedItemUserTags]="feedItemUserTags"
           (articleMarkedAsRead)="markedAsReadHandler(feedItem)"
           (bookmarkToggled)="bookmarkToggledHandler(feedItem)"
           (titleClicked)="onTitleClicked()"
+          (userClickedAddItemTag)="onAddItemTagClicked(feedItem)"
           (userInterestUpdated)="handleUserInterestUpdate($event)"
         ></feeditem-display>
       </li>

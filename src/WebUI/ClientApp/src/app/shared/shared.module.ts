@@ -18,6 +18,7 @@ import { SettingsModalComponent } from "./components/settings-modal/settings-mod
 import { RateFeeditemComponent } from "./components/rate-feeditem/rate-feeditem.component";
 import { NavSearchComponent } from './components/nav-search/nav-search.component';
 import { AutoFocusDirective } from './auto-focus.directive';
+import { AddtagModalComponent } from './components/addtag-modal/addtag-modal.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { AutoFocusDirective } from './auto-focus.directive';
     RateFeeditemComponent,
     NavSearchComponent,
     AutoFocusDirective,
+    AddtagModalComponent,
   ],
   imports: [
     CommonModule,

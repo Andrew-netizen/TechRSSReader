@@ -18,11 +18,7 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
         public bool Bookmarked { get; set; }
 
         public string Categories { get; set; }
-
-        public string Content { get; set; }
-
-        public string Description { get; set; }
-
+        
         public bool? ExcludedByKeyword { get; set; }
 
         public string Link { get; set; }
@@ -43,10 +39,11 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
 
         public Single? UserRatingPrediction { get; set; }
 
-        public void Mapping(Profile profile)
+        public virtual void Mapping(Profile profile)
         {
             profile.CreateMap<RssFeedItem, RssFeedItemDto>()
                 .ForMember(item => item.BlogTitle, config => config.Ignore());
+                
         }
     }
 }

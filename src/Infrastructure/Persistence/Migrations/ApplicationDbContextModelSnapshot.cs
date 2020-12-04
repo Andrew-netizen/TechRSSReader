@@ -273,6 +273,21 @@ namespace TechRSSReader.Infrastructure.Persistence.Migrations
                     b.ToTable("Blogs");
                 });
 
+            modelBuilder.Entity("TechRSSReader.Domain.Entities.FeedItemUserTag", b =>
+                {
+                    b.Property<int>("RssFeedItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserTagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RssFeedItemId", "UserTagId");
+
+                    b.HasIndex("UserTagId");
+
+                    b.ToTable("FeedItemUserTags");
+                });
+
             modelBuilder.Entity("TechRSSReader.Domain.Entities.RssFeedItem", b =>
                 {
                     b.Property<int>("Id")
@@ -442,6 +457,38 @@ namespace TechRSSReader.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TodoLists");
+                });
+
+            modelBuilder.Entity("TechRSSReader.Domain.Entities.UserTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserTags");
                 });
 
             modelBuilder.Entity("TechRSSReader.Domain.Entities.WeeklyBlogSummary", b =>
@@ -631,6 +678,25 @@ namespace TechRSSReader.Infrastructure.Persistence.Migrations
                     b.Navigation("KeywordsToExclude");
 
                     b.Navigation("KeywordsToInclude");
+                });
+
+            modelBuilder.Entity("TechRSSReader.Domain.Entities.FeedItemUserTag", b =>
+                {
+                    b.HasOne("TechRSSReader.Domain.Entities.RssFeedItem", "RssFeedItem")
+                        .WithMany()
+                        .HasForeignKey("RssFeedItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TechRSSReader.Domain.Entities.UserTag", "UserTag")
+                        .WithMany()
+                        .HasForeignKey("UserTagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RssFeedItem");
+
+                    b.Navigation("UserTag");
                 });
 
             modelBuilder.Entity("TechRSSReader.Domain.Entities.RssFeedItem", b =>

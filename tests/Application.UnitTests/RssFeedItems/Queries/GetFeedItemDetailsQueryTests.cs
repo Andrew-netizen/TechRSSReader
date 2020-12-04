@@ -13,13 +13,13 @@ using Xunit;
 namespace TechRSSReader.Application.UnitTests.RssFeedItems.Queries
 {
     [Collection("QueryTests")]
-    public class GetRssFeedItemQueryTests
+    public class GetFeedItemDetailsQueryTests
     {
 
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public GetRssFeedItemQueryTests(QueryTestFixture fixture)
+        public GetFeedItemDetailsQueryTests(QueryTestFixture fixture)
         {
             _context = fixture.Context;
             _mapper = fixture.Mapper;
@@ -29,17 +29,19 @@ namespace TechRSSReader.Application.UnitTests.RssFeedItems.Queries
         public async Task Handle_ReturnsCorrect()
         {
 
-            var query = new GetRssFeedItemQuery
+            var query = new GetFeedItemDetailsQuery
             {
                 Id = 1
             };
 
-            var handler = new GetRssFeedItemQuery.GetRssFeedItemQueryHandler(_context, _mapper);
+            var handler = new GetFeedItemDetailsQuery.GetFeedItemDetailsQueryHandler(_context, _mapper);
 
             var result = await handler.Handle(query, CancellationToken.None);
 
-            result.ShouldBeOfType<RssFeedItemDto>();
+            result.ShouldBeOfType<RssFeedItemDetailsDto>();
             result.Id.ShouldBe(1);
+            result.FeedItemUserTags.Count.ShouldBe(1);
+            result.FeedItemUserTags[0].UserTagText.ShouldBe("Physics");
             result.BlogId.ShouldBeGreaterThan(0);
 
 

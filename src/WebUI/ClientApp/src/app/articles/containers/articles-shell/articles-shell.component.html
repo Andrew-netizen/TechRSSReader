@@ -5,6 +5,7 @@
     [feedItems]="feedItems$ | async"
     [feedItemSectionTitle]="feedItemSectionTitle$ | async"
     [feedItemSource]="feedItemSource$ | async"
+    [feedItemUserTags]="feedItemUserTags$ | async"
     [pageCount]="pagesCount$ | async"
     [selectedBlog]="selectedBlog$ | async"
     [selectedFeedItem]="selectedFeedItem$ | async"
@@ -16,5 +17,6 @@
     (selected)="feedItemSelected($event)"
     (titleClickedEvent)="clearCurrentFeedItem()"
     (userInterestUpdated)="userInterestUpdateHandler($event)"
+    (addItemTagClickedEvent)="addItemTagClicked($event)"
   ></articles-list>
 </div>
