@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Logs\myapp.json" />
+    <Content Remove="wwwroot\css\site.css" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
@@ -73,6 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\css\site.css" />
   </ItemGroup>
   <Target Name="NSwag" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
     <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
