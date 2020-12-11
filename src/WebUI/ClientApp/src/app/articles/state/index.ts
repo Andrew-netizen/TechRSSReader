@@ -1,37 +1,38 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromArticles from './articles.reducer';
-import * as fromBlog from '../../blog/state/blog.reducer';
-import {orderBy } from 'lodash';
-import { RssFeedItemDto } from 'src/app/TechRSSReader-api';
+import { createFeatureSelector, createSelector } from "@ngrx/store";
+import * as fromArticles from "./articles.reducer";
+import * as fromBlog from "../../blog/state/blog.reducer";
+import { orderBy } from "lodash";
+import { RssFeedItemDto } from "src/app/TechRSSReader-api";
 
 // selector functions
 
-const getArticlesFeatureState = createFeatureSelector<fromArticles.ArticlesState>('articles');
+const getArticlesFeatureState = createFeatureSelector<fromArticles.ArticlesState>(
+  "articles"
+);
 
 export const getExcludeAlreadyRead = createSelector(
   getArticlesFeatureState,
-  state => state.excludeAlreadyRead
+  (state) => state.excludeAlreadyRead
 );
 
 export const getFilterText = createSelector(
   getArticlesFeatureState,
-  state => state.filterText
+  (state) => state.filterText
 );
 
 export const getKeywordExclusion = createSelector(
   getArticlesFeatureState,
-  state => state.keywordExclusion
+  (state) => state.keywordExclusion
 );
 
 export const getDisplaySortOrder = createSelector(
   getArticlesFeatureState,
-  state => state.displaySortOrder
+  (state) => state.displaySortOrder
 );
-
 
 export const getPageSize = createSelector(
   getArticlesFeatureState,
-  state => state.pageSize
+  (state) => state.pageSize
 );
 
 export const getFilteredArticles = createSelector(
@@ -41,43 +42,50 @@ export const getFilteredArticles = createSelector(
   getFilterText,
   fromBlog.getFeedItems,
   fromBlog.getFeedItemSource,
-  (excludeAlreadyRead, keywordExclusion, displaySortOrder, filterText, feedItems, feedItemSource) =>
-  {
-
+  (
+    excludeAlreadyRead,
+    keywordExclusion,
+    displaySortOrder,
+    filterText,
+    feedItems,
+    feedItemSource
+  ) => {
     var result = feedItems;
 
-    if (excludeAlreadyRead)
-    {
-      result = result.filter(feedItem => !feedItem.readAlready);
+    if (
+      excludeAlreadyRead &&
+      feedItemSource != fromBlog.FeedItemSource.Bookmarked &&
+      feedItemSource != fromBlog.FeedItemSource.UserTags
+    ) {
+      result = result.filter((feedItem) => !feedItem.readAlready);
     }
 
-    if (feedItemSource === fromBlog.FeedItemSource.Bookmarked)
-    {
-      result = result.filter(feedItem => feedItem.bookmarked);
+    if (feedItemSource === fromBlog.FeedItemSource.Bookmarked) {
+      result = result.filter((feedItem) => feedItem.bookmarked);
     }
 
-    if (keywordExclusion)
-    {
-      result = result.filter(feedItem => !feedItem.excludedByKeyword);
+    if (keywordExclusion) {
+      result = result.filter((feedItem) => !feedItem.excludedByKeyword);
     }
 
-    if ((filterText) && (filterText.length > 0))
-    {
-      result = result.filter((feedItem: RssFeedItemDto) =>
-        feedItem.title.toLocaleLowerCase().indexOf(filterText) !== -1);
+    if (filterText && filterText.length > 0) {
+      result = result.filter(
+        (feedItem: RssFeedItemDto) =>
+          feedItem.title.toLocaleLowerCase().indexOf(filterText) !== -1
+      );
     }
 
     if (displaySortOrder === fromArticles.DisplaySortOrder.PredictedRating)
-      result = orderBy(result, ['userRatingPrediction'], ['desc']);
+      result = orderBy(result, ["userRatingPrediction"], ["desc"]);
     if (displaySortOrder === fromArticles.DisplaySortOrder.PublishDateDesc)
-      result = orderBy(result, ['publishingDate'], ['desc']);
+      result = orderBy(result, ["publishingDate"], ["desc"]);
     return result;
   }
 );
 
 export const getFilteredArticleCount = createSelector(
   getFilteredArticles,
-  articles => articles.length
+  (articles) => articles.length
 );
 
 export const getPagesCount = createSelector(
@@ -86,30 +94,29 @@ export const getPagesCount = createSelector(
   (articleCount, pageSize) => Math.ceil(articleCount / pageSize)
 );
 
-
 // Don't allow the current Feed Item Page to be greater
 // than the total page count
 export const getCurrentFeedItemPage = createSelector(
-  (fromBlog.getCurrentFeedItemPage),
+  fromBlog.getCurrentFeedItemPage,
   getPagesCount,
   (currentFeedItemPage, pageCount) => {
-    if (currentFeedItemPage <= pageCount)
-      return currentFeedItemPage;
-    else
-      return pageCount;
+    if (currentFeedItemPage <= pageCount) return currentFeedItemPage;
+    else return pageCount;
   }
 );
 
 export const getPaginatedArticles = createSelector(
-    getFilteredArticles,
-    getCurrentFeedItemPage,
-    getPageSize,
-    (articles, currentPage, pageSize) =>
-      articles.slice((currentPage-1)*pageSize,currentPage*pageSize)
-  );
+  getFilteredArticles,
+  getCurrentFeedItemPage,
+  getPageSize,
+  (articles, currentPage, pageSize) =>
+    articles.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+);
 
 export const getShowBlogTitle = createSelector(
   fromBlog.getFeedItemSource,
-  source => (source === fromBlog.FeedItemSource.Bookmarked) || (source === fromBlog.FeedItemSource.Unread) || (source === fromBlog.FeedItemSource.TopRated)
+  (source) =>
+    source === fromBlog.FeedItemSource.Bookmarked ||
+    source === fromBlog.FeedItemSource.Unread ||
+    source === fromBlog.FeedItemSource.TopRated
 );
-

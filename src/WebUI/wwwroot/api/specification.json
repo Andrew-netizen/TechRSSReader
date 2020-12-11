@@ -990,10 +990,6 @@
             "type": "string",
             "nullable": true
           },
-          "xmlAddress": {
-            "type": "string",
-            "nullable": true
-          },
           "keywordsToInclude": {
             "type": "array",
             "nullable": true,
@@ -1007,6 +1003,15 @@
             "items": {
               "$ref": "#/components/schemas/KeywordToExcludeDto"
             }
+          },
+          "unreadUnexcludedItems": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "xmlAddress": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

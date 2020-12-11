@@ -10,6 +10,8 @@ namespace TechRSSReader.Domain.Entities
     {
         public int Id { get; set; }
 
+        public int? UnreadUnexcludedItems { get; set; }
+
         public string Title { get; set; }
 
         public string XmlAddress { get; set; }

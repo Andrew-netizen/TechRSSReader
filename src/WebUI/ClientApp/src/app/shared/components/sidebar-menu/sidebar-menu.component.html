@@ -86,7 +86,10 @@
             class="nav-link text-white"
             [routerLink]="['/articles/', blog.id]"
             (click)="menuItemClicked()"
-            >{{ blog.title }}</a
+            >{{ blog.title
+            }}&nbsp;<span *ngIf="!(blog.unreadUnexcludedItems ===null)" class="badge bg-dark">{{
+              blog.unreadUnexcludedItems
+            }}</span></a
           >
         </li>
       </ul>

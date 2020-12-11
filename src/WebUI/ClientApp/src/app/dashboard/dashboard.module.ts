@@ -15,6 +15,7 @@ import { DashboardShellComponent } from "./containers/dashboard-shell/dashboard-
 import { BlogstatsShellComponent } from './containers/blogstats-shell/blogstats-shell.component';
 import { BlogCardThisweekComponent } from './components/blog-card-thisweek/blog-card-thisweek.component';
 import { BlogSummaryComponent } from './components/blog-summary/blog-summary.component';
+import { BlogChartComponent } from './components/blog-chart/blog-chart.component';
 const dashboardRoutes: Routes = [
   {
     path: "dashboard",
@@ -30,7 +31,7 @@ const dashboardRoutes: Routes = [
 
 
 @NgModule({
-  declarations: [DashboardBlogComponent, DashboardShellComponent, BlogstatsShellComponent, BlogCardThisweekComponent, BlogSummaryComponent],
+  declarations: [DashboardBlogComponent, DashboardShellComponent, BlogstatsShellComponent, BlogCardThisweekComponent, BlogSummaryComponent, BlogChartComponent],
   imports: [
     BrowserAnimationsModule,
     CommonModule,

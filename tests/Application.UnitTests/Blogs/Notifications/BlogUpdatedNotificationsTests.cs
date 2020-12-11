@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TechRSSReader.Application.Blogs.Commands.UpdateBlog;
 using TechRSSReader.Application.Blogs.Notifications;
 using TechRSSReader.Application.UnitTests.Common;
+using TechRSSReader.Domain.Entities;
 using Xunit;
 
 namespace TechRSSReader.Application.UnitTests.Blogs.Notifications
@@ -60,6 +61,10 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Notifications
 
             einsteinsExcludedFeedItems.ShouldBe(0);
 
+            Blog blog = Context.Blogs.Where(blog => blog.Id == 1).FirstOrDefault();
+
+            blog.UnreadUnexcludedItems.HasValue.ShouldBeTrue();
+            blog.UnreadUnexcludedItems.Value.ShouldBe(2);
         }
     }
 }

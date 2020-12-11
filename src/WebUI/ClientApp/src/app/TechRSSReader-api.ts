@@ -1596,9 +1596,10 @@ export interface IBlogsViewModel {
 export class BlogDto implements IBlogDto {
     id?: number;
     title?: string | undefined;
-    xmlAddress?: string | undefined;
     keywordsToInclude?: KeywordToIncludeDto[] | undefined;
     keywordsToExclude?: KeywordToExcludeDto[] | undefined;
+    unreadUnexcludedItems?: number | undefined;
+    xmlAddress?: string | undefined;
 
     constructor(data?: IBlogDto) {
         if (data) {
@@ -1613,7 +1614,6 @@ export class BlogDto implements IBlogDto {
         if (_data) {
             this.id = _data["id"];
             this.title = _data["title"];
-            this.xmlAddress = _data["xmlAddress"];
             if (Array.isArray(_data["keywordsToInclude"])) {
                 this.keywordsToInclude = [] as any;
                 for (let item of _data["keywordsToInclude"])
@@ -1624,6 +1624,8 @@ export class BlogDto implements IBlogDto {
                 for (let item of _data["keywordsToExclude"])
                     this.keywordsToExclude!.push(KeywordToExcludeDto.fromJS(item));
             }
+            this.unreadUnexcludedItems = _data["unreadUnexcludedItems"];
+            this.xmlAddress = _data["xmlAddress"];
         }
     }
 
@@ -1638,7 +1640,6 @@ export class BlogDto implements IBlogDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["title"] = this.title;
-        data["xmlAddress"] = this.xmlAddress;
         if (Array.isArray(this.keywordsToInclude)) {
             data["keywordsToInclude"] = [];
             for (let item of this.keywordsToInclude)
@@ -1649,6 +1650,8 @@ export class BlogDto implements IBlogDto {
             for (let item of this.keywordsToExclude)
                 data["keywordsToExclude"].push(item.toJSON());
         }
+        data["unreadUnexcludedItems"] = this.unreadUnexcludedItems;
+        data["xmlAddress"] = this.xmlAddress;
         return data; 
     }
 }
@@ -1656,9 +1659,10 @@ export class BlogDto implements IBlogDto {
 export interface IBlogDto {
     id?: number;
     title?: string | undefined;
-    xmlAddress?: string | undefined;
     keywordsToInclude?: KeywordToIncludeDto[] | undefined;
     keywordsToExclude?: KeywordToExcludeDto[] | undefined;
+    unreadUnexcludedItems?: number | undefined;
+    xmlAddress?: string | undefined;
 }
 
 export class KeywordToIncludeDto implements IKeywordToIncludeDto {

@@ -4,14 +4,9 @@
   </div>
   <div class="card-body">
     <h6 class="m-2">This week</h6>
-    <!-- <ngx-charts-number-card
-      [view]="cardView"
-      [scheme]="colorSchemeSecondRow"
-      [results]="thisWeekData"
-      [cardColor]="cardColor"
-    >
-    </ngx-charts-number-card> -->
     <app-blog-card-thisweek [latestCardData]="cardDataArray">
     </app-blog-card-thisweek>
+    <h6 class="m-2">Last month</h6>
+    <app-blog-chart></app-blog-chart>
   </div>
 </div>

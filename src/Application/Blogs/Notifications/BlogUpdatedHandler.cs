@@ -39,6 +39,16 @@ namespace TechRSSReader.Application.Blogs.Notifications
 
                 await _context.SaveChangesAsync(blog.LastModifiedBy, cancellationToken);
 
+                blog.UnreadUnexcludedItems = _context.RssFeedItems
+                                                .Where(item => item.BlogId == notification.BlogId)
+                                                .Where(item => item.ExcludedByKeyword.HasValue && !item.ExcludedByKeyword.Value)
+                                                .Where(item => !item.ReadAlready)
+                                                .Count();
+
+                _context.Blogs.Update(blog);
+
+                await _context.SaveChangesAsync(blog.LastModifiedBy, cancellationToken);
+
             }
             catch (Exception exception)
             {

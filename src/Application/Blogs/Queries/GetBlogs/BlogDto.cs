@@ -9,11 +9,14 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogs
         public int Id { get; set; }
 
         public string Title { get; set; }
-
-        public string XmlAddress { get; set; }
-
+        
         public IList<KeywordToIncludeDto> KeywordsToInclude { get; set; }
 
         public IList<KeywordToExcludeDto> KeywordsToExclude { get; set; }
+
+        public int? UnreadUnexcludedItems { get; set; }
+
+        public string XmlAddress { get; set; }
+
     }
 }

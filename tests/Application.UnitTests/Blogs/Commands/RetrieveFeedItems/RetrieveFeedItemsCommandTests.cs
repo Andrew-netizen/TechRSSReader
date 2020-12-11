@@ -78,6 +78,15 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
             // No more items should have been added into the database. 
             retrievedItems.Count.ShouldBe(retrievedItemsCount);
 
+            int unreadUnexcludedItems = Context.RssFeedItems
+                                        .Where(item => item.BlogId == slashdot.Id)
+                                        .Where(item => !item.ReadAlready)
+                                        .Where(item => item.ExcludedByKeyword.HasValue && !item.ExcludedByKeyword.Value)
+                                        .Count();
+
+            slashdot = Context.Blogs.Where(item => item.Id == command.BlogId).FirstOrDefault();
+            slashdot.UnreadUnexcludedItems.HasValue.ShouldBeTrue();
+            slashdot.UnreadUnexcludedItems.Value.ShouldBe(unreadUnexcludedItems);
 
         }
 

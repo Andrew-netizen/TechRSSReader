@@ -64,7 +64,9 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
                     })
                     .FirstOrDefaultAsync(cancellationToken);
 
-                blog.RssFeedItems = blog.RssFeedItems.OrderByDescending(feedItem => feedItem.PublishingDate).ToList();
+                blog.RssFeedItems = blog.RssFeedItems
+                    .OrderByDescending(feedItem => feedItem.ReadAlready)
+                    .ThenByDescending(feedItem => feedItem.PublishingDate).Take(100).ToList();
 
                 foreach (RssFeedItem feedItem in blog.RssFeedItems)
                 {

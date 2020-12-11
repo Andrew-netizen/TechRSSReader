@@ -71,6 +71,15 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
 
 
                     result = await _context.SaveChangesAsync(rssFeed.CreatedBy, cancellationToken);
+
+                    rssFeed.UnreadUnexcludedItems = _context.RssFeedItems
+                                                .Where(item => item.BlogId == request.BlogId)
+                                                .Where(item => item.ExcludedByKeyword.HasValue && !item.ExcludedByKeyword.Value)
+                                                .Where(item => !item.ReadAlready)
+                                                .Count();
+
+                    await _context.SaveChangesAsync(rssFeed.CreatedBy, cancellationToken);
+
                 }
                 catch(Exception ex)
                 {
