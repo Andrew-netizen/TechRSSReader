@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card border-bottom-0">
   <div class="card-header p-1">
     <div class="row">
       <div class="col mx-2">
@@ -8,9 +8,8 @@
         class="col text-right"
         *ngIf="feedItemSource === FeedItemSourceEnum.Blog && selectedBlog"
       >
-      <app-blog-statsbutton  [blog]="selectedBlog"></app-blog-statsbutton>
-      <app-blog-editbutton [blog]="selectedBlog"></app-blog-editbutton>
-
+        <app-blog-statsbutton [blog]="selectedBlog"></app-blog-statsbutton>
+        <app-blog-editbutton [blog]="selectedBlog"></app-blog-editbutton>
       </div>
     </div>
   </div>
@@ -88,7 +87,7 @@
             <small
               *ngIf="feedItem.categories"
               class="rounded px-2 py-1 border border-warn"
-            >{{ feedItem.categories | categoriesPipe }}
+              >{{ feedItem.categories | categoriesPipe }}
             </small>
             &nbsp;
             <small
@@ -111,6 +110,9 @@
         ></feeditem-display>
       </li>
     </ul>
+  </div>
+  <div *ngIf="totalArticlesCount === 0" class="alert alert-primary" role="alert">
+    You're up to date!
   </div>
   <div class="card-footer" *ngIf="pageCount > 1">
     <div class="row">

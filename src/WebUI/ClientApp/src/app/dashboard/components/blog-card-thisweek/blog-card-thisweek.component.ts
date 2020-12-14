@@ -4,9 +4,10 @@ import {
   BreakpointState,
 } from "@angular/cdk/layout";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { WeeklyBlogSummaryDto } from "src/app/TechRSSReader-api";
-import { BlogCardData, CardData } from "../../card-data";
+import { CardData } from "../../card-data";
 
 @Component({
   selector: "app-blog-card-thisweek",
@@ -23,10 +24,13 @@ export class BlogCardThisweekComponent implements OnInit, OnDestroy {
   cardView: any[];
 
   colorScheme = {
-    domain: ["#DEF2F1", "#FEFFFF", "#DEF2F1"],
+    domain: ["#2B7A78", "#FEFFFF", "#DEF2F1"],
   };
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.breakpointSubscription = this.breakpointObserver
@@ -41,5 +45,7 @@ export class BlogCardThisweekComponent implements OnInit, OnDestroy {
     this.breakpointSubscription.unsubscribe();
   }
 
-  card
+  showStats(blogId: number): void {
+    this.router.navigate(["/dashboard/", blogId]);
+  }
 }

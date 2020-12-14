@@ -12,6 +12,7 @@ export class BlogSummaryComponent {
   @Input() cardDataArray: CardData[];
   @Input() selectedBlog: BlogDto;
   @Input() weeklyBlogSummaries: WeeklyBlogSummaryDto[];
+  @Input() lastMonthChartData: Object[];
 
 
 }

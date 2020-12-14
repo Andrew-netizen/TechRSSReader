@@ -13,7 +13,9 @@ import * as fromRoot from "../../../state/app.state";
 import * as fromBlog from "../../../blog/state/blog.reducer";
 import * as blogActions from "../../../blog/state/blog.actions";
 import { map } from "rxjs/operators";
-import { BlogCardData, CardData, mapCardData } from "../../card-data";
+import { CardData, mapCardData } from "../../card-data";
+import { mapChartData } from "../../chart-data";
+import { PublishingDatePipe } from "src/app/shared/publishingdate.pipe";
 
 @Component({
   selector: "app-blogstats-shell",
@@ -25,11 +27,14 @@ export class BlogstatsShellComponent implements OnInit, OnDestroy {
   selectedBlog$: Observable<BlogDto>;
   weeklyBlogSummaries$: Observable<WeeklyBlogSummaryDto[]>;
   cardDataArray$: Observable<CardData[] | null>;
+  chartData$: Observable<Object[] | null>;
+
   paramMapSubscription: Subscription;
 
   constructor(
     private store: Store<fromRoot.State>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private publishingDatePipe: PublishingDatePipe
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +59,16 @@ export class BlogstatsShellComponent implements OnInit, OnDestroy {
         else return null;
       })
     );
+
+    this.chartData$ = this.weeklyBlogSummaries$.pipe(
+      map((value: WeeklyBlogSummaryDto[]) => {
+        if (value && value.length > 0) {
+          return mapChartData(value, this.publishingDatePipe);
+        }
+        else return null;
+      })
+    );
+
   }
 
   ngOnDestroy(): void {

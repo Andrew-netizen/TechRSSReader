@@ -539,6 +539,7 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         weeklyBlogSummaries: action.payload.weeklyBlogSummaries,
+        currentBlogId: action.payload.weeklyBlogSummaries.length > 0 ? action.payload.weeklyBlogSummaries[0].blogId : state.currentBlogId,
         isLoading: false,
       };
 

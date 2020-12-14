@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule, Routes } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { SharedModule } from "../shared/shared.module"
 
 // Other Angular Libraries
 
@@ -16,6 +17,7 @@ import { BlogstatsShellComponent } from './containers/blogstats-shell/blogstats-
 import { BlogCardThisweekComponent } from './components/blog-card-thisweek/blog-card-thisweek.component';
 import { BlogSummaryComponent } from './components/blog-summary/blog-summary.component';
 import { BlogChartComponent } from './components/blog-chart/blog-chart.component';
+import { PublishingDatePipe } from "../shared/publishingdate.pipe";
 const dashboardRoutes: Routes = [
   {
     path: "dashboard",
@@ -37,7 +39,9 @@ const dashboardRoutes: Routes = [
     CommonModule,
     NgxChartsModule,
     RouterModule.forChild(dashboardRoutes),
+    SharedModule,
   ],
+  providers: [PublishingDatePipe],
   exports: [DashboardShellComponent]
 })
 export class DashboardModule {}

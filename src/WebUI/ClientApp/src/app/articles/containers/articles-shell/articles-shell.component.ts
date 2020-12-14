@@ -136,7 +136,6 @@ export class ArticlesShellComponent implements OnInit, OnDestroy {
   addItemTagClicked(feedItem: RssFeedItemDto) {
     const modalRef = this.modalService.open(AddItemtagModalComponent);
     modalRef.result.then((value) => {
-      console.log(FeedItemUserTagDto.fromJS(value));
       this.store.dispatch(
         new blogActions.CreateFeedItemUserTag(FeedItemUserTagDto.fromJS(value))
       );
