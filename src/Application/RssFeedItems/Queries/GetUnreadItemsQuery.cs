@@ -39,7 +39,7 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
                     .Where(item => !item.ReadAlready)
                     .Where(item => (item.ExcludedByKeyword.HasValue && !item.ExcludedByKeyword.Value))
                     .Where(item => item.CreatedBy.Equals(_currentUserService.UserId))
-                    .OrderByDescending(item => item.Created)
+                    .OrderByDescending(item => item.PublishingDate.HasValue ? item.PublishingDate.Value : item.Created)
                     .Take(50)
                     .AsNoTracking()
                     .Select(r => new RssFeedItem

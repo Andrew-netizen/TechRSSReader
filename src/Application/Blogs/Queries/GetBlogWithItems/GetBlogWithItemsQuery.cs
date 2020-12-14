@@ -45,7 +45,6 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
                             Id = r.Id,
                             Author = r.Author,
                             BlogId = r.BlogId,
-                            Blog = r.Blog,
                             Bookmarked = r.Bookmarked,
                             Categories = r.Categories,
                             ExcludedByKeyword = r.ExcludedByKeyword,
@@ -65,8 +64,8 @@ namespace TechRSSReader.Application.Blogs.Queries.GetBlogWithItems
                     .FirstOrDefaultAsync(cancellationToken);
 
                 blog.RssFeedItems = blog.RssFeedItems
-                    .OrderByDescending(feedItem => feedItem.ReadAlready)
-                    .ThenByDescending(feedItem => feedItem.PublishingDate).Take(100).ToList();
+                    .OrderBy(feedItem => feedItem.ReadAlready)
+                    .ThenByDescending(feedItem => feedItem.PublishingDate.HasValue ? feedItem.PublishingDate.Value : feedItem.Created).Take(100).ToList();
 
                 foreach (RssFeedItem feedItem in blog.RssFeedItems)
                 {
