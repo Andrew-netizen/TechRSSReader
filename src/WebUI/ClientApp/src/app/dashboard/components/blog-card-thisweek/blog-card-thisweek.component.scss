@@ -2,11 +2,16 @@
   .card {
     max-width: 650px;
   }
+
 }
 
 @media (max-width: 767.98px) {
   .card {
     max-width: 450px;
+  }
+
+  .card-body-padding {
+    padding: 0.4rem;
   }
 }
 
