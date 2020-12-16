@@ -32,7 +32,16 @@ namespace TechRSSReader.WebUI.Controllers
         [HttpGet]
         public async Task<ActionResult<BlogsViewModel>> Get()
         {
-            return await Mediator.Send(new GetBlogsQuery());
+            try
+            {
+                return await Mediator.Send(new GetBlogsQuery());
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "Failed to Get Blogs");
+                throw;
+            }
+            
         }
 
         /// GET: api/Blogs/5

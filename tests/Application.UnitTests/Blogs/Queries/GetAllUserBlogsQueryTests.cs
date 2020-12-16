@@ -37,8 +37,7 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Queries
 
             var blog = result.Where(blog => blog.Title == "Einstein Blog").First();
 
-            blog.KeywordsToExclude.Count.ShouldBe(1);
-            blog.KeywordsToInclude.Count.ShouldBe(1);
+            blog.Id.ShouldBe(1);
         }
 
     }

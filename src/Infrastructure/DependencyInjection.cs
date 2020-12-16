@@ -4,6 +4,7 @@ using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,12 +26,17 @@ namespace TechRSSReader.Application
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
         {
+
+            // There are issues with Split queries and projections that are still being worked on.
+            // Hopefully they will be resolved soon. See:
+            // https://github.com/dotnet/efcore/issues/21234
+
             services.AddDbContext<ApplicationDbContext>(options =>
-                options
-                .UseLazyLoadingProxies()
-                .UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection"), 
-                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+               options
+               .UseLazyLoadingProxies()
+               .UseSqlServer(
+                   configuration.GetConnectionString("DefaultConnection"),
+                   b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
                         

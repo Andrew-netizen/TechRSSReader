@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,6 +29,12 @@ namespace TechRSSReader.Application.Blogs.Queries.GetAllUserBlogs
                 
                 return await _context.Blogs
                     .AsNoTracking()
+                    .Select(b => new Blog
+                    {
+                        Id = b.Id,
+                        Title = b.Title,
+                        XmlAddress = b.XmlAddress
+                    })
                     .ToListAsync(cancellationToken);
             }
         }
