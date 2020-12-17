@@ -30,6 +30,9 @@ export enum BlogActionTypes {
   DeleteBlog = "[Blog GUI] Delete Blog",
   DeleteBlogFail = "[Blog API] Delete Blog Fail",
   DeleteBlogSuccess = "[Blog API] Delete Blog Success",
+  DeleteFeedItemUserTag = "[Articles GUI] Delete Feed Item User Tag",
+  DeleteFeedItemUserTagFail = "[Blog API] Delete Feed Item User Tag Fail",
+  DeleteFeedItemUserTagSuccess = "[Blog API] Delete Feed Item User Tag Success",
   InitializeCurrentBlog = "[Blog GUI] Initialize Current Blog",
   LoadAllBlogSummaries = "[Dashboard GUI] Load All Blog Weekly Summaries",
   LoadAllBlogSummariesFail = "[Blog API] Load All Blog Weekly Summaries Fail",
@@ -153,6 +156,21 @@ export class DeleteBlogFail implements Action {
 export class DeleteBlogSuccess implements Action {
   readonly type = BlogActionTypes.DeleteBlogSuccess;
   constructor(public payload: number) {}
+}
+
+export class DeleteFeedItemUserTag implements Action {
+  readonly type = BlogActionTypes.DeleteFeedItemUserTag;
+  constructor(public payload: FeedItemUserTagDto) {}
+}
+
+export class DeleteFeedItemUserTagFail implements Action {
+  readonly type = BlogActionTypes.DeleteFeedItemUserTagFail;
+  constructor(public payload: string) {}
+}
+
+export class DeleteFeedItemUserTagSuccess implements Action {
+  readonly type = BlogActionTypes.DeleteFeedItemUserTagSuccess;
+  constructor(public payload: FeedItemUserTagDto) {}
 }
 
 export class InitializeCurrentBlog implements Action {
@@ -417,6 +435,9 @@ export type BlogActions =
   | DeleteBlog
   | DeleteBlogFail
   | DeleteBlogSuccess
+  | DeleteFeedItemUserTag
+  | DeleteFeedItemUserTagFail
+  | DeleteFeedItemUserTagSuccess
   | InitializeCurrentBlog
   | LoadAllBlogSummaries
   | LoadAllBlogSummariesFail

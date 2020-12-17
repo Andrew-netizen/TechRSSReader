@@ -17,6 +17,7 @@ import {
   FeedItemUserTagsClient,
   FeedItemUserTagDto,
   CreateFeedItemUserTagCommand,
+  DeleteFeedItemUserTagCommand,
 } from "../TechRSSReader-api";
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
@@ -52,6 +53,11 @@ export class BlogService {
 
   deleteBlog(blogId: number): Observable<number> {
     return this.blogsClient.delete(blogId);
+  }
+
+  deleteFeedItemUserTag(feedItemUserTag: FeedItemUserTagDto): Observable<FeedItemUserTagDto> {
+    const command: DeleteFeedItemUserTagCommand = DeleteFeedItemUserTagCommand.fromJS(feedItemUserTag);
+    return this.feedItemUserTagsClient.delete(command);
   }
 
   getAllBlogLatestSummaries(): Observable<WeeklyBlogSummaryViewModel> {

@@ -35,12 +35,13 @@
           Categories: {{ feedItem.categories | categoriesSpacePipe }}
         </div>
         <div class="col float-right text-right">
-          <span *ngIf="feedItemUserTags.length > 0">
-            Tags:
-          </span>
+          <span *ngIf="feedItemUserTags.length > 0"> Tags: </span>
           <ng-template ngFor let-feedItemUserTag [ngForOf]="feedItemUserTags">
-            <small class="rounded px-2 py-1 mx-1 text-white border bg-success">
+            <small class="rounded pl-2 py-1 mx-1 text-white border bg-success">
               {{ feedItemUserTag.userTagText }}
+              <button class="btn btn-sm btn-outline-primary btn-delete-tag text-white align-baseline"(click)="deleteItemTagClicked(feedItemUserTag)">
+                &times;
+              </button>
             </small>
           </ng-template>
           <button
@@ -66,7 +67,8 @@
         <a
           [href]="
             this.domSanitizationService.bypassSecurityTrustUrl(feedItem.link)
-          " target="_blank"
+          "
+          target="_blank"
           >Read More ...</a
         >
       </div>

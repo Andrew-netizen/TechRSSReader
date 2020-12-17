@@ -295,6 +295,22 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
         isLoading: false,
       };
 
+    case BlogActionTypes.DeleteFeedItemUserTagFail:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case BlogActionTypes.DeleteFeedItemUserTagSuccess:
+      return {
+        ...state,
+        feedItems: state.feedItems.filter(
+          (feedItem) => feedItem.id !== action.payload.rssFeedItemId
+        ),
+        currentFeedItem: null,
+        error: "",
+      };
+
     case BlogActionTypes.InitializeCurrentBlog:
       return {
         ...state,
@@ -539,7 +555,10 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       return {
         ...state,
         weeklyBlogSummaries: action.payload.weeklyBlogSummaries,
-        currentBlogId: action.payload.weeklyBlogSummaries.length > 0 ? action.payload.weeklyBlogSummaries[0].blogId : state.currentBlogId,
+        currentBlogId:
+          action.payload.weeklyBlogSummaries.length > 0
+            ? action.payload.weeklyBlogSummaries[0].blogId
+            : state.currentBlogId,
         isLoading: false,
       };
 

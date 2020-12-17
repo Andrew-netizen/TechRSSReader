@@ -258,6 +258,41 @@
             "JWT": []
           }
         ]
+      },
+      "delete": {
+        "tags": [
+          "FeedItemUserTags"
+        ],
+        "operationId": "FeedItemUserTags_Delete",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteFeedItemUserTagCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedItemUserTagDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/api/RssFeedItems/bookmarked": {
@@ -1217,6 +1252,20 @@
         }
       },
       "CreateFeedItemUserTagCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rssFeedItemId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userTagId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "DeleteFeedItemUserTagCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {

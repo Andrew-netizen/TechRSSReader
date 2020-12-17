@@ -27,11 +27,16 @@ export class FeeditemDisplayComponent {
   @Output() bookmarkToggled = new EventEmitter<RssFeedItemDto>();
   @Output() titleClicked = new EventEmitter<RssFeedItemDto>();
   @Output() userInterestUpdated = new EventEmitter<UpdateFeedItemCommand>();
+  @Output() feedItemUserTagDeleted = new EventEmitter<FeedItemUserTagDto>();
 
   constructor(public domSanitizationService: DomSanitizer) {}
 
   addTagToItemClicked(feedItem: RssFeedItemDto): void {
     this.userClickedAddItemTag.emit(feedItem);
+  }
+
+  deleteItemTagClicked(feedItemUserTag: FeedItemUserTagDto): void {
+    this.feedItemUserTagDeleted.emit(feedItemUserTag);
   }
 
   markAsReadClicked(feedItem: RssFeedItemDto): void {

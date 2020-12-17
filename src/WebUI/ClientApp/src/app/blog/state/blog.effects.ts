@@ -7,7 +7,7 @@ import { TrainingService } from "../../training/training.service";
 import { Action } from "@ngrx/store";
 import { Actions, createEffect, Effect, ofType } from "@ngrx/effects";
 import * as blogActions from "./blog.actions";
-import { Observable, of } from "rxjs";
+import { merge, Observable, of } from "rxjs";
 import { mergeMap, map, catchError, concatMap, tap } from "rxjs/operators";
 import {
   BlogDto,
@@ -86,13 +86,16 @@ export class BlogEffects {
     )
   );
 
- loadFeedItemDetails$ = createEffect(() =>
+  loadFeedItemDetails$ = createEffect(() =>
     this.actions$.pipe(
       ofType(blogActions.BlogActionTypes.LoadFeedItemDetails),
       map((action: blogActions.LoadFeedItemDetails) => action.payload),
       mergeMap((feedItemId: number) =>
         this.blogService.getFeedItemDetails(feedItemId).pipe(
-          map((feedItemDetails) => new blogActions.LoadFeedItemDetailsSuccess(feedItemDetails)),
+          map(
+            (feedItemDetails) =>
+              new blogActions.LoadFeedItemDetailsSuccess(feedItemDetails)
+          ),
           catchError((error) =>
             of(new blogActions.LoadFeedItemDetailsFail(error))
           )
@@ -100,7 +103,6 @@ export class BlogEffects {
       )
     )
   );
-
 
   loadTopRatedFeedItems$ = createEffect(() =>
     this.actions$.pipe(
@@ -164,7 +166,6 @@ export class BlogEffects {
       )
     )
   );
-
 
   loadWeeklyBlogSummaries$ = createEffect(() =>
     this.actions$.pipe(
@@ -260,8 +261,13 @@ export class BlogEffects {
       map((action: blogActions.CreateFeedItemUserTag) => action.payload),
       mergeMap((feedItemUserTag: FeedItemUserTagDto) =>
         this.blogService.createFeedItemUserTag(feedItemUserTag).pipe(
-          map((newFeedItemUserTag) => new blogActions.CreateFeedItemUserTagSuccess(newFeedItemUserTag)),
-          catchError((error) => of(new blogActions.CreateFeedItemUserTagFail(error)))
+          map(
+            (newFeedItemUserTag) =>
+              new blogActions.CreateFeedItemUserTagSuccess(newFeedItemUserTag)
+          ),
+          catchError((error) =>
+            of(new blogActions.CreateFeedItemUserTagFail(error))
+          )
         )
       )
     )
@@ -275,6 +281,26 @@ export class BlogEffects {
       this.blogService.deleteBlog(blogId).pipe(
         map(() => new blogActions.DeleteBlogSuccess(blogId)),
         catchError((error) => of(new blogActions.DeleteBlogFail(error)))
+      )
+    )
+  );
+
+  deleteFeedItemUserTag$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogActions.BlogActionTypes.DeleteFeedItemUserTag),
+      map((action: blogActions.DeleteFeedItemUserTag) => action.payload),
+      concatMap((feedItemUserTag: FeedItemUserTagDto) =>
+        this.blogService.deleteFeedItemUserTag(feedItemUserTag).pipe(
+          map(
+            (deletedFeedItemUserTag) =>
+              new blogActions.DeleteFeedItemUserTagSuccess(
+                deletedFeedItemUserTag
+              )
+          ),
+          catchError((error) =>
+            of(new blogActions.DeleteFeedItemUserTagFail(error))
+          )
+        )
       )
     )
   );

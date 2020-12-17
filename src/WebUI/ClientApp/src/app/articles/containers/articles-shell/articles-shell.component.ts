@@ -22,8 +22,6 @@ import * as fromArticles from "../../state";
 import * as blogActions from "../../../blog/state/blog.actions";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AddItemtagModalComponent } from "../../components/add-itemtag-modal/add-itemtag-modal.component";
-import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
-import { take } from "rxjs/operators";
 
 @Component({
   selector: "articles-shell",
@@ -184,6 +182,11 @@ export class ArticlesShellComponent implements OnInit, OnDestroy {
       userRating: value.userRating,
     });
     this.store.dispatch(new blogActions.MarkItemAsRead(command));
+  }
+
+  onFeedItemUserTagDeleted(value: FeedItemUserTagDto): void {
+    console.log("In shell, feed Item user tag deleted", value);
+    this.store.dispatch(new blogActions.DeleteFeedItemUserTag(value));
   }
 
   toggleItemBookmark(value: RssFeedItemDto): void {

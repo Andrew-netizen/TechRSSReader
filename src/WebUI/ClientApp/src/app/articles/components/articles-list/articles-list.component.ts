@@ -26,6 +26,7 @@ export class ArticlesListComponent {
   @Output() articleBookmarkToggledEvent = new EventEmitter<RssFeedItemDto>();
   @Output() articleMarkedAsReadEvent = new EventEmitter<RssFeedItemDto>();
   @Output() currentPageUpdated = new EventEmitter<number>();
+  @Output() feedItemUserTagDeleted = new EventEmitter<FeedItemUserTagDto>();
   @Output() selected = new EventEmitter<RssFeedItemDto>();
   @Output() titleClickedEvent = new EventEmitter();
   @Output() userInterestUpdated = new EventEmitter<UpdateFeedItemCommand>();
@@ -48,6 +49,11 @@ export class ArticlesListComponent {
 
   onAddItemTagClicked(value: RssFeedItemDto) {
     this.addItemTagClickedEvent.emit(value);
+  }
+
+  onFeedItemUserTagDeleted(value: FeedItemUserTagDto)
+  {
+    this.feedItemUserTagDeleted.emit(value);
   }
 
   onTitleClicked() {

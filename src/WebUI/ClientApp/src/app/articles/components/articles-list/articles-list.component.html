@@ -104,6 +104,7 @@
           [feedItemUserTags]="feedItemUserTags"
           (articleMarkedAsRead)="markedAsReadHandler(feedItem)"
           (bookmarkToggled)="bookmarkToggledHandler(feedItem)"
+          (feedItemUserTagDeleted)="onFeedItemUserTagDeleted($event)"
           (titleClicked)="onTitleClicked()"
           (userClickedAddItemTag)="onAddItemTagClicked(feedItem)"
           (userInterestUpdated)="handleUserInterestUpdate($event)"
