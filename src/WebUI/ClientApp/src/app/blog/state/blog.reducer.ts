@@ -302,12 +302,48 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       };
 
     case BlogActionTypes.DeleteFeedItemUserTagSuccess:
+      var afterDeletedTagFeedItems;
+      var afterDeletedTagCurrentFeedItem;
+      var afterDeletedTagFeedItemUserTags;
+      // IF the user is displaying a list of feed items with a given user tag.
+      // AND  if the user tag is deleted from the feed Item
+      // THEN (1) Remove the current Feed Item from the list of user items
+      //      (2) Set the current Feed Item to NULL.
+      if (
+        state.feedItemSource === FeedItemSource.UserTags &&
+        state.currentUserTagId === action.payload.userTagId
+      ) {
+        afterDeletedTagFeedItems = state.feedItems.filter(
+          (feedItem) => feedItem.id !== action.payload.rssFeedItemId
+        );
+        afterDeletedTagCurrentFeedItem = null;
+        afterDeletedTagFeedItemUserTags = [];
+      } else {
+        // ELSE remove the deleted tag from the list of feed item User Tags
+        afterDeletedTagFeedItems = state.feedItems;
+        afterDeletedTagCurrentFeedItem = state.currentFeedItem;
+        if (
+          state.feedItemUserTags != null &&
+          state.feedItemUserTags.length > 0
+        ) {
+          afterDeletedTagFeedItemUserTags = state.feedItemUserTags.filter(
+            (tag) =>
+              !(
+                tag.rssFeedItemId === action.payload.rssFeedItemId &&
+                tag.userTagId === action.payload.userTagId
+              )
+          );
+        }
+        else {
+            afterDeletedTagFeedItemUserTags = state.feedItemUserTags;
+        }
+      }
+
       return {
         ...state,
-        feedItems: state.feedItems.filter(
-          (feedItem) => feedItem.id !== action.payload.rssFeedItemId
-        ),
-        currentFeedItem: null,
+        currentFeedItem: afterDeletedTagCurrentFeedItem,
+        feedItems: afterDeletedTagFeedItems,
+        feedItemUserTags: afterDeletedTagFeedItemUserTags,
         error: "",
       };
 
@@ -672,9 +708,18 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       const bookmarkUpdatedFeedItems = state.feedItems.map((item) =>
         action.payload.id === item.id ? action.payload : item
       );
+      let toggledCurrentFeedItemDetails = { ...state.currentFeedItem };
+      if (
+        state.currentFeedItem !== null &&
+        action.payload.id === state.currentFeedItem.id
+      )
+        toggledCurrentFeedItemDetails.bookmarked = !state.currentFeedItem
+          .bookmarked;
+      if (state.currentFeedItem === null) toggledCurrentFeedItemDetails = null;
       return {
         ...state,
         feedItems: bookmarkUpdatedFeedItems,
+        currentFeedItem: toggledCurrentFeedItemDetails,
         error: "",
       };
 

@@ -185,7 +185,6 @@ export class ArticlesShellComponent implements OnInit, OnDestroy {
   }
 
   onFeedItemUserTagDeleted(value: FeedItemUserTagDto): void {
-    console.log("In shell, feed Item user tag deleted", value);
     this.store.dispatch(new blogActions.DeleteFeedItemUserTag(value));
   }
 
