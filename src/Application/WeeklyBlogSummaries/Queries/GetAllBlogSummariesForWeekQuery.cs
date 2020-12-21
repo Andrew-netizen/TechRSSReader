@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,26 +23,32 @@ namespace TechRSSReader.Application.WeeklyBlogSummaries.Queries
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
             private readonly ICurrentUserService _currentUserService;
+            private readonly ILogger<GetAllBlogSummariesForWeekQueryHandler> _logger; 
 
             public GetAllBlogSummariesForWeekQueryHandler(IApplicationDbContext context, IMapper mapper,
-                ICurrentUserService currentUserService)
+                ICurrentUserService currentUserService, ILogger<GetAllBlogSummariesForWeekQueryHandler> logger)
             {
                 _context = context;
                 _mapper = mapper;
                 _currentUserService = currentUserService;
+                _logger = logger; 
             }
 
             public async Task<WeeklyBlogSummaryViewModel> Handle(GetAllBlogSummariesForWeekQuery request, CancellationToken cancellationToken)
             {
-                DateTime lastMonday = DateUtility.GetLastMonday(DateTime.Today);
-
                 WeeklyBlogSummaryViewModel result = new WeeklyBlogSummaryViewModel();
 
                 try
                 {
+                    WeeklyBlogSummary latestWeeklySummary = await _context.WeeklyBlogSummaries
+                            .OrderByDescending(item => item.WeekBegins)
+                            .FirstOrDefaultAsync(cancellationToken);
+
+                    DateTime latestSummaryDate = (latestWeeklySummary != null) ? latestWeeklySummary.WeekBegins : DateUtility.GetLastMonday(DateTime.Today);
+                    
                     List<WeeklyBlogSummaryDto> list = await _context.WeeklyBlogSummaries
                          .Include(item => item.Blog)
-                         .Where(item => item.WeekBegins.Equals(lastMonday))
+                         .Where(item => item.WeekBegins.Equals(latestSummaryDate))
                          .Where(item => (item.Blog != null) && item.Blog.CreatedBy.Equals(_currentUserService.UserId))
                          .ProjectTo<WeeklyBlogSummaryDto>(_mapper.ConfigurationProvider)
                          .AsNoTracking()
@@ -53,7 +60,7 @@ namespace TechRSSReader.Application.WeeklyBlogSummaries.Queries
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception.Message);
+                    _logger.LogError($"GetAllBlogSummariesForWeekQuery. Exception :{exception.Message}");
                 }
               
                 return result;

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Shouldly;
 using System;
 using System.Collections.Generic;
@@ -35,7 +37,9 @@ namespace TechRSSReader.Application.UnitTests.WeeklyBlogSummaries.Queries
         {
             var query = new GetAllBlogSummariesForWeekQuery();
 
-            var handler = new GetAllBlogSummariesForWeekQuery.GetAllBlogSummariesForWeekQueryHandler(_context, _mapper, _currentUserService);
+            var loggerMock = new Mock<ILogger<GetAllBlogSummariesForWeekQuery.GetAllBlogSummariesForWeekQueryHandler>>();
+
+            var handler = new GetAllBlogSummariesForWeekQuery.GetAllBlogSummariesForWeekQueryHandler(_context, _mapper, _currentUserService, loggerMock.Object);
             WeeklyBlogSummaryViewModel result = await handler.Handle(query, CancellationToken.None);
 
             List<WeeklyBlogSummary> weeklyBlogSummaries = _context.WeeklyBlogSummaries
