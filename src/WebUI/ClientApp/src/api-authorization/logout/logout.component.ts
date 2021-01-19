@@ -109,6 +109,6 @@ export class LogoutComponent implements OnInit {
   }
 }
 
-interface INavigationState {
+export interface INavigationState {
   [ReturnUrlType]: string;
 }

@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ArticlesMenuComponent } from './articles-menu.component';
 
@@ -8,7 +9,8 @@ describe('ArticlesMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ArticlesMenuComponent ]
+      declarations: [ ArticlesMenuComponent ],
+      imports: [NgbModule]
     })
     .compileComponents();
   }));

@@ -36,6 +36,7 @@ export class ArticlesShellComponent implements OnInit, OnDestroy {
   feedItemSectionTitle$: Observable<string>;
   feedItemSource$: Observable<fromBlog.FeedItemSource>;
   feedItemUserTags$: Observable<FeedItemUserTagDto[]>;
+  filterText$: Observable<string>;
   pagesCount$: Observable<number>;
   selectedBlog$: Observable<BlogDto>;
   selectedFeedItem$: Observable<IRssFeedItemDetailsDto>;
@@ -97,6 +98,8 @@ export class ArticlesShellComponent implements OnInit, OnDestroy {
     this.feedItemUserTags$ = this.store.pipe(
       select(fromBlog.getFeedItemUserTags)
     );
+
+    this.filterText$ = this.store.pipe(select(fromArticles.getFilterText));
 
     this.pagesCount$ = this.store.pipe(select(fromArticles.getPagesCount));
 

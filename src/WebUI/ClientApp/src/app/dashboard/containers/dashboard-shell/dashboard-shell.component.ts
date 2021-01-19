@@ -5,7 +5,7 @@ import { WeeklyBlogSummaryDto } from "src/app/TechRSSReader-api";
 import * as fromRoot from "../../../state/app.state";
 import * as fromBlog from "../../../blog/state/blog.reducer";
 import * as blogActions from "../../../blog/state/blog.actions";
-import { BlogCardData, CardData, mapCardData } from "../../card-data";
+import { CardData, mapCardData } from "../../card-data";
 import { map } from "rxjs/operators";
 
 @Component({

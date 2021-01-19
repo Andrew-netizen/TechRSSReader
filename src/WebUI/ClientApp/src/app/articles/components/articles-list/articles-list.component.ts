@@ -17,6 +17,7 @@ export class ArticlesListComponent {
   @Input() feedItemSectionTitle: string;
   @Input() feedItemSource: FeedItemSource;
   @Input() feedItemUserTags: FeedItemUserTagDto[];
+  @Input() filterText: string;
   @Input() pageCount: number;
   @Input() selectedBlog: BlogDto;
   @Input() selectedFeedItem: RssFeedItemDetailsDto;

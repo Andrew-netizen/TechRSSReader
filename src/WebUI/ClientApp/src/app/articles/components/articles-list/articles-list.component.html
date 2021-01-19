@@ -112,8 +112,13 @@
       </li>
     </ul>
   </div>
-  <div *ngIf="totalArticlesCount === 0" class="alert alert-primary" role="alert">
-    You're up to date!
+  <div
+    *ngIf="totalArticlesCount === 0"
+    class="alert alert-primary"
+    role="alert"
+  >
+    <span *ngIf="filterText">No results found for {{ filterText }}</span>
+    <span *ngIf="!filterText"> You're up to date! </span>
   </div>
   <div class="card-footer" *ngIf="pageCount > 1">
     <div class="row">

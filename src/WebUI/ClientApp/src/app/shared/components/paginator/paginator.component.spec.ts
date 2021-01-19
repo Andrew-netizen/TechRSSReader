@@ -16,6 +16,8 @@ describe('PaginatorComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PaginatorComponent);
     component = fixture.componentInstance;
+    component.currentPage = 1;
+    component.pageCount = 2;
     fixture.detectChanges();
   });
 

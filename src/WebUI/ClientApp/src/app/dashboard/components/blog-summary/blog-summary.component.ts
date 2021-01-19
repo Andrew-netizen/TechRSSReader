@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BlogDto, WeeklyBlogSummaryDto } from 'src/app/TechRSSReader-api';
-import { BlogCardData, CardData } from '../../card-data';
+import { CardData } from '../../card-data';
 
 @Component({
   selector: 'app-blog-summary',
