@@ -76,7 +76,14 @@ namespace TechRSSReader.WebUI.Controllers
         [HttpPost]
         public async Task<BlogDto> Create(CreateBlogCommand command)
         {
-            return await Mediator.Send(command);
+            BlogDto result = await Mediator.Send(command);
+
+            // Once the blog has been created, get the feed items for that blog. 
+
+            RetrieveFeedItemsCommand retrieveFeedItemsCommand = new RetrieveFeedItemsCommand { BlogId = result.Id };
+            await Mediator.Send(retrieveFeedItemsCommand);
+
+            return result;
         }
 
 
