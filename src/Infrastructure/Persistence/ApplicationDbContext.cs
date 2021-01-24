@@ -43,7 +43,7 @@ namespace TechRSSReader.Infrastructure.Persistence
         
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            throw new NotImplementedException();
+            return base.SaveChangesAsync(cancellationToken);
         }
 
         public Task<int> SaveChangesAsync(string userId, CancellationToken cancellationToken = new CancellationToken())
