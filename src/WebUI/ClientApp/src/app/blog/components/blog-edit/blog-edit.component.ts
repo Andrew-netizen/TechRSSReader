@@ -22,6 +22,7 @@ import {
   KeywordToIncludeDto,
 } from "src/app/TechRSSReader-api";
 import { Router } from "@angular/router";
+import { FormArrayValidator } from "src/app/shared/formarray-validator";
 
 @Component({
   selector: "blog-edit",
@@ -39,17 +40,19 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   private valueChangesSubscription: Subscription;
   private retrievedFeedItemsSubscription: Subscription;
 
+  private keywordRegExp: RegExp = /^[a-zA-Z]*$/;
+
   // Use with the generic validation message class
-  displayMessage: { [key: string]: string } = {};
+  public displayMessage: { [key: string]: string } = {};
+  // Use a separate set of validation messages for the keywords To Exclude
+  public keywordsToExcludeDisplayMessages: string[];
+
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
+  private keywordsToExcludeValidator: FormArrayValidator;
 
   get keywordsToExclude(): FormArray {
     return this.blogForm.get("keywordsToExclude") as FormArray;
-  }
-
-  get keywordsToInclude(): FormArray {
-    return this.blogForm.get("keywordsToInclude") as FormArray;
   }
 
   constructor(
@@ -65,20 +68,31 @@ export class BlogEditComponent implements OnInit, OnDestroy {
         required: "Title is required.",
         minlength: "Title must be at least three characters.",
         maxlength: "Title cannot exceed 50 characters.",
+        pattern: "Title can only have letters, numbers, and spaces",
       },
       xmlAddress: {
         required: "Xml Address is required.",
         minlength: "Xml Address must be at least five characters.",
         maxlength: "Xml Address cannot exceed 100 characters.",
+        pattern: "Xml Address must be a valid URL",
+      },
+      keywordsToExclude: {
+        required: "Keyword is required",
+        pattern: "Keyword can contain only letters",
       },
     };
 
     // Define an instance of the validator for use with this form,
     // passing in this form's set of validation messages.
     this.genericValidator = new GenericValidator(this.validationMessages);
+    this.keywordsToExcludeValidator = new FormArrayValidator(
+      "keywordsToExclude",
+      this.validationMessages
+    );
   }
 
   ngOnInit(): void {
+    let urlRegex: RegExp = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
     // Define the form group
     this.blogForm = this.fb.group({
       title: [
@@ -87,6 +101,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(50),
+          Validators.pattern(`^[ a-zA-Z0-9-']+$`),
         ],
       ],
 
@@ -96,12 +111,12 @@ export class BlogEditComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(5),
           Validators.maxLength(100),
+          Validators.pattern(urlRegex),
         ],
       ],
 
       keywordsToExclude: new FormArray([]),
 
-      keywordsToInclude: new FormArray([]),
     });
 
     // Watch for changes to the currently selected product
@@ -118,10 +133,9 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     // Watch for value changes
     this.valueChangesSubscription = this.blogForm.valueChanges.subscribe(
       (value) =>
-        (this.displayMessage = this.genericValidator.processMessages(
-          this.blogForm
-        ))
+        (this.updateValidationMessages())
     );
+
 
     // Watch for changes in the number of retrieved feed items.
     // Show a toast to the user when this value changes.
@@ -140,35 +154,6 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     this.currentBlogSubscription.unsubscribe();
     this.retrievedFeedItemsSubscription.unsubscribe();
     this.valueChangesSubscription.unsubscribe();
-  }
-
-  convertKeywordsToIncludeToFormArray(
-    keywordsToInclude: KeywordToIncludeDto[]
-  ): FormArray {
-    const result = new FormArray([]);
-
-    if (keywordsToInclude) {
-      for (const keywordToInclude of keywordsToInclude) {
-        result.push(this.buildKeywordFormControl(keywordToInclude.keyword));
-      }
-    }
-
-    return result;
-  }
-
-  convertFormArrayToKeywordsToIncludeDtos(
-    input: FormArray
-  ): KeywordToIncludeDto[] {
-    const result: KeywordToIncludeDto[] = [];
-    for (let inclusion of input.controls) {
-      result.push(
-        KeywordToExcludeDto.fromJS({
-          blogId: this.blog.id,
-          keyword: inclusion.value,
-        })
-      );
-    }
-    return result;
   }
 
   convertFormArrayToKeywordsToExcludeDtos(
@@ -201,13 +186,16 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   }
 
   buildKeywordFormControl(keyword: string): FormControl {
-    return this.fb.control(keyword, Validators.required);
+    return this.fb.control(keyword, [
+      Validators.required,
+      Validators.pattern(this.keywordRegExp),
+    ]);
   }
 
   // Also validate on blur
   // Helpful if the user tabs through required fields
   blur(): void {
-    this.displayMessage = this.genericValidator.processMessages(this.blogForm);
+    this.updateValidationMessages();
   }
 
   displayBlog(blog: BlogDto | null): void {
@@ -232,10 +220,6 @@ export class BlogEditComponent implements OnInit, OnDestroy {
       });
 
       this.blogForm.setControl(
-        "keywordsToInclude",
-        this.convertKeywordsToIncludeToFormArray(blog.keywordsToInclude)
-      );
-      this.blogForm.setControl(
         "keywordsToExclude",
         this.convertKeywordsToExcludeToFormArray(blog.keywordsToExclude)
       );
@@ -244,10 +228,8 @@ export class BlogEditComponent implements OnInit, OnDestroy {
 
   cancelEdit(): void {
     // Redirect back to the articles page.
-    if (this.blog.id > 0)
-      this.router.navigate(['/articles', this.blog.id]);
-    else
-      this.router.navigate(['/']);
+    if (this.blog.id > 0) this.router.navigate(["/articles", this.blog.id]);
+    else this.router.navigate(["/"]);
   }
 
   deleteBlog(): void {
@@ -271,9 +253,8 @@ export class BlogEditComponent implements OnInit, OnDestroy {
         b.keywordsToExclude = this.convertFormArrayToKeywordsToExcludeDtos(
           this.blogForm.get("keywordsToExclude") as FormArray
         );
-        b.keywordsToInclude = this.convertFormArrayToKeywordsToIncludeDtos(
-          this.blogForm.get("keywordsToInclude") as FormArray
-        );
+        // At one stage, I thought I would use keywords to Include.
+        b.keywordsToInclude = new FormArray([]);
         if (b.id === 0) {
           this.store.dispatch(new blogActions.CreateBlog(b));
         } else {
@@ -283,17 +264,6 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     } else {
       this.errorMessage$ = of("Please correct the validation errors.");
     }
-  }
-
-  addKeywordToInclude(): void {
-    const includesFormArray = this.keywordsToInclude as FormArray;
-    includesFormArray.push(this.buildKeywordFormControl(""));
-  }
-
-  removeKeywordToInclude(index: number): void {
-    const includesFormArray = this.keywordsToInclude as FormArray;
-    this.blogForm.markAsDirty();
-    includesFormArray.removeAt(index);
   }
 
   addKeywordToExclude(): void {
@@ -315,12 +285,16 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     }
   }
 
-
   showSuccessRetrieveFeedItems(count: number): void {
-    if (count != null)
-    {
+    if (count != null) {
       const message = count + " feed articles retrieved";
       this.toastr.success(message, "Success!");
     }
+  }
+
+  updateValidationMessages(): void {
+    this.displayMessage = this.genericValidator.processMessages(this.blogForm);
+    this.keywordsToExcludeDisplayMessages =
+    this.keywordsToExcludeValidator.processMessages(this.keywordsToExclude);
   }
 }

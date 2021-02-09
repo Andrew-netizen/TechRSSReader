@@ -18,11 +18,13 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
+            private readonly IHtmlSanitizationService _htmlSanitizationService;
 
-            public GetFeedItemDetailsQueryHandler(IApplicationDbContext context, IMapper mapper)
+            public GetFeedItemDetailsQueryHandler(IApplicationDbContext context, IMapper mapper, IHtmlSanitizationService htmlSanitizationService)
             {
                 _context = context;
                 _mapper = mapper;
+                _htmlSanitizationService = htmlSanitizationService; 
             }
 
             public async Task<RssFeedItemDetailsDto> Handle(GetFeedItemDetailsQuery request, CancellationToken cancellationToken)
@@ -33,7 +35,13 @@ namespace TechRSSReader.Application.RssFeedItems.Queries
                     .FirstOrDefaultAsync(cancellationToken);
                     
                 if (rssFeedItem != null)
-                    return _mapper.Map<RssFeedItemDetailsDto>(rssFeedItem);
+                {
+                    RssFeedItemDetailsDto result = _mapper.Map<RssFeedItemDetailsDto>(rssFeedItem);
+                    result.Content = _htmlSanitizationService.Sanitize(result.Content);
+                    result.Description = _htmlSanitizationService.Sanitize(result.Description);
+                    return result; 
+                }
+                    
                 else
                     return null;
             }

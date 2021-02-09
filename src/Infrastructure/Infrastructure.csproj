@@ -19,6 +19,7 @@
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="CodeHollow.FeedReader" Version="1.2.1" />
     <PackageReference Include="Ensure.That" Version="9.2.0" />
+    <PackageReference Include="HtmlSanitizer" Version="5.0.376" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />

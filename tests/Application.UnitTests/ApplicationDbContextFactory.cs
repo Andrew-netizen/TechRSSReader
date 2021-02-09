@@ -79,7 +79,13 @@ namespace TechRSSReader.Application.UnitTests.Common
                 CreatedBy = "00000000-0000-0000-0000-000000000000",
                 ExcludedByKeyword = false,
                 ReadAlready = false, 
-                UserRatingPrediction = 1.5F
+                UserRatingPrediction = 1.5F, 
+                Content = @"<script>alert('xss')</script><div onload=""alert('xss')"""
+                        + @"style=""background-color: test"">Test Content<img src=""test.gif"""
+                        + @"style=""background-image: url(javascript:alert('xss')); margin: 10px""></div>", 
+                Description = @"<script>alert('xss')</script><div onload=""alert('xss')"""
+                        + @"style=""background-color: test"">Test Description<img src=""test.gif"""
+                        + @"style=""background-image: url(javascript:alert('xss')); margin: 10px""></div>",
             });
 
             context.RssFeedItems.Add(new RssFeedItem
