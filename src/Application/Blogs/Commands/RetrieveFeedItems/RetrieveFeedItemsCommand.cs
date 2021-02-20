@@ -20,13 +20,15 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
         {
             private readonly IApplicationDbContext _context;
             private readonly IFeedReader _feedReader;
+            private readonly IHtmlSanitizationService _htmlSanitizationService;
             private readonly ILogger<RetrieveFeedItemsCommandHandler> _logger;
             
             public RetrieveFeedItemsCommandHandler(IApplicationDbContext context, IFeedReader feedReader, 
-                ILogger<RetrieveFeedItemsCommandHandler> logger)
+                ILogger<RetrieveFeedItemsCommandHandler> logger, IHtmlSanitizationService htmlSanitizationService)
             {
                 _context = context;
                 _feedReader = feedReader;
+                _htmlSanitizationService = htmlSanitizationService; 
                 _logger = logger;
                 
             }
@@ -64,6 +66,8 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
                         if (existingItem == null)
                         {
                             item.BlogId = request.BlogId;
+                            item.Title = _htmlSanitizationService.Sanitize(item.Title);
+                            item.Categories = _htmlSanitizationService.Sanitize(item.Categories);
                             item.ExcludedByKeyword = item.ContainsExcludedKeywords(rssFeed);
                             _context.RssFeedItems.Add(item);
                         }

@@ -5,6 +5,7 @@ using TechRSSReader.Application.Common.Interfaces;
 using TechRSSReader.Application.Common.Mappings;
 using TechRSSReader.Infrastructure.FeedReader.Maps;
 using TechRSSReader.Infrastructure.Persistence;
+using TechRSSReader.Infrastructure.Services;
 
 namespace TechRSSReader.Application.UnitTests.Common
 {
@@ -23,6 +24,7 @@ namespace TechRSSReader.Application.UnitTests.Common
             Mapper = configurationProvider.CreateMapper();
             FeedReader = new StubFeedReader(Mapper);
             UserInterestPredictor = new StubUserInterestPredictor();
+            HtmlSanitizationService = new HtmlSanitizationService();
 
             var currentUserServiceMock = new Mock<ICurrentUserService>();
             currentUserServiceMock.Setup(m => m.UserId)
@@ -36,6 +38,7 @@ namespace TechRSSReader.Application.UnitTests.Common
         public IMapper Mapper { get;  }
         public IUserInterestPredictor UserInterestPredictor { get; }
         public ICurrentUserService CurrentUserService { get; }
+        public IHtmlSanitizationService HtmlSanitizationService { get; }
 
         public void Dispose()
         {

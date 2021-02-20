@@ -37,7 +37,7 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
             };
 
             var logger = NullLogger<RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler>.Instance;
-            var handler = new RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler(Context, FeedReader, logger);
+            var handler = new RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler(Context, FeedReader, logger, HtmlSanitizationService);
 
             var result = await handler.Handle(command, CancellationToken.None);
 
@@ -109,7 +109,7 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
             };
 
             var logger = NullLogger<RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler>.Instance; 
-            var handler = new RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler(Context, FeedReader, logger);
+            var handler = new RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler(Context, FeedReader, logger, HtmlSanitizationService);
 
             var result = await handler.Handle(command, CancellationToken.None);
 
