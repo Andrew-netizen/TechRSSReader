@@ -64,4 +64,8 @@ export class ArticlesListComponent {
   handleUserInterestUpdate(value: UpdateFeedItemCommand): void {
     this.userInterestUpdated.emit(value);
   }
+
+  getFeedItemId(index: number, feedItem: RssFeedItemDto): number {
+    return feedItem.id;
+  }
 }

@@ -16,7 +16,7 @@
   <div class="card-body" *ngIf="totalArticlesCount > 0">
     <ul class="list-group">
       <li
-        *ngFor="let feedItem of feedItems"
+        *ngFor="let feedItem of feedItems;trackBy:getFeedItemId"
         class="list-group-item list-group-item-action rounded-0"
       >
         <div *ngIf="feedItem?.id !== selectedFeedItem?.id" class="p-2">
