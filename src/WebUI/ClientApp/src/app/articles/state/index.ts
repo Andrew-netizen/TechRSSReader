@@ -1,7 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as fromArticles from "./articles.reducer";
 import * as fromBlog from "../../blog/state/blog.reducer";
-import { orderBy } from "lodash";
 import { RssFeedItemDto } from "src/app/TechRSSReader-api";
 
 // selector functions
@@ -76,9 +75,9 @@ export const getFilteredArticles = createSelector(
     }
 
     if (displaySortOrder === fromArticles.DisplaySortOrder.PredictedRating)
-      result = orderBy(result, ["userRatingPrediction"], ["desc"]);
+      result = sortRssFeedItemsDesc(result, "userRatingPrediction");
     if (displaySortOrder === fromArticles.DisplaySortOrder.PublishDateDesc)
-      result = orderBy(result, ["publishingDate"], ["desc"]);
+      result = sortRssFeedItemsDesc(result, "publishingDate");
     return result;
   }
 );
@@ -120,3 +119,16 @@ export const getShowBlogTitle = createSelector(
     source === fromBlog.FeedItemSource.Unread ||
     source === fromBlog.FeedItemSource.TopRated
 );
+
+function sortRssFeedItemsDesc(input: RssFeedItemDto[], propertyName: string) {
+    return input.sort((a, b) => {
+        if (a[propertyName] < b[propertyName]) {
+          return 1;
+        } else if (a[propertyName] == b[propertyName]) {
+          return 0;
+        } else {
+          return -1;
+        }
+    });
+
+}
