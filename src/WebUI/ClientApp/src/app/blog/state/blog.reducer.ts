@@ -755,8 +755,16 @@ export function reducer(state = initialState, action: BlogActions): BlogState {
       };
 
     case BlogActionTypes.UpdateUserInterestSuccess:
+      // Only update the user interest, because otherwise the items can
+      // jump around in the feed item list.
+      const feedItems = state.feedItems.filter(item => item.id === action.payload.id);
+
+      if (feedItems.length === 0)
+        return {...state };
+      let updatedFeedItem = Object.assign({}, feedItems[0]);
+      updatedFeedItem.userRating = action.payload.userRating;
       const userInterestUpdatedFeedItems = state.feedItems.map((item) =>
-        action.payload.id === item.id ? action.payload : item
+        action.payload.id === item.id ?  updatedFeedItem : item
       );
       let updatedCurrentFeedItemDetails = { ...state.currentFeedItem };
       updatedCurrentFeedItemDetails.userRating = action.payload.userRating;
