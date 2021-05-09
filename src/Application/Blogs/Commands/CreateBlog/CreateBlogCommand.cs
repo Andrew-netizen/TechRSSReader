@@ -51,11 +51,6 @@ namespace TechRSSReader.Application.Blogs.Commands.CreateBlog
                     blog.KeywordsToExclude.Add(new KeywordToExclude { BlogId = blog.Id, Keyword = keywordToExclude.Keyword });
 
                 }
-                
-                foreach (KeywordToIncludeDto keywordToInclude in request.KeywordsToInclude)
-                {
-                    blog.KeywordsToInclude.Add(new KeywordToInclude { BlogId = blog.Id, Keyword = keywordToInclude.Keyword });
-                }
 
                 _context.Blogs.Add(blog);
                 await _context.SaveChangesAsync(_currentUserService.UserId, cancellationToken);

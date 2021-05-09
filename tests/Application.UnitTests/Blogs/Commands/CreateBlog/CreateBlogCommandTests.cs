@@ -27,14 +27,6 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.CreateBlog
                         BlogId = 0,
                         Keyword = "Holidays"
                     }
-                },
-                KeywordsToInclude = new List<KeywordToIncludeDto>
-                {
-                    new KeywordToIncludeDto
-                    {
-                        BlogId = 0, 
-                        Keyword = "Physics"
-                    }
                 }
             };
 
@@ -50,7 +42,7 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.CreateBlog
             entity.Title.ShouldBe(command.Title);
             entity.XmlAddress.ShouldBe(command.XmlAddress);
             entity.KeywordsToExclude.Count.ShouldBe(1);
-            entity.KeywordsToInclude.Count.ShouldBe(1);
+            
         }
 
     }
