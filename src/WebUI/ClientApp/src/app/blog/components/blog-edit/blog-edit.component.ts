@@ -116,7 +116,6 @@ export class BlogEditComponent implements OnInit, OnDestroy {
       ],
 
       keywordsToExclude: new FormArray([]),
-
     });
 
     // Watch for changes to the currently selected product
@@ -132,10 +131,8 @@ export class BlogEditComponent implements OnInit, OnDestroy {
 
     // Watch for value changes
     this.valueChangesSubscription = this.blogForm.valueChanges.subscribe(
-      (value) =>
-        (this.updateValidationMessages())
+      (value) => this.updateValidationMessages()
     );
-
 
     // Watch for changes in the number of retrieved feed items.
     // Show a toast to the user when this value changes.
@@ -294,7 +291,8 @@ export class BlogEditComponent implements OnInit, OnDestroy {
 
   updateValidationMessages(): void {
     this.displayMessage = this.genericValidator.processMessages(this.blogForm);
-    this.keywordsToExcludeDisplayMessages =
-    this.keywordsToExcludeValidator.processMessages(this.keywordsToExclude);
+    this.keywordsToExcludeDisplayMessages = this.keywordsToExcludeValidator.processMessages(
+      this.keywordsToExclude
+    );
   }
 }

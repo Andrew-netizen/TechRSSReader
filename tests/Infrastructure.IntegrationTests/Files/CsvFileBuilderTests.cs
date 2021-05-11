@@ -58,9 +58,9 @@ namespace TechRSSReader.Infrastructure.IntegrationTests.Files
             {
                 Id = 1,
                 CreatedBy = @"1273228d-89b1-4290-bad6-1ab9a74de8e1",
-                Created = DateTime.Parse("9/11/2020 10:27:24 AM"),
+                Created = DateTime.Parse("9/1/2020 10:27:24 AM"),
                 LastModifiedBy = "1273228d-89b1-4290-bad6-1ab9a74de8e1",
-                LastModified = DateTime.Parse("9/17/2020 2:24:25 PM"),
+                LastModified = DateTime.Parse("9/1/2020 2:24:25 PM"),
                 Author = @"",
                 BlogId = 1,
                 Categories = @"Gaming",
