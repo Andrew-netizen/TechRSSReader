@@ -66,14 +66,14 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
     ArticlesModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
-      { path: "", component: HomeComponent, pathMatch: "full" },
-      { path: "counter", component: CounterComponent },
-      {
+    { path: "", component: HomeComponent, pathMatch: "full" },
+    { path: "counter", component: CounterComponent },
+    {
         path: "fetch-data",
         component: FetchDataComponent,
         canActivate: [AuthorizeGuard],
-      }
-    ]),
+    }
+], { relativeLinkResolution: 'legacy' }),
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),

@@ -1,5 +1,5 @@
 import { Directive, Input } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { of } from "rxjs";
 import { AuthorizeService } from "../authorize.service";
 
@@ -23,7 +23,7 @@ describe("LoginMenuComponent", () => {
   let fixture: ComponentFixture<LoginMenuComponent>;
   let mockAuthorizeService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     mockAuthorizeService = jasmine.createSpyObj(["isAuthenticated"]);
 
     TestBed.configureTestingModule({

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ActivatedRoute, Router, UrlSegment } from "@angular/router";
 import { AuthenticationResultStatus, AuthorizeService, IAuthenticationResult } from "../authorize.service";
 import { INavigationState } from "../logout/logout.component";
@@ -12,7 +12,7 @@ describe("LoginComponent", () => {
   let navigationState: INavigationState;
   let authenticationResult: IAuthenticationResult;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     mockRouter = jasmine.createSpyObj(["navigate", "navigateByUrl"]);
     mockAuthorizeService = jasmine.createSpyObj(["signIn", "completeSignIn"]);
     mockQueryParamMap = jasmine.createSpyObj(["get"]);

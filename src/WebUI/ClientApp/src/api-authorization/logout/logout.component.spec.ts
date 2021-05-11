@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ActivatedRoute, Router, UrlSegment } from "@angular/router";
 import { of } from "rxjs";
 import { AuthenticationResultStatus, AuthorizeService, IAuthenticationResult } from "../authorize.service";
@@ -12,7 +12,7 @@ describe("LogoutComponent", () => {
   let navigationState: INavigationState;
   let authenticationResult: IAuthenticationResult;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     window.history.pushState({local: true}, '', '');
     mockRouter = jasmine.createSpyObj(["navigate"]);
     mockAuthorizeService = jasmine.createSpyObj([

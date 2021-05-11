@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { By } from "@angular/platform-browser";
 import { Router } from "@angular/router";

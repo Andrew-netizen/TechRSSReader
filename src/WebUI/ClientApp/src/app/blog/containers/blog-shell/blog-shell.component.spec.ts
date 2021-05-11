@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ActivatedRoute } from "@angular/router";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { of } from "rxjs";
