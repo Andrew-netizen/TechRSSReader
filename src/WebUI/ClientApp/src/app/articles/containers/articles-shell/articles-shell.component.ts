@@ -24,7 +24,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AddItemtagModalComponent } from "../../components/add-itemtag-modal/add-itemtag-modal.component";
 
 @Component({
-  selector: "articles-shell",
+  selector: "app-articles-shell",
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./articles-shell.component.html",
   styleUrls: ["./articles-shell.component.scss"],

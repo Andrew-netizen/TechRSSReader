@@ -7,7 +7,7 @@ import { HomeLoggedoutComponent } from './home-loggedout.component';
   selector: "[routerLink]",
   host: { "(click)": "onClick()" },
 })
-export class RouterLinkDirectiveStub {
+export class RouterLinkStubDirective {
   @Input("routerLink") linkParams: any;
   natigatedTo: any = null;
 
@@ -22,7 +22,7 @@ describe('HomeLoggedoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeLoggedoutComponent, RouterLinkDirectiveStub ]
+      declarations: [ HomeLoggedoutComponent, RouterLinkStubDirective ]
     })
     .compileComponents();
   });

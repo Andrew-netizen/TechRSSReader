@@ -14,7 +14,7 @@
     >
       <i class="far fa-bars fa-lg"></i>
     </button>
-    <div class="d-flex w-100" *ngIf="!(isAuthenticated$ | async)">
+    <div class="d-flex w-100" *ngIf="(isAuthenticated$ | async) === (false) ">
       <a class="navbar-brand text-white d-flex" [routerLink]="['/']">
         <i class="fal fa-head-side-brain fa-lg align-self-center"></i>
         <h4 class="ml-1 align-self-center">Smart RSS Reader</h4>
@@ -77,7 +77,7 @@
         <li class="nav-item"></li>
       </ul>
     </div>
-    <ul class="navbar-nav mr-auto" *ngIf="!(isAuthenticated$ | async)">
+    <ul class="navbar-nav mr-auto" *ngIf="(isAuthenticated$ | async) === (false) ">
       <li class="nav-item">
         <a
           class="nav-link text-white"

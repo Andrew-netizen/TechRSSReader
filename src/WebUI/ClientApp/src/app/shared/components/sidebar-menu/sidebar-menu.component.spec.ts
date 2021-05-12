@@ -14,7 +14,7 @@ import { SidebarMenuComponent } from "./sidebar-menu.component";
   selector: "[routerLink]",
   host: { "(click)": "onClick()" },
 })
-export class RouterLinkDirectiveStub {
+export class StubRouterLinkDirective {
   @Input("routerLink") linkParams: any;
   natigatedTo: any = null;
 
@@ -30,7 +30,7 @@ describe("SidebarMenuComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SidebarMenuComponent, RouterLinkDirectiveStub],
+      declarations: [SidebarMenuComponent, StubRouterLinkDirective],
       providers: [
         provideMockStore({
           initialState: {},

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import {
-  RssFeedItemDto,
+  IRssFeedItemDto,
   UpdateFeedItemCommand,
 } from "src/app/TechRSSReader-api";
 
@@ -11,7 +11,7 @@ import {
   styleUrls: ["./rate-feeditem.component.scss"],
 })
 export class RateFeeditemComponent implements OnInit {
-  @Input() currentFeedItem: RssFeedItemDto;
+  @Input() currentFeedItem: IRssFeedItemDto;
   @Output() userRegisteredInterest = new EventEmitter<UpdateFeedItemCommand>();
 
   trainingForm: FormGroup;

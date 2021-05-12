@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { BlogDto } from 'src/app/TechRSSReader-api';
 
@@ -7,13 +7,10 @@ import { BlogDto } from 'src/app/TechRSSReader-api';
   templateUrl: './blog-editbutton.component.html',
   styleUrls: ['./blog-editbutton.component.scss']
 })
-export class BlogEditbuttonComponent implements OnInit {
+export class BlogEditbuttonComponent {
   @Input() blog: BlogDto;
 
   constructor(private router: Router) { }
-
-  ngOnInit(): void {
-  }
 
   editBlog(blog: BlogDto): void {
     this.router.navigate(['/blogs/',blog.id]);

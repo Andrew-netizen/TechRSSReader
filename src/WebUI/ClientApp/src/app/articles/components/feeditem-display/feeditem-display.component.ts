@@ -8,7 +8,7 @@ import {
 import {
   FeedItemUserTagDto,
   IRssFeedItemDetailsDto,
-  RssFeedItemDto,
+  IRssFeedItemDto,
   UpdateFeedItemCommand,
 } from "src/app/TechRSSReader-api";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -22,16 +22,16 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class FeeditemDisplayComponent {
   @Input() feedItem: IRssFeedItemDetailsDto;
   @Input() feedItemUserTags: FeedItemUserTagDto[];
-  @Output() userClickedAddItemTag = new EventEmitter<RssFeedItemDto>();
-  @Output() articleMarkedAsRead = new EventEmitter<RssFeedItemDto>();
-  @Output() bookmarkToggled = new EventEmitter<RssFeedItemDto>();
-  @Output() titleClicked = new EventEmitter<RssFeedItemDto>();
+  @Output() userClickedAddItemTag = new EventEmitter<IRssFeedItemDto>();
+  @Output() articleMarkedAsRead = new EventEmitter<IRssFeedItemDto>();
+  @Output() bookmarkToggled = new EventEmitter<IRssFeedItemDto>();
+  @Output() titleClicked = new EventEmitter<IRssFeedItemDto>();
   @Output() userInterestUpdated = new EventEmitter<UpdateFeedItemCommand>();
   @Output() feedItemUserTagDeleted = new EventEmitter<FeedItemUserTagDto>();
 
   constructor(public domSanitizationService: DomSanitizer) {}
 
-  addTagToItemClicked(feedItem: RssFeedItemDto): void {
+  addTagToItemClicked(feedItem: IRssFeedItemDto): void {
     this.userClickedAddItemTag.emit(feedItem);
   }
 
@@ -39,15 +39,15 @@ export class FeeditemDisplayComponent {
     this.feedItemUserTagDeleted.emit(feedItemUserTag);
   }
 
-  markAsReadClicked(feedItem: RssFeedItemDto): void {
+  markAsReadClicked(feedItem: IRssFeedItemDto): void {
     this.articleMarkedAsRead.emit(feedItem);
   }
 
-  onBookmarkToggled(feedItem: RssFeedItemDto): void {
+  onBookmarkToggled(feedItem: IRssFeedItemDto): void {
     this.bookmarkToggled.emit(feedItem);
   }
 
-  TitleClickedHandler(feedItem: RssFeedItemDto): void {
+  TitleClickedHandler(feedItem: IRssFeedItemDto): void {
     this.titleClicked.emit(feedItem);
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { BlogDto } from 'src/app/TechRSSReader-api';
 
@@ -7,13 +7,10 @@ import { BlogDto } from 'src/app/TechRSSReader-api';
   templateUrl: './blog-statsbutton.component.html',
   styleUrls: ['./blog-statsbutton.component.scss']
 })
-export class BlogStatsbuttonComponent implements OnInit {
+export class BlogStatsbuttonComponent {
   @Input() blog: BlogDto;
 
   constructor(private router: Router) { }
-
-  ngOnInit(): void {
-  }
 
   showStats(blog: BlogDto): void {
     this.router.navigate(['/dashboard/',blog.id]);

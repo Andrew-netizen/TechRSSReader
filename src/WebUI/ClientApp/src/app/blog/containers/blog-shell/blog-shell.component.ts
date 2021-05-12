@@ -7,7 +7,7 @@ import * as blogActions from "../../state/blog.actions";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 
 @Component({
-  selector: "blog-shell",
+  selector: "app-blog-shell",
   templateUrl: "./blog-shell.component.html",
 })
 export class BlogShellComponent implements OnInit, OnDestroy {

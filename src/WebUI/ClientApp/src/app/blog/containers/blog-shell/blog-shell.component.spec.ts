@@ -13,7 +13,7 @@ describe("BlogShellComponent", () => {
   let store: MockStore;
 
   @Component({
-    selector: "blog-edit",
+    selector: "app-blog-edit",
     template: "<div></div>",
   })
   class MockBlogEditComponent {
