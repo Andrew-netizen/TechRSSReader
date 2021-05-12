@@ -12,7 +12,7 @@ describe("RateFeeditemComponent", () => {
 
 
   @Component({
-    selector: 'pm-star',
+    selector: 'app-star',
     template: '<div></div>',
   })
   class MockStarComponent {

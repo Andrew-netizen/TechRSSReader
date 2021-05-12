@@ -2,7 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { Component, Input, Output} from '@angular/core';
 
 @Component({
-  selector: 'paginator',
+  selector: 'app-paginator',
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.scss']
 })

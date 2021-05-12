@@ -14,7 +14,7 @@ import {
 import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
-  selector: "feeditem-display",
+  selector: "app-feeditem-display",
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./feeditem-display.component.html",
   styleUrls: ["./feeditem-display.component.scss"],

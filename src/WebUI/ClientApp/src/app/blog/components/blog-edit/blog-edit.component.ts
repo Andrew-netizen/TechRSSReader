@@ -25,7 +25,7 @@ import { Router } from "@angular/router";
 import { FormArrayValidator } from "src/app/shared/formarray-validator";
 
 @Component({
-  selector: "blog-edit",
+  selector: "app-blog-edit",
   templateUrl: "./blog-edit.component.html",
   styleUrls: ["./blog-edit.component.scss"],
 })

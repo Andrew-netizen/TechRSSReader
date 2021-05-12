@@ -10,7 +10,6 @@ import { SharedModule } from "../shared/shared.module";
 
 import { ArticlesShellComponent } from "./containers/articles-shell/articles-shell.component";
 import { ArticlesListComponent } from "./components/articles-list/articles-list.component";
-import { ArticlesMenuComponent } from "./components/articles-menu/articles-menu.component";
 import { FeeditemDisplayComponent } from "./components/feeditem-display/feeditem-display.component";
 import { BlogEditbuttonComponent } from "./components/blog-editbutton/blog-editbutton.component";
 
@@ -37,7 +36,6 @@ const articlesRoutes: Routes = [
   declarations: [
     ArticlesShellComponent,
     ArticlesListComponent,
-    ArticlesMenuComponent,
     BlogEditbuttonComponent,
     FeeditemDisplayComponent,
     BlogStatsbuttonComponent,

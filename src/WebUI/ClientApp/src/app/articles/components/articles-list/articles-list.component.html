@@ -98,7 +98,7 @@
             </small>
           </div>
         </div>
-        <feeditem-display
+        <app-feeditem-display
           *ngIf="feedItem?.id === selectedFeedItem?.id"
           [feedItem]="selectedFeedItem"
           [feedItemUserTags]="feedItemUserTags"
@@ -108,7 +108,7 @@
           (titleClicked)="onTitleClicked()"
           (userClickedAddItemTag)="onAddItemTagClicked(feedItem)"
           (userInterestUpdated)="handleUserInterestUpdate($event)"
-        ></feeditem-display>
+        ></app-feeditem-display>
       </li>
     </ul>
   </div>
@@ -123,13 +123,13 @@
   <div class="card-footer" *ngIf="pageCount > 1">
     <div class="row">
       <div class="col-md-12 text-right">
-        <paginator
+        <app-paginator
           *ngIf="pageCount > 1"
           [currentPage]="currentPage"
           [pageCount]="pageCount"
           (currentPageUpdated)="currentPageUpdatedHandler($event)"
         >
-        </paginator>
+        </app-paginator>
       </div>
     </div>
   </div>
