@@ -25,7 +25,7 @@ describe("ArticlesShellComponent", () => {
   let store: MockStore;
 
 @Component({
-  selector: 'articles-list',
+  selector: 'app-articles-list',
 })
 class MockArticlesListComponent {
 

@@ -1,5 +1,5 @@
 <div class="row">
-  <articles-list
+  <app-articles-list
 
     [currentPage]="currentPage$ | async"
     [feedItems]="feedItems$ | async"
@@ -20,5 +20,5 @@
     (titleClickedEvent)="clearCurrentFeedItem()"
     (userInterestUpdated)="userInterestUpdateHandler($event)"
     (addItemTagClickedEvent)="addItemTagClicked($event)"
-  ></articles-list>
+  ></app-articles-list>
 </div>

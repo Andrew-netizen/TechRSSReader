@@ -3,7 +3,7 @@ import { FeedItemSource } from 'src/app/blog/state/blog.reducer';
 import { BlogDto, FeedItemUserTagDto, RssFeedItemDetailsDto, RssFeedItemDto, UpdateFeedItemCommand } from 'src/app/TechRSSReader-api';
 
 @Component({
-  selector: 'articles-list',
+  selector: 'app-articles-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './articles-list.component.html',
   styleUrls: ['./articles-list.component.scss']

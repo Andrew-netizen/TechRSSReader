@@ -11,7 +11,7 @@ describe("BlogChartComponent", () => {
     selector: "ngx-charts-line-chart",
     template: "<div></div>",
   })
-  class MockNgxChartsLineChart {
+  class MockNgxLineChartComponent {
     @Input() legend;
     @Input() scheme;
     @Input() results;
@@ -27,7 +27,7 @@ describe("BlogChartComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BlogChartComponent, MockNgxChartsLineChart],
+      declarations: [BlogChartComponent, MockNgxLineChartComponent],
     }).compileComponents();
   });
 
