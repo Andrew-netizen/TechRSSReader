@@ -1,5 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { ErrorHandler, NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
@@ -10,7 +10,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { AppComponent } from "./app.component";
 import { HomeComponent } from "./home/home.component";
-import { HomeLoggedoutComponent} from "./home/home-loggedout/home-loggedout.component";
+import { HomeLoggedoutComponent } from "./home/home-loggedout/home-loggedout.component";
 import { CounterComponent } from "./counter/counter.component";
 import { FetchDataComponent } from "./fetch-data/fetch-data.component";
 import { ApiAuthorizationModule } from "src/api-authorization/api-authorization.module";
@@ -19,10 +19,10 @@ import { AuthorizeInterceptor } from "src/api-authorization/authorize.intercepto
 
 import { BlogModule } from "./blog/blog.module";
 import { SharedModule } from "./shared/shared.module";
-import { ToastrModule } from "ngx-toastr";
+import { ToastContainerModule, ToastrModule } from "ngx-toastr";
 import { ArticlesModule } from "./articles/articles.module";
 import { TrainingService } from "./training/training.service";
-import { DashboardModule} from "./dashboard/dashboard.module";
+import { DashboardModule } from "./dashboard/dashboard.module";
 
 /* NgRx */
 import { StoreModule, MetaReducer, ActionReducerMap } from "@ngrx/store";
@@ -31,11 +31,11 @@ import { environment } from "../environments/environment";
 import { EffectsModule } from "@ngrx/effects";
 import { storeFreeze } from "ngrx-store-freeze";
 import { State } from "./state/app.state";
-import * as articlesReducer from './articles/state/articles.reducer';
+import * as articlesReducer from "./articles/state/articles.reducer";
 import * as blogReducer from "./blog/state/blog.reducer";
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerModule } from 'ngx-spinner';
-
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgxSpinnerModule } from "ngx-spinner";
+import { GlobalErrorHandler } from "./global-error-handler";
 
 export const reducers: ActionReducerMap<State> = {
   // reducers
@@ -65,17 +65,21 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
     SharedModule,
     ArticlesModule,
     ApiAuthorizationModule,
-    RouterModule.forRoot([
-    { path: "", component: HomeComponent, pathMatch: "full" },
-    { path: "counter", component: CounterComponent },
-    {
-        path: "fetch-data",
-        component: FetchDataComponent,
-        canActivate: [AuthorizeGuard],
-    }
-], { relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(
+      [
+        { path: "", component: HomeComponent, pathMatch: "full" },
+        { path: "counter", component: CounterComponent },
+        {
+          path: "fetch-data",
+          component: FetchDataComponent,
+          canActivate: [AuthorizeGuard],
+        },
+      ],
+      { relativeLinkResolution: "legacy" }
+    ),
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({ timeOut: 10000, positionClass: 'inline' }),
+    ToastContainerModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({
       name: "Tech RSS Reader DevTools",
@@ -88,12 +92,11 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-    TrainingService
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    TrainingService,
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor() {
-  }
+  constructor() {}
 }
-

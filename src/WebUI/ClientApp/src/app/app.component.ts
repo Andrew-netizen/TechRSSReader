@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Observable, Subscription } from "rxjs";
 import { Store, select } from "@ngrx/store";
 
 import * as fromRoot from "./state/app.state";
 import * as fromBlog from "./blog/state/blog.reducer";
+import { ToastContainerDirective, ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-root",
@@ -15,9 +16,13 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   isLoadingSubscription: Subscription;
 
+  @ViewChild(ToastContainerDirective, { static: true })
+  toastContainer: ToastContainerDirective;
+
   constructor(
     private store: Store<fromRoot.State>,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +34,8 @@ export class AppComponent implements OnInit, OnDestroy {
         else this.spinner.hide();
       }
     );
+
+    this.toastrService.overlayContainer = this.toastContainer;
   }
 
   ngOnDestroy(): void {
