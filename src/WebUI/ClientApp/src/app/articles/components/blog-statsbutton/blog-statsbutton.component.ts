@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { BlogDto } from 'src/app/TechRSSReader-api';
 
 @Component({
   selector: 'app-blog-statsbutton',
   templateUrl: './blog-statsbutton.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./blog-statsbutton.component.scss']
 })
 export class BlogStatsbuttonComponent {

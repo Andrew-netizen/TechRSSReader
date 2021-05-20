@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Observable, Subscription } from "rxjs";
 import { BlogDto, UserTagDto } from "src/app/TechRSSReader-api";
@@ -20,6 +20,7 @@ import { AddtagModalComponent } from "../addtag-modal/addtag-modal.component";
 @Component({
   selector: "app-sidebar-menu",
   templateUrl: "./sidebar-menu.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ["./sidebar-menu.component.scss"],
 })
 export class SidebarMenuComponent implements OnInit, OnDestroy {

@@ -94,20 +94,20 @@ namespace TechRSSReader.WebUI
                       }
 
                     
-                      if (hostContext.HostingEnvironment.IsProduction())
-                      {
-                          var builtConfig = builder.Build();
+                      //if (hostContext.HostingEnvironment.IsProduction())
+                      //{
+                      //    var builtConfig = builder.Build();
 
-                          var azureServiceTokenProvider = new AzureServiceTokenProvider();
-                          var keyVaultClient = new KeyVaultClient(
-                              new KeyVaultClient.AuthenticationCallback(
-                                  azureServiceTokenProvider.KeyVaultTokenCallback));
+                      //    var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                      //    var keyVaultClient = new KeyVaultClient(
+                      //        new KeyVaultClient.AuthenticationCallback(
+                      //            azureServiceTokenProvider.KeyVaultTokenCallback));
 
-                          builder.AddAzureKeyVault(
-                              $"https://{builtConfig["KeyVaultName"]}.vault.azure.net/",
-                              keyVaultClient,
-                              new DefaultKeyVaultSecretManager());
-                      }
+                      //    builder.AddAzureKeyVault(
+                      //        $"https://{builtConfig["KeyVaultName"]}.vault.azure.net/",
+                      //        keyVaultClient,
+                      //        new DefaultKeyVaultSecretManager());
+                      //}
                   })
                 .UseSerilog()
                 .UseStartup<Startup>();
