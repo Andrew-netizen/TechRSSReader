@@ -8,10 +8,10 @@ It arose because I was tired of having too many items to read in InoReader, and 
 
 
 ## Technologies
-* .NET Core 3
-* ASP .NET Core 3
-* Entity Framework Core 3
-* Angular 10
+* .NET Core 6
+* ASP .NET Core 6
+* Entity Framework Core 6
+* Angular 12
 * ML.Net
 
 ## License
