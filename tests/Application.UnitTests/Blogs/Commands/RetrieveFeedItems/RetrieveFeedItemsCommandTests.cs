@@ -105,7 +105,7 @@ namespace TechRSSReader.Application.UnitTests.Blogs.Commands.RetrieveFeedItems
 
             RetrieveFeedItemsCommand command = new RetrieveFeedItemsCommand
             {
-                BlogId = awsNews.Id
+                BlogId = awsNews.Id,
             };
 
             var logger = NullLogger<RetrieveFeedItemsCommand.RetrieveFeedItemsCommandHandler>.Instance; 

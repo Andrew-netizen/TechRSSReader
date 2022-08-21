@@ -52,7 +52,8 @@ namespace TechRSSReader.Application.UnitTests.WeeklyBlogSummaries.Commands
             {
                 Id = 10,
                 Title = "Slashdot", 
-                CreatedBy = CurrentUserService.UserId
+                CreatedBy = CurrentUserService.UserId,
+                XmlAddress = string.Empty
             });
 
             Context.RssFeedItems.Add(ItemCreatedOnDate(10, new DateTime(2020,11,20)));
@@ -66,7 +67,12 @@ namespace TechRSSReader.Application.UnitTests.WeeklyBlogSummaries.Commands
             {
                 BlogId = blogId,
                 Created = dateTime, 
-                CreatedBy = CurrentUserService.UserId
+                CreatedBy = CurrentUserService.UserId,
+                Content = string.Empty, 
+                Description = string.Empty, 
+                Categories =string.Empty, 
+                Link = string.Empty, 
+                Title = "Item"
             };
         }
     }

@@ -1,16 +1,17 @@
-﻿using TechRSSReader.Application;
-using TechRSSReader.Application.Common.Interfaces;
-using TechRSSReader.Domain.Entities;
-using TechRSSReader.Infrastructure.Persistence;
-using IdentityModel.Client;
+﻿using IdentityModel.Client;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TechRSSReader.Application;
+using TechRSSReader.Application.Common.Interfaces;
+using TechRSSReader.Domain.Entities;
+using TechRSSReader.Infrastructure.Persistence;
 
 namespace TechRSSReader.WebUI.IntegrationTests
 {
@@ -18,7 +19,7 @@ namespace TechRSSReader.WebUI.IntegrationTests
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder
+            _=builder
                 .ConfigureServices(services =>
                 {
                     // Create a new service provider.
@@ -36,7 +37,9 @@ namespace TechRSSReader.WebUI.IntegrationTests
 
                     services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
-                    services.AddScoped<ICurrentUserService, TestCurrentUserService>();
+
+                    
+                    services.AddTransient<ICurrentUserService, TestCurrentUserService>();
                     services.AddScoped<IDateTime, TestDateTimeService>();
                     services.AddScoped<IIdentityService, TestIdentityService>();
 
@@ -115,10 +118,10 @@ namespace TechRSSReader.WebUI.IntegrationTests
         public static void SeedSampleData(ApplicationDbContext context)
         {
             context.TodoItems.AddRange(
-                new TodoItem { Id = 1, Title = "Do this thing." },
-                new TodoItem { Id = 2, Title = "Do this thing too." },
-                new TodoItem { Id = 3, Title = "Do many, many things." },
-                new TodoItem { Id = 4, Title = "This thing is done!", Done = true }
+                new TodoItem { Id = 1, Title = "Do this thing.", CreatedBy = String.Empty },
+                new TodoItem { Id = 2, Title = "Do this thing too.", CreatedBy = String.Empty },
+                new TodoItem { Id = 3, Title = "Do many, many things.", CreatedBy = String.Empty },
+                new TodoItem { Id = 4, Title = "This thing is done!", Done = true, CreatedBy = String.Empty }
             );
 
             context.SaveChanges();

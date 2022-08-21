@@ -1,10 +1,13 @@
-﻿using IdentityModel;
-using IdentityServer4.Models;
-using IdentityServer4.Test;
+﻿
+using Duende.IdentityServer.EntityFramework.Entities;
+using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Test;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +22,8 @@ using TechRSSReader.Infrastructure.InterestPredictor;
 using TechRSSReader.Infrastructure.Persistence;
 using TechRSSReader.Infrastructure.Services;
 using TechRSSReaderML.Model;
+using Client = Duende.IdentityServer.Models.Client;
+using Secret = Duende.IdentityServer.Models.Secret;
 
 namespace TechRSSReader.Application
 {
@@ -41,10 +46,13 @@ namespace TechRSSReader.Application
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
                         
             services.AddDefaultIdentity<ApplicationUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             
             if ((environment != null) && environment.IsEnvironment("Test"))
             {
+                
                 services.AddIdentityServer()
                     .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>
                     {
@@ -68,11 +76,12 @@ namespace TechRSSReader.Application
                             }
                         }
                     });
+            
             }
             else
             {
                 services.AddIdentityServer()
-                    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                     .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
                 services.AddTransient<IDateTime, DateTimeService>();
                 services.AddTransient<IIdentityService, IdentityService>();

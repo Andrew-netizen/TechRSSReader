@@ -42,6 +42,7 @@ namespace TechRSSReader.Application.UnitTests
             foreach (FeedItem item in feed.Items)
             {
                 RssFeedItem rssFeedItem = _mapper.Map<RssFeedItem>(item);
+                rssFeedItem.Content = rssFeedItem.Content ?? string.Empty; 
                 rssFeedItem.RetrievedDateTime = dateRetrieved;
                 result.RssFeedItems.Add(rssFeedItem);
             }

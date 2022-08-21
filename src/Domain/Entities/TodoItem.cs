@@ -12,7 +12,7 @@ namespace TechRSSReader.Domain.Entities
 
         public string Title { get; set; }
 
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         public bool Done { get; set; }
 

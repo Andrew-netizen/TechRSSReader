@@ -2,13 +2,14 @@ using TechRSSReader.Application.Common.Interfaces;
 using TechRSSReader.Application.Common.Utils;
 using TechRSSReader.Domain.Entities;
 using TechRSSReader.Infrastructure.Persistence;
-using IdentityServer4.EntityFramework.Options;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Collections.Generic;
 using TechRSSReader.Domain.ValueObjects;
+using Duende.IdentityServer.EntityFramework.Options;
 
 namespace TechRSSReader.Application.UnitTests.Common
 {
@@ -20,12 +21,6 @@ namespace TechRSSReader.Application.UnitTests.Common
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
             
-            var operationalStoreOptions = Options.Create(
-                new OperationalStoreOptions
-                {
-                    DeviceFlowCodes = new TableConfiguration("DeviceCodes"),
-                    PersistedGrants = new TableConfiguration("PersistedGrants")
-                });
 
             var dateTimeMock = new Mock<IDateTime>();
             dateTimeMock.Setup(m => m.Now)
@@ -34,6 +29,12 @@ namespace TechRSSReader.Application.UnitTests.Common
             var currentUserServiceMock = new Mock<ICurrentUserService>();
             currentUserServiceMock.Setup(m => m.UserId)
                 .Returns("00000000-0000-0000-0000-000000000000");
+            var operationalStoreOptions = Options.Create(
+                new OperationalStoreOptions
+                {
+                    DeviceFlowCodes = new TableConfiguration("DeviceCodes"),
+                    PersistedGrants = new TableConfiguration("PersistedGrants")
+                });
 
             var context = new ApplicationDbContext(
                 options, operationalStoreOptions, dateTimeMock.Object);
@@ -47,16 +48,17 @@ namespace TechRSSReader.Application.UnitTests.Common
 
         public static void SeedSampleData(ApplicationDbContext context)
         {
+            
             context.TodoLists.AddRange(
-                new TodoList { Id = 1, Title = "Shopping" }
+                new TodoList { Id = 1, Title = "Shopping", CreatedBy = string.Empty }
             );
 
             context.TodoItems.AddRange(
-                new TodoItem { Id = 1, ListId = 1, Title = "Bread", Done = true },
-                new TodoItem { Id = 2, ListId = 1, Title = "Butter", Done = true },
-                new TodoItem { Id = 3, ListId = 1, Title = "Milk" },
-                new TodoItem { Id = 4, ListId = 1, Title = "Sugar" },
-                new TodoItem { Id = 5, ListId = 1, Title = "Coffee" }
+                new TodoItem { Id = 1, ListId = 1, Title = "Bread", Done = true, CreatedBy = string.Empty },
+                new TodoItem { Id = 2, ListId = 1, Title = "Butter", Done = true, CreatedBy = string.Empty },
+                new TodoItem { Id = 3, ListId = 1, Title = "Milk", CreatedBy = string.Empty },
+                new TodoItem { Id = 4, ListId = 1, Title = "Sugar", CreatedBy = string.Empty },
+                new TodoItem { Id = 5, ListId = 1, Title = "Coffee", CreatedBy = string.Empty }
             );
 
             context.Blogs.Add(new Blog
@@ -86,6 +88,7 @@ namespace TechRSSReader.Application.UnitTests.Common
                 Description = @"<script>alert('xss')</script><div onload=""alert('xss')"""
                         + @"style=""background-color: test"">Test Description<img src=""test.gif"""
                         + @"style=""background-image: url(javascript:alert('xss')); margin: 10px""></div>",
+                Link = string.Empty
             });
 
             context.RssFeedItems.Add(new RssFeedItem
@@ -94,12 +97,15 @@ namespace TechRSSReader.Application.UnitTests.Common
                 Title = "What I'm having for dinner",
                 BlogId = 1,
                 Categories = "food",
-                ExcludedByKeyword = true, 
+                ExcludedByKeyword = true,
                 UserRating = 1,
                 CreatedBy = "00000000-0000-0000-0000-000000000000",
-                ReadAlready = false, 
-                UserRatingPrediction = 1.5F
-            });
+                ReadAlready = false,
+                UserRatingPrediction = 1.5F,
+                Link = String.Empty, 
+                Content = String.Empty, 
+                Description = string.Empty
+            }); 
 
             context.RssFeedItems.Add(new RssFeedItem
             {
@@ -110,7 +116,10 @@ namespace TechRSSReader.Application.UnitTests.Common
                 ExcludedByKeyword = false,
                 UserRating = 1,
                 CreatedBy = "00000000-0000-0000-0000-000000000000",
-                ReadAlready = true
+                ReadAlready = true,
+                Link = String.Empty,
+                Content = String.Empty, 
+                Description = String.Empty
             });
 
             context.Blogs.Add(new Blog

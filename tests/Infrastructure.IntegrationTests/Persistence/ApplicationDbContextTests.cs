@@ -1,4 +1,4 @@
-﻿using IdentityServer4.EntityFramework.Options;
+﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -9,6 +9,7 @@ using TechRSSReader.Application.Common.Interfaces;
 using TechRSSReader.Domain.Entities;
 using TechRSSReader.Infrastructure.Persistence;
 using Xunit;
+using Duende.IdentityServer.EntityFramework.Options;
 
 namespace TechRSSReader.Infrastructure.IntegrationTests.Persistence
 {
@@ -46,7 +47,8 @@ namespace TechRSSReader.Infrastructure.IntegrationTests.Persistence
             _sut.TodoItems.Add(new TodoItem
             {
                 Id = 1,
-                Title = "Do this thing."
+                Title = "Do this thing.", 
+                CreatedBy = string.Empty
             });
 
             _sut.SaveChanges();

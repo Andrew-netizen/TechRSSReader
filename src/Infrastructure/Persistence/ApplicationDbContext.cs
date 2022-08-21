@@ -2,16 +2,14 @@
 using TechRSSReader.Domain.Common;
 using TechRSSReader.Domain.Entities;
 using TechRSSReader.Infrastructure.Identity;
-using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using System;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using EnsureThat;
+using Duende.IdentityServer.EntityFramework.Options;
 
 namespace TechRSSReader.Infrastructure.Persistence
 {

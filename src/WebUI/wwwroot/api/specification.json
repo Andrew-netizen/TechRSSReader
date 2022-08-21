@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))",
+  "x-generator": "NSwag v13.16.0.0 (NJsonSchema v10.7.1.0 (Newtonsoft.Json v13.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "TechRSSReader API",
@@ -1006,7 +1006,6 @@
         "properties": {
           "blogs": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/BlogDto"
             }
@@ -1022,19 +1021,16 @@
             "format": "int32"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "keywordsToInclude": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/KeywordToIncludeDto"
             }
           },
           "keywordsToExclude": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/KeywordToExcludeDto"
             }
@@ -1045,8 +1041,7 @@
             "nullable": true
           },
           "xmlAddress": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1059,8 +1054,7 @@
             "format": "int32"
           },
           "keyword": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1073,8 +1067,7 @@
             "format": "int32"
           },
           "keyword": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1089,7 +1082,6 @@
             "properties": {
               "rssFeedItems": {
                 "type": "array",
-                "nullable": true,
                 "items": {
                   "$ref": "#/components/schemas/RssFeedItemDto"
                 }
@@ -1107,31 +1099,27 @@
             "format": "int32"
           },
           "author": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "blogId": {
             "type": "integer",
             "format": "int32"
           },
           "blogTitle": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "bookmarked": {
             "type": "boolean"
           },
           "categories": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "excludedByKeyword": {
             "type": "boolean",
             "nullable": true
           },
           "link": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "publishingDate": {
             "type": "string",
@@ -1139,8 +1127,7 @@
             "nullable": true
           },
           "publishingDateString": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "readAlready": {
             "type": "boolean"
@@ -1150,12 +1137,10 @@
             "format": "date-time"
           },
           "rssId": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "userRating": {
             "type": "integer",
@@ -1178,23 +1163,19 @@
             "format": "int32"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "xmlAddress": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "keywordsToExclude": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/KeywordToExcludeDto"
             }
           },
           "keywordsToInclude": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/KeywordToIncludeDto"
             }
@@ -1210,23 +1191,19 @@
             "format": "int32"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "xmlAddress": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "keywordsToExclude": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/KeywordToExcludeDto"
             }
           },
           "keywordsToInclude": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/KeywordToIncludeDto"
             }
@@ -1246,8 +1223,7 @@
             "format": "int32"
           },
           "userTagText": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1285,7 +1261,6 @@
         "properties": {
           "rssFeedItems": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/RssFeedItemDto"
             }
@@ -1307,16 +1282,13 @@
             "additionalProperties": false,
             "properties": {
               "content": {
-                "type": "string",
-                "nullable": true
+                "type": "string"
               },
               "description": {
-                "type": "string",
-                "nullable": true
+                "type": "string"
               },
               "feedItemUserTags": {
                 "type": "array",
-                "nullable": true,
                 "items": {
                   "$ref": "#/components/schemas/FeedItemUserTagDto"
                 }
@@ -1355,8 +1327,7 @@
             "format": "int32"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1369,8 +1340,7 @@
             "format": "int64"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "done": {
             "type": "boolean"
@@ -1393,8 +1363,7 @@
             "$ref": "#/components/schemas/PriorityLevel"
           },
           "note": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1420,14 +1389,12 @@
         "properties": {
           "priorityLevels": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/PriorityLevelDto"
             }
           },
           "lists": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TodoListDto"
             }
@@ -1443,8 +1410,7 @@
             "format": "int32"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1457,12 +1423,10 @@
             "format": "int32"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "items": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TodoItemDto"
             }
@@ -1482,8 +1446,7 @@
             "format": "int32"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "done": {
             "type": "boolean"
@@ -1493,8 +1456,7 @@
             "format": "int32"
           },
           "note": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1503,8 +1465,7 @@
         "additionalProperties": false,
         "properties": {
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1517,8 +1478,7 @@
             "format": "int32"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1528,7 +1488,6 @@
         "properties": {
           "userTags": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/UserTagDto"
             }
@@ -1544,8 +1503,7 @@
             "format": "int32"
           },
           "text": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1558,8 +1516,7 @@
             "format": "int32"
           },
           "text": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1580,8 +1537,7 @@
             "format": "int32"
           },
           "summary": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -1591,7 +1547,6 @@
         "properties": {
           "weeklyBlogSummaries": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/WeeklyBlogSummaryDto"
             }
@@ -1611,8 +1566,7 @@
             "format": "int32"
           },
           "blogTitle": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "itemsExcluded": {
             "type": "integer",

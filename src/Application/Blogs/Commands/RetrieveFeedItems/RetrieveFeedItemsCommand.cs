@@ -36,7 +36,7 @@ namespace TechRSSReader.Application.Blogs.Commands.RetrieveFeedItems
             public async Task<int> Handle(RetrieveFeedItemsCommand request, CancellationToken cancellationToken)
             {
                 int result = 0;
-                Blog rssFeed = _context.Blogs.Find(request.BlogId);
+                Blog? rssFeed = _context.Blogs.Find(request.BlogId);
                 
                 if (rssFeed == null)
                 {

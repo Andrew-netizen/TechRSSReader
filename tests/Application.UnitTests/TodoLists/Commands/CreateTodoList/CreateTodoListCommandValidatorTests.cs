@@ -9,7 +9,7 @@ namespace TechRSSReader.Application.UnitTests.TodoLists.Commands.CreateTodoList
     public class UpdateTodoListCommandValidatorTests : CommandTestBase
     {
         [Fact]
-        public void IsValid_ShouldBeTrue_WhenListTitleIsUnique()
+        public async void IsValid_ShouldBeTrue_WhenListTitleIsUnique()
         {
             var command = new CreateTodoListCommand
             {
@@ -18,15 +18,15 @@ namespace TechRSSReader.Application.UnitTests.TodoLists.Commands.CreateTodoList
 
             var validator = new CreateTodoListCommandValidator(Context);
 
-            var result = validator.Validate(command);
+            var result = await validator.ValidateAsync(command);
 
             result.IsValid.ShouldBe(true);
         }
 
         [Fact]
-        public void IsValid_ShouldBeFalse_WhenListTitleIsNotUnique()
+        public async void IsValid_ShouldBeFalse_WhenListTitleIsNotUnique()
         {
-            Context.TodoLists.Add(new TodoList { Title = "Shopping" });
+            Context.TodoLists.Add(new TodoList { Title = "Shopping", CreatedBy = string.Empty });
             Context.SaveChanges();
 
             var command = new CreateTodoListCommand
@@ -36,7 +36,7 @@ namespace TechRSSReader.Application.UnitTests.TodoLists.Commands.CreateTodoList
 
             var validator = new CreateTodoListCommandValidator(Context);
 
-            var result = validator.Validate(command);
+            var result = await validator.ValidateAsync(command);
 
             result.IsValid.ShouldBe(false);
         }

@@ -4,16 +4,24 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TechRSSReader.Infrastructure.Identity
 {
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
+        private readonly IAuthorizationService _authorizationService;
 
-        public IdentityService(UserManager<ApplicationUser> userManager)
+        public IdentityService(
+            UserManager<ApplicationUser> userManager,
+            IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
+            IAuthorizationService authorizationService)
         {
             _userManager = userManager;
+            _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
+            _authorizationService = authorizationService;
         }
 
         public async Task<string> GetUserNameAsync(string userId)

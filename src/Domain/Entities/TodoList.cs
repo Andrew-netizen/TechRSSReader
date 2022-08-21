@@ -14,7 +14,7 @@ namespace TechRSSReader.Domain.Entities
 
         public string Title { get; set; }
 
-        public string Colour { get; set; }
+        public string? Colour { get; set; }
 
         public virtual IList<TodoItem> Items { get; set; }
     }
